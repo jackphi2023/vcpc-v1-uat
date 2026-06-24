@@ -44,7 +44,10 @@
   from = "/dashboard"
   to = "/dashboard.html"
   status = 200
-
+[[redirects]]
+  from = "/admin"
+  to = "/admin/index.html"
+  status = 200
 [[redirects]]
   from = "/doitackinhdoanh/:slug"
   to = "/app/affiliate.html?slug=:slug"
