@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>BizOS — Chiến lược, thực thi &amp; đồng hành tăng trưởng | VCPC</title>
+<meta content="Tư vấn chiến lược tăng trưởng và thực thi: lượng hóa lựa chọn, lộ trình 90 ngày–12 tháng, KPI, Dashboard quản trị và đồng hành cùng doanh nghiệp 6–12 tháng." name="description"/>
+<meta content="#061A2F" name="theme-color"/>
+<style>
+    :root{
+      --navy:#061A2F; --navy-2:#0A2747; --navy-3:#113A63; --gold:#F6AD05; --gold-2:#FFC94A;
+      --white:#fff; --cream:#FFF8E7; --paper:#F6F8FB; --line:#E4E9F1; --text:#213047; --muted:#64748B;
+      --shadow:0 26px 70px rgba(6,26,47,.12); --radius-xl:34px; --radius-lg:24px; --radius-md:16px;
+      --ease:cubic-bezier(.2,.8,.2,1);
+    }
+    *{box-sizing:border-box;margin:0;padding:0} html{scroll-behavior:smooth} body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;color:var(--text);line-height:1.65;background:#fff;overflow-x:clip} body.menu-open{overflow:hidden} a{text-decoration:none;color:inherit} img{max-width:100%;display:block}.container{width:min(1180px,92vw);margin:auto}
+    .topbar{background:var(--navy);color:rgba(255,255,255,.78);font-size:13px;padding:9px 0}.topbar .container{display:flex;justify-content:space-between;gap:18px;align-items:center}.topbar strong{color:var(--gold-2)}
+    header{position:sticky;top:0;z-index:80;background:rgba(255,255,255,.94);backdrop-filter:blur(16px);border-bottom:1px solid rgba(228,233,241,.9);transition:.25s var(--ease)} header.scrolled{box-shadow:0 10px 36px rgba(6,26,47,.08)}
+    .nav{min-height:76px;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{display:flex;align-items:center;gap:12px;color:var(--navy);font-weight:900;letter-spacing:-.2px}.brand-logo{width:48px;height:48px;border-radius:16px;object-fit:cover;box-shadow:0 10px 24px rgba(246,173,5,.22)}.brand span:last-child{display:block;line-height:1.1}.brand small{display:block;margin-top:4px;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.9px;font-weight:850}.nav-links{display:flex;align-items:center;gap:22px;font-size:14px;font-weight:820;color:var(--navy)}.nav-links a:not(.btn){padding:25px 0;position:relative}.nav-links a:not(.btn):after{content:"";position:absolute;left:0;right:0;bottom:18px;height:2px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:.22s var(--ease)}.nav-links a:hover:after{transform:scaleX(1)}.lang-toggle{display:inline-grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:#fff}.lang-toggle button{border:0;background:transparent;padding:9px 11px;cursor:pointer;font-weight:900;color:var(--muted)}.lang-toggle button.active{background:var(--navy);color:#fff}.hamburger{display:none;border:0;background:transparent;width:42px;height:42px;border-radius:12px;cursor:pointer}.hamburger span{display:block;width:23px;height:2px;background:var(--navy);margin:5px auto;transition:.2s var(--ease)}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border:0;border-radius:999px;padding:13px 20px;font-weight:900;font-size:14px;cursor:pointer;white-space:nowrap;transition:transform .18s var(--ease),box-shadow .18s var(--ease),background .18s var(--ease)}.btn:hover{transform:translateY(-2px)}.btn-primary{background:var(--gold);color:var(--navy);box-shadow:0 16px 36px rgba(246,173,5,.28)}.btn-primary:hover{background:var(--gold-2)}.btn-outline{border:1px solid rgba(255,255,255,.34);color:#fff;background:rgba(255,255,255,.06)}.btn-outline-dark{border:1px solid rgba(6,26,47,.14);color:var(--navy);background:#fff}.btn-dark{background:var(--navy);color:#fff}
+    .hero{position:relative;color:#fff;overflow:hidden;background:radial-gradient(circle at 82% 8%,rgba(246,173,5,.34),transparent 28%),linear-gradient(122deg,#061A2F 0%,#092848 56%,#0A2747 100%)}.hero:before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:58px 58px;mask-image:linear-gradient(to bottom,rgba(0,0,0,.9),transparent 92%)}.hero:after{content:"";position:absolute;right:-130px;bottom:-170px;width:540px;height:540px;border-radius:50%;background:radial-gradient(circle,rgba(246,173,5,.2),transparent 70%);filter:blur(2px)}.hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:1.08fr .92fr;gap:58px;align-items:center;min-height:calc(100vh - 112px);padding:88px 0 74px}.eyebrow{color:var(--gold-2);letter-spacing:1.7px;text-transform:uppercase;font-size:12px;font-weight:950;margin-bottom:18px}.h1{font-size:clamp(42px,5.1vw,72px);line-height:1.02;letter-spacing:-2.2px;margin-bottom:24px}.lead{font-size:clamp(18px,2vw,21px);color:#DDE8F4;max-width:760px;margin-bottom:32px}.hero-actions{display:flex;gap:14px;flex-wrap:wrap}.hero-proof{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px;color:rgba(255,255,255,.78);font-size:13px}.proof-pill{border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.07);border-radius:999px;padding:8px 12px}.hero-panel{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:var(--radius-xl);box-shadow:0 28px 80px rgba(0,0,0,.22);padding:24px;backdrop-filter:blur(16px)}.hero-panel h3{font-size:22px;margin-bottom:16px}.strategy-map{display:grid;gap:12px}.map-item{display:grid;grid-template-columns:56px 1fr;gap:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:22px;padding:16px}.map-no{width:48px;height:48px;border-radius:17px;background:var(--gold);color:var(--navy);display:grid;place-items:center;font-weight:950}.map-item b{display:block;color:#fff}.map-item span{font-size:13.5px;color:#C8D7E6}.panel-foot{margin-top:16px;border-radius:22px;background:#fff;color:var(--navy);padding:18px;display:flex;justify-content:space-between;gap:16px;align-items:center}.panel-foot strong{display:block;font-size:25px;line-height:1}.panel-foot span{font-size:12px;color:var(--muted);font-weight:750}
+    section{padding:86px 0}.section-light{background:var(--paper)}.section-navy{background:var(--navy);color:#fff}.section-cream{background:linear-gradient(180deg,#fff,var(--cream))}.section-title{max-width:880px;margin-bottom:40px}.section-title.center{text-align:center;margin-left:auto;margin-right:auto}.kicker{color:var(--gold);letter-spacing:1.4px;text-transform:uppercase;font-weight:950;font-size:12px;margin-bottom:12px}h2{font-size:clamp(30px,3.9vw,48px);line-height:1.12;letter-spacing:-1px;color:var(--navy);margin-bottom:14px}.section-navy h2{color:#fff}.section-title p{font-size:18px;color:var(--muted)}.section-navy .section-title p{color:#C9D6E5}.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:26px}.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}.card{position:relative;overflow:hidden;background:#fff;border:1px solid var(--line);border-radius:var(--radius-lg);padding:28px;box-shadow:0 12px 34px rgba(6,26,47,.055);transition:.24s var(--ease)}.card:hover{transform:translateY(-7px);box-shadow:var(--shadow);border-color:rgba(246,173,5,.38)}.card:before{content:"";position:absolute;left:0;top:0;width:100%;height:4px;background:linear-gradient(90deg,var(--gold),rgba(246,173,5,0));transform:scaleX(0);transform-origin:left;transition:.32s var(--ease)}.card:hover:before{transform:scaleX(1)}.card.dark{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);color:#fff;box-shadow:none}.card.dark h3{color:#fff}.card.dark p,.card.dark li{color:#CCD8E5}.icon{width:48px;height:48px;border-radius:16px;background:rgba(246,173,5,.14);color:var(--navy);display:grid;place-items:center;font-weight:950;margin-bottom:18px}.card h3{font-size:22px;line-height:1.22;color:var(--navy);margin-bottom:12px}.card p{color:var(--muted);margin-bottom:16px}.card ul{padding-left:18px;color:var(--muted)}.card li{margin:8px 0}.tag{display:inline-flex;align-items:center;border:1px solid rgba(246,173,5,.26);background:rgba(246,173,5,.12);color:var(--navy);border-radius:999px;padding:7px 11px;font-size:12px;font-weight:900}.tag.dark{color:#fff;border-color:rgba(255,255,255,.22);background:rgba(255,255,255,.08)}.featured{border:2px solid var(--gold);transform:translateY(-8px)}.featured:after{content:attr(data-badge);position:absolute;right:18px;top:18px;background:var(--gold);color:var(--navy);font-size:11px;font-weight:950;padding:6px 10px;border-radius:999px}
+    .path{display:grid;grid-template-columns:1fr 48px 1fr 48px 1fr 48px 1fr 48px 1fr;gap:12px;align-items:stretch}.path-item{border-radius:22px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);padding:22px}.path-item b{color:var(--gold-2);display:block;margin-bottom:12px}.path-item h3{font-size:17px;margin-bottom:8px}.path-item p{color:#C9D6E5;font-size:14px}.path-arrow{display:grid;place-items:center;color:var(--gold);font-size:26px;font-weight:950}.tabs-layout{display:grid;grid-template-columns:.9fr 1.1fr;gap:30px;align-items:start}.tabs{position:sticky;top:102px;display:grid;gap:10px}.tab-btn{border:1px solid var(--line);background:#fff;border-radius:16px;padding:15px 17px;text-align:left;cursor:pointer;font-weight:900;color:var(--navy);transition:.2s var(--ease);display:flex;justify-content:space-between;gap:14px;align-items:center}.tab-btn small{color:var(--gold);font-weight:950}.tab-btn.active,.tab-btn:hover{background:var(--navy);color:#fff;border-color:var(--navy);transform:translateX(4px)}.tab-panel{display:none;animation:fadeUp .42s var(--ease)}.tab-panel.active{display:block}@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}.deliverables{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}.package{display:flex;flex-direction:column;min-height:100%;justify-content:space-between}.package .time{color:var(--gold);font-weight:950;margin-bottom:10px;display:block}.package .price{font-size:13px;color:var(--muted);font-weight:800;margin-bottom:12px}.industries{display:flex;flex-wrap:wrap;gap:12px}.industry{background:#fff;border:1px solid var(--line);color:var(--navy);border-radius:999px;padding:12px 16px;font-weight:850;box-shadow:0 8px 20px rgba(6,26,47,.04)}.why-list{display:grid;gap:15px}.why-item{display:flex;gap:14px;background:rgb(250,254,245);border:1px solid #dcefd0;border-radius:22px;padding:22px}.check{flex:0 0 28px;width:28px;height:28px;border-radius:50%;background:rgba(246,173,5,.15);color:var(--gold);display:grid;place-items:center;font-weight:950}.why-item h3{color:var(--navy);font-size:18px;margin-bottom:5px}.why-item p{color:var(--muted)}.accordion{display:grid;gap:12px}.acc-item{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden}.acc-title{width:100%;border:0;background:#fff;padding:20px 22px;display:flex;justify-content:space-between;gap:20px;align-items:center;cursor:pointer;font-weight:900;color:var(--navy);text-align:left;font-size:16px}.acc-title span:last-child{color:var(--gold);font-size:24px;line-height:1;transition:.2s var(--ease)}.acc-content{max-height:0;overflow:hidden;transition:max-height .3s var(--ease)}.acc-content p{padding:0 22px 20px;color:var(--muted)}.acc-item.active .acc-title span:last-child{transform:rotate(45deg)}
+    .cta-panel{border-radius:32px;background:radial-gradient(circle at 90% 10%,rgba(246,173,5,.3),transparent 25%),linear-gradient(125deg,var(--navy),var(--navy-2));color:#fff;padding:54px;display:grid;grid-template-columns:1.04fr .96fr;gap:36px;align-items:center;overflow:hidden;position:relative}.cta-panel h2{color:#fff}.cta-panel p{color:#D7E4F2;font-size:18px}.contact-card{background:#fff;color:var(--text);padding:26px;border-radius:24px;box-shadow:0 24px 70px rgba(0,0,0,.18)}.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{margin-bottom:12px}input,textarea,select{width:100%;border:1px solid var(--line);border-radius:14px;padding:13px 14px;font:inherit;outline:none;background:#fff;transition:.18s var(--ease)}input:focus,textarea:focus,select:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(246,173,5,.12)}textarea{resize:vertical;min-height:102px}.form-note{color:var(--muted);font-size:12px;margin-top:10px}
+    footer{background:#03101E;color:#C8D4E2;padding:34px 0}.footer-grid{display:flex;justify-content:space-between;gap:20px;align-items:center;flex-wrap:wrap}.footer-brand{display:flex;align-items:center;gap:14px}.footer-logo{width:52px;height:52px;border-radius:16px;object-fit:cover}.footer-grid strong{color:#fff}.back-top{position:fixed;right:20px;bottom:20px;z-index:60;width:46px;height:46px;border-radius:50%;border:0;background:var(--gold);color:var(--navy);font-weight:950;cursor:pointer;box-shadow:0 14px 30px rgba(6,26,47,.2);opacity:0;transform:translateY(14px);pointer-events:none;transition:.22s var(--ease)}.back-top.show{opacity:1;transform:translateY(0);pointer-events:auto}.reveal{opacity:0;transform:translateY(34px);transition:opacity .7s var(--ease),transform .7s var(--ease)}.reveal.visible{opacity:1;transform:translateY(0)}.stagger>*{opacity:0;transform:translateY(26px);transition:opacity .6s var(--ease),transform .6s var(--ease)}.stagger.visible>*{opacity:1;transform:translateY(0)}.stagger.visible>*:nth-child(2){transition-delay:.08s}.stagger.visible>*:nth-child(3){transition-delay:.16s}.stagger.visible>*:nth-child(4){transition-delay:.24s}.stagger.visible>*:nth-child(5){transition-delay:.32s}.stagger.visible>*:nth-child(6){transition-delay:.40s}
+    @media(max-width:980px){.topbar{display:none}.hero-grid,.grid-2,.tabs-layout,.cta-panel{grid-template-columns:1fr}.grid-3,.grid-4{grid-template-columns:repeat(2,1fr)}.path{grid-template-columns:1fr}.path-arrow{display:none}.tabs{position:static}.hero-grid{min-height:auto}.hamburger{display:block}.nav-links{position:fixed;inset:76px 0 auto 0;min-height:calc(100vh - 76px);background:#fff;display:flex;flex-direction:column;align-items:flex-start;padding:28px 6vw;gap:14px;transform:translateX(102%);transition:.28s var(--ease);box-shadow:-20px 0 50px rgba(6,26,47,.12)}.nav-links.open{transform:translateX(0)}.nav-links a:not(.btn){padding:8px 0;font-size:18px}.lang-toggle{margin-top:8px}}
+    @media(max-width:640px){.brand span:last-child{font-size:13px}.brand-logo{width:43px;height:43px}.grid-3,.grid-4,.form-row{grid-template-columns:1fr}section{padding:66px 0}.hero-grid{padding:64px 0;gap:34px}.h1{letter-spacing:-1.3px}.hero-actions .btn{width:100%}.cta-panel{padding:32px 22px;border-radius:24px}.contact-card{padding:20px}.panel-foot{display:block}.featured{transform:none}}
+  
+
+</style>
+<link rel="icon" type="image/png" href="assets/favicon.png"/>
+<link rel="apple-touch-icon" href="assets/favicon.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="assets/vcpc.css"/>
+<style>
+  main h2{font-size:50px !important; line-height:1.16; letter-spacing:-1px;}
+  .card span.tag{display:inline-block; margin-bottom:26px;}
+  @media(max-width:768px){ main h2{font-size:clamp(26px,6.5vw,36px) !important;} }
+</style>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="BizOS — Chiến lược, thực thi &amp; đồng hành tăng trưởng | VCPC"/>
+<meta property="og:description" content="Tư vấn chiến lược tăng trưởng và thực thi: lượng hóa lựa chọn, lộ trình 90 ngày–12 tháng, KPI, Dashboard quản trị và đồng hành cùng doanh nghiệp 6–12 tháng."/>
+<meta property="og:image" content="assets/thumbnail.png"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="assets/thumbnail.png"/>
+</head>
+<body>
+
+<header class="vcpc-header" id="header">
+<nav aria-label="Main navigation" class="nav">
+<a aria-label="Viet Capital Partners &amp; Consulting" class="brand" href="index.html">
+<div class="brand-mark"><img alt="VCPC logo" class="brand-icon" src="assets/logo-vcpc.jpg"/></div>
+<div class="brand-text brand-name"><strong class="brand-title">Viet Capital Partners &amp; Consulting</strong><span class="breadcrumb"><span data-en="Home" data-vi="Trang chủ">Trang chủ</span><em>›</em><span data-en="BizOS" data-vi="BizOS">BizOS</span></span></div>
+</a>
+<button aria-expanded="false" aria-label="Menu" class="hamburger menu-btn" id="hamburger" type="button"><span></span><span></span><span></span></button>
+<nav class="nav-links" id="navLinks"><a data-en="Problems" data-vi="Vấn đề" href="#needs">Vấn đề</a><a data-en="Modules" data-vi="Hạng mục" href="#modules">Hạng mục</a><a data-en="Solutions" data-vi="Giải pháp" href="#packages">Giải pháp</a><a data-en="Dashboard" data-vi="Dashboard" href="dashboard.html">Dashboard</a><div class="lang lang-toggle" aria-label="Language switcher"><button class="active" data-lang="vi" type="button">VI</button><button data-lang="en" type="button">EN</button></div></nav>
+</nav>
+</header>
+<main>
+<section class="hero" id="overview">
+<div class="container hero-grid">
+<div class="reveal visible">
+<div class="eyebrow" data-en="BizOS" data-vi="BizOS">BizOS</div>
+<h1 class="h1" style="font-size:50px" data-en="Vietnam’s leading intelligent management & execution platform" data-vi="Quản trị & Điều hành thông minh hàng đầu">Quản trị & Điều hành thông minh hàng đầu</h1>
+<p class="lead" data-en="We don’t just advise on strategy using international frameworks — we provide the management tools to track recommendations and operational alerts for 6–12 months." data-vi="BizOS kết nối và chuẩn hóa dữ liệu doanh nghiệp để lãnh đạo theo dõi KPI, thị trường & đối thủ, cảnh báo vận hành và tiến độ thực thi trên một dashboard thống nhất. Hỗ trợ Tư vấn chiến lược khi đồng hành thực thi.">BizOS kết nối và chuẩn hóa dữ liệu doanh nghiệp để lãnh đạo theo dõi KPI, thị trường & đối thủ, cảnh báo vận hành và tiến độ thực thi trên một dashboard thống nhất. Hỗ trợ Tư vấn chiến lược khi đồng hành thực thi.</p>
+<div class="hero-actions">
+<a class="btn btn-primary" data-en="Book a 30-minute call" data-vi="Đặt lịch trao đổi 30 phút" href="#contact">Đặt lịch trao đổi 30 phút</a>
+<a class="btn btn-outline" data-en="View packages" data-vi="Xem gói phù hợp" href="#packages">Xem gói phù hợp</a>
+</div>
+<div class="hero-proof">
+<span class="proof-pill" data-en="One unified data source" data-vi="Một nguồn dữ liệu quản trị">Một nguồn dữ liệu quản trị</span>
+<span class="proof-pill" data-en="Market &amp; competitor intelligence" data-vi="Thông tin thị trường &amp; đối thủ">Thông tin thị trường &amp; đối thủ</span>
+<span class="proof-pill" data-en="Alerts &amp; execution tracking" data-vi="Cảnh báo &amp; theo dõi thực thi">Cảnh báo &amp; theo dõi thực thi</span>
+</div>
+</div>
+<aside class="hero-panel reveal visible">
+<div class="strategy-map">
+<div class="map-item"><div class="map-no">01</div><div><b data-en="Diagnose the right problem" data-vi="Bao quát toàn bộ vận hành">Bao quát toàn bộ vận hành</b><span data-en="Measure and track revenue, profit, costs, people and roles." data-vi="Đo lường, theo dõi doanh thu, lợi nhuận, chi phí, nhân sự, vai trò.">Đo lường, theo dõi doanh thu, lợi nhuận, chi phí, nhân sự, vai trò.</span></div></div>
+<div class="map-item"><div class="map-no">02</div><div><b data-en="Quantify strategic options" data-vi="Market intelligence">Market intelligence</b><span data-en="Tool to track market and competitors from a selected watchlist." data-vi="Công cụ theo dõi thị trường, đối thủ theo danh sách lựa chọn">Công cụ theo dõi thị trường, đối thủ theo danh sách lựa chọn</span></div></div>
+<div class="map-item"><div class="map-no">03</div><div><b data-en="Execution management dashboard" data-vi="Cảnh báo vận hành">Cảnh báo vận hành</b><span data-en="Raise operational alerts below standard, and recommendations from market data." data-vi="Đưa ra các cảnh báo vận hành dưới chuẩn, các kiến nghị từ dữ liệu thị trường">Đưa ra các cảnh báo vận hành dưới chuẩn, các kiến nghị từ dữ liệu thị trường</span></div></div>
+</div>
+<div class="panel-foot"><div><strong>3</strong><span data-en="engagement levels" data-vi="cấp độ tư vấn">cấp độ tư vấn</span></div><div><strong>6</strong><span data-en="strategy modules" data-vi="hạng mục chiến lược">hạng mục chiến lược</span></div><div><strong>90</strong><span data-en="day action plan" data-vi="ngày hành động">ngày hành động</span></div></div>
+</aside>
+</div>
+</section>
+<section class="section-light" id="needs">
+<div class="container">
+<div class="section-title reveal">
+<div class="kicker" data-en="When do you need BizOS?" data-vi="Khi nào cần BizOS?">Khi nào cần BizOS?</div>
+<h2 data-en="When your company needs to make major direction choices" data-vi="Khi doanh nghiệp có dữ liệu nhưng chưa biến thành nhịp điều hành hiệu quả">Khi doanh nghiệp có dữ liệu nhưng chưa biến thành nhịp điều hành hiệu quả</h2>
+<p data-en="But you are unsure which international-standard strategy methods to apply." data-vi="Số liệu nằm ở nhiều hệ thống, báo cáo đến chậm, cảnh báo không rõ người xử lý và các quyết định chưa được theo dõi đến kết quả.">Số liệu nằm ở nhiều hệ thống, báo cáo đến chậm, cảnh báo không rõ người xử lý và các quyết định chưa được theo dõi đến kết quả.</p>
+</div>
+<div class="grid-3 stagger reveal">
+<article class="card"><div class="icon">01</div><h3 data-en="Slow growth or lack of new growth engines" data-vi="Lãnh đạo thiếu một bức tranh thống nhất">Lãnh đạo thiếu một bức tranh thống nhất</h3><p data-en="Revenue is slowing, channels are saturated, products are hard to scale, or priority markets are unclear." data-vi="Tài chính, bán hàng, vận hành và thị trường được báo cáo rời rạc; khó biết thay đổi nào thực sự quan trọng.">Tài chính, bán hàng, vận hành và thị trường được báo cáo rời rạc; khó biết thay đổi nào thực sự quan trọng.</p><span class="tag" data-en="Growth strategy" data-vi="Chiến lược tăng trưởng">Chiến lược tăng trưởng</span></article>
+<article class="card"><div class="icon">02</div><h3 data-en="Expansion without clear economics" data-vi="Vấn đề được phát hiện quá muộn">Vấn đề được phát hiện quá muộn</h3><p data-en="New branches, markets, or product lines are being considered without clear investment, profit, payback, and risk economics." data-vi="Biên lợi nhuận, tồn kho, công nợ, hiệu suất chi nhánh hoặc phản ứng thị trường chỉ được nhìn thấy sau khi đã ảnh hưởng kết quả.">Biên lợi nhuận, tồn kho, công nợ, hiệu suất chi nhánh hoặc phản ứng thị trường chỉ được nhìn thấy sau khi đã ảnh hưởng kết quả.</p><span class="tag" data-en="Business case" data-vi="Luận chứng kinh doanh">Luận chứng kinh doanh</span></article>
+<article class="card"><div class="icon">03</div><h3 data-en="Need a 1–3 year roadmap" data-vi="Kiến nghị chưa chuyển thành trách nhiệm và kết quả">Kiến nghị chưa chuyển thành trách nhiệm và kết quả</h3><p data-en="Leadership needs a fact-based plan for the board, partners, banks, or key management team." data-vi="Nhiều cuộc họp tạo ra việc cần làm nhưng thiếu người phụ trách, thời hạn, chỉ số đo và lịch sử kết quả.">Nhiều cuộc họp tạo ra việc cần làm nhưng thiếu người phụ trách, thời hạn, chỉ số đo và lịch sử kết quả.</p><span class="tag" data-en="Execution roadmap" data-vi="Lộ trình thực thi">Lộ trình thực thi</span></article>
+</div>
+</div>
+</section>
+
+<section id="modules">
+<div class="container">
+<div class="section-title reveal">
+<div class="kicker" data-en="Service scope" data-vi="Phạm vi dịch vụ">Phạm vi dịch vụ</div>
+<h2 data-en="Six BizOS modules" data-vi="6 cấu phần tạo thành vòng lặp điều hành BizOS">6 cấu phần tạo thành vòng lặp điều hành BizOS</h2>
+<p data-en="Companies can select individual modules or run a full advisory program depending on complexity and decisions required." data-vi="Doanh nghiệp có thể chọn từng hạng mục hoặc triển khai theo một chương trình đầy đủ, tùy mức độ phức tạp và quyết định cần đưa ra.">Doanh nghiệp có thể chọn từng hạng mục hoặc triển khai theo một chương trình đầy đủ, tùy mức độ phức tạp và quyết định cần đưa ra.</p>
+</div>
+<div class="tabs-layout">
+<div aria-label="Strategy modules" class="tabs reveal" role="tablist">
+<button class="tab-btn active" data-tab="tab1"><span data-en="Strategic diagnosis" data-vi="Trung tâm dữ liệu">Trung tâm dữ liệu</span><small>01</small></button>
+<button class="tab-btn" data-tab="tab2"><span data-en="Market &amp; competition" data-vi="Dashboard điều hành">Dashboard điều hành</span><small>02</small></button>
+<button class="tab-btn" data-tab="tab3"><span data-en="Growth strategy" data-vi="Thông tin thị trường &amp; đối thủ">Thông tin thị trường &amp; đối thủ</span><small>03</small></button>
+<button class="tab-btn" data-tab="tab4"><span data-en="Business case" data-vi="Cảnh báo vận hành">Cảnh báo vận hành</span><small>04</small></button>
+<button class="tab-btn" data-tab="tab5"><span data-en="Operating model" data-vi="Theo dõi thực thi">Theo dõi thực thi</span><small>05</small></button>
+<button class="tab-btn" data-tab="tab6"><span data-en="Decision materials" data-vi="Rà soát điều hành &amp; hỗ trợ quyết định">Rà soát điều hành &amp; hỗ trợ quyết định</span><small>06</small></button>
+</div>
+<div class="reveal">
+<div class="card tab-panel active" id="tab1"><h3 data-en="01. Strategic diagnosis" data-vi="01. Trung tâm dữ liệu">01. Trung tâm dữ liệu</h3><p data-en="Connect files, spreadsheets or systems; verify data quality, version, source and last update time." data-vi="Kết nối tệp, bảng tính hoặc hệ thống; kiểm tra chất lượng, phiên bản, nguồn và thời điểm cập nhật dữ liệu.">Kết nối tệp, bảng tính hoặc hệ thống; kiểm tra chất lượng, phiên bản, nguồn và thời điểm cập nhật dữ liệu.</p><div class="deliverables"><span class="tag" data-en="Issue map" data-vi="Bản đồ vấn đề">Bản đồ vấn đề</span><span class="tag" data-en="Strategic priorities" data-vi="Ưu tiên chiến lược">Ưu tiên chiến lược</span><span class="tag" data-en="Capability diagnostic" data-vi="Chẩn đoán năng lực">Chẩn đoán năng lực</span></div></div>
+<div class="card tab-panel" id="tab2"><h3 data-en="02. Market &amp; competition analysis" data-vi="02. Dashboard điều hành">02. Dashboard điều hành</h3><p data-en="Track key KPIs, targets, variances, owners and detail by branch/channel within granted access scope." data-vi="Theo dõi KPI trọng yếu, mục tiêu, biến động, người phụ trách và chi tiết theo chi nhánh/kênh trong phạm vi được cấp quyền.">Theo dõi KPI trọng yếu, mục tiêu, biến động, người phụ trách và chi tiết theo chi nhánh/kênh trong phạm vi được cấp quyền.</p><div class="deliverables"><span class="tag" data-en="Market map" data-vi="Bản đồ thị trường">Bản đồ thị trường</span><span class="tag" data-en="Competitor benchmark" data-vi="So sánh đối thủ">So sánh đối thủ</span><span class="tag" data-en="Customer segmentation" data-vi="Phân khúc khách hàng">Phân khúc khách hàng</span></div></div>
+<div class="card tab-panel" id="tab3"><h3 data-en="03. Growth strategy" data-vi="03. Thông tin thị trường &amp; đối thủ">03. Thông tin thị trường &amp; đối thủ</h3><p data-en="Track competitor watchlist and agreed signals; distinguish facts, estimates, interpretations and data gaps." data-vi="Theo dõi danh sách đối thủ và tín hiệu đã thống nhất; tách rõ dữ kiện, ước tính, diễn giải và khoảng trống dữ liệu.">Theo dõi danh sách đối thủ và tín hiệu đã thống nhất; tách rõ dữ kiện, ước tính, diễn giải và khoảng trống dữ liệu.</p><div class="deliverables"><span class="tag" data-en="Strategic options" data-vi="Lựa chọn chiến lược">Lựa chọn chiến lược</span><span class="tag" data-en="Growth scenarios" data-vi="Kịch bản tăng trưởng">Kịch bản tăng trưởng</span><span class="tag" data-en="Recommended priorities" data-vi="Khuyến nghị ưu tiên">Khuyến nghị ưu tiên</span></div></div>
+<div class="card tab-panel" id="tab4"><h3 data-en="04. Business case &amp; financial impact" data-vi="04. Cảnh báo vận hành">04. Cảnh báo vận hành</h3><p data-en="Detect metrics exceeding thresholds or unusual movements; each alert has evidence, severity, owner and deadline." data-vi="Phát hiện chỉ số vượt ngưỡng hoặc biến động bất thường; mỗi cảnh báo có bằng chứng, mức độ, người phụ trách và hạn xử lý.">Phát hiện chỉ số vượt ngưỡng hoặc biến động bất thường; mỗi cảnh báo có bằng chứng, mức độ, người phụ trách và hạn xử lý.</p><div class="deliverables"><span class="tag" data-en="Financial model" data-vi="Mô hình tài chính">Mô hình tài chính</span><span class="tag" data-en="Scenario analysis" data-vi="Phân tích kịch bản">Phân tích kịch bản</span><span class="tag" data-en="Value creation plan" data-vi="Kế hoạch tạo giá trị">Kế hoạch tạo giá trị</span></div></div>
+<div class="card tab-panel" id="tab5"><h3 data-en="05. Operating model &amp; execution roadmap" data-vi="05. Theo dõi thực thi">05. Theo dõi thực thi</h3><p data-en="Convert alerts, recommendations and decisions into tasks; track progress, blockers and actual impact." data-vi="Chuyển cảnh báo, kiến nghị và quyết định thành việc cần làm; theo dõi tiến độ, vướng mắc và tác động thực tế.">Chuyển cảnh báo, kiến nghị và quyết định thành việc cần làm; theo dõi tiến độ, vướng mắc và tác động thực tế.</p><div class="deliverables"><span class="tag" data-en="Operating model" data-vi="Mô hình vận hành">Mô hình vận hành</span><span class="tag" data-en="KPI framework" data-vi="Bộ chỉ số">Bộ chỉ số</span><span class="tag" data-en="90-day roadmap" data-vi="Lộ trình 90 ngày">Lộ trình 90 ngày</span></div></div>
+<div class="card tab-panel" id="tab6"><h3 data-en="06. Executive decision materials" data-vi="06. Rà soát điều hành &amp; hỗ trợ quyết định">06. Rà soát điều hành &amp; hỗ trợ quyết định</h3><p data-en="Consolidate weekly/monthly reports and support scenario evaluation or priority adjustments as data and market conditions change." data-vi="Tổng hợp báo cáo tuần/tháng và hỗ trợ đánh giá kịch bản hoặc điều chỉnh ưu tiên khi dữ liệu và thị trường thay đổi.">Tổng hợp báo cáo tuần/tháng và hỗ trợ đánh giá kịch bản hoặc điều chỉnh ưu tiên khi dữ liệu và thị trường thay đổi.</p><div class="deliverables"><span class="tag" data-en="Executive brief" data-vi="Báo cáo lãnh đạo">Báo cáo lãnh đạo</span><span class="tag" data-en="Board memo" data-vi="Tài liệu HĐQT">Tài liệu HĐQT</span><span class="tag" data-en="Strategy presentation" data-vi="Bản trình bày chiến lược">Bản trình bày chiến lược</span></div></div>
+</div>
+</div>
+</div>
+</section>
+<section class="section-navy" id="method" style="display:none">
+<div class="container">
+<div class="section-title center reveal">
+<div class="kicker" data-en="Method" data-vi="Phương pháp">Phương pháp</div>
+<h2 data-en="From data to decisions and execution" data-vi="Vòng lặp điều hành: Dữ liệu → Tín hiệu → Cảnh báo → Hành động → Kết quả">Vòng lặp điều hành: Dữ liệu → Tín hiệu → Cảnh báo → Hành động → Kết quả</h2>
+<p data-en="Each recommendation should have supporting data, financial impact, owners, KPIs, and governance cadence." data-vi="Mỗi khuyến nghị cần có cơ sở dữ liệu, tác động tài chính, người phụ trách, bộ chỉ số và nhịp kiểm soát kết quả.">Mỗi khuyến nghị cần có cơ sở dữ liệu, tác động tài chính, người phụ trách, bộ chỉ số và nhịp kiểm soát kết quả.</p>
+</div>
+<div class="path reveal visible">
+<div class="path-item"><b>01</b><h3 data-en="Diagnose" data-vi="Cập nhật dữ liệu">Cập nhật dữ liệu</h3><p data-en="Connect sources, validate quality and refresh dashboards." data-vi="Kết nối nguồn, kiểm tra chất lượng và cập nhật dashboard.">Kết nối nguồn, kiểm tra chất lượng và cập nhật dashboard.</p></div>
+<div class="path-arrow">→</div>
+<div class="path-item"><b>02</b><h3 data-en="Prioritize" data-vi="Phát hiện thay đổi">Phát hiện thay đổi</h3><p data-en="Identify signals and anomalies across KPIs and market data." data-vi="Phát hiện tín hiệu và bất thường trong KPI và dữ liệu thị trường.">Phát hiện tín hiệu và bất thường trong KPI và dữ liệu thị trường.</p></div>
+<div class="path-arrow">→</div>
+<div class="path-item"><b>03</b><h3 data-en="Quantify" data-vi="Kiểm duyệt tín hiệu">Kiểm duyệt tín hiệu</h3><p data-en="Confirm alerts, set severity, assign owner and deadline." data-vi="Xác nhận cảnh báo, phân mức độ, gán người phụ trách và hạn xử lý.">Xác nhận cảnh báo, phân mức độ, gán người phụ trách và hạn xử lý.</p></div>
+<div class="path-arrow">→</div>
+<div class="path-item"><b>04</b><h3 data-en="Design" data-vi="Giao việc">Giao việc</h3><p data-en="Convert alerts and decisions into tracked tasks with owners." data-vi="Chuyển cảnh báo và quyết định thành việc cần làm có người phụ trách.">Chuyển cảnh báo và quyết định thành việc cần làm có người phụ trách.</p></div>
+<div class="path-arrow">→</div>
+<div class="path-item"><b>05</b><h3 data-en="Execute" data-vi="Đo kết quả">Đo kết quả</h3><p data-en="Track completion, actual impact and feed results back into data." data-vi="Theo dõi hoàn thành, tác động thực tế và đưa kết quả trở lại vào dữ liệu.">Theo dõi hoàn thành, tác động thực tế và đưa kết quả trở lại vào dữ liệu.</p></div>
+</div>
+</div>
+</section>
+<section class="section-navy" id="companion">
+<style>
+#companion .cmp-head{max-width:900px;margin:0 auto 38px}
+#companion .cmp-box{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.12);border-radius:28px;padding:26px;margin-bottom:24px}
+#companion .cmp-grid{display:grid;grid-template-columns:1.12fr .88fr;gap:30px;align-items:start}
+#companion .cmp-slider{position:relative;border-radius:18px;overflow:hidden;border:1px solid rgba(255,255,255,.14);box-shadow:0 24px 60px rgba(0,0,0,.34);background:#04101f}
+#companion .cmp-track{display:flex;transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+#companion .cmp-slide{position:relative;min-width:100%;aspect-ratio:1011/614;background:#061a2f;overflow:hidden}
+#companion .cmp-slide img{position:absolute;top:0;left:0;width:100%;height:auto;display:block;z-index:2}
+#companion .cmp-mock{position:absolute;inset:0;padding:14px 16px;display:flex;flex-direction:column;gap:11px}
+#companion .cmp-bar{display:flex;align-items:center;gap:6px}
+#companion .cmp-bar .d{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.28)}
+#companion .cmp-chip{margin-left:8px;font-size:11px;font-weight:800;color:#fff;background:rgba(246,173,5,.22);border:1px solid rgba(246,173,5,.4);border-radius:999px;padding:4px 11px}
+#companion .cmp-demo{margin-left:auto;font-size:10px;font-weight:800;letter-spacing:.6px;color:#9fb2c8;border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:3px 9px}
+#companion .cmp-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+#companion .cmp-kpi{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:11px;padding:9px 10px}
+#companion .cmp-kpi small{color:#9fb2c8;font-size:9.5px;display:block;text-transform:uppercase;letter-spacing:.3px}
+#companion .cmp-kpi b{color:#fff;font-size:15px;display:block;margin-top:3px}
+#companion .cmp-chart{margin-top:auto;display:flex;align-items:flex-end;gap:9px;height:42%}
+#companion .cmp-chart i{flex:1;background:rgba(255,255,255,.18);border-radius:5px 5px 0 0}
+#companion .cmp-chart i.g{background:linear-gradient(180deg,#ffc94a,#f6ad05)}
+#companion .cmp-rows{display:flex;flex-direction:column;gap:11px;margin-top:6px}
+#companion .cmp-row{display:grid;grid-template-columns:64px 1fr;gap:10px;align-items:center}
+#companion .cmp-row span{color:#cdd9e7;font-size:12px;font-weight:700}
+#companion .cmp-track2{height:11px;background:rgba(255,255,255,.1);border-radius:999px;overflow:hidden}
+#companion .cmp-track2 i{display:block;height:100%;border-radius:999px}
+#companion .cmp-track2 i.g{background:#1F9D6B}#companion .cmp-track2 i.b{background:#2F6FB0}#companion .cmp-track2 i.o{background:#E0922F}#companion .cmp-track2 i.r{background:#D2483F}
+#companion .cmp-alerts{display:flex;flex-direction:column;gap:9px;margin-top:4px}
+#companion .cmp-al{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:11px;padding:9px 11px;border-left-width:4px}
+#companion .cmp-al b{font-size:10px;font-weight:800;border-radius:6px;padding:2px 7px}
+#companion .cmp-al span{color:#dce6f1;font-size:12px}
+#companion .cmp-al.r{border-left-color:#D2483F}#companion .cmp-al.r b{background:rgba(210,72,63,.25);color:#ffb4ad}
+#companion .cmp-al.o{border-left-color:#E0922F}#companion .cmp-al.o b{background:rgba(224,146,47,.25);color:#ffd79a}
+#companion .cmp-al.y{border-left-color:#F6AD05}#companion .cmp-al.y b{background:rgba(246,173,5,.22);color:#ffe2a0}
+#companion .cmp-dots{position:absolute;bottom:11px;left:0;right:0;display:flex;gap:7px;justify-content:center;z-index:3}
+#companion .cmp-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.4);cursor:pointer;border:0;padding:0;transition:.25s}
+#companion .cmp-dot.active{background:var(--gold);width:22px;border-radius:6px}
+#companion .cmp-cap{margin-top:12px;color:#9fb2c8;font-size:13px}
+#companion .cmp-side h3{color:#fff;font-size:23px;line-height:1.2;margin-bottom:10px}
+#companion .cmp-side>p{color:#c2d2e3;margin:0}
+#companion .cmp-tabs{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:18px 0}
+#companion .cmp-tab{display:flex;gap:10px;align-items:flex-start;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:13px;padding:10px 12px}
+#companion .cmp-tab b{color:var(--gold-2);font-size:12px;font-weight:800;flex:0 0 auto;margin-top:1px}
+#companion .cmp-tab>span span{display:block;color:#fff;font-size:13px;font-weight:700}
+#companion .cmp-tab small{display:block;color:#9fb2c8;font-size:11px;margin-top:2px;line-height:1.35}
+#companion .cmp-emph{background:rgba(246,173,5,.1);border:1px solid rgba(246,173,5,.3);border-radius:14px;padding:13px 15px;color:#ffe7b0;font-size:13.5px;line-height:1.6}
+#companion .cmp-cta{margin-top:18px;display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+#companion .cmp-cta span{color:#9fb2c8;font-size:12.5px}
+#companion .cmp-flow{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+#companion .cmp-step{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:18px 16px}
+#companion .cmp-step.end{background:rgba(246,173,5,.08);border-color:rgba(246,173,5,.34)}
+#companion .cmp-no{width:34px;height:34px;border-radius:12px;background:var(--gold);color:var(--navy);display:grid;place-items:center;font-weight:900;margin-bottom:12px}
+#companion .cmp-step.end .cmp-no{background:#fff}
+#companion .cmp-step b{display:block;color:#fff;font-size:15px;margin-bottom:6px}
+#companion .cmp-step p{color:#c2d2e3;font-size:12.5px;line-height:1.5;margin:0}
+#companion .cmp-when{color:var(--gold-2);font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:5px}
+#companion .cmp-end-line{margin-top:20px;text-align:center;color:#ffe7b0;font-weight:700;font-size:15px}
+.pkg-note{grid-column:1/-1;margin-top:6px;color:var(--muted);font-size:13.5px;background:#fff;border:1px dashed var(--line);border-radius:16px;padding:14px 16px}
+@media(max-width:980px){#companion .cmp-grid{grid-template-columns:1fr}#companion .cmp-flow{grid-template-columns:1fr 1fr}}
+@media(max-width:620px){#companion .cmp-tabs{grid-template-columns:1fr}#companion .cmp-flow{grid-template-columns:1fr}}
+</style>
+<div class="container">
+<div class="cmp-head center reveal" style="text-align:center;margin-left:auto;margin-right:auto">
+<div class="kicker" data-vi="Đồng hành thực thi" data-en="Execution companion">Đồng hành thực thi</div>
+<h2 data-vi="Điều hành được duy trì trên Dashboard, không dừng ở báo cáo hoặc cuộc họp" data-en="Operations maintained on a live dashboard, not stuck in reports or meetings">Điều hành được duy trì trên Dashboard, không dừng ở báo cáo hoặc cuộc họp</h2>
+<p data-vi="Sau khi chốt chiến lược, VCPC thiết kế và vận hành cùng doanh nghiệp một Dashboard quản trị để theo dõi KPI, thông tin thị trường, cảnh báo và việc cần xử lý theo nhịp dữ liệu đã thống nhất. Dashboard luôn hiển thị thời điểm cập nhật gần nhất." data-en="VCPC designs and operates a management dashboard tracking KPIs, market intelligence, alerts and pending tasks at the agreed data cadence. The dashboard always shows the last update time.">Sau khi chốt chiến lược, VCPC thiết kế và vận hành cùng doanh nghiệp một Dashboard quản trị để theo dõi KPI, thông tin thị trường, cảnh báo và việc cần xử lý theo nhịp dữ liệu đã thống nhất. Dashboard luôn hiển thị thời điểm cập nhật gần nhất.</p>
+</div>
+
+<div class="cmp-box reveal">
+<div class="cmp-grid">
+<div>
+<div class="cmp-slider"><div class="cmp-track" id="cmpTrack"><figure class="cmp-slide"><img src="assets/Dashboard1.png" alt="VCPC Dashboard 1" loading="lazy"></figure><figure class="cmp-slide"><img src="assets/Dashboard2.png" alt="VCPC Dashboard 2" loading="lazy"></figure><figure class="cmp-slide"><img src="assets/Dashboard3.png" alt="VCPC Dashboard 3" loading="lazy"></figure><figure class="cmp-slide"><img src="assets/Dashboard4.png" alt="VCPC Dashboard 4" loading="lazy"></figure><figure class="cmp-slide"><img src="assets/Dashboard5.png" alt="VCPC Dashboard 5" loading="lazy"></figure></div><div class="cmp-dots" id="cmpDots"></div></div>
+<div class="cmp-cta" style="margin-top:16px"><a class="btn btn-primary" href="app/dashboard-biz-os.html" target="_blank" rel="noopener" data-vi="Xem bản demo trực tiếp" data-en="Open the live demo">Xem bản demo trực tiếp</a></div>
+</div>
+<div class="cmp-side">
+<h3 data-vi="Dashboard Điều hành BizOS" data-en="BizOS Operations Dashboard">Dashboard Điều hành BizOS</h3>
+<p data-vi="Chúng tôi sử dụng công nghệ để xây dựng Dashboard Quản trị Điều hành thông minh có thể tuỳ chỉnh theo đặc thù của mỗi doanh nghiệp." data-en="We use technology to build an intelligent management dashboard that can be customized to each company's specific characteristics.">Chúng tôi sử dụng công nghệ để xây dựng Dashboard Quản trị Điều hành thông minh có thể tuỳ chỉnh theo đặc thù của mỗi doanh nghiệp.</p>
+<div class="cmp-tabs"><div class="cmp-tab"><b>01</b><span><span data-vi="Tổng quan" data-en="Overview">Tổng quan</span><small data-vi="doanh thu, biên LN, dòng tiền, ROAS" data-en="revenue, margin, cash flow, ROAS">doanh thu, biên LN, dòng tiền, ROAS</small></span></div>
+<div class="cmp-tab"><b>02</b><span><span data-vi="Theo dõi thực thi" data-en="Execution tracking">Theo dõi thực thi</span><small data-vi="việc cần làm, người phụ trách, hạn xử lý và kết quả" data-en="tasks, owners, deadlines and results">việc cần làm, người phụ trách, hạn xử lý và kết quả</small></span></div>
+<div class="cmp-tab"><b>03</b><span><span data-vi="Tài chính" data-en="Finance">Tài chính</span><small data-vi="dòng tiền, lợi nhuận, ngân sách" data-en="cash flow, profit, budget">dòng tiền, lợi nhuận, ngân sách</small></span></div>
+<div class="cmp-tab"><b>04</b><span><span data-vi="Chi nhánh" data-en="Branches">Chi nhánh</span><small data-vi="hiệu quả &amp; xếp hạng từng điểm bán" data-en="performance &amp; ranking per store">hiệu quả &amp; xếp hạng từng điểm bán</small></span></div>
+<div class="cmp-tab"><b>05</b><span><span data-vi="Kinh doanh &amp; khách hàng" data-en="Business &amp; customers">Kinh doanh &amp; khách hàng</span><small data-vi="kênh, chuyển đổi, khách mới và khách quay lại" data-en="channel, conversion, new and returning customers">kênh, chuyển đổi, khách mới và khách quay lại</small></span></div>
+<div class="cmp-tab"><b>06</b><span><span data-vi="Sản phẩm" data-en="Product">Sản phẩm</span><small data-vi="cơ cấu hàng, tồn kho, biên theo nhóm" data-en="mix, inventory, margin by group">cơ cấu hàng, tồn kho, biên theo nhóm</small></span></div>
+<div class="cmp-tab"><b>07</b><span><span data-vi="Market Intelligence" data-en="Market Intelligence">Market Intelligence</span><small data-vi="thị trường, đối thủ" data-en="market, competitors">thị trường, đối thủ</small></span></div>
+<div class="cmp-tab"><b>08</b><span><span data-vi="Cảnh báo" data-en="Alerts">Cảnh báo</span><small data-vi="trung tâm alert vận hành" data-en="operational alert centre">trung tâm alert vận hành</small></span></div>
+<div class="cmp-tab"><b>09</b><span><span data-vi="Kiến nghị" data-en="Recommendations">Kiến nghị</span><small data-vi="danh sách kiến nghị &amp; trạng thái" data-en="recommendations &amp; status">danh sách kiến nghị &amp; trạng thái</small></span></div>
+<div class="cmp-tab"><b>10</b><span><span data-vi="Sẵn sàng vốn" data-en="Capital readiness">Sẵn sàng vốn</span><small data-vi="chỉ báo tham khảo khi đủ dữ liệu; định giá giao dịch thuộc BizDeal." data-en="reference indicator when data is sufficient; transaction valuation belongs to BizDeal.">chỉ báo tham khảo khi đủ dữ liệu; định giá giao dịch thuộc BizDeal.</small></span></div></div>
+
+
+</div>
+</div>
+</div>
+
+<div class="cmp-box reveal">
+<h3 style="color:#fff;font-size:23px;margin-bottom:6px" data-vi="Nhịp vận hành theo gói và kỳ thanh toán" data-en="Operating rhythm by package and billing period">Nhịp vận hành theo gói và kỳ thanh toán</h3>
+<p style="color:#c2d2e3;margin:0 0 22px" data-vi="Một chu trình lặp lại để chiến lược luôn được cập nhật theo số liệu và thị trường thực tế." data-en="A repeating cycle that keeps strategy aligned with real data and market conditions.">Một chu trình lặp lại để chiến lược luôn được cập nhật theo số liệu và thị trường thực tế.</p>
+<div class="cmp-flow"><div class="cmp-step "><div class="cmp-no">1</div><span class="cmp-when" data-vi="Tháng 1" data-en="Month 1">Tháng 1</span><b data-vi="Thiết lập" data-en="Set up">Thiết lập</b><p data-vi="Chốt bộ chỉ số, làm sạch dữ liệu, ra mắt Dashboard bản 1, thiết lập quy tắc alert." data-en="Lock the KPI set, clean data, launch Dashboard v1 and set alert rules.">Chốt bộ chỉ số, làm sạch dữ liệu, ra mắt Dashboard bản 1, thiết lập quy tắc alert.</p></div>
+<div class="cmp-step "><div class="cmp-no">2</div><span class="cmp-when" data-vi="Hàng tháng" data-en="Monthly">Hàng tháng</span><b data-vi="Cập nhật &amp; rà soát" data-en="Update &amp; review">Cập nhật &amp; rà soát</b><p data-vi="Cập nhật số liệu, tinh chỉnh ngưỡng cảnh báo, họp review hiệu suất." data-en="Refresh data, tune alert thresholds, run performance review meetings.">Cập nhật số liệu, tinh chỉnh ngưỡng cảnh báo, họp review hiệu suất.</p></div>
+<div class="cmp-step "><div class="cmp-no">3</div><span class="cmp-when" data-vi="Hàng quý" data-en="Quarterly">Hàng quý</span><b data-vi="Cập nhật thị trường" data-en="Market refresh">Cập nhật thị trường</b><p data-vi="Làm mới benchmark/bối cảnh ngành, đánh giá độ phù hợp của chiến lược, điều chỉnh ưu tiên." data-en="Refresh benchmarks/industry context, re-assess strategy fit, adjust priorities.">Làm mới benchmark/bối cảnh ngành, đánh giá độ phù hợp của chiến lược, điều chỉnh ưu tiên.</p></div>
+<div class="cmp-step "><div class="cmp-no">4</div><span class="cmp-when" data-vi="Liên tục" data-en="Ongoing">Liên tục</span><b data-vi="Theo dõi &amp; hành động" data-en="Track &amp; act">Theo dõi &amp; hành động</b><p data-vi="Kiểm tra dữ liệu, chạy quy tắc cảnh báo và cập nhật trạng thái thực thi theo nhịp của từng nguồn." data-en="Check data, run alert rules and update execution status at each source cadence.">Kiểm tra dữ liệu, chạy quy tắc cảnh báo và cập nhật trạng thái thực thi theo nhịp của từng nguồn.</p></div>
+<div class="cmp-step end"><div class="cmp-no">✓</div><span class="cmp-when" data-vi="Mốc 6–12 tháng" data-en="6–12 month milestone">Mốc 6–12 tháng</span><b data-vi="Bàn giao" data-en="Handover">Bàn giao</b><p data-vi="Báo cáo kết quả, chuẩn hóa quy trình &amp; phân quyền, đề xuất giai đoạn tiếp theo." data-en="Report results, standardise processes &amp; access, propose the next phase.">Báo cáo kết quả, chuẩn hóa quy trình &amp; phân quyền, đề xuất giai đoạn tiếp theo.</p></div></div>
+<p class="cmp-end-line" data-vi="Kết quả: các kiến nghị chiến lược được DN đo lường, theo dõi, tối ưu vận hành hàng ngày qua Dashboard và được VCPC đồng hành cập nhật các điều chỉnh phát sinh." data-en="Outcome: strategic recommendations are measured, tracked and optimized daily by the company via the dashboard, with VCPC accompanying it to update adjustments as they arise.">Kết quả: các kiến nghị chiến lược được DN đo lường, theo dõi, tối ưu vận hành hàng ngày qua Dashboard và được VCPC đồng hành cập nhật các điều chỉnh phát sinh.</p>
+</div>
+</div>
+</section>
+<section id="packages">
+<div class="container">
+<div class="section-title reveal">
+<div class="kicker" data-en="The Strategy service" data-vi="Dịch vụ BizOS">Dịch vụ BizOS</div>
+<h2 data-en="Delivery scope scaled to your company size." data-vi="Gói BizOS theo mức độ tích hợp và nhu cầu điều hành">Gói BizOS theo mức độ tích hợp và nhu cầu điều hành</h2>
+<p data-en="Same method and outputs: market & competition analysis, growth options, roadmap and KPIs. Analysis depth, deliverables and fees scale with your revenue." data-vi="Cùng một phương pháp và bộ kết quả: phân tích thị trường & cạnh tranh, lựa chọn tăng trưởng, lộ trình và KPI. Độ sâu phân tích, sản phẩm bàn giao và chi phí điều chỉnh theo doanh thu của doanh nghiệp.">Cùng một phương pháp và bộ kết quả: phân tích thị trường &amp; cạnh tranh, lựa chọn tăng trưởng, lộ trình và KPI. Độ sâu phân tích, sản phẩm bàn giao và chi phí điều chỉnh theo doanh thu của doanh nghiệp.</p>
+</div>
+<div class="grid-3 stagger reveal">
+<article class="card package"><div><span class="time" data-en="2–3 weeks" data-vi="2–3 tuần">2–3 tuần</span><h3 data-vi="BizOS Starter · DN nhỏ (dưới 50 tỷ/năm)" data-en="BizOS Starter · Small (under VND 50B/yr)">BizOS Starter · DN nhỏ (dưới 50 tỷ/năm)</h3><p data-en="A quick review of overall strategic questions: new branches, new markets, new products, or slow growth." data-vi="Phù hợp doanh nghiệp cần dashboard lõi cho tài chính và một module vận hành; cập nhật dữ liệu theo tháng, 3–5 cảnh báo và bản tin thị trường cơ bản.">Phù hợp doanh nghiệp cần dashboard lõi cho tài chính và một module vận hành; cập nhật dữ liệu theo tháng, 3–5 cảnh báo và bản tin thị trường cơ bản.</p><ul><li data-en="Strategic issue diagnostic" data-vi="Chẩn đoán vấn đề chiến lược">Chẩn đoán vấn đề chiến lược</li><li data-en="3–5 strategic options" data-vi="3–5 lựa chọn chiến lược">3–5 lựa chọn chiến lược</li><li data-en="Prioritized recommendation" data-vi="Khuyến nghị ưu tiên">Khuyến nghị ưu tiên</li><li data-en="30-day action plan" data-vi="Kế hoạch hành động 30 ngày">Kế hoạch hành động 30 ngày</li><li data-en="Management dashboard &amp; 90-day execution support" data-vi="Dashboard Quản trị &amp; đồng hành thực thi trong 90 ngày">Dashboard Quản trị &amp; đồng hành thực thi trong 90 ngày</li></ul></div><a class="btn btn-primary" data-en="Sign up for BizOS Starter" data-vi="Đăng ký BizOS Starter" href="app/signup.html">Đăng ký BizOS Starter</a></article>
+<article class="card package featured" data-badge="PHỔ BIẾN" data-badge-vi="PHỔ BIẾN" data-badge-en="POPULAR"><div><span class="time" data-en="4–6 weeks" data-vi="4–6 tuần">4–6 tuần</span><h3 data-vi="BizOS Growth · DN vừa (50–300 tỷ/năm)" data-en="BizOS Growth · Mid-size (VND 50–300B/yr)">BizOS Growth · DN vừa (50–300 tỷ/năm)</h3><p data-en="Core package for companies needing a 1–3 year growth strategy, market expansion plan, or business model improvement." data-vi="Phù hợp doanh nghiệp nhiều chi nhánh hoặc kênh; dữ liệu tuần/API theo khả năng, thông tin thị trường hằng tuần, cảnh báo quan trọng và theo dõi thực thi.">Phù hợp doanh nghiệp nhiều chi nhánh hoặc kênh; dữ liệu tuần/API theo khả năng, thông tin thị trường hằng tuần, cảnh báo quan trọng và theo dõi thực thi.</p><ul><li data-en="Management dashboard by KPI and role" data-vi="Dashboard điều hành theo KPI và vai trò">Dashboard điều hành theo KPI và vai trò</li><li data-en="Market & competitor info by watch list" data-vi="Thông tin thị trường & đối thủ theo danh sách theo dõi">Thông tin thị trường & đối thủ theo danh sách theo dõi</li><li data-en="Alerts by threshold, owner & deadline" data-vi="Cảnh báo vận hành có ngưỡng, người phụ trách và hạn xử lý">Cảnh báo vận hành có ngưỡng, người phụ trách và hạn xử lý</li><li data-en="Track tasks, actuals & weekly/monthly review cadence" data-vi="Theo dõi việc cần làm, kết quả thực tế và nhịp rà soát tuần/tháng">Theo dõi việc cần làm, kết quả thực tế và nhịp rà soát tuần/tháng</li></ul></div><a class="btn btn-primary" data-en="Request proposal" data-vi="Đăng ký BizOS Growth" href="#contact">Đăng ký BizOS Growth</a></article>
+<article class="card package"><div><span class="time" data-en="6–8 weeks" data-vi="6–8 tuần">6–8 tuần</span><h3 data-vi="BizOS Scale · DN lớn (trên 300 tỷ/năm)" data-en="BizOS Scale · Large (over VND 300B/yr)">BizOS Scale · DN lớn (trên 300 tỷ/năm)</h3><p data-en="For larger companies facing restructuring, transformation, large-scale expansion, or board/investor-level materials." data-vi="Phù hợp doanh nghiệp nhiều đơn vị và vai trò; tích hợp sâu hơn, mô hình KPI tùy chỉnh, thông tin thị trường chuyên sâu, phòng quyết định và quản trị nâng cao.">Phù hợp doanh nghiệp nhiều đơn vị và vai trò; tích hợp sâu hơn, mô hình KPI tùy chỉnh, thông tin thị trường chuyên sâu, phòng quyết định và quản trị nâng cao.</p><ul><li data-en="1–3 year growth model" data-vi="Mô hình tăng trưởng 1–3 năm">Mô hình tăng trưởng 1–3 năm</li><li data-en="Scenario financial analysis" data-vi="Phân tích tài chính theo kịch bản">Phân tích tài chính theo kịch bản</li><li data-en="Transformation roadmap" data-vi="Lộ trình chuyển đổi">Lộ trình chuyển đổi</li><li data-en="Capital Readiness Score &amp; Valuation assessment" data-vi="Đánh giá Điểm gọi vốn và Định giá">Đánh giá Điểm gọi vốn và Định giá</li><li data-en="Management dashboard &amp; 6–12 month execution support" data-vi="Dashboard quản trị &amp; đồng hành thực thi 6–12 tháng">Dashboard quản trị &amp; đồng hành thực thi 6–12 tháng</li></ul></div><a class="btn btn-primary" data-en="Sign up for BizOS Scale" data-vi="Đăng ký BizOS Scale" href="app/signup.html">Đăng ký BizOS Scale</a></article>
+<p class="pkg-note" data-vi="Chọn kỳ 3/6/12 tháng → thanh toán 20% để triển khai → xem trước 48 giờ sau kiểm duyệt → thanh toán 80% để kích hoạt đến hết kỳ." data-en="Choose a 3/6/12-month period → pay 20% to start → 48h preview after review → pay 80% to activate until end of period.">Chọn kỳ 3/6/12 tháng → thanh toán 20% để triển khai → xem trước 48 giờ sau kiểm duyệt → thanh toán 80% để kích hoạt đến hết kỳ.</p>
+
+</div>
+</div>
+</section>
+<section class="section-light">
+<div class="container">
+<div class="section-title reveal">
+<div class="kicker" data-en="Relevant industries" data-vi="Ngành phù hợp">Ngành phù hợp</div>
+<h2 data-en="Best suited for companies growing across locations, channels, or expansion paths" data-vi="Ưu tiên doanh nghiệp đang tăng trưởng, nhiều điểm bán/kênh bán hoặc chuẩn bị mở rộng">Ưu tiên doanh nghiệp đang tăng trưởng, nhiều điểm bán/kênh bán hoặc chuẩn bị mở rộng</h2>
+</div>
+<div class="industries stagger reveal">
+<span class="industry" data-en="F&amp;B chains" data-vi="F&amp;B chuỗi">F&amp;B chuỗi</span><span class="industry" data-en="Retail &amp; distribution" data-vi="Bán lẻ &amp; phân phối">Bán lẻ &amp; phân phối</span><span class="industry" data-en="Healthcare &amp; wellness" data-vi="Y tế &amp; chăm sóc sức khỏe">Y tế &amp; chăm sóc sức khỏe</span><span class="industry" data-en="Education chains" data-vi="Giáo dục chuỗi">Giáo dục chuỗi</span><span class="industry" data-en="Logistics &amp; warehousing" data-vi="Logistics &amp; kho bãi">Logistics &amp; kho bãi</span><span class="industry" data-en="Consumer manufacturing" data-vi="Sản xuất tiêu dùng">Sản xuất tiêu dùng</span><span class="industry" data-en="Industrial services" data-vi="Dịch vụ công nghiệp">Dịch vụ công nghiệp</span><span class="industry" data-en="B2B applied technology" data-vi="Công nghệ ứng dụng B2B">Công nghệ ứng dụng B2B</span>
+</div>
+</div>
+</section>
+<section id="why">
+<div class="container grid-2">
+<div class="section-title reveal" style="margin-bottom:0">
+<div class="kicker" data-en="Why VCPC" data-vi="Vì sao chọn VCPC">Vì sao chọn VCPC</div>
+<h2 data-en="Combining strategy, investment finance and hands-on execution" data-vi="Kết hợp chiến lược, tài chính đầu tư và đồng hành thực thi">Kết hợp chiến lược, tài chính đầu tư và đồng hành thực thi</h2>
+<p data-en="VCPC does not stop at generic direction. We help companies quantify strategic options and accompany execution to achieve the expected growth." data-vi="VCPC không dừng ở định hướng chung. Chúng tôi giúp doanh nghiệp lượng hóa lựa chọn chiến lược và đồng hành thực thi để đạt được tăng trưởng như kỳ vọng.">VCPC không dừng ở định hướng chung. Chúng tôi giúp doanh nghiệp lượng hóa lựa chọn chiến lược và đồng hành thực thi để đạt được tăng trưởng như kỳ vọng.</p>
+</div>
+<div class="why-list reveal">
+<div class="why-item"><span class="check">✓</span><div><h3 data-en="Strategy linked to finance" data-vi="Chiến lược gắn với tài chính">Chiến lược gắn với tài chính</h3><p data-en="Each option is reviewed through revenue, margin, cash flow, investment required, and enterprise value impact." data-vi="Mỗi lựa chọn được xem xét qua doanh thu, biên lợi nhuận, dòng tiền, vốn đầu tư và tác động đến giá trị doanh nghiệp.">Mỗi lựa chọn được xem xét qua doanh thu, biên lợi nhuận, dòng tiền, vốn đầu tư và tác động đến giá trị doanh nghiệp.</p></div></div>
+<div class="why-item"><span class="check">✓</span><div><h3 data-en="Execution mindset" data-vi="Tư duy thực thi">Tư duy thực thi</h3><p data-en="Deliverables include owners, KPIs, governance cadence, and action plans by timeline." data-vi="Đầu ra gồm người phụ trách, bộ chỉ số, nhịp kiểm soát và kế hoạch hành động theo mốc thời gian.">Đầu ra gồm người phụ trách, bộ chỉ số, nhịp kiểm soát và kế hoạch hành động theo mốc thời gian.</p></div></div>
+<div class="why-item"><span class="check">✓</span><div><h3 data-en="Can connect to capital/M&amp;A when needed" data-vi="Có thể kết nối với vốn/M&amp;A khi cần">Có thể kết nối với vốn/M&amp;A khi cần</h3><p data-en="If strategy requires capital, partners, or M&amp;A, VCPC can transition into BizDeal." data-vi="Nếu chiến lược cần vốn, đối tác hoặc mua bán doanh nghiệp, VCPC có thể chuyển tiếp sang BizDeal.">Nếu chiến lược cần vốn, đối tác hoặc mua bán doanh nghiệp, VCPC có thể chuyển tiếp sang BizDeal.</p></div></div>
+</div>
+</div>
+</section>
+<section class="section-light">
+<div class="container grid-2">
+<div class="section-title reveal" style="margin-bottom:0">
+<div class="kicker">FAQ</div>
+<h2 data-en="Frequently asked questions" data-vi="Câu hỏi thường gặp">Câu hỏi thường gặp</h2>
+<p data-en="Common questions when companies consider external BizOS." data-vi="Một số câu hỏi khi doanh nghiệp cân nhắc thuê tư vấn chiến lược bên ngoài.">Một số câu hỏi khi doanh nghiệp cân nhắc thuê tư vấn chiến lược bên ngoài.</p>
+</div>
+<div class="accordion reveal" id="faq">
+<div class="acc-item active"><button class="acc-title"><span data-en="How is BizOS different from BizHealth?" data-vi="BizOS khác gì BizHealth?">BizOS khác gì BizHealth?</span><span>+</span></button><div class="acc-content"><p data-en="BizHealth focuses on financial diagnostics, profit, cash flow, costs, and operational performance. BizOS focuses on growth direction, business model, market expansion, and execution roadmap." data-vi="BizHealth tập trung chẩn đoán tài chính, lợi nhuận, dòng tiền, chi phí và hiệu quả vận hành. BizOS tập trung vào hướng tăng trưởng, mô hình kinh doanh, mở rộng thị trường và lộ trình thực thi.">BizHealth tập trung chẩn đoán tài chính, lợi nhuận, dòng tiền, chi phí và hiệu quả vận hành. BizOS tập trung vào hướng tăng trưởng, mô hình kinh doanh, mở rộng thị trường và lộ trình thực thi.</p></div></div>
+<div class="acc-item"><button class="acc-title"><span data-en="Does this service include fundraising?" data-vi="Dịch vụ này có bao gồm gọi vốn không?">Dịch vụ này có bao gồm gọi vốn không?</span><span>+</span></button><div class="acc-content"><p data-en="Not as the core scope. BizOS can clarify the growth story and use-of-funds plan, while valuation, investor materials, and outreach belong to BizDeal." data-vi="Không phải trọng tâm. BizOS có thể làm rõ câu chuyện tăng trưởng và kế hoạch sử dụng vốn, nhưng hoạt động định giá, hồ sơ nhà đầu tư, tiếp cận quỹ/bên mua thuộc BizDeal.">Không phải trọng tâm. BizOS có thể làm rõ câu chuyện tăng trưởng và kế hoạch sử dụng vốn, nhưng hoạt động định giá, hồ sơ nhà đầu tư, tiếp cận quỹ/bên mua thuộc BizDeal.</p></div></div>
+<div class="acc-item"><button class="acc-title"><span data-en="Can we start if data is limited?" data-vi="Doanh nghiệp chưa có nhiều dữ liệu có làm được không?">Doanh nghiệp chưa có nhiều dữ liệu có làm được không?</span><span>+</span></button><div class="acc-content"><p data-en="Yes. VCPC can start with leadership interviews, financial statements, sales data, operations data, and market information. More complete data improves recommendation quality." data-vi="Có. VCPC có thể bắt đầu bằng phỏng vấn ban lãnh đạo, báo cáo tài chính, dữ liệu bán hàng, vận hành và thông tin thị trường. Tuy nhiên dữ liệu càng đầy đủ thì khuyến nghị càng chính xác.">Có. VCPC có thể bắt đầu bằng phỏng vấn ban lãnh đạo, báo cáo tài chính, dữ liệu bán hàng, vận hành và thông tin thị trường. Tuy nhiên dữ liệu càng đầy đủ thì khuyến nghị càng chính xác.</p></div></div>
+<div class="acc-item"><button class="acc-title"><span data-en="What are the final outputs?" data-vi="Kết quả cuối cùng gồm những gì?">Kết quả cuối cùng gồm những gì?</span><span>+</span></button><div class="acc-content"><p data-en="Depending on package, outputs may include diagnostic report, strategic options, preliminary financial model, 90-day plan, 12-month roadmap, KPIs, and executive/board materials." data-vi="Tùy gói, đầu ra có thể gồm báo cáo chẩn đoán, các lựa chọn chiến lược, mô hình tài chính sơ bộ, kế hoạch 90 ngày, lộ trình 12 tháng, bộ chỉ số và tài liệu trình lãnh đạo/HĐQT.">Tùy gói, đầu ra có thể gồm báo cáo chẩn đoán, các lựa chọn chiến lược, mô hình tài chính sơ bộ, kế hoạch 90 ngày, lộ trình 12 tháng, bộ chỉ số và tài liệu trình lãnh đạo/HĐQT.</p></div></div>
+</div>
+</div>
+</section>
+<section class="section-cream">
+<div class="container">
+<div class="section-title center reveal">
+<div class="kicker" data-en="Position in VCPC advisory platform" data-vi="Vị trí trong hệ dịch vụ VCPC">Vị trí trong hệ dịch vụ VCPC</div>
+<h2 data-en="BizOS answers “where to go and how to execute?”" data-vi="BizOS trả lời câu hỏi “đi hướng nào và thực thi ra sao?”">BizOS trả lời câu hỏi “đi hướng nào và thực thi ra sao?”</h2>
+</div>
+<div class="grid-3 stagger reveal">
+<article class="card"><span class="tag">BizHealth</span><h3 data-en="How healthy is the business?" data-vi="Doanh nghiệp đang khỏe hay yếu?">Doanh nghiệp đang khỏe hay yếu?</h3><p data-en="If the main issue is unclear profit, cash flow, cost leakage or branch-level performance, start with BizHealth before Strategy." data-vi="Nếu vấn đề chính là chưa rõ lời/lỗ, dòng tiền, chi phí rò rỉ hoặc hiệu quả chi nhánh, nên bắt đầu bằng BizHealth trước khi làm Strategy.">Nếu vấn đề chính là chưa rõ lời/lỗ, dòng tiền, chi phí rò rỉ hoặc hiệu quả chi nhánh, nên bắt đầu bằng BizHealth trước khi làm Strategy.</p><a class="btn btn-outline-dark" data-en="View BizHealth" data-vi="Xem BizHealth" href="bizhealth.html" rel="noopener" target="_blank">Xem BizHealth</a></article>
+<article class="card featured" data-badge="STRATEGY"><span class="tag">BizOS</span><h3 data-en="Which growth direction should the company choose?" data-vi="Doanh nghiệp nên tăng trưởng theo hướng nào?">Doanh nghiệp nên tăng trưởng theo hướng nào?</h3><p data-en="Define strategic choices, business model, priority markets, and execution roadmap." data-vi="Xác định lựa chọn chiến lược, mô hình kinh doanh, thị trường ưu tiên và lộ trình thực thi.">Xác định lựa chọn chiến lược, mô hình kinh doanh, thị trường ưu tiên và lộ trình thực thi.</p><a class="btn btn-primary" data-en="View packages" data-vi="Xem gói tư vấn" href="#packages">Xem gói tư vấn</a></article>
+<article class="card"><span class="tag">Capital &amp; M&amp;A</span><h3 data-en="Is the company ready for capital events?" data-vi="Doanh nghiệp đã sẵn sàng cho sự kiện vốn chưa?">Doanh nghiệp đã sẵn sàng cho sự kiện vốn chưa?</h3><p data-en="BizOS clarifies the growth story and execution plan. Valuation, investor materials, fund/buyer outreach and transaction support belong to <a href='biz-deal.html'>BizDeal</a>." data-vi="BizOS giúp làm rõ câu chuyện tăng trưởng và kế hoạch thực thi. Định giá, hồ sơ nhà đầu tư, tiếp cận quỹ/bên mua thuộc <a href='biz-deal.html'>BizDeal</a>.">BizOS giúp làm rõ câu chuyện tăng trưởng và kế hoạch thực thi. Định giá, hồ sơ nhà đầu tư, tiếp cận quỹ/bên mua thuộc <a href='biz-deal.html'>BizDeal</a>.</p><a class="btn btn-outline-dark" data-en="View Capital &amp; M&amp;A" data-vi="Xem Capital &amp; M&amp;A" href="biz-deal.html">Xem Capital &amp; M&amp;A</a></article>
+</div>
+</div>
+</section>
+<section id="contact">
+<div class="container">
+<div class="cta-panel reveal">
+<div><div class="kicker" data-en="Talk to VCPC" data-vi="Trao đổi với VCPC">Trao đổi với VCPC</div><h2 data-en="Which strategic decision is your company facing?" data-vi="Doanh nghiệp của anh/chị đang đứng trước quyết định chiến lược nào?">Doanh nghiệp của anh/chị đang đứng trước quyết định chiến lược nào?</h2><p data-en="Send a short note so VCPC can suggest the right scope: quick review, growth strategy, or transformation roadmap." data-vi="Gửi thông tin ngắn để VCPC đề xuất phạm vi phù hợp: rà soát nhanh, chiến lược tăng trưởng hoặc lộ trình chuyển đổi.">Gửi thông tin ngắn để VCPC đề xuất phạm vi phù hợp: rà soát nhanh, chiến lược tăng trưởng hoặc lộ trình chuyển đổi.</p></div>
+<form class="contact-card" id="contactForm">
+<div class="form-row"><div class="field"><input data-placeholder-en="Full name" data-placeholder-vi="Họ và tên" name="name" placeholder="Họ và tên" required=""/></div><div class="field"><input data-placeholder-en="Company name" data-placeholder-vi="Tên doanh nghiệp" name="company" placeholder="Tên doanh nghiệp" required=""/></div></div>
+<div class="form-row"><div class="field"><input data-placeholder-en="Email" data-placeholder-vi="Email" name="email" placeholder="Email" required="" type="email"/></div><div class="field"><input data-placeholder-en="Phone / WhatsApp" data-placeholder-vi="Số điện thoại/Zalo" name="phone" required placeholder="Số điện thoại/Zalo"/></div></div>
+<div class="form-row"><div class="field"><select name="need" required=""><option value="" data-en="Primary need" data-vi="Nhu cầu chính">Nhu cầu chính</option><option data-vi="Chiến lược tăng trưởng 1–3 năm" data-en="1–3 year growth strategy">Chiến lược tăng trưởng 1–3 năm</option><option data-vi="Mở rộng thị trường / chi nhánh" data-en="Market / branch expansion">Mở rộng thị trường / chi nhánh</option><option data-vi="Tái cấu trúc / chuyển đổi mô hình" data-en="Restructuring / transformation">Tái cấu trúc / chuyển đổi mô hình</option><option data-en="Not sure, need advice" data-vi="Chưa rõ, cần tư vấn">Chưa rõ, cần tư vấn</option></select></div><div class="field"><select name="revenue" required=""><option value="" data-en="Latest annual revenue" data-vi="Doanh thu năm gần nhất">Doanh thu năm gần nhất</option><option>Dưới 50 tỷ VND</option><option>50–300 tỷ VND</option><option>Trên 300 tỷ VND</option></select></div></div>
+<div class="field"><textarea data-placeholder-en="Briefly describe your context / strategic decision" data-placeholder-vi="Mô tả ngắn bối cảnh / quyết định chiến lược cần tư vấn" name="message" placeholder="Mô tả ngắn bối cảnh / quyết định chiến lược cần tư vấn"></textarea></div>
+<button class="btn btn-primary" data-en="Send advisory request" data-vi="Gửi yêu cầu tư vấn" type="submit">Gửi yêu cầu tư vấn</button>
+
+</form>
+</div>
+</div>
+</section>
+</main>
+<footer class="vcpc-footer">
+<div class="vcpc-foot">
+<div class="foot-brand"><img src="assets/vcpc-icon.png" alt="VCPC"/><div><strong>Viet Capital Partners &amp; Consulting</strong><span data-en="BizHealth · BizOS · BizDeal" data-vi="BizHealth · BizOS · BizDeal">BizHealth · BizOS · BizDeal</span></div></div>
+<div class="foot-meta"><div class="addr" data-vi="12 Tân Trào, Quận 7, TP HCM, Việt Nam" data-en="12 Tan Trao, District 7, HCMC, Vietnam">12 Tân Trào, Quận 7, TP HCM, Việt Nam</div><div>vietcapitalpartners.com</div><div><a href="mailto:partner@vietcapitalpartners.com">partner@vietcapitalpartners.com</a></div></div>
+</div>
+<div class="foot-links" style="max-width:1180px;margin:0 auto;padding:16px 22px 0;border-top:1px solid rgba(255,255,255,.12);display:flex;gap:20px;flex-wrap:wrap;justify-content:center;font-size:13px;"><a href="about.html" data-vi="Về chúng tôi" data-en="About us">Về chúng tôi</a><a href="terms.html" data-vi="Điều khoản sử dụng" data-en="Terms of use">Điều khoản sử dụng</a><a href="privacy.html" data-vi="Chính sách bảo mật" data-en="Privacy policy">Chính sách bảo mật</a><a href="pricing.html" data-vi="Báo giá Giải pháp" data-en="Solution Pricing">Báo giá Giải pháp</a><a href="affiliate.html" data-vi="Đối tác giới thiệu" data-en="Affiliate">Đối tác giới thiệu</a></div></footer>
+<!-- VCPC floating actions: Call + Back to top -->
+<style>
+.vcpc-fab{position:fixed;right:20px;bottom:20px;z-index:120;display:flex;flex-direction:column;gap:12px;align-items:center}
+.vcpc-fab a,.vcpc-fab button{display:flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:50%;font-family:inherit;border:0;cursor:pointer;text-decoration:none;box-shadow:0 12px 26px -8px rgba(7,31,61,.5);transition:transform .2s ease,box-shadow .2s ease}
+.vcpc-fab .vcpc-call{background:#f5a800;color:#071f3d}
+.vcpc-fab .vcpc-call svg{width:23px;height:23px;fill:#071f3d}
+.vcpc-fab .vcpc-call:hover{transform:translateY(-2px);box-shadow:0 16px 32px -8px rgba(245,168,0,.6)}
+.vcpc-fab .vcpc-top{background:#0b2742;color:#fff;opacity:0;pointer-events:none;transform:translateY(10px)}
+.vcpc-fab .vcpc-top svg{width:22px;height:22px;stroke:#fff;stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.vcpc-fab .vcpc-top.show{opacity:1;pointer-events:auto;transform:translateY(0)}
+.vcpc-fab .vcpc-top:hover{transform:translateY(-2px) scale(1.06)}
+</style>
+<div class="vcpc-fab">
+  <a class="vcpc-call" href="tel:0909584075" aria-label="Gọi 0909 584 075" title="Gọi 0909 584 075"><svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.27-.27.66-.36 1-.24 1.1.37 2.3.57 3.5.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1C10.6 21 3 13.4 3 4c0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.2.2 2.4.57 3.5.12.34.03.73-.24 1l-2.23 2.3z"/></svg></a>
+  <button class="vcpc-top" id="vcpcTop" aria-label="Lên đầu trang" title="Lên đầu trang"><svg viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button>
+</div>
+<script>(function(){var b=document.getElementById('vcpcTop');if(!b)return;function s(){var y=window.scrollY||document.documentElement.scrollTop||0;b.classList.toggle('show',y>500);}window.addEventListener('scroll',s,{passive:true});s();b.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});})();</script>
+<script>
+    (function(){
+      const tabButtons=document.querySelectorAll('.tab-btn'),tabPanels=document.querySelectorAll('.tab-panel');tabButtons.forEach(btn=>btn.addEventListener('click',()=>{const id=btn.getAttribute('data-tab');tabButtons.forEach(b=>b.classList.remove('active'));tabPanels.forEach(p=>p.classList.remove('active'));btn.classList.add('active');document.getElementById(id).classList.add('active')}));
+      const faqItems=document.querySelectorAll('.acc-item');function refreshAcc(){faqItems.forEach(item=>{const c=item.querySelector('.acc-content');c.style.maxHeight=item.classList.contains('active')?c.scrollHeight+'px':'0px'})}faqItems.forEach(item=>item.querySelector('.acc-title').addEventListener('click',()=>{const active=item.classList.contains('active');faqItems.forEach(i=>i.classList.remove('active'));if(!active)item.classList.add('active');refreshAcc()}));window.addEventListener('resize',refreshAcc);refreshAcc();
+      const form=document.getElementById('contactForm'); form.addEventListener('submit',e=>{e.preventDefault();const d=new FormData(form);const subject=encodeURIComponent('[VCPC Strategy] Advisory request from '+(d.get('company')||''));const body=encodeURIComponent('Name: '+(d.get('name')||'')+'\nCompany: '+(d.get('company')||'')+'\nEmail: '+(d.get('email')||'')+'\nPhone/Zalo: '+(d.get('phone')||'')+'\nNeed: '+(d.get('need')||'')+'\nRevenue: '+(d.get('revenue')||'')+'\n\nMessage:\n'+(d.get('message')||''));window.location.href='mailto:partner@vietcapitalpartners.com?subject='+subject+'&body='+body});
+    })();
+  </script>
+  <script src="assets/vcpc.js"></script>
+<script>
+(function(){
+  var track=document.getElementById('cmpTrack');if(!track)return;
+  var slides=track.children.length,dotsWrap=document.getElementById('cmpDots'),i=0,timer;
+  for(var k=0;k<slides;k++){(function(n){var b=document.createElement('button');b.className='cmp-dot'+(n===0?' active':'');b.addEventListener('click',function(){go(n);reset();});dotsWrap.appendChild(b);})(k);}
+  function go(n){i=(n+slides)%slides;track.style.transform='translateX(-'+(i*100)+'%)';var d=dotsWrap.children;for(var k=0;k<d.length;k++)d[k].classList.toggle('active',k===i);}
+  function reset(){clearInterval(timer);timer=setInterval(function(){go(i+1);},4200);}
+  reset();
+})();
+</script>
+</body>
+</html>

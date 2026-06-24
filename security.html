@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="theme-color" content="#071f3d"/><link rel="icon" type="image/png" href="assets/favicon.png"/><link rel="apple-touch-icon" href="assets/favicon.png"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/><link rel="stylesheet" href="assets/vcpc.css"/>
+<title>Bảo mật &amp; tuân thủ | VCPC Auto</title>
+<meta name="description" content="VCPC Auto: bảo mật theo tenant (RLS), audit trail, signed URL cho file, payment verify chữ ký, NDA tuỳ chọn."/>
+<style>
+  body{background:#fbf7ee;font-family:"Montserrat",ui-sans-serif,system-ui,sans-serif;color:#10213a;line-height:1.6;margin:0;}
+  .sec-hero{background:radial-gradient(circle at 86% -8%, rgba(255,178,10,.34), transparent 30%), linear-gradient(135deg,#071f3d 0%, #0d2d57 60%);color:#fff;padding:78px 22px 56px;}
+  .sec-hero .wrap{max-width:1080px;margin:0 auto;}
+  .sec-hero .kicker{color:#ffd36b;font-weight:900;letter-spacing:.14em;text-transform:uppercase;font-size:12.5px;}
+  .sec-hero h1{font-size:clamp(36px,4.6vw,52px);margin:14px 0 16px;letter-spacing:-1.2px;line-height:1.08;}
+  .sec-hero p{color:#cbd9ee;max-width:760px;font-size:17px;margin:0;}
+  .sec-section{padding:64px 22px;}
+  .sec-section .wrap{max-width:1080px;margin:0 auto;}
+  .sec-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+  @media(max-width:980px){.sec-grid{grid-template-columns:1fr;}}
+  .sec-item{background:#fff;border:1px solid rgba(7,31,61,.10);border-radius:18px;padding:22px;box-shadow:0 12px 28px rgba(13,45,87,.06);}
+  .sec-item .ico{width:42px;height:42px;border-radius:11px;background:linear-gradient(135deg,#ffb20a,#ffd36b);color:#071f3d;display:grid;place-items:center;font-weight:900;font-size:18px;margin-bottom:12px;}
+  .sec-item b{display:block;font-size:17px;color:#071f3d;margin-bottom:6px;}
+  .sec-item p{margin:0;color:#5b6b80;font-size:14.5px;}
+  .sec-table{width:100%;border-collapse:separate;border-spacing:0;background:#fff;border:1px solid rgba(7,31,61,.10);border-radius:14px;overflow:hidden;}
+  .sec-table th,.sec-table td{padding:12px 16px;text-align:left;font-size:14px;border-bottom:1px solid rgba(7,31,61,.08);}
+  .sec-table th{background:#0d2d57;color:#fff;font-size:12.5px;letter-spacing:.06em;font-weight:900;text-transform:uppercase;}
+  .sec-table tr:last-child td{border-bottom:0;}
+  .sec-h{font-size:30px;font-weight:900;letter-spacing:-.5px;margin:0 0 22px;color:#071f3d;}
+</style>
+</head>
+<body>
+<header class="vcpc-header" id="header"><nav class="nav" aria-label="Main navigation"><a aria-label="Viet Capital Partners &amp; Consulting" class="brand" href="index.html"><div class="brand-mark"><img alt="VCPC logo" class="brand-icon" src="assets/logo-vcpc.jpg"/></div><div class="brand-text brand-name"><strong class="brand-title">Viet Capital Partners &amp; Consulting</strong><span class="breadcrumb"><span data-i18n="home">Trang chủ</span><em>›</em><span data-i18n-key>security</span></span></div></a><button aria-expanded="false" aria-label="Menu" class="hamburger menu-btn" id="hamburger" type="button"><span></span><span></span><span></span></button><nav class="nav-links" id="navLinks"><a href="bizhealth.html" data-i18n="bizhealth">BizHealth</a><a href="biz-os.html" data-i18n="strategyOs">BizOS</a><a href="biz-deal.html" data-i18n="capitalAdvisory">BizDeal</a><a href="pricing.html" data-i18n="navPricing">Bảng giá</a><a href="security.html" data-i18n="navSecurity">Bảo mật</a><a class="btn btn-primary" href="app/login.html" data-i18n="navApp">Vào ứng dụng</a><div class="lang lang-toggle" aria-label="Language switcher"><button class="active" data-lang="vi" type="button">VI</button><button data-lang="en" type="button">EN</button></div></nav></nav></header>
+<main>
+  <section class="sec-hero">
+    <div class="wrap">
+      <span class="kicker">Bảo mật &amp; tuân thủ</span>
+      <h1 data-vi="Dữ liệu doanh nghiệp được giữ trong phạm vi tenant của chính họ" data-en="Customer data stays inside its own tenant">Dữ liệu doanh nghiệp được giữ trong phạm vi tenant của chính họ</h1>
+      <p data-vi="Mọi bảng chứa dữ liệu khách có organization_id và RLS — không tenant nào truy cập được dữ liệu của tenant khác. AI chỉ giải thích, không sửa số; chuyên gia VCPC duyệt trước khi publish." data-en="Every customer-data table is keyed by organization_id with row-level security — no tenant can see another tenant's data. AI only narrates; VCPC reviewers approve before publishing.">Mọi bảng chứa dữ liệu khách có organization_id và RLS — không tenant nào truy cập được dữ liệu của tenant khác.</p>
+    </div>
+  </section>
+
+  <section class="sec-section" style="background:#fff;">
+    <div class="wrap">
+      <h2 class="sec-h" data-vi="Cam kết bảo mật chính" data-en="Core security commitments">Cam kết bảo mật chính</h2>
+      <div class="sec-grid">
+        <div class="sec-item"><div class="ico">🔒</div><b data-vi="Isolation theo tenant" data-en="Tenant isolation">Isolation theo tenant</b><p data-vi="organization_id + Row-Level Security ở Postgres. Không truy vấn nào trả về dữ liệu của tenant khác." data-en="organization_id + Postgres RLS. No query ever returns another tenant's data.">organization_id + Postgres RLS.</p></div>
+        <div class="sec-item"><div class="ico">📁</div><b data-vi="File ký URL" data-en="Signed URLs">File ký URL</b><p data-vi="File khách lưu trên Supabase Storage, chỉ truy cập qua signed URL có thời hạn." data-en="Customer files on Supabase Storage, only accessible via short-lived signed URLs.">Signed URL có thời hạn.</p></div>
+        <div class="sec-item"><div class="ico">🧾</div><b data-vi="Audit trail" data-en="Audit trail">Audit trail</b><p data-vi="Ghi nhận: ai upload, AI chạy gì, chuyên gia VCPC sửa gì, bản nào được bàn giao." data-en="Captures who uploaded, what AI ran, what VCPC reviewer changed, which version was delivered.">Mọi hành động quan trọng được ghi.</p></div>
+        <div class="sec-item"><div class="ico">🤖</div><b data-vi="AI chỉ giải thích" data-en="AI only narrates">AI chỉ giải thích</b><p data-vi="KPI, điểm, ngưỡng alert là code xác định, có unit test. AI không phát minh dữ liệu, không sửa số." data-en="KPIs, scores and alert thresholds are deterministic code with unit tests. AI never invents data or edits numbers.">Số do code tính, không phải AI.</p></div>
+        <div class="sec-item"><div class="ico">✅</div><b data-vi="VCPC review trước publish" data-en="VCPC review before publish">VCPC review trước publish</b><p data-vi="Không có bản nháp AI nào hiển thị cho khách như kết luận cuối cùng." data-en="No AI draft is ever shown to a client as a final conclusion.">Mọi insight có sign-off.</p></div>
+        <div class="sec-item"><div class="ico">💳</div><b data-vi="Thanh toán an toàn" data-en="Safe payments">Thanh toán an toàn</b><p data-vi="Verify chữ ký webhook (BaoKim/Stripe), idempotent theo transaction id, không tin số tiền client gửi." data-en="Webhook signatures verified (BaoKim/Stripe), idempotent by transaction id, server-computed amounts only.">Không tin số tiền từ client.</p></div>
+        <div class="sec-item"><div class="ico">📜</div><b data-vi="NDA tuỳ chọn" data-en="Optional NDA">NDA tuỳ chọn</b><p data-vi="Doanh nghiệp có thể ký NDA điện tử ngay trong bước intake; bản ký được lưu trong audit." data-en="Companies can sign an e-NDA at intake; the signed copy is kept in the audit log.">NDA điện tử ngay trong intake.</p></div>
+        <div class="sec-item"><div class="ico">🔐</div><b data-vi="Mã hoá" data-en="Encryption">Mã hoá</b><p data-vi="Truyền: TLS 1.2+. Lưu: Postgres at-rest + ENCRYPTION_KEY cho cột nhạy cảm." data-en="Transit: TLS 1.2+. Rest: Postgres at-rest + ENCRYPTION_KEY for sensitive columns.">TLS 1.2+ và at-rest.</p></div>
+        <div class="sec-item"><div class="ico">🧪</div><b data-vi="Nhãn độ tin cậy" data-en="Confidence labels">Nhãn độ tin cậy</b><p data-vi="Mỗi số quan trọng gắn nhãn THỰC TẾ / GIẢ THUYẾT / ƯỚC TÍNH và mức tin cậy." data-en="Each material number is labeled ACTUAL / ASSUMPTION / ESTIMATE with a confidence level.">Truy nguồn theo phiên bản dữ liệu.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec-section" style="background:#fbf7ee;">
+    <div class="wrap">
+      <h2 class="sec-h" data-vi="Bên thứ ba VCPC sử dụng" data-en="Sub-processors used by VCPC">Bên thứ ba VCPC sử dụng</h2>
+      <table class="sec-table">
+        <thead><tr><th data-vi="Dịch vụ" data-en="Service">Dịch vụ</th><th data-vi="Vai trò" data-en="Role">Vai trò</th><th data-vi="Vùng dữ liệu" data-en="Data region">Vùng dữ liệu</th></tr></thead>
+        <tbody>
+          <tr><td>Supabase</td><td data-vi="Auth · Postgres · Storage · RLS" data-en="Auth · Postgres · Storage · RLS">Auth · Postgres · Storage · RLS</td><td>Singapore (ap-southeast-1)</td></tr>
+          <tr><td>Netlify / Vercel</td><td data-vi="Hosting front-end &amp; functions" data-en="Front-end &amp; functions hosting">Hosting front-end &amp; functions</td><td>Global edge</td></tr>
+          <tr><td>BaoKim</td><td data-vi="Cổng thanh toán VND" data-en="VND payment gateway">Cổng thanh toán VND</td><td>Vietnam</td></tr>
+          <tr><td>Stripe</td><td data-vi="Cổng thanh toán quốc tế (USD/EUR)" data-en="International payment gateway (USD/EUR)">Cổng thanh toán quốc tế</td><td>US / EU</td></tr>
+          <tr><td>Make.com</td><td data-vi="Điều phối job nền (không chứa business logic)" data-en="Background job orchestration (no business logic)">Điều phối job nền</td><td>EU</td></tr>
+          <tr><td>Brevo</td><td data-vi="Email giao dịch &amp; alert" data-en="Transactional email &amp; alerts">Email giao dịch</td><td>EU</td></tr>
+          <tr><td>Anthropic / OpenAI</td><td data-vi="LLM cho narrative (không sửa số)" data-en="LLM for narrative (does not modify numbers)">LLM cho narrative</td><td>US</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</main>
+<footer class="vcpc-footer"><div class="vcpc-foot"><div class="foot-brand"><img src="assets/vcpc-icon.png" alt="VCPC"/><div><strong>Viet Capital Partners &amp; Consulting</strong><span>BizHealth · BizOS · BizDeal</span></div></div><div class="foot-meta"><div class="addr" data-vi="12 Tân Trào, Quận 7, TP HCM, Việt Nam" data-en="12 Tan Trao, District 7, HCMC, Vietnam">12 Tân Trào, Quận 7, TP HCM, Việt Nam</div><div>vietcapitalpartners.com</div><div><a href="mailto:partner@vietcapitalpartners.com">partner@vietcapitalpartners.com</a></div></div></div><div class="foot-links" style="max-width:1180px;margin:0 auto;padding:16px 22px 0;border-top:1px solid rgba(255,255,255,.12);display:flex;gap:20px;flex-wrap:wrap;justify-content:center;font-size:13px;"><a href="about.html" data-vi="Về chúng tôi" data-en="About us">Về chúng tôi</a><a href="terms.html" data-vi="Điều khoản sử dụng" data-en="Terms of use">Điều khoản sử dụng</a><a href="privacy.html" data-vi="Chính sách bảo mật" data-en="Privacy policy">Chính sách bảo mật</a><a href="pricing.html" data-vi="Báo giá Giải pháp" data-en="Solution Pricing">Báo giá Giải pháp</a><a href="affiliate.html" data-vi="Đối tác giới thiệu" data-en="Affiliate">Đối tác giới thiệu</a></div></footer>
+<script src="assets/i18n/loader.js" data-i18n-base="assets/i18n"></script>
+</body>
+</html>

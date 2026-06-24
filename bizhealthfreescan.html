@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BizHealth Free Scan — Đánh giá sơ bộ sức khỏe doanh nghiệp | VCPC</title>
+<link rel="icon" type="image/png" href="assets/favicon.png"/>
+<link rel="apple-touch-icon" href="assets/favicon.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="assets/vcpc.css"/>
+<!-- nav overrides removed -->
+
+<style>
+  body .wrap{padding-top:4px}
+  .register-full{text-align:left;margin-top:6px}
+  .register-label{display:block;font-weight:800;color:var(--ink);margin-bottom:10px;font-size:15px}
+  .locked .register-full .contact-row{justify-content:flex-start}
+</style>
+<style>
+:root{
+  --ink:#0F2A43;          /* navy tài chính, tin cậy */
+  --ink-soft:#1E3D58;
+  --paper:#FBFAF7;
+  --paper-2:#F2EFE8;
+  --line:#DDD7CB;
+  --muted:#5C6B7A;
+  --teal:#1B8A6B;         /* khỏe mạnh */
+  --teal-bg:#E3F2EC;
+  --amber:#C98A1E;        /* cần củng cố */
+  --amber-bg:#FBF0DA;
+  --red:#BC3C2A;          /* rủi ro cao */
+  --red-bg:#FAE5E1;
+  --gold:#B68A3E;         /* nhấn cao cấp */
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Montserrat',Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  background:var(--paper);
+  color:var(--ink);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:880px;margin:0 auto;padding:0 20px}
+.mono{font-family:'JetBrains Mono',monospace}
+
+/* ---------- INTRO ---------- */
+.intro{padding:48px 0 8px}
+.eyebrow{
+  font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:14px;display:flex;align-items:center;gap:10px;
+}
+.eyebrow::before{content:"";width:28px;height:2px;background:var(--gold)}
+h1{
+  font-size:clamp(28px,5vw,42px);font-weight:800;line-height:1.12;
+  letter-spacing:-.02em;margin-bottom:18px;
+}
+h1 .hl{color:var(--teal)}
+.lede{font-size:17px;color:var(--ink-soft);max-width:620px}
+.meta-row{
+  display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;
+}
+.chip{
+  font-size:13px;font-weight:600;background:#fff;border:1px solid var(--line);
+  padding:7px 14px;border-radius:100px;color:var(--ink-soft);
+  display:flex;align-items:center;gap:7px;
+}
+.chip .dot{width:7px;height:7px;border-radius:50%;background:var(--teal)}
+
+/* ---------- FREE vs FULL ---------- */
+.compare{
+  margin:36px 0 8px;display:grid;grid-template-columns:1fr 1fr;gap:14px;
+}
+.cmp-card{border:1px solid var(--line);border-radius:14px;padding:20px;background:#fff}
+.cmp-card.full{background:var(--ink);color:#fff;border-color:var(--ink)}
+.cmp-card h3{font-size:15px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.cmp-card.full h3{color:#fff}
+.cmp-card p{font-size:13.5px;color:var(--muted)}
+.cmp-card.full p{color:#C5D3DF}
+.cmp-tag{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.cmp-card .cmp-tag{color:var(--teal)}
+.cmp-card.full .cmp-tag{color:var(--gold)}
+.cmp-list{list-style:none;margin-top:12px;font-size:13.5px}
+.cmp-list li{padding:3px 0 3px 22px;position:relative;color:var(--ink-soft)}
+.cmp-card.full .cmp-list li{color:#D8E2EB}
+.cmp-list li::before{content:"";position:absolute;left:0;top:11px;width:10px;height:10px;
+  border-radius:50%;border:2px solid var(--teal)}
+.cmp-card.full .cmp-list li::before{border-color:var(--gold);background:var(--gold)}
+
+/* ---------- FORM CARD ---------- */
+.panel{
+  background:#fff;border:1px solid var(--line);border-radius:18px;
+  margin:34px 0;overflow:hidden;box-shadow:0 1px 0 rgba(15,42,67,.03);
+}
+.panel-head{
+  padding:22px 26px;border-bottom:1px solid var(--line);
+  background:linear-gradient(180deg,#fff,var(--paper));
+}
+.panel-head .step{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.panel-head h2{font-size:20px;font-weight:700;margin-top:4px}
+.panel-head .sub{font-size:13.5px;color:var(--muted);margin-top:3px}
+.panel-body{padding:26px}
+
+/* business info grid */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field.full{grid-column:1/-1}
+.field label{font-size:13px;font-weight:600;color:var(--ink-soft)}
+.field label .req{color:var(--red)}
+.field input,.field select{
+  font-family:inherit;font-size:15px;padding:11px 13px;border:1px solid var(--line);
+  border-radius:10px;background:var(--paper);color:var(--ink);transition:.15s;
+}
+.field input:focus,.field select:focus{
+  outline:none;border-color:var(--teal);background:#fff;box-shadow:0 0 0 3px rgba(27,138,107,.12);
+}
+
+/* questions */
+.q{padding:18px 0;border-bottom:1px dashed var(--line)}
+.q:last-child{border-bottom:none}
+.q-head{display:flex;gap:12px;align-items:flex-start;margin-bottom:12px}
+.q-code{
+  font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;
+  background:var(--paper-2);color:var(--ink-soft);padding:3px 8px;border-radius:6px;
+  flex-shrink:0;margin-top:2px;
+}
+.q-text{font-size:15.5px;font-weight:600}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{
+  display:flex;align-items:center;gap:11px;padding:11px 14px;border:1px solid var(--line);
+  border-radius:10px;cursor:pointer;font-size:14.5px;transition:.13s;background:var(--paper);
+}
+.opt:hover{border-color:var(--ink-soft);background:#fff}
+.opt input{accent-color:var(--teal);width:17px;height:17px;flex-shrink:0}
+.opt.sel{border-color:var(--teal);background:var(--teal-bg);font-weight:600}
+
+.group-label{
+  font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--gold);margin:6px 0 2px;display:flex;align-items:center;gap:9px;
+}
+.group-label .ltr{
+  width:22px;height:22px;border-radius:6px;background:var(--ink);color:#fff;
+  display:grid;place-items:center;font-size:12px;font-weight:800;font-family:'JetBrains Mono',monospace;
+}
+
+/* submit */
+.btn{
+  font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;border:none;
+  border-radius:12px;padding:15px 28px;transition:.15s;display:inline-flex;align-items:center;gap:10px;
+}
+.btn-primary{background:var(--ink);color:#fff;width:100%;justify-content:center}
+.btn-primary:hover{background:var(--ink-soft);color:#fff}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed}
+.btn-gold{background:var(--gold);color:#fff}
+.btn-gold:hover{background:#9c7430}
+.err{color:var(--red);font-size:13px;margin-top:10px;display:none}
+
+/* ---------- RESULT ---------- */
+#result{display:none;scroll-margin-top:20px}
+.res-hero{
+  background:var(--ink);color:#fff;border-radius:18px;padding:34px 28px;
+  display:grid;grid-template-columns:auto 1fr;gap:30px;align-items:center;margin-bottom:18px;
+}
+.gauge{position:relative;width:170px;height:170px;flex-shrink:0}
+.gauge svg{transform:rotate(-90deg)}
+.gauge-num{
+  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+}
+.gauge-num .score{font-family:'JetBrains Mono',monospace;font-size:46px;font-weight:700;line-height:1}
+.gauge-num .max{font-size:13px;color:#9DB2C4;margin-top:2px}
+.res-verdict .v-band{
+  display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;
+  padding:6px 13px;border-radius:100px;margin-bottom:12px;
+}
+.res-verdict h2{font-size:24px;font-weight:800;line-height:1.2;margin-bottom:8px}
+.res-verdict p{font-size:14.5px;color:#C5D3DF}
+.res-co{font-size:13px;color:#9DB2C4;margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.12)}
+.res-co b{color:#fff}
+
+/* 9-system panel */
+.sys-head{font-size:14px;font-weight:700;margin:24px 0 4px;display:flex;align-items:center;justify-content:space-between}
+.sys-head .legend{display:flex;gap:14px;font-size:11.5px;font-weight:600;color:var(--muted)}
+.sys-head .legend span{display:flex;align-items:center;gap:5px}
+.sys-head .legend i{width:9px;height:9px;border-radius:2px;display:inline-block}
+.sys-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.sys{border:1px solid var(--line);border-radius:12px;padding:14px;background:#fff;position:relative;overflow:hidden}
+.sys .bar{position:absolute;left:0;top:0;bottom:0;width:4px}
+.sys .s-top{display:flex;align-items:center;gap:9px;margin-bottom:8px}
+.sys .s-ltr{width:24px;height:24px;border-radius:6px;display:grid;place-items:center;
+  font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:800;color:#fff}
+.sys .s-name{font-size:13px;font-weight:700;line-height:1.2}
+.sys .s-score{font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700}
+.sys .s-status{font-size:11.5px;font-weight:600;margin-top:2px}
+
+/* gated block */
+.locked{
+  margin-top:22px;border:1.5px dashed var(--gold);border-radius:16px;
+  background:linear-gradient(180deg,var(--amber-bg),#fff);padding:28px;text-align:center;position:relative;
+}
+.lock-ico{width:46px;height:46px;border-radius:12px;background:var(--gold);color:#fff;
+  display:grid;place-items:center;margin:0 auto 14px;font-size:22px}
+.locked h3{font-size:20px;font-weight:800;margin-bottom:8px}
+.locked p{font-size:14.5px;color:var(--ink-soft);max-width:540px;margin:0 auto 14px}
+.locked .full-list{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:16px 0 20px}
+.locked .full-list span{font-size:12.5px;font-weight:600;background:#fff;border:1px solid var(--line);
+  padding:6px 12px;border-radius:100px;color:var(--ink-soft)}
+.contact-row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center;margin-top:6px}
+.contact-row a{font-size:14px;font-weight:700;color:var(--ink);text-decoration:none;
+  display:inline-flex;align-items:center;gap:7px;padding:10px 16px;border:1px solid var(--line);border-radius:10px;background:#fff}
+.contact-row a:hover{border-color:var(--ink)}
+
+.disclaimer{font-size:12px;color:var(--muted);margin:22px 0 48px;padding:14px 16px;
+  background:var(--paper-2);border-radius:10px;border:1px solid var(--line)}
+.disclaimer b{color:var(--ink-soft)}
+
+/* loading */
+#loading{display:none;text-align:center;padding:50px 0}
+.spin{width:42px;height:42px;border:3px solid var(--line);border-top-color:var(--teal);
+  border-radius:50%;margin:0 auto 16px;animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+#loading p{font-size:14px;color:var(--muted)}
+
+@media(max-width:680px){
+  .grid{grid-template-columns:1fr}
+  .compare{grid-template-columns:1fr}
+  .sys-grid{grid-template-columns:1fr 1fr}
+  .res-hero{grid-template-columns:1fr;text-align:center;gap:18px}
+  .gauge{margin:0 auto}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header class="vcpc-header" id="header" style="padding:0 20px">
+<div style="max-width:880px;margin:0 auto">
+<nav aria-label="Main navigation" class="nav">
+<a aria-label="Viet Capital Partners &amp; Consulting" class="brand" href="index.html">
+<div class="brand-mark"><img alt="VCPC logo" class="brand-icon" src="assets/logo-vcpc.jpg"/></div>
+<div class="brand-text brand-name"><strong class="brand-title">Viet Capital Partners &amp; Consulting</strong><span class="breadcrumb"><span>Trang chủ</span><em>›</em><span class="curr">BizHealth Free Scan</span></span></div>
+</a>
+<button aria-expanded="false" aria-label="Menu" class="hamburger menu-btn" id="hamburger" type="button"><span></span><span></span><span></span></button>
+<div class="nav-links" id="navLinks" style="display:flex;gap:20px;align-items:center;flex-wrap:wrap;overflow:hidden"><a href="bizhealth.html" data-vi="BizHealth" data-en="BizHealth">BizHealth</a><a href="biz-os.html" data-vi="BizOS" data-en="BizOS">BizOS</a><a href="bizbizdealaunch.html" data-vi="BizDeal" data-en="BizDeal">BizDeal</a><div class="lang lang-toggle" aria-label="Language switcher" style="margin-left:auto;display:flex;gap:8px"><button class="active" data-lang="vi" type="button">VI</button><button data-lang="en" type="button">EN</button></div></div>
+</nav>
+</div>
+</header>
+<div class="wrap">
+
+  <!-- ====== INTRO ====== -->
+  <section class="intro">
+    <div class="eyebrow">Phần mềm VCPC AI · Chẩn đoán sức khỏe doanh nghiệp</div>
+    <h1>Doanh nghiệp của bạn đang <span class="hl">tốt</span> hay đang ẩn chứa rủi ro?</h1>
+    <p class="lede">Trả lời 15 câu hỏi ngắn để nhận ngay bản chẩn đoán sơ bộ qua <b>9 hệ rủi ro</b> — giúp bạn tự rà soát doanh nghiệp của mình có những tiềm ẩn rủi ro nào. <strong>Kết quả hoàn toàn bảo mật và chỉ lưu tạm khi bạn đang xem.</strong></p>
+    <div class="meta-row">
+      <div class="chip"><span class="dot"></span>Mất 3 phút</div>
+      <div class="chip"><span class="dot"></span>Miễn phí hoàn toàn</div>
+      <div class="chip"><span class="dot"></span>Kết quả tức thì</div>
+    </div>
+
+    <div class="compare">
+      <div class="cmp-card">
+        <span class="cmp-tag">Bản miễn phí · bạn đang xem</span>
+        <h3>Đánh giá sơ bộ</h3>
+        <ul class="cmp-list">
+          <li>Điểm sức khỏe tổng quát (0–100)</li>
+          <li>Heatmap 9 hệ rủi ro Risk Score A-I</li>
+          <li>Cảnh báo vùng cần chú ý</li>
+        </ul>
+      </div>
+      <div class="cmp-card full">
+        <span class="cmp-tag">Bản đầy đủ · qua VCPC</span>
+        <h3>Chẩn đoán 108 chỉ số</h3>
+        <ul class="cmp-list">
+          <li>Rà soát đủ 108 chỉ số chi tiết</li>
+          <li>Khuyến nghị ưu tiên xử lý</li>
+          <li>Chuyên gia VCPC phân tích và báo cáo</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== FORM ====== -->
+  <div class="panel" id="formPanel">
+    <div class="panel-head">
+      <span class="step">Bước 1 / 2</span>
+      <h2>Thông tin doanh nghiệp</h2>
+      <p class="sub">Để gửi bản chẩn đoán và liên hệ tư vấn khi bạn cần.</p>
+    </div>
+    <div class="panel-body">
+      <div class="grid">
+        <div class="field">
+          <label>Họ và tên <span class="req">*</span></label>
+          <input type="text" id="f_name" placeholder="Nguyễn Văn A">
+        </div>
+        <div class="field">
+          <label>Tên doanh nghiệp <span class="req">*</span></label>
+          <input type="text" id="f_company" placeholder="Công ty TNHH ...">
+        </div>
+        <div class="field">
+          <label>Email <span class="req">*</span></label>
+          <input type="email" id="f_email" placeholder="ban@congty.com">
+        </div>
+        <div class="field">
+          <label>Số điện thoại <span class="req">*</span></label>
+          <input type="tel" id="f_phone" placeholder="09xx xxx xxx">
+        </div>
+        <div class="field">
+          <label>Lĩnh vực <span class="req">*</span></label>
+          <select id="f_sector">
+            <option value="">— Chọn lĩnh vực —</option>
+            <option>F&B / Nhà hàng / Cà phê</option>
+            <option>Bán lẻ / Chuỗi cửa hàng</option>
+            <option>Spa / Làm đẹp / Sức khỏe</option>
+            <option>Bất động sản</option>
+            <option>Sản xuất / Xuất khẩu</option>
+            <option>Logistics / Kho bãi</option>
+            <option>Lĩnh vực khác</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Doanh thu năm gần nhất <span class="req">*</span></label>
+          <select id="f_revenue">
+            <option value="">— Chọn mức —</option>
+            <option>Dưới 50 tỷ</option>
+            <option>50 - 300 tỷ</option>
+            <option>Trên 300 tỷ</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== QUESTIONS ====== -->
+  <div class="panel">
+    <div class="panel-head">
+      <span class="step">Bước 2 / 2</span>
+      <h2>15 câu hỏi rà soát nhanh</h2>
+      <p class="sub">Mỗi câu đại diện cho một hệ rủi ro. Chọn phương án sát thực tế nhất.</p>
+    </div>
+    <div class="panel-body" id="qContainer"><!-- questions injected by JS --></div>
+  </div>
+
+  <!-- ====== SUBMIT ====== -->
+  <div class="panel" style="border:none;background:transparent;box-shadow:none;margin-top:0">
+    <div class="panel-body" style="padding:0">
+      
+      <button class="btn btn-primary" id="submitBtn">Xem kết quả chẩn đoán →</button>
+      <p class="err" id="formErr">Vui lòng điền đủ các trường bắt buộc và trả lời tất cả câu hỏi.</p>
+    </div>
+  </div>
+
+  <!-- ====== LOADING ====== -->
+  <div id="loading">
+    <div class="spin"></div>
+    <p>Phần mềm VCPC AI đang phân tích 9 hệ rủi ro…</p>
+  </div>
+
+  <!-- ====== RESULT ====== -->
+  <section id="result">
+    <div class="res-hero">
+      <div class="gauge">
+        <svg width="170" height="170" viewBox="0 0 170 170">
+          <circle cx="85" cy="85" r="72" fill="none" stroke="rgba(255,255,255,.14)" stroke-width="14"/>
+          <circle id="gaugeArc" cx="85" cy="85" r="72" fill="none" stroke="#1B8A6B" stroke-width="14"
+                  stroke-linecap="round" stroke-dasharray="452" stroke-dashoffset="452"/>
+        </svg>
+        <div class="gauge-num">
+          <div class="score mono" id="scoreVal">0</div>
+          <div class="max">/ 100 điểm</div>
+        </div>
+      </div>
+      <div class="res-verdict">
+        <span class="v-band" id="vBand"></span>
+        <h2 id="vTitle"></h2>
+        <p id="vDesc"></p>
+        <div class="res-co" id="vCo"></div>
+      </div>
+    </div>
+
+    <div class="sys-head">
+      <span>Bản đồ 9 hệ rủi ro</span>
+      <div class="legend">
+        <span><i style="background:#1B8A6B"></i>Tốt</span>
+        <span><i style="background:#C98A1E"></i>Cần chú ý</span>
+        <span><i style="background:#BC3C2A"></i>Rủi ro</span>
+      </div>
+    </div>
+    <div class="sys-grid" id="sysGrid"></div>
+
+    <!-- gated upsell -->
+    <div class="locked">
+      <div class="lock-ico">🔒</div>
+      <h3>Đây mới là 15 trong tổng số 108 chỉ số</h3>
+      <p>Bản sơ bộ cho bạn thấy <b>vùng nào đang đỏ</b>. Bản đầy đủ chỉ ra <b>chính xác chỉ số nào</b> đang kéo điểm xuống, vì sao, và <b>nên xử lý gì</b> giúp doanh nghiệp vận hành ổn định, tạo nền tảng tăng trưởng.</p>
+      <div class="full-list">
+        <span>Rà soát đủ 108 chỉ số</span>
+        <span>Báo cáo chi tiết theo nhóm</span>
+        <span>5 ưu tiên xử lý ngay</span>
+        <span>Điểm sẵn sàng gọi vốn</span>
+        <span>1 buổi tư vấn cùng chuyên gia</span>
+      </div>
+      <div class="register-full">
+        <span class="register-label">Đăng ký chẩn đoán đầy đủ:</span>
+        <div class="contact-row">
+          <a href="tel:0909584075">📞 0909 584 075</a>
+          <a href="mailto:partner@vietcapitalpartners.com">✉️ partner@vietcapitalpartners.com</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="disclaimer">
+      <b>Lưu ý:</b> Bản đánh giá sơ bộ này dựa trên 15 câu trả lời tự khai và không thay thế cho thẩm định chuyên sâu. Kết quả được tạo tự động bởi Phần mềm VCPC AI. Để có kết luận chính xác phục vụ tối ưu doanh nghiệp, tạo nền tảng tăng trưởng hoặc gọi vốn/M&A, vui lòng liên hệ VCPC cho bản chẩn đoán đầy đủ 108 chỉ số.
+    </div>
+  </section>
+
+</div><!-- /wrap -->
+<footer class="vcpc-footer"><div class="vcpc-foot"><div class="foot-brand"><img src="assets/vcpc-icon.png" alt="VCPC"/><div><strong>Viet Capital Partners &amp; Consulting</strong><span>BizHealth · Strategy &amp; Execution Advisory · Capital &amp; M&amp;A Advisory</span></div></div><div class="foot-meta"><div class="addr">12 Tân Trào, Quận 7, TP HCM, Việt Nam</div><div>vietcapitalpartners.com</div><div><a href="mailto:partner@vietcapitalpartners.com">partner@vietcapitalpartners.com</a></div></div></div><div class="foot-links" style="max-width:1180px;margin:0 auto;padding:16px 22px 0;border-top:1px solid rgba(255,255,255,.12);display:flex;gap:20px;flex-wrap:wrap;justify-content:center;font-size:13px;color:#fff;"><a href="bizhealth.html" style="color:#fff;">BizHealth</a><a href="biz-os.html" style="color:#fff;">BizOS</a><a href="biz-deal.html" style="color:#fff;">BizDeal</a></div></footer>
+<!-- VCPC floating actions: Call + Back to top -->
+<style>
+.vcpc-fab{position:fixed;right:20px;bottom:20px;z-index:120;display:flex;flex-direction:column;gap:12px;align-items:center}
+.vcpc-fab a,.vcpc-fab button{display:flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:50%;font-family:inherit;border:0;cursor:pointer;text-decoration:none;box-shadow:0 12px 26px -8px rgba(7,31,61,.5);transition:transform .2s ease,box-shadow .2s ease}
+.vcpc-fab .vcpc-call{background:#f5a800;color:#071f3d}
+.vcpc-fab .vcpc-call svg{width:23px;height:23px;fill:#071f3d}
+.vcpc-fab .vcpc-call:hover{transform:translateY(-2px);box-shadow:0 16px 32px -8px rgba(245,168,0,.6)}
+.vcpc-fab .vcpc-top{background:#0b2742;color:#fff;opacity:0;pointer-events:none;transform:translateY(10px)}
+.vcpc-fab .vcpc-top svg{width:22px;height:22px;stroke:#fff;stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.vcpc-fab .vcpc-top.show{opacity:1;pointer-events:auto;transform:translateY(0)}
+.vcpc-fab .vcpc-top:hover{transform:translateY(-2px) scale(1.06)}
+</style>
+<div class="vcpc-fab">
+  <a class="vcpc-call" href="tel:0909584075" aria-label="Gọi 0909 584 075" title="Gọi 0909 584 075"><svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.27-.27.66-.36 1-.24 1.1.37 2.3.57 3.5.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1C10.6 21 3 13.4 3 4c0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.2.2 2.4.57 3.5.12.34.03.73-.24 1l-2.23 2.3z"/></svg></a>
+  <button class="vcpc-top" id="vcpcTop" aria-label="Lên đầu trang" title="Lên đầu trang"><svg viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button>
+</div>
+<script>(function(){var b=document.getElementById('vcpcTop');if(!b)return;function s(){var y=window.scrollY||document.documentElement.scrollTop||0;b.classList.toggle('show',y>500);}window.addEventListener('scroll',s,{passive:true});s();b.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});})();</script>
+<script src="assets/vcpc.js"></script>
+
+<script>
+/* =====================================================================
+   BIZHEALTH FREE SCAN — ĐỘNG CƠ CHẤM ĐIỂM (DETERMINISTIC ENGINE)
+   Không gọi LLM. Mọi điểm số đều truy được về luật => nhất quán, tin cậy.
+   Phương pháp luận 108 chỉ số của VCPC được mã hóa thành rubric bên dưới.
+   ===================================================================== */
+
+/* --- 9 hệ rủi ro + trọng số (khớp tài liệu BizHealth) --- */
+const GROUPS = {
+  A:{name:"Tài chính",     weight:0.20},
+  B:{name:"Vận hành",      weight:0.15},
+  C:{name:"Pháp lý",       weight:0.15},
+  D:{name:"Thị trường",    weight:0.10},
+  E:{name:"Nhân sự",       weight:0.10},
+  F:{name:"Quản trị",      weight:0.15},
+  G:{name:"Công nghệ",     weight:0.05},
+  H:{name:"Danh tiếng",    weight:0.05},
+  I:{name:"Chiến lược",    weight:0.05},
+};
+
+/* --- 15 câu hỏi. Mỗi đáp án gắn điểm 0–100.
+       Lưu ý: phương án "không rõ / không theo dõi" bị trừ mạnh,
+       vì với nhà đầu tư, "không biết" cũng là một rủi ro. --- */
+const QUESTIONS = [
+  {g:"A",code:"A01",q:"Dòng tiền từ hoạt động kinh doanh trong 12 tháng qua?",
+    o:[["Dương đều mỗi tháng",100],["Có vài tháng âm",55],["Âm nhiều tháng",15],["Không nắm rõ",25]]},
+  {g:"A",code:"A02",q:"Tỷ lệ nợ trên vốn chủ sở hữu (D/E) hiện tại?",
+    o:[["Dưới 1 lần",100],["Từ 1 đến 2 lần",55],["Trên 2 lần",15],["Không nắm rõ",25]]},
+  {g:"B",code:"B01",q:"Nếu người chủ vắng mặt 1 tháng, doanh nghiệp vận hành ra sao?",
+    o:[["Bình thường, có người thay",100],["Cầm chừng được",50],["Gần như ngưng trệ",15]]},
+  {g:"B",code:"B02",q:"Quy trình cốt lõi đã được viết thành tài liệu (SOP)?",
+    o:[["Đầy đủ, có cập nhật",100],["Mới một phần",50],["Hầu như chưa có",15]]},
+  {g:"C",code:"C06",q:"Hợp đồng thuê mặt bằng kinh doanh hiện tại?",
+    o:[["Sở hữu hoặc thuê dài hạn (trên 3 năm), có ưu tiên gia hạn",100],["Còn từ 1 đến 3 năm",55],["Dưới 1 năm hoặc không có quyền gia hạn",20]]},
+  {g:"C",code:"C11",q:"Cơ chế kiểm soát nội bộ phòng ngừa gian lận, thất thoát?",
+    o:[["Có quy trình phê duyệt, kiểm kê rõ ràng",100],["Có nhưng chưa chặt chẽ",50],["Hầu như chưa có",15]]},
+  {g:"D",code:"D06",q:"Tỷ trọng doanh thu từ một khách hàng hoặc một kênh lớn nhất?",
+    o:[["Dưới 30%",100],["Từ 30% đến 50%",55],["Trên 50%",20]]},
+  {g:"D",code:"D01",q:"Trong 12 tháng qua, vị thế so với đối thủ?",
+    o:[["Đang mở rộng",100],["Giữ nguyên",55],["Đang thu hẹp",20]]},
+  {g:"E",code:"E01",q:"Tỷ lệ nhân viên nghỉ việc trong 12 tháng?",
+    o:[["Dưới 15%",100],["Từ 15% đến 30%",55],["Trên 30%",20],["Không theo dõi",30]]},
+  {g:"F",code:"F01",q:"Cấu trúc cổ đông và quyền sở hữu?",
+    o:[["Rõ ràng, minh bạch",100],["Tương đối rõ",55],["Phức tạp, chưa rõ",15]]},
+  {g:"F",code:"F05",q:"Báo cáo tài chính nội bộ định kỳ cho chủ / cổ đông?",
+    o:[["Đều đặn hàng tháng",100],["Thỉnh thoảng",50],["Hầu như không có",15]]},
+  {g:"G",code:"G01",q:"Hệ thống quản lý bán hàng – kho – kế toán?",
+    o:[["Phần mềm tích hợp",100],["Phần mềm rời rạc",55],["Excel hoặc sổ tay",20]]},
+  {g:"H",code:"H01",q:"Điểm đánh giá trung bình trên nền tảng (Google, Foody, Shopee…)?",
+    o:[["Trên 4.0",100],["Từ 3.5 đến 4.0",55],["Dưới 3.5",20],["Không theo dõi",30]]},
+  {g:"I",code:"I02",q:"Tài liệu chiến lược và kế hoạch 3 năm tới?",
+    o:[["Có, rõ ràng bằng văn bản",100],["Mới ở dạng ý tưởng",50],["Chưa có",15]]},
+  {g:"A",code:"A03",q:"Mức độ phụ thuộc vào vốn vay ngắn hạn cho hoạt động hàng ngày?",
+    o:[["Thấp, chủ động vốn",100],["Trung bình",55],["Cao, phụ thuộc nhiều",20],["Không nắm rõ",25]]},
+];
+
+/* ====== RENDER QUESTIONS ====== */
+const qC = document.getElementById('qContainer');
+let lastGroup = null;
+QUESTIONS.forEach((item, idx) => {
+  if (item.g !== lastGroup) {
+    const gl = document.createElement('div');
+    gl.className = 'group-label';
+    gl.innerHTML = `<span class="ltr">${item.g}</span> Hệ ${item.g} · ${GROUPS[item.g].name}`;
+    qC.appendChild(gl);
+    lastGroup = item.g;
+  }
+  const wrap = document.createElement('div');
+  wrap.className = 'q';
+  let opts = item.o.map((o,i)=>`
+    <label class="opt" data-q="${idx}">
+      <input type="radio" name="q${idx}" value="${o[1]}">
+      <span>${o[0]}</span>
+    </label>`).join('');
+  wrap.innerHTML = `
+    <div class="q-head">
+      <span class="q-code">${item.code}</span>
+      <span class="q-text">${item.q}</span>
+    </div>
+    <div class="opts">${opts}</div>`;
+  qC.appendChild(wrap);
+});
+/* visual select state */
+qC.addEventListener('change', e=>{
+  if(e.target.type==='radio'){
+    const qi = e.target.closest('.q').querySelectorAll('.opt');
+    qi.forEach(l=>l.classList.remove('sel'));
+    e.target.closest('.opt').classList.add('sel');
+  }
+});
+
+/* ====== SCORING ENGINE ====== */
+function computeScores(){
+  const groupSums={}, groupCounts={};
+  Object.keys(GROUPS).forEach(g=>{groupSums[g]=0;groupCounts[g]=0;});
+  QUESTIONS.forEach((item,idx)=>{
+    const sel=document.querySelector(`input[name="q${idx}"]:checked`);
+    if(sel){groupSums[item.g]+=Number(sel.value);groupCounts[item.g]++;}
+  });
+  const groupScores={};
+  Object.keys(GROUPS).forEach(g=>{
+    groupScores[g]= groupCounts[g]? Math.round(groupSums[g]/groupCounts[g]) : 0;
+  });
+  let total=0;
+  Object.keys(GROUPS).forEach(g=>{ total += groupScores[g]*GROUPS[g].weight; });
+  return {total:Math.round(total), groupScores};
+}
+
+function bandFor(score){
+  if(score>=75) return {key:'green',label:'Khỏe mạnh',color:'#1B8A6B',bg:'rgba(27,138,107,.18)',
+    title:'Doanh nghiệp đang ở vùng khỏe mạnh',
+    desc:'Nền tảng vững. Đây là thời điểm tốt để chuẩn hóa hồ sơ và chủ động tiếp cận nhà đầu tư.'};
+  if(score>=55) return {key:'amber',label:'Cần củng cố',color:'#C98A1E',bg:'rgba(201,138,30,.20)',
+    title:'Doanh nghiệp cần củng cố một vài hệ trọng yếu',
+    desc:'Có tiềm năng rõ, nhưng vài vùng đang kéo điểm. Nên xử lý trước khi nhà đầu tư soi kỹ.'};
+  return {key:'red',label:'Rủi ro cao',color:'#BC3C2A',bg:'rgba(188,60,42,.18)',
+    title:'Doanh nghiệp đang tiềm ẩn rủi ro cần xử lý sớm',
+    desc:'Một số hệ đang ở vùng đỏ. Rất nên tư vấn chuyên sâu trước khi gọi vốn hoặc mở rộng.'};
+}
+function sysColor(s){ if(s>=70)return['#1B8A6B','Tốt']; if(s>=50)return['#C98A1E','Cần chú ý']; return['#BC3C2A','Rủi ro']; }
+
+/* ====== SUBMIT FLOW ====== */
+const $=id=>document.getElementById(id);
+$('submitBtn').addEventListener('click', ()=>{
+  const lead={
+    name:$('f_name').value.trim(), company:$('f_company').value.trim(),
+    email:$('f_email').value.trim(), phone:$('f_phone').value.trim(),
+    sector:$('f_sector').value, revenue:$('f_revenue').value
+  };
+  const allAnswered = QUESTIONS.every((_,i)=>document.querySelector(`input[name="q${i}"]:checked`));
+  const filled = lead.name&&lead.company&&lead.email&&lead.phone&&lead.sector&&lead.revenue;
+  if(!filled || !allAnswered){
+    $('formErr').style.display='block';
+    window.scrollTo({top: filled?$('qContainer').offsetTop:0, behavior:'smooth'});
+    return;
+  }
+  $('formErr').style.display='none';
+
+  const {total, groupScores}=computeScores();
+
+  // gửi lead + kết quả về Google Sheet (CRM của VCPC)
+  sendLead({...lead, score:total, groups:groupScores});
+
+  // hiệu ứng "đang phân tích" rồi hiện kết quả
+  $('formPanel').scrollIntoView({behavior:'smooth'});
+  document.querySelectorAll('.panel').forEach(p=>p.style.display='none');
+  $('submitBtn').parentElement.parentElement.style.display='none';
+  document.querySelector('.compare').style.display='none';
+  $('loading').style.display='block';
+  setTimeout(()=>{ $('loading').style.display='none'; renderResult(total,groupScores,lead); }, 1400);
+});
+
+function renderResult(total, groupScores, lead){
+  const res=$('result'); res.style.display='block';
+  const band=bandFor(total);
+
+  // gauge
+  const arc=$('gaugeArc'); const circ=452;
+  arc.style.stroke=band.color;
+  let cur=0; const step=Math.max(1,Math.round(total/40));
+  const tick=setInterval(()=>{
+    cur=Math.min(total,cur+step); $('scoreVal').textContent=cur;
+    arc.style.strokeDashoffset=circ-(circ*cur/100);
+    if(cur>=total)clearInterval(tick);
+  },24);
+
+  // verdict
+  const vb=$('vBand'); vb.style.background=band.bg; vb.style.color=band.color;
+  vb.innerHTML=`● ${band.label}`;
+  $('vTitle').textContent=band.title;
+  $('vDesc').textContent=band.desc;
+  $('vCo').innerHTML=`Doanh nghiệp: <b>${lead.company||'—'}</b> · Lĩnh vực: <b>${lead.sector||'—'}</b>`;
+
+  // 9-system panel
+  const grid=$('sysGrid'); grid.innerHTML='';
+  Object.keys(GROUPS).forEach(g=>{
+    const s=groupScores[g]; const [col,txt]=sysColor(s);
+    const el=document.createElement('div'); el.className='sys';
+    el.innerHTML=`
+      <div class="bar" style="background:${col}"></div>
+      <div class="s-top">
+        <span class="s-ltr" style="background:${col}">${g}</span>
+        <span class="s-name">${GROUPS[g].name}</span>
+      </div>
+      <div class="s-score" style="color:${col}">${s}</div>
+      <div class="s-status" style="color:${col}">${txt}</div>`;
+    grid.appendChild(el);
+  });
+  res.scrollIntoView({behavior:'smooth'});
+}
+
+/* ====== LƯU LEAD VỀ GOOGLE SHEET ======
+   Thay GAS_URL bằng link Web App của Google Apps Script (xem hướng dẫn cuối trang).
+   Dùng no-cors để không bị chặn; dữ liệu vẫn ghi vào Sheet. */
+/* GAS_URL: paste your Google Apps Script Web App URL below (see bizhealthfreescan-gas.txt) */
+const GAS_URL = ""; // TODO: paste GAS web app URL here
+function sendLead(data){
+  if(!GAS_URL || GAS_URL.includes("PASTE_")) { console.log("Lead (chưa cấu hình Sheet):", data); return; }
+  try{
+    fetch(GAS_URL,{method:"POST",mode:"no-cors",
+      headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body:JSON.stringify({...data, ts:new Date().toISOString(),
+        source:"BizHealth Free Scan"})});
+  }catch(err){ console.warn("Không gửi được lead:",err); }
+}
+</script>
+</body>
+</html>

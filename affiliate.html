@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="theme-color" content="#071f3d"/><link rel="icon" type="image/png" href="assets/favicon.png"/><link rel="apple-touch-icon" href="assets/favicon.png"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/><link rel="stylesheet" href="assets/vcpc.css"/>
+<title>Đối tác giới thiệu · VCPC Affiliate</title>
+<meta name="description" content="Giới thiệu doanh nghiệp đến VCPC — khách được giảm 10–20%, đối tác nhận hoa hồng khi khách thanh toán. Ghi nhận theo mã, minh bạch, thanh toán khi đối soát đủ."/>
+<style>
+  body{background:#fbf7ee;font-family:"Montserrat",ui-sans-serif,system-ui,sans-serif;color:#10213a;line-height:1.6;margin:0;}
+  .aff-hero{background:radial-gradient(circle at 88% -10%, rgba(255,178,10,.36), transparent 30%), linear-gradient(135deg,#071f3d 0%, #0d2d57 60%);color:#fff;padding:80px 22px 56px;}
+  .aff-hero .wrap{max-width:1080px;margin:0 auto;}
+  .aff-hero .kicker{color:#ffd36b;font-weight:900;letter-spacing:.14em;text-transform:uppercase;font-size:12.5px;}
+  .aff-hero h1{font-size:clamp(36px,4.6vw,52px);margin:14px 0 16px;letter-spacing:-1.2px;line-height:1.08;max-width:840px;}
+  .aff-hero p{color:#cbd9ee;max-width:720px;font-size:17px;margin:0 0 26px;}
+  .aff-hero .cta{display:flex;gap:12px;flex-wrap:wrap;}
+  .aff-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:34px;max-width:680px;}
+  .aff-stats .s{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:16px;padding:16px;}
+  .aff-stats .s b{display:block;font-size:26px;color:#ffd36b;font-weight:900;line-height:1;}
+  .aff-stats .s span{display:block;margin-top:6px;color:#cbd9ee;font-size:12.5px;}
+  .sec{padding:64px 22px;} .sec .wrap{max-width:1080px;margin:0 auto;}
+  .sec h2{font-size:30px;font-weight:900;letter-spacing:-.5px;color:#071f3d;margin:0 0 8px;}
+  .sec .lead{color:#5b6b80;font-size:16px;margin:0 0 30px;max-width:760px;}
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+  @media(max-width:860px){.steps,.aff-stats{grid-template-columns:1fr;}}
+  .step{background:#fff;border:1px solid rgba(7,31,61,.10);border-radius:18px;padding:24px;box-shadow:0 12px 28px rgba(13,45,87,.06);}
+  .step .n{width:40px;height:40px;border-radius:12px;background:#071f3d;color:#ffd36b;display:grid;place-items:center;font-weight:900;font-size:18px;margin-bottom:14px;}
+  .step b{display:block;font-size:18px;color:#071f3d;margin-bottom:6px;}
+  .step p{margin:0;color:#5b6b80;font-size:14.5px;}
+  .tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+  .tier{background:#fff;border:1px solid rgba(7,31,61,.10);border-radius:18px;padding:24px;text-align:center;}
+  .tier.mid{border:2px solid #ffb20a;box-shadow:0 18px 40px rgba(255,178,10,.18);}
+  .tier .lvl{font-size:12px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:#7a5400;}
+  .tier .pct{font-size:42px;font-weight:900;color:#071f3d;letter-spacing:-1px;margin:8px 0;}
+  .tier .desc{color:#5b6b80;font-size:14px;}
+  .rules{background:linear-gradient(135deg,#0d2d57,#071f3d);color:#fff;border-radius:22px;padding:32px;display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
+  @media(max-width:860px){.rules,.tiers{grid-template-columns:1fr;}}
+  .rule b{display:block;color:#ffd36b;font-size:13px;font-weight:900;letter-spacing:.04em;text-transform:uppercase;margin-bottom:5px;}
+  .rule span{color:#dde6f4;font-size:14px;}
+  .who{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+  @media(max-width:860px){.who{grid-template-columns:1fr 1fr;}}
+  .who .w{background:#fff;border:1px solid rgba(7,31,61,.10);border-radius:14px;padding:18px;font-size:14.5px;color:#071f3d;font-weight:700;}
+  .apply{background:#fff;border:1px solid rgba(255,178,10,.30);border-radius:22px;padding:30px;box-shadow:0 16px 40px rgba(13,45,87,.08);display:grid;gap:14px;}
+  .apply>div{display:grid;gap:6px;}
+  .apply label{font-size:13px;font-weight:700;color:#071f3d;display:block;}
+  .apply input,.apply select,.apply textarea{width:100%;border:1px solid rgba(7,31,61,.18);border-radius:10px;padding:13px 14px;font:inherit;outline:none;background:#fff;transition:.18s ease;}
+  .apply input:focus,.apply select:focus,.apply textarea:focus{border-color:#ffb20a;box-shadow:0 0 0 4px rgba(255,178,10,.14);}
+  .apply-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .apply-row>div:nth-child(1) input,.apply-row>div:nth-child(2) input{width:90%;}
+  .apply-row>div:nth-child(2) select{width:100%;}
+  .apply>div:nth-child(3) textarea{width:95%;}
+  @media(max-width:640px){.apply-row{grid-template-columns:1fr;} .apply-row>div:nth-child(1) input,.apply-row>div:nth-child(2) input{width:100%;}}
+  .note{color:#5b6b80;font-size:13px;margin-top:18px;}
+  .footnote{margin-top:28px;text-align:center;color:#8a93a3;font-size:12.5px;}
+</style>
+</head>
+<body>
+<header class="vcpc-header" id="header"><nav class="nav" aria-label="Main navigation"><a aria-label="VCPC" class="brand" href="index.html"><div class="brand-mark"><img alt="VCPC logo" class="brand-icon" src="assets/logo-vcpc.jpg"/></div><div class="brand-text brand-name"><strong class="brand-title">Viet Capital Partners &amp; Consulting</strong><span class="breadcrumb"><span data-vi="Trang chủ" data-en="Home">Trang chủ</span><em>›</em><span data-vi="Đối tác giới thiệu" data-en="Affiliate">Đối tác giới thiệu</span></span></div></a><button aria-expanded="false" aria-label="Menu" class="hamburger menu-btn" id="hamburger" type="button"><span></span><span></span><span></span></button><nav class="nav-links" id="navLinks"><a href="bizhealth.html" data-vi="BizHealth" data-en="BizHealth">BizHealth</a><a href="biz-os.html" data-vi="BizOS" data-en="BizOS">BizOS</a><a href="bizbizdealaunch.html" data-vi="BizDeal" data-en="BizDeal">BizDeal</a><a href="app/affiliate.html" data-vi="Cổng Đối tác" data-en="Partner portal">Cổng Đối tác</a><div class="lang lang-toggle" aria-label="Language switcher"><button class="active" data-lang="vi" type="button">VI</button><button data-lang="en" type="button">EN</button></div></nav></nav></header>
+<main>
+  <section class="aff-hero"><div class="wrap">
+    <span class="kicker">VCPC Affiliate</span>
+    <h1 data-vi="Kiếm trăm triệu mỗi tháng khi là Đối tác của Viet Capital Partners &amp; Consulting" data-en="Earn hundreds of millions VND a month as a Viet Capital Partners &amp; Consulting partner">Kiếm trăm triệu mỗi tháng khi là Đối tác của Viet Capital Partners &amp; Consulting</h1>
+    <p data-vi="Khách của bạn được giảm 10–20% cho BizHealth hoặc BizOS. Bạn nhận hoa hồng khi khách thanh toán. Ghi nhận theo mã giới thiệu, đối soát rõ ràng, chỉ chi khi giao dịch đã thu đủ." data-en="Your referrals get 10–20% off BizHealth or BizOS. You earn commission when they pay. Tracked by referral code, clearly reconciled, paid only when the transaction is fully settled.">Khách của bạn được giảm 10–20% cho BizHealth hoặc BizOS. Bạn nhận hoa hồng khi khách thanh toán.</p>
+    <div class="cta"></div>
+    <div class="aff-stats">
+      <div class="s"><b>35–40%</b><span data-vi="hoa hồng trên doanh thu khách đã kích hoạt" data-en="commission on activated customer revenue">hoa hồng trên doanh thu khách đã kích hoạt</span></div>
+      <div class="s"><b>40%</b><span data-vi="khi đạt từ 5 khách hàng" data-en="once you reach 5 customers">khi đạt từ 5 khách hàng</span></div>
+      <div class="s"><b>Thứ 3 hàng tuần</b><span data-vi="thanh toán hoa hồng 1 lần/tuần" data-en="commission paid weekly">thanh toán hoa hồng 1 lần/tuần</span></div>
+    </div>
+  </div></section>
+
+  <section class="sec" style="background:#fff;"><div class="wrap">
+    <h2 data-vi="Cách hoạt động — 3 bước" data-en="How it works — 3 steps">Cách hoạt động — 3 bước</h2>
+    <p class="lead" data-vi="Đơn giản, minh bạch, đúng tinh thần tư vấn tài chính." data-en="Simple, transparent, in the spirit of financial advisory.">Đơn giản, minh bạch.</p>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><b data-vi="Đăng ký & nhận mã" data-en="Register & get a code">Đăng ký & nhận mã</b><p data-vi="Đăng ký làm đối tác, nhận mã giới thiệu riêng và link theo dõi trong cổng đối tác." data-en="Register as a partner, get your unique referral code and tracking link in the partner portal.">Đăng ký, nhận mã giới thiệu riêng và link theo dõi.</p></div>
+      <div class="step"><div class="n">2</div><b data-vi="Chia sẻ với chủ doanh nghiệp" data-en="Share with founders">Chia sẻ với chủ doanh nghiệp</b><p data-vi="Khách đăng ký qua link/mã của bạn được giảm 10–20% theo cấu hình mã." data-en="Referrals signing up via your link/code get 10–20% off depending on code tier.">Khách qua link/mã của bạn được giảm 10–20%.</p></div>
+      <div class="step"><div class="n">3</div><b data-vi="Nhận hoa hồng khi khách thanh toán" data-en="Earn when they pay">Nhận hoa hồng khi khách thanh toán</b><p data-vi="Hoa hồng được ghi nhận theo mã và chỉ duyệt chi khi giao dịch đã thu đủ (fully settled)." data-en="Commission is tracked by code and approved only when the transaction is fully settled.">Hoa hồng ghi nhận theo mã, chi khi đối soát đủ.</p></div>
+    </div>
+  </div></section>
+
+  <section class="sec" style="background:#fbf7ee;"><div class="wrap">
+    <h2 data-vi="Mức hoa hồng theo bậc" data-en="Tiered commission">Mức hoa hồng theo bậc</h2>
+    <p class="lead" data-vi="Hoa hồng tính trên doanh thu khách đã kích hoạt. Bậc tăng theo số khách bạn mang về." data-en="Commission is on activated customer revenue. Tier rises with how many customers you bring.">Hoa hồng tính trên doanh thu khách đã kích hoạt.</p>
+    <div class="tiers">
+      <div class="tier"><div class="lvl">Khởi đầu</div><div class="pct">35%</div><div class="desc" data-vi="Áp dụng cho 1–4 khách hàng đã kích hoạt" data-en="For your first 1–4 activated customers">Áp dụng cho 1–4 khách hàng đã kích hoạt</div></div>
+      <div class="tier mid"><div class="lvl">Đối tác</div><div class="pct">40%</div><div class="desc" data-vi="Từ khách hàng thứ 5 trở đi (lũy kế)" data-en="From your 5th activated customer onward">Từ khách hàng thứ 5 trở đi (lũy kế)</div></div>
+      <div class="tier"><div class="lvl">Khách của bạn</div><div class="pct">10%</div><div class="desc" data-vi="Mức giảm cho khách bạn giới thiệu" data-en="Discount for the customer you refer">Mức giảm cho khách bạn giới thiệu</div></div>
+    </div>
+
+    <h2 style="margin-top:48px;" data-vi="Quy tắc ghi nhận & hoa hồng" data-en="Attribution & commission rules">Quy tắc ghi nhận & hoa hồng</h2>
+    <div class="rules">
+      <div class="rule"><b data-vi="Ghi nhận theo mã" data-en="Code attribution">Ghi nhận theo mã</b><span data-vi="Tính theo mã hợp lệ cuối cùng trước đơn trả phí đầu tiên của khách." data-en="Credited to the last valid code before the customer's first paid order.">Mã hợp lệ cuối trước đơn trả phí đầu tiên.</span></div>
+      <div class="rule"><b data-vi="Bậc 35% → 40%" data-en="35% → 40% tiers">Bậc 35% → 40%</b><span data-vi="35% cho 1–4 khách; từ khách thứ 5 nâng lên 40% trên toàn bộ doanh thu kích hoạt." data-en="35% for 1–4 customers; from the 5th, 40% across all activated revenue.">35% cho 1–4 khách; từ khách thứ 5 lên 40%.</span></div>
+      <div class="rule"><b data-vi="Chỉ khách mới" data-en="New customers only">Chỉ khách mới</b><span data-vi="Áp dụng cho doanh nghiệp chưa từng mua dịch vụ VCPC." data-en="Applies to companies that have never purchased a VCPC service.">DN chưa từng mua dịch vụ VCPC.</span></div>
+      <div class="rule"><b data-vi="Chi khi đối soát đủ" data-en="Paid when fully settled">Chi khi đối soát đủ</b><span data-vi="Hoa hồng chỉ chuyển approved khi khách đã thanh toán & dịch vụ kích hoạt; chi vào Thứ 3 hàng tuần." data-en="Approved only when the customer has paid and the service is activated; paid out every Tuesday.">Approved khi khách đã thanh toán & kích hoạt; chi Thứ 3 hàng tuần.</span></div>
+    </div>
+  </div></section>
+
+  <section class="sec" style="background:#fff;"><div class="wrap">
+    <h2 data-vi="Ai nên tham gia?" data-en="Who should join?">Ai nên tham gia?</h2>
+    <p class="lead" data-vi="Những người có mạng lưới chủ doanh nghiệp SME & mid-market." data-en="Anyone with a network of SME & mid-market founders.">Những người có mạng lưới chủ doanh nghiệp.</p>
+    <div class="who">
+      <div class="w" data-vi="Chuyên gia tư vấn / kế toán" data-en="Consultants / accountants">Chuyên gia tư vấn / kế toán</div>
+      <div class="w" data-vi="Hiệp hội & cộng đồng DN" data-en="Associations & business communities">Hiệp hội & cộng đồng DN</div>
+      <div class="w" data-vi="Agency marketing / chuyển đổi số" data-en="Marketing / digital agencies">Agency marketing / chuyển đổi số</div>
+      <div class="w" data-vi="Cá nhân có mạng lưới chủ DN" data-en="Individuals with a founder network">Cá nhân có mạng lưới chủ DN</div>
+    </div>
+  </div></section>
+
+  <section class="sec" id="apply" style="background:#fbf7ee;"><div class="wrap" style="max-width:720px;">
+    <h2 data-vi="Đăng ký làm đối tác" data-en="Apply to become a partner">Đăng ký làm đối tác</h2>
+    <p class="lead" data-vi="Gửi thông tin, VCPC sẽ cấp mã giới thiệu và mở cổng đối tác cho bạn." data-en="Send your details; VCPC will issue a referral code and open your partner portal.">Gửi thông tin, VCPC cấp mã và mở cổng đối tác.</p>
+    <form class="apply" id="affForm">
+      <div class="apply-row"><div><label data-vi="Họ và tên" data-en="Full name">Họ và tên <span style="color:#c7352b;">*</span></label><input name="name" required/></div><div><label data-vi="Email" data-en="Email">Email <span style="color:#c7352b;">*</span></label><input name="email" type="email" required/></div></div>
+      <div class="apply-row"><div><label data-vi="Số điện thoại / Zalo" data-en="Phone / Zalo">Số điện thoại / Zalo <span style="color:#c7352b;">*</span></label><input name="phone" required/></div><div><label data-vi="Loại đối tác" data-en="Partner type">Loại đối tác <span style="color:#c7352b;">*</span></label><select name="type" required><option value="">-- Chọn loại --</option><option data-vi="Chuyên gia tư vấn / kế toán" data-en="Consultant / accountant">Chuyên gia tư vấn / kế toán</option><option data-vi="Hiệp hội / cộng đồng DN" data-en="Association / community">Hiệp hội / cộng đồng DN</option><option data-vi="Agency" data-en="Agency">Agency</option><option data-vi="Cá nhân" data-en="Individual">Cá nhân</option></select></div></div>
+      <div><label data-vi="Mạng lưới / tệp khách bạn có thể giới thiệu" data-en="Network / audience you can refer">Mạng lưới / tệp khách bạn có thể giới thiệu <span style="color:#c7352b;">*</span></label><textarea name="network" rows="3" required placeholder="VD: 200+ chủ chuỗi bán lẻ & F&B khu vực miền Nam"></textarea></div>
+      <button class="btn btn-primary" type="submit" style="width:100%;margin-top:6px;padding:14px 20px;font-size:15px;" data-vi="Gửi đăng ký" data-en="Submit application">Gửi đăng ký</button>
+      <div id="affMsg"></div>
+      <p class="note" data-vi="Bằng việc đăng ký, bạn đồng ý với điều khoản chương trình đối tác của VCPC. Mức giảm/hoa hồng cuối do VCPC cấu hình." data-en="By applying, you agree to VCPC's partner program terms. Final discount/commission set by VCPC.">Mức giảm/hoa hồng cuối do VCPC cấu hình.</p>
+    </form>
+    <p class="footnote" data-vi="Khung chương trình affiliate đã dựng sẵn; giá trị (mã, % hoa hồng, thời hạn) đọc từ /assets/affiliate.json — bật khi VCPC chốt cấu hình." data-en="The affiliate framework is in place; values (codes, commission %, validity) are read from /assets/affiliate.json — enabled when VCPC finalizes the configuration.">Khung affiliate dựng sẵn; giá trị đọc từ /assets/affiliate.json.</p>
+  </div></section>
+</main>
+<footer class="vcpc-footer"><div class="vcpc-foot"><div class="foot-brand"><img src="assets/vcpc-icon.png" alt="VCPC"/><div><strong>Viet Capital Partners &amp; Consulting</strong><span>BizHealth · BizOS · BizDeal</span></div></div><div class="foot-meta"><div class="addr" data-vi="12 Tân Trào, Quận 7, TP HCM, Việt Nam" data-en="12 Tan Trao, District 7, HCMC, Vietnam">12 Tân Trào, Quận 7, TP HCM, Việt Nam</div><div>vietcapitalpartners.com</div><div><a href="mailto:partner@vietcapitalpartners.com">partner@vietcapitalpartners.com</a></div></div></div></footer>
+<script src="assets/i18n/loader.js" data-i18n-base="assets/i18n"></script>
+<script src="assets/mock-backend.js"></script>
+<script>
+document.getElementById('affForm').addEventListener('submit',function(e){
+ e.preventDefault();var d=Object.fromEntries(new FormData(e.target).entries()),btn=e.target.querySelector('button[type=submit]'),msg=document.getElementById('affMsg');btn.disabled=true;
+ try{var r=VCPC_DB.callFunction?VCPC_DB.callFunction('affiliate-register',d):VCPC_DB.audit('AFFILIATE_APPLIED',d);if(!r||r.error)throw new Error(r&&r.error||'REGISTER_FAILED');msg.innerHTML='<div class="vcpc-form-msg ok" style="margin-top:12px;">Đã nhận đăng ký. Hồ sơ đang chờ VCPC duyệt. Tài khoản đăng nhập và mã giới thiệu chỉ được kích hoạt sau khi phê duyệt.</div>';e.target.reset();}
+ catch(ex){msg.innerHTML='<div class="vcpc-form-msg" style="margin-top:12px;color:#c7352b;">Không thể gửi đăng ký. Vui lòng thử lại hoặc liên hệ VCPC.</div>';}
+ finally{btn.disabled=false;}
+});
+</script>
+</body>
+</html>
