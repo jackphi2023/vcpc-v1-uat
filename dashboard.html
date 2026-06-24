@@ -94,7 +94,10 @@ window.showLoginForm=function(){document.getElementById('loginForm').style.displ
 function showState(icon,title,body,bill){document.getElementById('loginForm').style.display='none';document.getElementById('stateMsgInner').innerHTML='<div style="font-size:36px;margin-bottom:12px;">'+icon+'</div><h2 style="font-size:18px;font-weight:900;color:#071f3d;margin-bottom:10px;">'+title+'</h2><p style="font-size:13.5px;color:#5b6b80;line-height:1.6;">'+body.replace(/\n/g,'<br/>')+'</p>';document.getElementById('billingCta').style.display=bill?'inline-flex':'none';document.getElementById('stateMsg').style.display='block';}
 function dashboardPath(eng){return eng.product==='strategy_os'?'app/dashboard-strategy.html':'app/dashboard-bizhealth.html';}
 function route(){
- var user=VCPC_DB.currentUser();if(!user)return;if(user.user_metadata&&user.user_metadata.must_change_password){location.href='app/reset-password.html?first=1';return;}
+ var user=VCPC_DB.currentUser();if(!user)return;
+ if(user.role==='admin'||user.role==='reviewer'){
+  location.href='/admin/index.html';
+  return;if(user.user_metadata&&user.user_metadata.must_change_password){location.href='app/reset-password.html?first=1';return;}
  if(user.role==='affiliate'){
   var aff=(VCPC_DB.select('affiliates',{user_id:user.id})||[])[0];
   if(!aff||aff.status!=='ACTIVE'){showState('⏳','Tài khoản đối tác chưa hoạt động','Tài khoản chỉ được truy cập sau khi VCPC phê duyệt.',false);return;}
