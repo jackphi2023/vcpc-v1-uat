@@ -68,7 +68,10 @@
 document.getElementById('togglePw').addEventListener('click',function(){var i=document.getElementById('pwInput');i.type=i.type==='password'?'text':'password';});
 function dash(e){return e.product==='strategy_os'?'dashboard-strategy.html':'dashboard-bizhealth.html';}
 function route(){
- var u=VCPC_DB.currentUser();if(!u)return;if(u.user_metadata&&u.user_metadata.must_change_password){location.href='reset-password.html?first=1';return;}
+ var u=VCPC_DB.currentUser();if(!u)return;
+ if(u.role==='admin'||u.role==='reviewer'){
+  location.href='../admin/index.html';
+  return;;if(u.user_metadata&&u.user_metadata.must_change_password){location.href='reset-password.html?first=1';return;}
  if(u.role==='affiliate'){
   var a=(VCPC_DB.select('affiliates',{user_id:u.id})||[])[0];
   location.href=a&&a.status==='ACTIVE'?'/doitackinhdoanh/'+encodeURIComponent(a.slug):'../affiliate.html';return;
