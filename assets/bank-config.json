@@ -1,0 +1,11 @@
+{
+  "$note": "Tài khoản nhận thanh toán VCPC — cập nhật v2.0 tháng 6/2026.",
+  "bank_name": "Vietcombank (VCB)",
+  "account_number": "0011004000713",
+  "account_holder": "TIEU VO DINH PHI",
+  "swift": "BFTVVNVX",
+  "transfer_note_template": "VCPC {ref}",
+  "qr_image_url": "",
+  "support_phone": "0909 584 075",
+  "support_email": "partner@vietcapitalpartners.com"
+}

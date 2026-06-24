@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="theme-color" content="#071f3d"/><link rel="icon" type="image/png" href="../assets/favicon.png"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/><link rel="stylesheet" href="../assets/vcpc.css"/><link rel="stylesheet" href="../assets/app-core.css"/><title>BizOS · VCPC</title>
+<style>
+  .os-sidebar{background:linear-gradient(180deg,#0a274b 0%,#071f3d 100%);}
+  .tier-switch{display:inline-flex;gap:4px;background:rgba(7,31,61,.08);border:1px solid var(--app-line);padding:3px;border-radius:999px;}
+  .tier-switch button{border:0;background:transparent;padding:6px 14px;border-radius:999px;font-weight:800;font-size:12px;cursor:pointer;color:var(--app-muted);}
+  .tier-switch button.active{background:var(--app-navy);color:#fff;}
+  .stale{background:rgba(196,122,8,.12);border:1px solid rgba(196,122,8,.3);color:#7a5400;border-radius:10px;padding:8px 12px;font-size:12.5px;font-weight:700;display:inline-flex;gap:8px;align-items:center;}
+  .mi-card{border:1px solid var(--app-line);border-radius:12px;padding:14px;margin-bottom:10px;background:#fff;}
+  .mi-card .src{font-size:11px;color:#5b6b80;}
+  .gauge-wrap{position:relative;width:240px;height:140px;margin:0 auto;}
+</style>
+</head>
+<body class="app" data-require="auth" data-need-state="PREVIEW,ACTIVE,ACTIVE_90D,READONLY">
+<div class="app-shell">
+  <aside class="app-sidebar os-sidebar">
+    <a href="../index.html" class="app-brand">
+      <img src="../assets/logo-vcpc.jpg" alt="VCPC"/>
+      <div><b>Viet Capital Partners &amp; Consulting</b><span data-vi="BizOS" data-en="BizOS">BizOS</span></div>
+    </a>
+    <div class="app-langrow"><button class="active" data-lang="vi">VI</button><button data-lang="en">EN</button></div>
+    <div class="app-section-label" data-vi="Khu vực điều hành" data-en="Workspace">Khu vực điều hành</div>
+    <nav class="app-nav" id="osNav"></nav>
+    <div class="app-section-label" style="margin-top:14px;">Quản lý</div>
+    <nav class="app-nav"><a href="data.html"><span>Dữ liệu & cập nhật</span></a><a href="team.html"><span>Thành viên</span></a><a href="billing.html"><span>Thuê bao & hóa đơn</span></a></nav>
+    <div class="app-bottom">
+      <button class="app-signout" data-action="signout" data-vi="↩ Đăng xuất" data-en="↩ Sign out">↩ Đăng xuất</button>
+    </div>
+  </aside>
+  <main class="app-main">
+    <div class="app-topbar">
+      <div>
+        <div class="app-crumb">BizOS</div>
+        <h1 class="app-title" id="tabTitle">Tổng quan điều hành</h1>
+        <p class="app-sub" id="tabSub" data-vi="Sức khỏe vận hành & chiến lược — KPI, alert, market intelligence và lộ trình thực thi." data-en="Operating & strategy health — KPIs, alerts, market intelligence and the execution roadmap.">Sức khỏe vận hành & chiến lược — KPI, alert, market intelligence và lộ trình thực thi.</p>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+        <div class="tier-switch" id="tierSwitch"><button data-tier="lite">Starter</button><button class="active" data-tier="standard" data-vi="Growth" data-en="Growth">Growth</button><button data-tier="partner" data-vi="Scale" data-en="Scale">Scale</button></div>
+        <span class="app-period"><span class="dot"></span><span>01/01 → 10/06/2026 · theo tuần</span></span>
+        <button class="app-btn app-btn-ghost" id="refreshBtn" data-vi="↻ Làm mới" data-en="↻ Refresh">↻ Làm mới</button>
+      </div>
+    </div>
+
+    <div style="margin-bottom:16px;"><span class="stale" id="staleBanner">⏱ <span data-vi="Cập nhật dữ liệu gần nhất:" data-en="Last data refresh:">Cập nhật dữ liệu gần nhất:</span> <b style="margin-left:4px;">2026-06-10</b> · <span data-vi="đúng hạn theo gói" data-en="on schedule for plan">đúng hạn theo gói</span></span></div>
+
+    <!-- EXECUTIVE OVERVIEW -->
+    <section data-tabview="exec" class="app-tabview active">
+      <div class="app-grid cols-6" style="gap:14px;margin-bottom:18px;">
+        <div class="kpi"><div class="lbl">DOANH THU TUẦN</div><div class="val">10,6 tỷ</div><div class="delta up">▲ 2,5%</div><div class="sub">98% kế hoạch</div></div>
+        <div class="kpi"><div class="lbl">ĐẠT KH TUẦN</div><div class="val">98%</div><div class="delta down">▼ 1,7%</div><div class="sub">luỹ kế 95%</div></div>
+        <div class="kpi"><div class="lbl">BIÊN EBITDA</div><div class="val">12,2%</div><div class="delta up">▲ 0,2%</div><div class="sub">mục tiêu 12%</div></div>
+        <div class="kpi"><div class="lbl">NGÀY TIỀN MẶT</div><div class="val">52</div><div class="sub">PO lớn → 43</div></div>
+        <div class="kpi"><div class="lbl">% CHI NHÁNH ĐẠT KH</div><div class="val">68%</div><div class="sub">27/40 · 8 nguy cấp</div></div>
+        <div class="kpi"><div class="lbl">ROAS BÌNH QUÂN</div><div class="val">3,19x</div><div class="delta down">▼ 9%</div><div class="sub">benchmark 3,5</div></div>
+      </div>
+      <div class="app-row-2" style="gap:18px;">
+        <div class="app-card"><div class="app-card-head"><b data-vi="Doanh thu theo tháng vs kế hoạch vs online" data-en="Monthly revenue vs plan vs online">Doanh thu theo tháng vs kế hoạch vs online</b><small>tỷ VND</small></div><div id="revChart" style="height:280px;"></div></div>
+        <div class="app-card"><div class="app-card-head"><b data-vi="Cảnh báo điều hành ưu tiên" data-en="Priority alerts">Cảnh báo điều hành ưu tiên</b></div><div id="execAlerts"></div></div>
+      </div>
+    </section>
+
+    <!-- SALES -->
+    <section data-tabview="sales" class="app-tabview">
+      <div class="app-card"><div class="app-card-head"><b data-vi="Doanh thu theo kênh" data-en="Revenue by channel">Doanh thu theo kênh</b></div><div id="salesChart" style="height:260px;"></div></div>
+      <div class="app-card" style="margin-top:18px;"><div class="app-card-head"><b data-vi="Top chi nhánh & xu hướng 8 tuần" data-en="Top branches & 8-week trend">Top chi nhánh & xu hướng 8 tuần</b></div>
+        <table class="app-table"><thead><tr><th>Chi nhánh</th><th>Miền</th><th>DT lũy kế</th><th>Đạt KH</th><th>8 tuần</th></tr></thead><tbody id="salesTable"></tbody></table></div>
+    </section>
+
+    <!-- PROFIT -->
+    <section data-tabview="profit" class="app-tabview">
+      <div class="app-row-2" style="gap:18px;">
+        <div class="app-card"><div class="app-card-head"><b data-vi="Cấu trúc lãi lỗ (waterfall)" data-en="P&L waterfall">Cấu trúc lãi lỗ (waterfall)</b><small>tỷ VND</small></div><div id="waterfall" style="height:300px;"></div></div>
+        <div class="app-card"><div class="app-card-head"><b data-vi="Xu hướng biên" data-en="Margin trend">Xu hướng biên</b></div><div id="marginTrend" style="height:280px;"></div></div>
+      </div>
+      <div class="app-card" style="margin-top:18px;"><div class="app-card-head"><b data-vi="Lãi lỗ theo tháng" data-en="Monthly P&L">Lãi lỗ theo tháng</b></div>
+        <table class="app-table"><thead><tr><th>Tháng</th><th>Doanh thu</th><th>Lãi gộp</th><th>EBITDA</th><th>Biên EBITDA</th></tr></thead><tbody id="pnlTable"></tbody></table></div>
+    </section>
+
+    <!-- CASH -->
+    <section data-tabview="cash" class="app-tabview">
+      <div class="app-grid cols-4" style="gap:14px;margin-bottom:18px;">
+        <div class="kpi"><div class="lbl">Tiền mặt</div><div class="val">11,4 tỷ</div><div class="sub">runway 52 ngày</div></div>
+        <div class="kpi"><div class="lbl">Runway nếu PO lớn</div><div class="val">43 ngày</div><span class="dlabel estimate">ƯỚC TÍNH</span></div>
+        <div class="kpi"><div class="lbl">DSO</div><div class="val">38</div><div class="sub">benchmark 35</div></div>
+        <div class="kpi"><div class="lbl">CCC</div><div class="val">74</div><div class="sub">AR+Inv−AP</div></div>
+      </div>
+      <div class="app-card"><div class="app-card-head"><b data-vi="Dự báo dòng tiền 90 ngày" data-en="90-day cash forecast">Dự báo dòng tiền 90 ngày</b></div><div id="cashChart" style="height:260px;"></div></div>
+    </section>
+
+    <!-- OPERATIONS -->
+    <section data-tabview="ops" class="app-tabview">
+      <div class="app-row-2" style="gap:18px;">
+        <div class="app-card"><div class="app-card-head"><b data-vi="Bản đồ nhiệt chi nhánh" data-en="Branch heatmap">Bản đồ nhiệt chi nhánh</b></div><div id="branchHeat" class="heatmap"></div></div>
+        <div class="app-card"><div class="app-card-head"><b data-vi="Tồn kho & sản phẩm" data-en="Inventory & products">Tồn kho & sản phẩm</b></div>
+          <table class="app-table"><thead><tr><th>Sản phẩm</th><th>Tồn (ngày)</th><th>Sell-through</th><th>Hành động</th></tr></thead><tbody id="invTable"></tbody></table></div>
+      </div>
+    </section>
+
+    <!-- KPI / OKR (Standard+) -->
+    <section data-tabview="kpi" class="app-tabview">
+      <div class="app-card"><div class="app-card-head"><b data-vi="KPI · OKR theo dõi" data-en="Tracked KPIs · OKRs">KPI · OKR theo dõi</b></div>
+        <table class="app-table"><thead><tr><th>KPI</th><th data-vi="Hiện tại" data-en="Current">Hiện tại</th><th data-vi="Mục tiêu" data-en="Target">Mục tiêu</th><th>Benchmark</th><th data-vi="Trạng thái" data-en="Status">Trạng thái</th><th data-vi="Phụ trách" data-en="Owner">Phụ trách</th></tr></thead><tbody id="kpiTable"></tbody></table></div>
+    </section>
+
+    <!-- MARKETING (Standard+) -->
+    <section data-tabview="marketing" class="app-tabview">
+      <div class="app-row-2" style="gap:18px;">
+        <div class="app-card"><div class="app-card-head"><b data-vi="ROAS theo kênh" data-en="ROAS by channel">ROAS theo kênh</b></div><div id="roasChart" style="height:240px;"></div></div>
+        <div class="app-card"><div class="app-card-head"><b data-vi="Kênh nên tái phân bổ" data-en="Channels to reallocate">Kênh nên tái phân bổ</b></div><div id="cutList"></div></div>
+      </div>
+    </section>
+
+    <!-- ALERTS (Standard+) -->
+    <section data-tabview="alerts" class="app-tabview">
+      <div class="app-card"><div class="app-card-head"><b data-vi="Tất cả alert đang mở" data-en="All open alerts">Tất cả alert đang mở</b><small id="alertCount"></small></div><div id="allAlerts"></div></div>
+    </section>
+
+    <!-- MARKET INTELLIGENCE (Standard+) -->
+    <section data-tabview="mi" class="app-tabview">
+      <!-- Monday report header -->
+      <div class="app-card" style="background:linear-gradient(135deg,#0a274b,#071f3d);color:#fff;border:0;margin-bottom:18px;">
+        <div style="display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;align-items:flex-start;">
+          <div>
+            <div style="color:#ffd36b;font-weight:900;font-size:12px;letter-spacing:.08em;text-transform:uppercase;" id="miEyebrow">Báo cáo Market Intelligence · Thứ Hai</div>
+            <div style="font-size:22px;font-weight:900;margin:6px 0 4px;" id="miWeek">Tuần 24</div>
+            <div style="color:#cbd9ee;font-size:13px;" id="miCadence">Quét hằng ngày → tổng hợp Chủ nhật → phát trước 8h sáng Thứ Hai</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="display:inline-flex;gap:8px;align-items:center;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:6px 14px;font-size:12px;font-weight:800;"><span style="color:#ffd36b;">●</span> <span id="miTier">Ngành bán lẻ thời trang · Tầng A</span></div>
+            <div style="margin-top:10px;font-size:12.5px;color:#cbd9ee;"><span data-vi="Sổ độ chính xác" data-en="Accuracy log">Sổ độ chính xác</span>: <b style="color:#fff;" id="miAcc">78%</b> · <span id="miAccLast">4/5 tuần trước đúng</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 30-second summary -->
+      <div class="app-card" style="margin-bottom:18px;">
+        <div class="app-card-head"><b data-vi="Tóm tắt 30 giây — 3 điều chắc chắn nhất" data-en="30-second summary — 3 things we are most sure of">Tóm tắt 30 giây — 3 điều chắc chắn nhất</b></div>
+        <div id="miSummary" class="app-grid cols-3" style="gap:14px;"></div>
+      </div>
+
+      <!-- Top 20 sản phẩm bán chạy thị trường -->
+      <div class="app-card" style="margin-bottom:18px;">
+        <div class="app-card-head"><b>Top 20 sản phẩm bán chạy thị trường</b><small>xếp hạng FACT · volume dạng khoảng (ƯỚC TÍNH) · mỗi dòng có nguồn/ngày/độ tin cậy</small></div>
+        <div id="miTop20Filters" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;font-size:12.5px;">
+          <select id="fltCat" style="max-width:160px;"></select>
+          <select id="fltPlat" style="max-width:150px;"></select>
+          <select id="fltConf" style="max-width:160px;"><option value="">Mọi độ tin cậy</option><option value="high">Tin cậy cao</option><option value="med">Trung bình</option><option value="low">Thấp</option></select>
+          <label style="display:inline-flex;align-items:center;gap:6px;color:#41546b;"><input type="checkbox" id="fltNew" style="width:auto;"/> Sản phẩm mới</label>
+          <label style="display:inline-flex;align-items:center;gap:6px;color:#41546b;"><input type="checkbox" id="fltVoucher" style="width:auto;"/> Có voucher</label>
+        </div>
+        <div style="overflow-x:auto;"><table class="app-table" style="min-width:880px;"><thead><tr>
+          <th>#</th><th>Sản phẩm</th><th>Giá / KM</th><th>Nhu cầu (ước tính)</th><th>Tồn/biến thể</th><th>Δ 7/30 ngày</th><th>Tin cậy</th><th></th>
+        </tr></thead><tbody id="miTop20Body"></tbody></table></div>
+      </div>
+
+      <!-- CEO decisions this week -->
+      <div class="app-card" style="margin-bottom:18px;border:1px solid rgba(255,178,10,.34);background:linear-gradient(135deg,#fffbf0,#fff);">
+        <div class="app-card-head"><b data-vi="Quyết định cần từ Ban điều hành tuần này" data-en="Decisions needed from leadership this week">Quyết định cần từ Ban điều hành tuần này</b><small data-vi="rút từ các mục ① Kiến nghị" data-en="drawn from ① Recommend items">từ các mục ① Kiến nghị</small></div>
+        <div id="miDecisions"></div>
+      </div>
+
+      <!-- Evidence-scale legend + role tabs -->
+      <div class="app-card">
+        <div class="app-card-head"><b data-vi="Theo vai trò" data-en="By role">Theo vai trò</b><small data-vi="Thang bằng chứng: ① Kiến nghị · ② Gợi ý cân nhắc · ③ Đang theo dõi · ④ Khoảng trống dữ liệu" data-en="Evidence scale: ① Recommend · ② Consider · ③ Watching · ④ Data gap">thang bằng chứng ①–④</small></div>
+        <div class="app-tabs" data-tab-group id="miRoleTabs">
+          <button class="app-tab active" data-mirole="ceo">CEO</button>
+          <button class="app-tab" data-mirole="marketing">Marketing</button>
+          <button class="app-tab" data-mirole="sales" data-vi="Bán hàng" data-en="Sales">Bán hàng</button>
+          <button class="app-tab" data-mirole="bi">BI · Merch · Ops</button>
+        </div>
+        <div id="miRoleBody"></div>
+      </div>
+
+      <div class="app-row-2" style="gap:18px;margin-top:18px;">
+        <div class="app-card"><div class="app-card-head"><b data-vi="④ Khoảng trống dữ liệu" data-en="④ Data gaps">④ Khoảng trống dữ liệu</b><small data-vi="Trống tốt hơn sai" data-en="Empty beats wrong">trống tốt hơn sai</small></div><div id="miGaps"></div></div>
+        <div class="app-card"><div class="app-card-head"><b data-vi="Sổ độ chính xác (tuần trước)" data-en="Accuracy log (last weeks)">Sổ độ chính xác (tuần trước)</b></div><div id="miAccLog"></div></div>
+      </div>
+    </section>
+
+    <!-- RECOMMENDATIONS (Standard+) -->
+    <section data-tabview="reco" class="app-tabview">
+      <div class="app-row-2" style="gap:18px;">
+        <div class="app-card"><div class="app-card-head"><b data-vi="Kiến nghị & lộ trình" data-en="Recommendations & roadmap">Kiến nghị & lộ trình</b></div><div id="recList"></div></div>
+        <div class="app-card"><div class="app-card-head"><b data-vi="Lộ trình 6–12 tháng" data-en="6–12 month roadmap">Lộ trình 6–12 tháng</b></div><div id="roadmap"></div></div>
+      </div>
+    </section>
+
+    <!-- EXECUTION TRACKER (Partner) -->
+    <section data-tabview="exectrack" class="app-tabview">
+      <div class="app-card"><div class="app-card-head"><b data-vi="Execution Tracker — sáng kiến chiến lược" data-en="Execution Tracker — strategic initiatives">Execution Tracker</b></div>
+        <table class="app-table"><thead><tr><th data-vi="Sáng kiến" data-en="Initiative">Sáng kiến</th><th data-vi="Phụ trách" data-en="Owner">Phụ trách</th><th>KPI</th><th data-vi="Tiến độ" data-en="Progress">Tiến độ</th><th data-vi="Tác động" data-en="Impact">Tác động</th><th data-vi="Trạng thái" data-en="Status">Trạng thái</th></tr></thead><tbody id="execTable"></tbody></table></div>
+    </section>
+
+    <!-- CAPITAL READINESS (Partner) -->
+    <section data-tabview="capital" class="app-tabview">
+      <div class="app-row-2" style="gap:18px;">
+        <div class="app-card"><div class="app-card-head"><b data-vi="Điểm sẵn sàng gọi vốn" data-en="Capital readiness score">Điểm sẵn sàng gọi vốn</b></div>
+          <div class="gauge-wrap" id="capGauge"></div>
+          <div id="capSub" style="margin-top:18px;display:grid;gap:8px;font-size:13px;"></div>
+        </div>
+        <div class="app-card"><div class="app-card-head"><b data-vi="Khoảng định giá tham khảo" data-en="Indicative valuation range">Khoảng định giá tham khảo</b></div>
+          <div id="valuation"></div>
+          <p style="margin-top:12px;color:#5b6b80;font-size:12.5px;" data-vi="Khoảng tham khảo, không phải con số tuyệt đối; phụ thuộc chất lượng dữ liệu, hồ sơ và điều kiện thị trường. Sẽ thu hẹp khi hồ sơ tốt hơn và sau khi chuyên gia ký duyệt." data-en="Indicative range, not an absolute figure; depends on data quality, documentation and market conditions. Narrows with stronger documentation and expert sign-off.">Khoảng tham khảo, không phải con số tuyệt đối.</p>
+          <span class="dlabel estimate" style="margin-top:8px;display:inline-block;">ƯỚC TÍNH</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="app-footer">
+      <div><span data-vi="Cập nhật" data-en="Last refresh">Cập nhật</span>: <b id="lastRefresh">2026-06-10</b> · <span class="badge muted">VCPC reviewed</span></div>
+      <div><a href="../security.html">Bảo mật</a> · <a href="../pricing.html">Bảng giá</a> · <a href="payment.html" data-vi="Quản lý thuê bao" data-en="Manage subscription">Quản lý thuê bao</a></div>
+    </div>
+  </main>
+</div>
+<div id="evDrawer" style="position:fixed;top:0;right:0;width:min(420px,92vw);height:100vh;background:#fff;box-shadow:-12px 0 40px rgba(7,31,61,.22);z-index:300;transform:translateX(100%);transition:transform .28s cubic-bezier(.2,.8,.2,1);overflow-y:auto;">
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--app-line);position:sticky;top:0;background:#fff;"><b style="color:#071f3d;">Bằng chứng & kiểm chứng</b><button id="evClose" style="border:0;background:rgba(7,31,61,.06);width:30px;height:30px;border-radius:8px;cursor:pointer;font-size:16px;color:#5b6b80;">×</button></div>
+  <div id="evBody" style="padding:20px;"></div>
+</div>
+<script src="../assets/i18n/loader.js" data-i18n-base="../assets/i18n"></script><script src="../assets/app-config.js"></script><script src="../assets/mock-backend.js"></script><script src="../assets/guards.js"></script><script src="../assets/seed-retail.js"></script><script src="../assets/mi-retail.js"></script><script src="../assets/engines/kpi.js"></script><script src="../assets/engines/alert.js"></script><script src="../assets/engines/recommendation.js"></script><script src="../assets/app-core.js"></script>
+<script>
+if (!VCPC_DB.currentUser()) { /* allow demo view */ }
+const S = window.VCPC_SEED;
+const eng = VCPC_DB.currentEngagement() || { plan_code:'OS_STANDARD', product:'strategy_os', state:'ACTIVE' };
+let tier = eng.plan_code === 'OS_LITE' ? 'lite' : eng.plan_code === 'OS_PARTNER' ? 'premium' : 'standard';
+
+const CORE = [
+  { key:'exec', vi:'Tổng quan', en:'Overview' },
+  { key:'sales', vi:'Bán hàng', en:'Sales' },
+  { key:'profit', vi:'Lợi nhuận', en:'Profit' },
+  { key:'cash', vi:'Dòng tiền', en:'Cash' },
+  { key:'ops', vi:'Vận hành', en:'Operations' }
+];
+const STD_EXTRA = [
+  { key:'kpi', vi:'KPI · OKR', en:'KPI · OKR' },
+  { key:'marketing', vi:'Marketing', en:'Marketing' },
+  { key:'alerts', vi:'Cảnh báo', en:'Alerts' },
+  { key:'mi', vi:'Market Intelligence', en:'Market Intelligence' },
+  { key:'reco', vi:'Kiến nghị · Lộ trình', en:'Recs · Roadmap' }
+];
+const PARTNER_EXTRA = [
+  { key:'exectrack', vi:'Execution Tracker', en:'Execution Tracker' },
+  { key:'capital', vi:'Sẵn sàng Vốn & Định giá', en:'Capital Readiness' }
+];
+function tabsFor(t){
+  if (t==='lite') return CORE.slice();
+  if (t==='standard') return CORE.concat(STD_EXTRA);
+  return CORE.concat(STD_EXTRA, PARTNER_EXTRA);
+}
+function buildNav(){
+  const lang=(VCPC_I18N&&VCPC_I18N.current)||'vi';
+  const list = tabsFor(tier);
+  document.getElementById('osNav').innerHTML = list.map(function(t,i){
+    return '<a href="#" data-tab="'+t.key+'" class="'+(i===0?'active':'')+'"><span>'+t[lang]+'</span></a>';
+  }).join('');
+  document.querySelectorAll('#tierSwitch button').forEach(function(b){ b.classList.toggle('active', b.dataset.tier===tier); });
+}
+buildNav();
+function syncTitle(){ const a=document.querySelector('#osNav a.active'); if (a) document.getElementById('tabTitle').textContent=a.textContent.trim(); }
+document.getElementById('osNav').addEventListener('click', function(e){
+  const a=e.target.closest('a[data-tab]'); if (!a) return; e.preventDefault();
+  document.querySelectorAll('#osNav a').forEach(function(x){x.classList.toggle('active',x===a);});
+  const key=a.getAttribute('data-tab');
+  document.querySelectorAll('.app-tabview').forEach(function(v){v.classList.toggle('active',v.getAttribute('data-tabview')===key);});
+  syncTitle();
+});
+document.getElementById('tierSwitch').addEventListener('click', function(e){
+  const b=e.target.closest('[data-tier]'); if (!b) return;
+  tier=b.dataset.tier; buildNav();
+  const allowed=tabsFor(tier).map(function(t){return t.key;});
+  const cur=document.querySelector('.app-tabview.active');
+  if (!cur || !allowed.includes(cur.getAttribute('data-tabview'))){
+    document.querySelectorAll('.app-tabview').forEach(function(v){v.classList.toggle('active',v.getAttribute('data-tabview')==='exec');});
+    document.querySelectorAll('#osNav a').forEach(function(a){a.classList.toggle('active',a.getAttribute('data-tab')==='exec');});
+  }
+  syncTitle();
+});
+document.addEventListener('vcpc:langchange', function(){ buildNav(); syncTitle(); render(); });
+
+// ---------- shared chart helpers ----------
+function L(o){ const lang=(VCPC_I18N&&VCPC_I18N.current)||'vi'; return o[lang]||o.vi; }
+function lineRev(){
+  const data=S.revenue_by_month, W=540,H=240,P=32;
+  const max=Math.max.apply(null,data.flatMap(function(d){return[d.actual,d.plan,d.online];}))*1.15;
+  function x(i){return P+i*(W-2*P)/(data.length-1);} function y(v){return H-P-(v/max)*(H-2*P);}
+  function pth(k){return data.map(function(d,i){return(i?'L':'M')+x(i)+','+y(d[k]);}).join(' ');}
+  function pts(k,c){return data.map(function(d,i){return'<circle cx="'+x(i)+'" cy="'+y(d[k])+'" r="3.5" fill="'+c+'"/>';}).join('');}
+  const ax=data.map(function(d,i){return'<text x="'+x(i)+'" y="'+(H-8)+'" text-anchor="middle" font-size="11" fill="#5b6b80" font-weight="700">'+d.m+'</text>';}).join('');
+  return '<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:100%;"><defs><linearGradient id="g1" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#2a6fdb" stop-opacity=".3"/><stop offset="1" stop-color="#2a6fdb" stop-opacity="0"/></linearGradient></defs>'+
+    '<path d="'+pth('actual')+' L'+x(data.length-1)+','+(H-P)+' L'+x(0)+','+(H-P)+' Z" fill="url(#g1)"/>'+
+    '<path d="'+pth('plan')+'" fill="none" stroke="#ffb20a" stroke-width="2.2" stroke-dasharray="4 4"/>'+
+    '<path d="'+pth('actual')+'" fill="none" stroke="#2a6fdb" stroke-width="2.6"/>'+
+    '<path d="'+pth('online')+'" fill="none" stroke="#0d8a5d" stroke-width="2.2"/>'+
+    pts('actual','#2a6fdb')+pts('plan','#ffb20a')+pts('online','#0d8a5d')+ax+'</svg>';
+}
+function ownerVi(o){ return ({COO:'Giám đốc vận hành',CFO:'Giám đốc tài chính',Marketing:'Trưởng marketing',Merchandising:'Quản trị hàng hoá','E-commerce':'Phụ trách TMĐT',HR:'Trưởng nhân sự'})[o]||o; }
+function spark(arr){ const w=80,h=24,max=Math.max.apply(null,arr),min=Math.min.apply(null,arr);
+  const p=arr.map(function(v,i){return(i?'L':'M')+(i*w/(arr.length-1))+','+(h-(v-min)/(max-min)*h);}).join(' ');
+  const stroke=arr[arr.length-1]>=arr[0]?'#0d8a5d':'#c7352b';
+  return '<svg viewBox="0 0 '+w+' '+h+'" style="width:80px;height:24px;"><path d="'+p+'" fill="none" stroke="'+stroke+'" stroke-width="2"/></svg>'; }
+
+function render(){
+  const lang=(VCPC_I18N&&VCPC_I18N.current)||'vi';
+  document.getElementById('revChart').innerHTML = lineRev();
+
+  // exec alerts
+  document.getElementById('execAlerts').innerHTML = S.alerts_seed.slice(0,5).map(function(a){
+    const cls=a.sev==='red'?'red':'orange';
+    return '<div class="alert-row '+cls+'"><div class="sev"></div><div style="flex:1;"><b>'+(lang==='en'?a.label_en:a.label_vi)+'</b><small>'+a.target+'</small></div><span class="badge muted">'+(lang==='en'?a.owner:ownerVi(a.owner))+'</span></div>';
+  }).join('');
+
+  // sales
+  const ch=S.channels, cMax=Math.max.apply(null,ch.map(function(c){return c.rev;}));
+  document.getElementById('salesChart').innerHTML='<div class="bar-chart" style="height:200px;">'+ch.map(function(c){
+    const h=c.rev/cMax*100; return '<div class="bar" style="height:'+h+'%;position:relative;"><span class="bar-value">'+c.rev+'</span><span class="bar-label">'+L(c.name)+'</span></div>';
+  }).join('')+'</div>';
+  const topB=S.branches.slice().sort(function(a,b){return b.ytdRev-a.ytdRev;}).slice(0,8);
+  document.getElementById('salesTable').innerHTML=topB.map(function(b){
+    return '<tr><td><b>'+b.id+'</b> · '+b.street+'</td><td>'+b.region+'</td><td>'+b.ytdRev+' tỷ</td><td>'+b.planYtdPct+'%</td><td>'+spark(b.trend)+'</td></tr>';
+  }).join('');
+
+  // profit waterfall
+  const wf=S.pnl_waterfall, wMax=Math.max.apply(null,wf.map(function(x){return x.value;}))*1.15;
+  document.getElementById('waterfall').innerHTML='<div style="display:flex;align-items:flex-end;justify-content:space-around;height:280px;padding:10px 20px;">'+wf.map(function(x,i){
+    const h=(x.value/wMax)*230; const colors=['#2a6fdb','#c7352b','#2a6fdb','#c7352b','#0d8a5d'];
+    return '<div style="display:flex;flex-direction:column;align-items:center;flex:1;gap:6px;"><div style="font-size:13px;font-weight:900;color:#071f3d;">'+x.value+'</div><div style="width:56px;height:'+h+'px;background:'+colors[i]+';border-radius:4px 4px 0 0;"></div><div style="font-size:11.5px;color:#5b6b80;font-weight:700;text-align:center;">'+L(x.label)+'</div></div>';
+  }).join('')+'</div>';
+  const m=S.monthly_pnl, MW=540,MH=240,MP=32;
+  const vals=m.flatMap(function(d){return [d.gp/d.rev*100,d.opex/d.rev*100,d.ebitda_pct];});
+  const mx=Math.max.apply(null,vals)*1.1, mn=Math.min.apply(null,vals)*0.8;
+  function xx(i){return MP+i*(MW-2*MP)/(m.length-1);} function yy(v){return MH-MP-((v-mn)/(mx-mn))*(MH-2*MP);}
+  function ln(k,c){return '<path d="'+m.map(function(d,i){var v=k==='gp'?d.gp/d.rev*100:k==='op'?d.opex/d.rev*100:d.ebitda_pct;return(i?'L':'M')+xx(i)+','+yy(v);}).join(' ')+'" fill="none" stroke="'+c+'" stroke-width="2.4"/>';}
+  document.getElementById('marginTrend').innerHTML='<svg viewBox="0 0 '+MW+' '+MH+'" style="width:100%;height:100%;">'+ln('gp','#0d8a5d')+ln('op','#ffb20a')+ln('eb','#2a6fdb')+m.map(function(d,i){return'<text x="'+xx(i)+'" y="'+(MH-8)+'" text-anchor="middle" font-size="11" fill="#5b6b80" font-weight="700">'+d.m+'</text>';}).join('')+'</svg>';
+  document.getElementById('pnlTable').innerHTML=m.map(function(r){return '<tr><td><b>'+r.m+'</b></td><td>'+r.rev+'</td><td>'+r.gp+'</td><td>'+r.ebitda+'</td><td><span class="badge good">'+r.ebitda_pct+'%</span></td></tr>';}).join('');
+
+  // cash
+  const cash=S.cashflow, cs=[cash.cash_now,cash.cash_30d,cash.cash_60d,cash.cash_90d], cm=Math.max.apply(null,cs)*1.2;
+  function cp(){return cs.map(function(v,i){return(i?'L':'M')+(32+i*150)+','+(220-v/cm*180);}).join(' ');}
+  document.getElementById('cashChart').innerHTML='<svg viewBox="0 0 540 240" style="width:100%;height:100%;"><defs><linearGradient id="cg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#0d8a5d" stop-opacity=".3"/><stop offset="1" stop-color="#0d8a5d" stop-opacity="0"/></linearGradient></defs><path d="'+cp()+' L482,220 L32,220 Z" fill="url(#cg)"/><path d="'+cp()+'" fill="none" stroke="#0d8a5d" stroke-width="2.6"/>'+cs.map(function(v,i){return'<g><circle cx="'+(32+i*150)+'" cy="'+(220-v/cm*180)+'" r="4" fill="#0d8a5d"/><text x="'+(32+i*150)+'" y="'+(220-v/cm*180-10)+'" text-anchor="middle" font-size="12" font-weight="800" fill="#071f3d">'+v+'</text></g>';}).join('')+['Hôm nay','30 ngày','60 ngày','90 ngày'].map(function(t,i){return'<text x="'+(32+i*150)+'" y="234" text-anchor="middle" font-size="11" fill="#5b6b80" font-weight="700">'+t+'</text>';}).join('')+'</svg>';
+
+  // ops
+  document.getElementById('branchHeat').innerHTML=S.branches.map(function(b){
+    const cls=b.health>=85?'h-best':b.health>=70?'h-good':b.health>=55?'h-watch':b.health>=40?'h-warn':'h-bad';
+    return '<div class="heat-cell '+cls+'"><span>'+b.id+'</span><small>'+b.health+'</small></div>';
+  }).join('');
+  document.getElementById('invTable').innerHTML=S.products.map(function(p){
+    const act=p.markdown?(p.action==='markdown'?'Markdown':'Điều chuyển'):'—';
+    return '<tr><td><b>'+L(p.name)+'</b></td><td>'+p.inventoryDays+'</td><td>'+p.sellThrough+'%</td><td>'+(p.markdown?'<span class="badge warn">'+act+'</span>':'<span class="badge good">OK</span>')+'</td></tr>';
+  }).join('');
+
+  // KPI/OKR
+  const kpis=[
+    {n:'Gross margin %',cur:'45,1%',tg:'46%',bm:'46%',ok:false,owner:'CFO'},
+    {n:'EBITDA margin %',cur:'12,2%',tg:'12%',bm:'12%',ok:true,owner:'CFO'},
+    {n:'Cash runway',cur:'52 ngày',tg:'≥45',bm:'45',ok:true,owner:'CFO'},
+    {n:'Plan attainment',cur:'98%',tg:'100%',bm:'—',ok:false,owner:'COO'},
+    {n:'ROAS',cur:'3,19x',tg:'3,5x',bm:'3,5',ok:false,owner:'Marketing'},
+    {n:'Inventory days',cur:'64',tg:'≤55',bm:'55',ok:false,owner:'Merchandising'},
+    {n:'Branch turnover',cur:'22%',tg:'≤20%',bm:'20%',ok:false,owner:'HR'}
+  ];
+  document.getElementById('kpiTable').innerHTML=kpis.map(function(k){
+    return '<tr><td><b>'+k.n+'</b></td><td>'+k.cur+'</td><td>'+k.tg+'</td><td>'+k.bm+'</td><td><span class="badge '+(k.ok?'good':'warn')+'">'+(k.ok?(lang==='en'?'On track':'Đạt'):(lang==='en'?'Below':'Dưới'))+'</span></td><td>'+(lang==='en'?k.owner:ownerVi(k.owner))+'</td></tr>';
+  }).join('');
+
+  // marketing
+  const cMax2=Math.max.apply(null,ch.map(function(c){return c.roas;}));
+  document.getElementById('roasChart').innerHTML='<div class="bar-chart" style="height:190px;">'+ch.map(function(c){
+    const h=c.roas/cMax2*100; const cls=c.roas>=3.5?'green':c.roas>=3.0?'gold':'red';
+    return '<div class="bar '+cls+'" style="height:'+h+'%;position:relative;"><span class="bar-value">'+c.roas+'x</span><span class="bar-label">'+L(c.name)+'</span></div>';
+  }).join('')+'</div>';
+  document.getElementById('cutList').innerHTML=ch.filter(function(c){return c.cut;}).map(function(c){
+    return '<div class="alert-row orange"><div class="sev"></div><div style="flex:1;"><b>'+L(c.name)+'</b><small>ROAS '+c.roas+' · '+(lang==='en'?'cost/rev':'chi phí/DT')+' '+c.costToRevPct+'%</small></div><span class="badge warn">'+(lang==='en'?'Reallocate':'Tái phân bổ')+'</span></div>';
+  }).join('');
+
+  // alerts
+  document.getElementById('alertCount').textContent=S.alerts_seed.length+(lang==='en'?' open':' đang mở');
+  document.getElementById('allAlerts').innerHTML=S.alerts_seed.map(function(a){
+    const cls=a.sev==='red'?'red':'orange';
+    return '<div class="alert-row '+cls+'"><div class="sev"></div><div style="flex:1;"><b>'+(lang==='en'?a.label_en:a.label_vi)+'</b><small>'+a.target+' · '+(lang==='en'?'actual':'thực tế')+' '+a.actual+'</small></div><span class="badge muted">'+(lang==='en'?a.owner:ownerVi(a.owner))+'</span></div>';
+  }).join('');
+
+  // MI — rich retail-apparel report
+  renderMI(lang);
+
+  // recommendations + roadmap
+  document.getElementById('recList').innerHTML=S.recommendations_seed.map(function(r){
+    const prCls=r.priority==='high'?'bad':'warn'; const prTxt=r.priority==='high'?'Cao':'Vừa';
+    const stCls=r.status==='done'?'good':r.status==='doing'?'info':'muted'; const stTxt=r.status==='done'?'Xong':r.status==='doing'?'Đang làm':'Đề xuất';
+    return '<div style="background:linear-gradient(180deg,#fffbf0,#fff);border:1px solid rgba(255,178,10,.32);border-radius:14px;padding:14px 16px;margin-bottom:12px;"><div style="display:flex;justify-content:space-between;gap:10px;"><b style="color:#071f3d;font-size:14.5px;">'+(lang==='en'?r.title_en:r.title_vi)+'</b><span class="badge '+prCls+'">'+prTxt+'</span></div><p style="margin:8px 0;color:#41546b;font-size:13px;">'+(lang==='en'?r.detail_en:r.detail_vi)+'</p><div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;color:#5b6b80;"><span>'+(lang==='en'?'Owner':'Phụ trách')+': <b style="color:#071f3d;">'+r.owner+'</b> · ~'+r.impact+' tỷ/năm</span><span class="badge '+stCls+'">'+stTxt+'</span></div></div>';
+  }).join('');
+  const months=[
+    {m:'Tháng 1',vi:'Chẩn đoán: thu thập dữ liệu, lập bản đồ chỉ tiêu, ra mắt Dashboard bản 1.',en:'Diagnose: collect data, map KPIs, ship Dashboard v1.'},
+    {m:'Tháng 2',vi:'Chuẩn hoá P&L chi nhánh, thiết lập cảnh báo đầu tiên.',en:'Standardize branch P&L, set up first alerts.'},
+    {m:'Tháng 3',vi:'Thí điểm 10 chi nhánh & online, họp tuần, hiệu chỉnh ngưỡng.',en:'Pilot 10 branches & online, weekly reviews, tune thresholds.'},
+    {m:'Tháng 4–6',vi:'Triển khai kiến nghị ưu tiên, theo dõi tác động, MI hằng tuần.',en:'Roll out priority recommendations, track impact, weekly MI.'}
+  ];
+  document.getElementById('roadmap').innerHTML=months.map(function(r,i){
+    return '<div style="display:flex;gap:12px;margin-bottom:14px;"><div style="width:28px;height:28px;border-radius:50%;background:#071f3d;color:#ffd36b;display:grid;place-items:center;font-weight:900;flex:0 0 28px;font-size:13px;">'+(i+1)+'</div><div><b style="color:#071f3d;font-size:13.5px;">'+r.m+'</b><p style="margin:2px 0 0;color:#5b6b80;font-size:13px;">'+(lang==='en'?r.en:r.vi)+'</p></div></div>';
+  }).join('');
+
+  // execution tracker
+  const exec=[
+    {ini_vi:'Cắt kênh marketing ROAS thấp',ini_en:'Cut low-ROAS marketing',owner:'Marketing',kpi:'ROAS',prog:65,impact:'4,2 tỷ',st:'doing'},
+    {ini_vi:'Markdown nhóm Áo khoác',ini_en:'Markdown jackets',owner:'Merchandising',kpi:'Inventory days',prog:100,impact:'3,7 tỷ',st:'done'},
+    {ini_vi:'Đàm phán lại thuê 4 CN yếu',ini_en:'Renegotiate rent (4 branches)',owner:'COO',kpi:'Rent/Rev',prog:30,impact:'3,4 tỷ',st:'doing'},
+    {ini_vi:'Tối ưu conversion website',ini_en:'Optimize web conversion',owner:'E-commerce',kpi:'Conversion',prog:15,impact:'1,9 tỷ',st:'propose'},
+    {ini_vi:'Giãn lịch PO bảo vệ dòng tiền',ini_en:'Stagger POs',owner:'CFO',kpi:'Cash runway',prog:50,impact:'bảo vệ',st:'doing'}
+  ];
+  document.getElementById('execTable').innerHTML=exec.map(function(e){
+    const stCls=e.st==='done'?'good':e.st==='doing'?'info':'muted'; const stTxt=e.st==='done'?'Xong':e.st==='doing'?'Đang làm':'Đề xuất';
+    return '<tr><td><b>'+(lang==='en'?e.ini_en:e.ini_vi)+'</b></td><td>'+(lang==='en'?e.owner:ownerVi(e.owner))+'</td><td>'+e.kpi+'</td><td><div style="display:flex;align-items:center;gap:6px;"><div style="background:#eef1f5;width:70px;height:8px;border-radius:4px;overflow:hidden;"><div style="background:#2a6fdb;width:'+e.prog+'%;height:100%;"></div></div><b>'+e.prog+'%</b></div></td><td>'+e.impact+'</td><td><span class="badge '+stCls+'">'+stTxt+'</span></td></tr>';
+  }).join('');
+
+  // capital readiness gauge
+  const cap=S.capital_readiness;
+  const score=cap.score, ang=-90 + (score/100)*180;
+  document.getElementById('capGauge').innerHTML='<svg viewBox="0 0 240 140" style="width:240px;height:140px;">'+
+    '<path d="M20,130 A100,100 0 0,1 220,130" fill="none" stroke="#e8edf5" stroke-width="18" stroke-linecap="round"/>'+
+    '<path d="M20,130 A100,100 0 0,1 220,130" fill="none" stroke="url(#cgrad)" stroke-width="18" stroke-linecap="round" stroke-dasharray="'+(Math.PI*100)+'" stroke-dashoffset="'+(Math.PI*100*(1-score/100))+'"/>'+
+    '<defs><linearGradient id="cgrad"><stop offset="0" stop-color="#c7352b"/><stop offset="0.5" stop-color="#ffb20a"/><stop offset="1" stop-color="#0d8a5d"/></linearGradient></defs>'+
+    '<line x1="120" y1="130" x2="'+(120+85*Math.cos(ang*Math.PI/180))+'" y2="'+(130+85*Math.sin(ang*Math.PI/180))+'" stroke="#071f3d" stroke-width="3"/>'+
+    '<circle cx="120" cy="130" r="6" fill="#071f3d"/>'+
+    '<text x="120" y="112" text-anchor="middle" font-size="34" font-weight="900" fill="#071f3d">'+score+'</text>'+
+    '<text x="120" y="128" text-anchor="middle" font-size="12" fill="#5b6b80">/100</text>'+
+  '</svg>'+
+  '<div style="text-align:center;margin-top:6px;"><span class="badge gold">'+(lang==='en'?cap.tiers_en[2]:cap.tiers_vi[2])+'</span></div>';
+  const sub=cap.sub;
+  const subLabels=lang==='en'?{fin:'Financials',cash:'Cash',even:'Branch evenness',expand:'Expansion',growth:'Growth',data:'Data quality'}:{fin:'Tài chính',cash:'Tiền mặt',even:'Đồng đều CN',expand:'Mở rộng',growth:'Tăng trưởng',data:'Chất lượng DL'};
+  document.getElementById('capSub').innerHTML=Object.keys(sub).map(function(k){
+    const v=sub[k]; const c=v>=70?'#0d8a5d':v>=55?'#c47a08':'#c7352b';
+    return '<div style="display:flex;justify-content:space-between;align-items:center;"><span>'+subLabels[k]+'</span><div style="display:flex;align-items:center;gap:8px;"><div style="background:#eef1f5;width:90px;height:8px;border-radius:4px;overflow:hidden;"><div style="background:'+c+';width:'+v+'%;height:100%;"></div></div><b style="color:'+c+';">'+v+'</b></div></div>';
+  }).join('');
+  const val=cap.valuation;
+  document.getElementById('valuation').innerHTML='<div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:10px;">'+
+    '<div><div style="font-size:11px;color:#5b6b80;font-weight:800;">LOW</div><div style="font-size:22px;font-weight:900;color:#071f3d;">'+val.low+'</div></div>'+
+    '<div style="text-align:center;"><div style="font-size:11px;color:#7a5400;font-weight:800;">BASE</div><div style="font-size:34px;font-weight:900;color:#071f3d;">'+val.base+'</div></div>'+
+    '<div style="text-align:right;"><div style="font-size:11px;color:#5b6b80;font-weight:800;">HIGH</div><div style="font-size:22px;font-weight:900;color:#071f3d;">'+val.high+'</div></div></div>'+
+    '<div style="height:10px;border-radius:5px;background:linear-gradient(90deg,#c7352b,#ffb20a,#0d8a5d);"></div>'+
+    '<div style="text-align:center;margin-top:8px;font-size:12.5px;color:#5b6b80;">'+(lang==='en'?'VND billion · indicative':'Tỷ VND · tham khảo')+'</div>';
+}
+render();
+
+// ---------- Market Intelligence rich render ----------
+var miRole = 'ceo';
+function miTierBadge(t){
+  var m = { 1:{vi:'① Kiến nghị',en:'① Recommend',cls:'good'}, 2:{vi:'② Gợi ý cân nhắc',en:'② Consider',cls:'info'}, 3:{vi:'③ Đang theo dõi',en:'③ Watching',cls:'gold'}, 4:{vi:'④ Khoảng trống',en:'④ Data gap',cls:'muted'} };
+  return m[t] || m[3];
+}
+function miArchLabel(a, lang){
+  var M = { price_war:{vi:'Price war',en:'Price war'}, sku_gap:{vi:'SKU gap',en:'SKU gap'}, geo:{vi:'Geo — đối thủ gần',en:'Geo — nearby rival'}, stockout:{vi:'Stockout hot',en:'Stockout hot'}, social_spike:{vi:'Social spike',en:'Social spike'}, review_drop:{vi:'Review drop',en:'Review drop'}, cost_spike:{vi:'Cost spike',en:'Cost spike'}, regulatory:{vi:'Regulatory',en:'Regulatory'}, new_launch:{vi:'New launch / PR',en:'New launch / PR'}, voucher:{vi:'Voucher',en:'Voucher'}, search_trend:{vi:'Search trend',en:'Search trend'}, top_sku:{vi:'Top SKU',en:'Top SKU'} };
+  return (M[a] && (lang==='en'?M[a].en:M[a].vi)) || a;
+}
+function miItemCard(it, lang){
+  var tb = miTierBadge(it.tier);
+  var dl = it.label==='FACT'?'actual':(it.label==='ASSUMPTION'||it.label==='HYPOTHESIS')?'assumption':'estimate';
+  var dlTxt = it.label==='FACT'?(lang==='en'?'FACT':'THỰC TẾ'):it.label==='ESTIMATE'?(lang==='en'?'ESTIMATE':'ƯỚC TÍNH'):(lang==='en'?'HYPOTHESIS':'GIẢ THUYẾT');
+  var cc = it.conf==='high'?'high':it.conf==='med'?'med':'low';
+  var confTxt = it.conf==='high'?(lang==='en'?'High confidence':'Tin cậy cao'):it.conf==='med'?(lang==='en'?'Medium':'Trung bình'):(lang==='en'?'Low':'Thấp');
+  return ''
+  + '<div style="border:1px solid var(--app-line);border-left:4px solid '+(it.tier===1?'#0d8a5d':it.tier===2?'#2a6fdb':it.tier===3?'#ffb20a':'#5b6b80')+';border-radius:12px;padding:15px 16px;margin-bottom:12px;background:#fff;">'
+  +   '<div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap;">'
+  +     '<b style="color:#071f3d;font-size:14.5px;flex:1;min-width:240px;">'+(lang==='en'?it.title_en:it.title_vi)+'</b>'
+  +     '<span style="display:flex;gap:6px;flex-wrap:wrap;"><span class="badge '+tb.cls+'">'+(lang==='en'?tb.en:tb.vi)+'</span><span class="badge muted">'+miArchLabel(it.arch,lang)+'</span><span class="dlabel '+dl+'">'+dlTxt+'</span></span>'
+  +   '</div>'
+  +   '<p style="margin:9px 0;color:#41546b;font-size:13.5px;line-height:1.55;">'+(lang==='en'?it.body_en:it.body_vi)+'</p>'
+  +   '<div style="display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:#5b6b80;border-top:1px dashed var(--app-line);padding-top:9px;">'
+  +     '<span><b style="color:#071f3d;">'+(lang==='en'?'Source':'Nguồn')+':</b> '+it.sources.join(', ')+' · '+it.date+'</span>'
+  +     '<span class="conf '+cc+'"><span class="pip"></span>'+confTxt+'</span>'
+  +     '<span><b style="color:#071f3d;">'+(lang==='en'?'Owner':'Phụ trách')+':</b> '+it.owner+'</span>'
+  +     (it.impact_vi?'<span><b style="color:#7a5400;">'+(lang==='en'?it.impact_en:it.impact_vi)+'</b></span>':'')
+  +   '</div>'
+  +   '<div style="margin-top:8px;background:rgba(42,111,219,.06);border-radius:8px;padding:8px 11px;font-size:12px;color:#2a4a78;"><b>'+(lang==='en'?'How to verify':'Cách kiểm chứng')+':</b> '+(lang==='en'?it.verify_en:it.verify_vi)+'</div>'
+  + '</div>';
+}
+var miFilters=window.miFilters={cat:'',plat:'',conf:'',isNew:false,voucher:false};
+function renderTop20(){
+  var T = window.VCPC_MI && window.VCPC_MI.top20; if(!T) return;
+  var catSel=document.getElementById('fltCat'), platSel=document.getElementById('fltPlat');
+  if(catSel && !catSel.dataset.init){ var cats=['']; T.forEach(function(p){if(cats.indexOf(p.cat)<0)cats.push(p.cat);}); catSel.innerHTML=cats.map(function(c){return '<option value="'+c+'">'+(c||'Mọi danh mục')+'</option>';}).join(''); var pls=['']; T.forEach(function(p){if(pls.indexOf(p.platform)<0)pls.push(p.platform);}); platSel.innerHTML=pls.map(function(c){return '<option value="'+c+'">'+(c||'Mọi nền tảng')+'</option>';}).join(''); catSel.dataset.init='1'; }
+  var rows=T.filter(function(p){
+    var F=window.miFilters||{};
+    if(F.cat&&p.cat!==F.cat)return false;
+    if(F.plat&&p.platform!==F.plat)return false;
+    if(F.conf&&p.confidence!==F.conf)return false;
+    if(F.isNew&&!p.isNew)return false;
+    if(F.voucher&&!p.voucher)return false;
+    return true;
+  });
+  function delta(d){ if(d>0)return '<span class="badge good">▲ '+d+'</span>'; if(d<0)return '<span class="badge bad">▼ '+Math.abs(d)+'</span>'; return '<span class="badge muted">–</span>'; }
+  function confChip(c){ var m={high:['Cao','good'],med:['TB','warn'],low:['Thấp','bad']}[c]||['?','muted']; return '<span class="badge '+m[1]+'">'+m[0]+'</span>'; }
+  document.getElementById('miTop20Body').innerHTML = rows.map(function(p){
+    return '<tr>'
+    + '<td><b>'+p.rank+'</b>'+(p.isNew?' <span class="badge gold">Mới</span>':'')+'</td>'
+    + '<td><b style="color:#071f3d;">'+p.name+'</b><br><small style="color:#5b6b80;">'+p.brand+' · '+p.cat+' · '+p.platform+'</small></td>'
+    + '<td>'+p.price+'k'+(p.voucher?' <span class="badge warn">−'+p.voucherPct+'%</span>':'')+'</td>'
+    + '<td>'+p.volLo+'k–'+p.volHi+'k <span class="dlabel estimate">ƯỚC TÍNH</span><br><small style="color:#5b6b80;">★'+p.rating+' · '+p.reviews+' đánh giá</small></td>'
+    + '<td>'+(p.stockout?'<span class="badge bad">Hết size/màu</span>':'<span class="badge good">Còn hàng</span>')+'</td>'
+    + '<td>'+delta(p.d7)+' / '+delta(p.d30)+'</td>'
+    + '<td>'+confChip(p.confidence)+'</td>'
+    + '<td><button class="badge info" style="border:0;cursor:pointer;" data-ev="'+p.rank+'">Bằng chứng</button></td>'
+    + '</tr>';
+  }).join('');
+}
+function openEvidence(rank){
+  var p=(window.VCPC_MI.top20||[]).find(function(x){return x.rank===rank;}); if(!p)return;
+  var d=document.getElementById('evDrawer'), c=document.getElementById('evBody');
+  c.innerHTML='<h3 style="font-size:18px;font-weight:900;color:#071f3d;margin:0 0 4px;">'+p.name+'</h3>'+
+    '<div style="color:#5b6b80;font-size:13px;margin-bottom:14px;">'+p.brand+' · '+p.cat+' · '+p.platform+'</div>'+
+    '<div style="display:grid;gap:10px;font-size:13.5px;">'+
+    '<div style="display:flex;justify-content:space-between;border-bottom:1px solid var(--app-line);padding-bottom:6px;"><span>Nguồn</span><b>'+p.source+'</b></div>'+
+    '<div style="display:flex;justify-content:space-between;border-bottom:1px solid var(--app-line);padding-bottom:6px;"><span>Ngày quét</span><b>'+p.date+'/2026</b></div>'+
+    '<div style="display:flex;justify-content:space-between;border-bottom:1px solid var(--app-line);padding-bottom:6px;"><span>Snapshot</span><b>'+(p.snapshot?'Có lưu':'—')+'</b></div>'+
+    '<div style="display:flex;justify-content:space-between;border-bottom:1px solid var(--app-line);padding-bottom:6px;"><span>Độ tin cậy</span><b>'+({high:'Cao',med:'Trung bình',low:'Thấp'}[p.confidence])+'</b></div>'+
+    '<div style="display:flex;justify-content:space-between;border-bottom:1px solid var(--app-line);padding-bottom:6px;"><span>Giá hiện tại</span><b>'+p.price+'k'+(p.voucher?' (voucher −'+p.voucherPct+'%)':'')+'</b></div>'+
+    '<div style="display:flex;justify-content:space-between;border-bottom:1px solid var(--app-line);padding-bottom:6px;"><span>Nhu cầu (khoảng)</span><b>'+p.volLo+'k–'+p.volHi+'k · ƯỚC TÍNH</b></div>'+
+    '</div>'+
+    '<div style="margin-top:14px;background:rgba(42,111,219,.06);border-radius:10px;padding:12px;font-size:12.5px;color:#2a4a78;"><b>Cách kiểm chứng:</b> mở link sản phẩm trên '+p.platform+', đối chiếu lịch sử giá/hạng/đánh giá; so với SKU nội bộ tương tự trước khi ra quyết định.</div>'+
+    '<div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">'+(p.voucher?'<button class="app-btn app-btn-dark" style="font-size:12.5px;">Tạo cảnh báo price war</button>':'')+(p.stockout?'<button class="app-btn app-btn-ghost" style="font-size:12.5px;">Đề xuất nhập/capsule</button>':'')+'<button class="app-btn app-btn-ghost" style="font-size:12.5px;">Thêm vào theo dõi</button></div>'+
+    '<p style="margin-top:14px;font-size:11.5px;color:#9aa7b8;">Đề xuất vị trí/bộ phận tiếp nhận: Sales · Merchandising. Hệ thống không gán đích danh phòng ban.</p>';
+  d.style.transform='translateX(0)';
+}
+document.addEventListener('click', function(e){
+  var ev=e.target.closest('[data-ev]'); if(ev){ openEvidence(parseInt(ev.getAttribute('data-ev'),10)); return; }
+  if(e.target.id==='evClose'||e.target.id==='evOverlay'){ document.getElementById('evDrawer').style.transform='translateX(100%)'; }
+});
+['fltCat','fltPlat','fltConf','fltNew','fltVoucher'].forEach(function(id){
+  document.addEventListener('change', function(e){ if(e.target.id!==id)return;
+    miFilters.cat=document.getElementById('fltCat').value; miFilters.plat=document.getElementById('fltPlat').value; miFilters.conf=document.getElementById('fltConf').value;
+    miFilters.isNew=document.getElementById('fltNew').checked; miFilters.voucher=document.getElementById('fltVoucher').checked; renderTop20();
+  });
+});
+function renderMI(lang){
+  if (!window.VCPC_MI) return;
+  var MI = window.VCPC_MI, m = MI.meta;
+  document.getElementById('miWeek').textContent = lang==='en'?m.week_en:m.week_vi;
+  document.getElementById('miCadence').textContent = lang==='en'?m.cadence_en:m.cadence_vi;
+  document.getElementById('miTier').textContent = (lang==='en'?'Apparel retail · Tier ':'Ngành bán lẻ thời trang · Tầng ')+m.tier;
+  document.getElementById('miAcc').textContent = m.accuracy_hit+'%';
+  document.getElementById('miAccLast').textContent = lang==='en'?m.accuracy_last_en:m.accuracy_last_vi;
+  document.getElementById('miEyebrow').textContent = lang==='en'?'Monday Market Intelligence report':'Báo cáo Market Intelligence · Thứ Hai';
+  document.getElementById('miSummary').innerHTML = MI.summary.map(function(s){
+    var dl = s.label==='FACT'?'actual':s.label==='ESTIMATE'?'estimate':'assumption';
+    var dlTxt = s.label==='FACT'?(lang==='en'?'FACT':'THỰC TẾ'):s.label==='ESTIMATE'?(lang==='en'?'ESTIMATE':'ƯỚC TÍNH'):(lang==='en'?'HYPOTHESIS':'GIẢ THUYẾT');
+    return '<div style="background:#f6f8fc;border:1px solid var(--app-line);border-radius:12px;padding:14px;"><span class="dlabel '+dl+'">'+dlTxt+'</span><p style="margin:8px 0 0;color:#071f3d;font-size:13.5px;font-weight:600;line-height:1.5;">'+(lang==='en'?s.en:s.vi)+'</p></div>';
+  }).join('');
+  // CEO decisions this week — all tier-1 (① Recommend) items across roles
+  var decisions = [];
+  Object.keys(MI.slices).forEach(function(role){ MI.slices[role].forEach(function(it){ if (it.tier===1) decisions.push(it); }); });
+  var seen = {};
+  decisions = decisions.filter(function(it){ if (seen[it.title_vi]) return false; seen[it.title_vi]=1; return true; });
+  renderTop20();
+  document.getElementById('miDecisions').innerHTML = decisions.map(function(it,i){
+    return '<div style="display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-bottom:'+(i<decisions.length-1?'1px solid var(--app-line)':'0')+';">'
+    + '<span style="width:24px;height:24px;border-radius:50%;background:#0d8a5d;color:#fff;display:grid;place-items:center;font-weight:900;font-size:12px;flex:0 0 24px;">'+(i+1)+'</span>'
+    + '<div style="flex:1;"><b style="color:#071f3d;font-size:14px;">'+(lang==='en'?it.title_en:it.title_vi)+'</b>'
+    + '<div style="color:#5b6b80;font-size:12.5px;margin-top:2px;">'+(lang==='en'?'Owner':'Phụ trách')+': <b style="color:#071f3d;">'+it.owner+'</b>'
+    + (it.impact_vi?' · '+(lang==='en'?it.impact_en:it.impact_vi):'')+'</div></div>'
+    + '<span class="badge '+(it.label==='FACT'?'good':'warn')+'">'+(it.label==='FACT'?(lang==='en'?'Evidence: solid':'Bằng chứng: chắc'):(lang==='en'?'Verify first':'Kiểm chứng trước'))+'</span>'
+    + '</div>';
+  }).join('');
+  var items = MI.slices[miRole] || [];
+  document.getElementById('miRoleBody').innerHTML = items.map(function(it){ return miItemCard(it, lang); }).join('');
+  document.getElementById('miGaps').innerHTML = MI.gaps.map(function(g){
+    return '<div style="display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--app-line);"><span style="color:#5b6b80;font-weight:900;">④</span><span style="color:#41546b;font-size:13.5px;">'+(lang==='en'?g.en:g.vi)+'</span></div>';
+  }).join('');
+  document.getElementById('miAccLog').innerHTML = MI.accuracy_log.map(function(a){
+    var ok = a.result==='hit';
+    return '<div style="display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px solid var(--app-line);"><span class="badge '+(ok?'good':'bad')+'">'+(ok?(lang==='en'?'HIT':'ĐÚNG'):(lang==='en'?'MISS':'SAI'))+'</span><div style="flex:1;"><b style="color:#071f3d;font-size:13px;">'+a.wk+' · '+(lang==='en'?a.rec_en:a.rec_vi)+'</b><div style="color:#5b6b80;font-size:12px;">'+(lang==='en'?a.note_en:a.note_vi)+'</div></div></div>';
+  }).join('');
+}
+document.getElementById('miRoleTabs').addEventListener('click', function(e){
+  var b = e.target.closest('[data-mirole]'); if (!b) return;
+  miRole = b.getAttribute('data-mirole');
+  document.querySelectorAll('#miRoleTabs .app-tab').forEach(function(x){ x.classList.toggle('active', x===b); });
+  renderMI((VCPC_I18N&&VCPC_I18N.current)||'vi');
+});
+renderMI('vi');
+document.getElementById('refreshBtn').addEventListener('click', function(){
+  document.getElementById('lastRefresh').textContent=new Date().toISOString().slice(0,10);
+  render();
+});
+syncTitle();
+</script>
+</body>
+</html>

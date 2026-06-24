@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="theme-color" content="#071f3d"/><link rel="icon" type="image/png" href="../assets/favicon.png"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/><link rel="stylesheet" href="../assets/tokens.css"/><link rel="stylesheet" href="../assets/vcpc.css"/><link rel="stylesheet" href="../assets/app-core.css"/><title>Lịch sử thanh toán · VCPC</title></head>
+<body class="app" data-require="auth">
+<main class="app-main" style="max-width:1000px;margin:0 auto;padding:40px 22px 60px;">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:14px;flex-wrap:wrap;margin-bottom:20px;">
+    <div>
+      <h1 class="app-title" style="margin:0;" data-vi="Lịch sử thanh toán" data-en="Payment history">Lịch sử thanh toán</h1>
+      <p class="app-sub" style="margin-top:4px;" data-vi="Các đợt thanh toán, nội dung gói dịch vụ và yêu cầu xuất hóa đơn VAT (xử lý ngoài)." data-en="Instalments, the service package paid for, and VAT invoice requests (handled offline).">Các đợt thanh toán, nội dung gói và yêu cầu xuất hóa đơn VAT.</p>
+    </div>
+    <a class="app-btn app-btn-ghost" href="payment.html" data-vi="← Về thanh toán" data-en="← Back to payment">← Về thanh toán</a>
+  </div>
+
+  <div id="empty" class="app-card" style="display:none;text-align:center;color:#5b6b80;">
+    <div style="font-size:34px;">🧾</div>
+    <p data-vi="Chưa có giao dịch nào." data-en="No transactions yet.">Chưa có giao dịch nào.</p>
+    <a class="app-btn app-btn-primary" href="payment.html" style="margin-top:8px;display:inline-flex;" data-vi="Tới trang thanh toán" data-en="Go to payment">Tới trang thanh toán</a>
+  </div>
+
+  <div id="list" style="display:grid;gap:14px;"></div>
+</main>
+
+<!-- VAT request modal -->
+<div id="vatModal" style="display:none;position:fixed;inset:0;background:rgba(7,31,61,.45);z-index:200;place-items:center;padding:20px;">
+  <div class="app-card" style="max-width:480px;width:100%;">
+    <div class="app-card-head"><b data-vi="Yêu cầu xuất hóa đơn VAT" data-en="Request VAT invoice">Yêu cầu xuất hóa đơn VAT</b></div>
+    <p style="font-size:13px;color:#5b6b80;margin-bottom:12px;" data-vi="VCPC sẽ phát hành hóa đơn GTGT và gửi qua email. Kiểm tra thông tin xuất hóa đơn bên dưới." data-en="VCPC will issue the VAT invoice and email it to you. Please check the billing details below.">VCPC sẽ phát hành hóa đơn GTGT và gửi qua email.</p>
+    <form id="vatForm" style="display:grid;gap:10px;">
+      <div><label data-vi="Tên đơn vị (pháp lý)" data-en="Legal entity name">Tên đơn vị (pháp lý)</label><input name="legal_name" required/></div>
+      <div><label data-vi="Mã số thuế" data-en="Tax ID">Mã số thuế</label><input name="tax_id" required placeholder="0123456789"/></div>
+      <div><label data-vi="Địa chỉ xuất hóa đơn" data-en="Billing address">Địa chỉ xuất hóa đơn</label><input name="address" required/></div>
+      <div><label data-vi="Email nhận hóa đơn" data-en="Invoice email">Email nhận hóa đơn</label><input name="email" type="email" required/></div>
+      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:6px;">
+        <button type="button" id="vatCancel" class="app-btn app-btn-ghost" data-vi="Hủy" data-en="Cancel">Hủy</button>
+        <button type="submit" class="app-btn app-btn-primary" data-vi="Gửi yêu cầu" data-en="Send request">Gửi yêu cầu</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="../assets/i18n/loader.js" data-i18n-base="../assets/i18n"></script><script src="../assets/app-config.js"></script><script src="../assets/mock-backend.js"></script><script src="../assets/guards.js"></script><script src="../assets/app-core.js"></script>
+<script>
+const isEN = function(){ return (window.VCPC_I18N&&VCPC_I18N.current)==='en'; };
+const L = function(o){ return o[(window.VCPC_I18N&&VCPC_I18N.current)||'vi']||o.vi; };
+if (!VCPC_DB.currentUser()) window.location.href = 'login.html';
+const org = VCPC_DB.currentOrg();
+if (!org) window.location.href = 'onboarding.html';
+
+let PLANMAP = {};
+const fmtMoney = function(v,c){ return v==null ? (isEN()?'Per quote':'Theo báo giá') : VCPC_APP.fmtMoney(v, c||'VND'); };
+const fmtDate = function(ms){ if(!ms) return '—'; try { return new Date(ms).toLocaleDateString(isEN()?'en-GB':'vi-VN',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}); } catch(e){ return '—'; } };
+
+const STATUS = {
+  PAID:        { vi:'Đã thanh toán', en:'Paid', cls:'good' },
+  AWAITING_CONFIRMATION: { vi:'Chờ VCPC xác nhận', en:'Awaiting VCPC confirmation', cls:'warn' },
+  CREATED:     { vi:'Đã tạo đơn', en:'Created', cls:'muted' },
+  PENDING:     { vi:'Đang xử lý', en:'Pending', cls:'info' },
+  FAILED:      { vi:'Thất bại', en:'Failed', cls:'bad' }
+};
+function statusBadge(s){ const m = STATUS[s] || {vi:s,en:s,cls:'muted'}; return '<span class="badge '+m.cls+'">'+(isEN()?m.en:m.vi)+'</span>'; }
+
+fetch('../assets/plans.json',{cache:'no-cache'}).then(r=>r.json()).then(function(plans){
+  [].concat(plans.bizhealth, plans.strategy_os).forEach(function(p){ PLANMAP[p.code] = p; });
+  render();
+});
+
+function planLabel(code){ const p = PLANMAP[code]; return p ? (L(p.product_label)+' · '+L(p.name)) : (code||'—'); }
+
+function render(){
+  if (!org) return;
+  const payments = (VCPC_DB.select('payments', { organization_id: org.id }) || []).slice().sort(function(a,b){ return (b.created_at||b.paid_at||0)-(a.created_at||a.paid_at||0); });
+  const invs = VCPC_DB.select('invoice_requests', { organization_id: org.id }) || [];
+  const invByTx = {}; invs.forEach(function(i){ invByTx[i.payment_transaction_id] = i; });
+
+  if (!payments.length){ document.getElementById('empty').style.display='block'; return; }
+  document.getElementById('empty').style.display='none';
+
+  document.getElementById('list').innerHTML = payments.map(function(p){
+    const code = p.plan_code || (VCPC_DB.select('engagements',{ id:p.engagement_id })[0]||{}).plan_code;
+    const inv = invByTx[p.transaction_id];
+    const instTxt = p.instalment==='deposit' ? (isEN()?'Instalment 1 (20%)':'Đợt 1 (20%)') : (p.instalment==='final' ? (isEN()?'Instalment 2 (80%)':'Đợt 2 (80%)') : (p.instalment||'—'));
+    const canVat = p.status === 'PAID' || p.status === 'AWAITING_CONFIRMATION';
+    let vatBtn;
+    if (inv){ vatBtn = '<span class="badge solid">'+(isEN()?'VAT invoice requested':'Đã yêu cầu hóa đơn VAT')+'</span>'; }
+    else if (canVat){ vatBtn = '<button class="app-btn app-btn-ghost vat-btn" data-tx="'+p.transaction_id+'" style="font-size:12.5px;padding:8px 14px;" data-vi="Yêu cầu xuất hóa đơn VAT" data-en="Request VAT invoice">Yêu cầu xuất hóa đơn VAT</button>'; }
+    else { vatBtn = '<span style="font-size:12px;color:#9aa7b8;">'+(isEN()?'VAT available after payment':'Xuất VAT sau khi thanh toán')+'</span>'; }
+
+    return ''+
+    '<div class="app-card" style="padding:16px 18px;">'+
+      '<div style="display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:flex-start;">'+
+        '<div>'+
+          '<div style="font-weight:900;color:#071f3d;font-size:15px;">'+planLabel(code)+'</div>'+
+          '<div style="font-size:12.5px;color:#5b6b80;margin-top:2px;">'+instTxt+' · '+(p.provider||'-')+' · '+fmtDate(p.paid_at||p.created_at)+'</div>'+
+          (p.reference ? '<div style="font-size:12px;color:#7a5400;margin-top:2px;">'+(isEN()?'Ref: ':'Nội dung CK: ')+p.reference+'</div>' : '')+
+        '</div>'+
+        '<div style="text-align:right;display:grid;gap:6px;justify-items:end;">'+
+          '<div style="font-weight:900;color:#071f3d;font-size:16px;">'+fmtMoney(p.amount, p.currency)+'</div>'+
+          statusBadge(p.status)+
+        '</div>'+
+      '</div>'+
+      '<div style="display:flex;justify-content:flex-end;margin-top:12px;border-top:1px solid rgba(7,31,61,.08);padding-top:12px;">'+vatBtn+'</div>'+
+    '</div>';
+  }).join('');
+}
+
+/* VAT modal */
+let activeTx = null;
+document.getElementById('list').addEventListener('click', function(e){
+  const b = e.target.closest('.vat-btn'); if (!b) return;
+  activeTx = b.getAttribute('data-tx');
+  const f = document.getElementById('vatForm');
+  f.legal_name.value = org.legal_name || org.name || '';
+  f.tax_id.value = org.tax_id || '';
+  f.address.value = org.address || (org.regions||'');
+  f.email.value = (VCPC_DB.currentUser()||{}).email || '';
+  document.getElementById('vatModal').style.display = 'grid';
+});
+document.getElementById('vatCancel').addEventListener('click', function(){ document.getElementById('vatModal').style.display='none'; });
+document.getElementById('vatModal').addEventListener('click', function(e){ if (e.target.id==='vatModal') this.style.display='none'; });
+document.getElementById('vatForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  const d = Object.fromEntries(new FormData(e.target).entries());
+  const pay = (VCPC_DB.select('payments',{ transaction_id: activeTx })[0]) || {};
+  VCPC_DB.insert('invoice_requests', {
+    organization_id: org.id, engagement_id: pay.engagement_id, payment_transaction_id: activeTx,
+    amount: pay.amount, currency: pay.currency, legal_name: d.legal_name, tax_id: d.tax_id,
+    address: d.address, email: d.email, status: 'REQUESTED', created_at: Date.now()
+  });
+  VCPC_DB.audit('VAT_INVOICE_REQUESTED', { payment_transaction_id: activeTx, tax_id: d.tax_id });
+  document.getElementById('vatModal').style.display='none';
+  render();
+});
+document.addEventListener('vcpc:langchange', render);
+</script>
+</body>
+</html>

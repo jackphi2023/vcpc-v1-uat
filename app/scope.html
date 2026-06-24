@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="theme-color" content="#071f3d"/><link rel="icon" type="image/png" href="../assets/favicon.png"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/><link rel="stylesheet" href="../assets/vcpc.css"/><link rel="stylesheet" href="../assets/app-core.css"/><title>Phạm vi · VCPC Auto</title></head>
+<body class="app" data-require="auth">
+<main class="app-main" style="max-width:1100px;margin:0 auto;padding:40px 22px 60px;">
+<div class="app-stepper"><div class="app-step done"><span class="num">1</span><span data-vi="Tạo tổ chức & chọn gói" data-en="Org & plan">Tạo tổ chức & chọn gói</span></div><div class="app-step done"><span class="num">2</span><span data-vi="Khai báo nhu cầu" data-en="Intake">Khai báo nhu cầu</span></div><div class="app-step done"><span class="num">3</span><span data-vi="Upload & Data Gate" data-en="Upload & Data Gate">Upload & Data Gate</span></div><div class="app-step active"><span class="num">4</span><span data-vi="Phạm vi &amp; báo giá" data-en="Scope &amp; quote">Phạm vi &amp; báo giá</span></div><div class="app-step "><span class="num">5</span><span data-vi="Thanh toán" data-en="Payment">Thanh toán</span></div><div class="app-step "><span class="num">6</span><span data-vi="Dashboard" data-en="Dashboard">Dashboard</span></div></div>
+<div class="app-card">
+  <h1 class="app-title" data-vi="Xác nhận phạm vi" data-en="Confirm scope">Xác nhận phạm vi</h1>
+  <p class="app-sub" data-vi="Đây là những gì sẽ được dựng cho doanh nghiệp dựa trên gói và dữ liệu đã nạp. Sau bước này sẽ mở cổng thanh toán đợt 1 (50%)." data-en="This is what we'll build for you, based on your plan and the data we received. The next step opens 50% instalment payment.">Đây là những gì sẽ được dựng. Sau bước này mở thanh toán đợt 1 (50%).</p>
+
+  <div class="app-grid cols-3" style="gap:16px;margin:24px 0;">
+    <div class="kpi"><div class="lbl" data-vi="Gói" data-en="Plan">Gói</div><div class="val" id="planName" style="font-size:20px;">—</div><div class="sub" id="planAudience"></div></div>
+    <div class="kpi"><div class="lbl" data-vi="Kỳ dữ liệu" data-en="Data period">Kỳ dữ liệu</div><div class="val" style="font-size:20px;" id="dataPeriod">2026-01-01 → 2026-06-10</div><div class="sub" id="dataFreq">weekly · 23 weeks</div></div>
+    <div class="kpi"><div class="lbl" data-vi="SLA dựng" data-en="Build SLA">SLA dựng</div><div class="val" style="font-size:20px;" id="slaTxt">48h</div><div class="sub" data-vi="sau khi đợt 1 thành công" data-en="after deposit succeeds">sau khi đợt 1 thành công</div></div>
+  </div>
+
+  <div class="app-row-2" style="gap:18px;">
+    <div class="app-card" style="box-shadow:none;border-color:rgba(7,31,61,.10);">
+      <div class="app-card-head"><b data-vi="Module sẽ được dựng" data-en="Modules to build">Module sẽ được dựng</b></div>
+      <ul id="moduleList" style="list-style:none;padding:0;margin:0;display:grid;gap:8px;"></ul>
+
+      <div class="app-card-head" style="margin-top:18px;"><b data-vi="KPI &amp; Alert dự kiến" data-en="Planned KPIs &amp; Alerts">KPI &amp; Alert dự kiến</b></div>
+      <div id="kpiAlertSummary" style="font-size:13.5px;color:#5b6b80;line-height:1.7;"></div>
+
+      <div class="app-card-head" style="margin-top:18px;"><b data-vi="Dữ liệu được nạp" data-en="Data sources received">Dữ liệu được nạp</b></div>
+      <div id="dataSummary" style="font-size:13.5px;color:#5b6b80;"></div>
+    </div>
+    <div class="app-card" style="box-shadow:none;border-color:rgba(7,31,61,.10);">
+      <div class="app-card-head"><b data-vi="Báo giá &amp; điều kiện" data-en="Quote &amp; terms">Báo giá &amp; điều kiện</b></div>
+      <div style="background:linear-gradient(135deg,#fff8e8,#fff);border:1px solid rgba(255,178,10,.30);border-radius:12px;padding:14px 16px;">
+        <div style="font-size:11px;font-weight:900;color:#7a5400;letter-spacing:.06em;text-transform:uppercase;" data-vi="Tổng giá trị (chưa thuế)" data-en="Total (pre-tax)">Tổng giá trị (chưa thuế)</div>
+        <div style="font-size:24px;font-weight:900;color:#071f3d;letter-spacing:-.5px;margin:6px 0;" id="quoteTotal">—</div>
+        <div style="font-size:12px;color:#5b6b80;" data-vi="Tỷ giá &amp; biểu phí cuối do VCPC chốt (assets/plans.json)" data-en="Final FX &amp; fee schedule set by VCPC (assets/plans.json)">Tỷ giá &amp; biểu phí cuối do VCPC chốt.</div>
+      </div>
+      <div style="display:grid;gap:10px;margin-top:14px;font-size:13.5px;">
+        <div style="display:flex;justify-content:space-between;border-bottom:1px dashed rgba(7,31,61,.16);padding-bottom:6px;"><span data-vi="Đợt 1 (50%)" data-en="Instalment 1 (50%)">Đợt 1 (50%)</span><b id="payDeposit">—</b></div>
+        <div style="display:flex;justify-content:space-between;border-bottom:1px dashed rgba(7,31,61,.16);padding-bottom:6px;"><span data-vi="Đợt 2 (50%)" data-en="Instalment 2 (50%)">Đợt 2 (50%)</span><b id="payFinal">—</b></div>
+        <div style="display:flex;justify-content:space-between;"><span data-vi="Preview" data-en="Preview">Preview</span><b>48h</b></div>
+        <div style="display:flex;justify-content:space-between;"><span data-vi="Active" data-en="Active">Active</span><b id="activeWindow">90 ngày</b></div>
+      </div>
+      <button id="confirmBtn" class="app-btn app-btn-primary" style="width:100%;margin-top:18px;" data-vi="Xác nhận phạm vi &amp; mở thanh toán" data-en="Confirm scope &amp; open payment">Xác nhận phạm vi &amp; mở thanh toán</button>
+    </div>
+  </div>
+</div>
+</main>
+<script src="../assets/i18n/loader.js" data-i18n-base="../assets/i18n"></script><script src="../assets/app-config.js"></script><script src="../assets/mock-backend.js"></script><script src="../assets/guards.js"></script><script src="../assets/app-core.js"></script><script src="../assets/engines/dqs.js"></script>
+<script>
+if (!VCPC_DB.currentUser()) window.location.href='login.html';
+const eng=VCPC_DB.currentEngagement();
+if(!eng) window.location.href='onboarding.html';
+const L=function(o){const lang=(VCPC_I18N&&VCPC_I18N.current)||'vi';return o[lang]||o.vi||'';};
+fetch('../assets/plans.json',{cache:'no-cache'}).then(r=>r.json()).then(function(plans){
+ const all=[].concat(plans.bizhealth||[],plans.strategy_os||[]),p=all.find(x=>x.code===eng.plan_code)||all[0];
+ document.getElementById('planName').textContent=L(p.name);document.getElementById('planAudience').textContent=L(p.audience);
+ document.getElementById('moduleList').innerHTML=(p.includes||[]).map(it=>'<li style="display:flex;gap:10px;align-items:flex-start;background:#fff;border:1px solid rgba(7,31,61,.08);border-radius:10px;padding:10px 12px;"><span style="color:#0d8a5d;font-weight:900;">✓</span><span>'+L(it)+'</span></li>').join('');
+ const lim=p.limits||{},lang=(VCPC_I18N&&VCPC_I18N.current)||'vi';
+ document.getElementById('kpiAlertSummary').innerHTML='· '+(lang==='en'?(lim.tabs+' dashboard tabs'):(lim.tabs+' tab dashboard'))+'<br/>· '+(lim.alerts?(lim.alerts+' '+(lang==='en'?'alert rules':'quy tắc cảnh báo')):((lim.recommendations||'—')+' '+(lang==='en'?'recommendations':'kiến nghị')))+'<br/>· '+(lim.reviews_per_month?(lim.reviews_per_month+' '+(lang==='en'?'VCPC reviews/month':'phiên VCPC review/tháng')):(lang==='en'?'VCPC review before publish':'VCPC review trước publish'));
+ const ups=VCPC_DB.select('data_uploads',{engagement_id:eng.id})||[];
+ document.getElementById('dataSummary').innerHTML=ups.length?ups.map(u=>'· '+(u.file_name||u.name)+' · DQS '+(u.dqs_score||0)).join('<br/>'):(lang==='en'?'No data sources connected.':'Chưa có nguồn dữ liệu.');
+ const total=Number(eng.final_amount||0),dep=Number(eng.deposit_amount||Math.round(total*.2)),bal=Number(eng.balance_amount||Math.round(total*.8));
+ const fmt=v=>new Intl.NumberFormat(lang==='en'?'en-US':'vi-VN').format(v)+' đ';
+ document.getElementById('quoteTotal').textContent=total?fmt(total):(lang==='en'?'Per VCPC quote':'Theo báo giá VCPC');
+ document.getElementById('payDeposit').textContent=total?fmt(dep):(lang==='en'?'20% of quote':'20% theo báo giá');
+ document.getElementById('payFinal').textContent=total?fmt(bal):(lang==='en'?'80% of quote':'80% theo báo giá');
+ if(p.product==='strategy_os'){document.getElementById('activeWindow').textContent=(eng.billing_term||3)+' '+(lang==='en'?'months':'tháng');document.getElementById('slaTxt').textContent='3 ngày làm việc';}
+ else document.getElementById('activeWindow').textContent=(lim.active_days||90)+' '+(lang==='en'?'days':'ngày');
+});
+document.getElementById('confirmBtn').addEventListener('click',function(){
+ const current=VCPC_DB.currentEngagement();if(!current)return;
+ const next=Object.assign({},current,{state:'SCOPE_CONFIRMED',quote_locked_at:current.quote_locked_at||Date.now()});
+ VCPC_DB.upsert('engagements',next);VCPC_DB.audit('SCOPE_CONFIRMED',{organization_id:current.organization_id,engagement_id:current.id,final_amount:current.final_amount});window.location.href='payment.html';
+});
+</script>
+</body>
+</html>

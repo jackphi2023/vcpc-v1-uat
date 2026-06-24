@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="theme-color" content="#071f3d"/>
+<link rel="icon" type="image/png" href="../assets/favicon.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../assets/tokens.css"/>
+<link rel="stylesheet" href="../assets/vcpc.css"/>
+<link rel="stylesheet" href="../assets/app-core.css"/>
+<title>Hồ sơ khách hàng · VCPC Admin</title>
+<style>
+.tab-btn{padding:12px 18px;border:0;background:transparent;font-family:inherit;font-size:13px;font-weight:700;color:#5b6b80;cursor:pointer;border-bottom:3px solid transparent;transition:.15s;white-space:nowrap;}
+.tab-btn:hover{color:#071f3d;}
+.tab-btn.tab-active{color:#071f3d;border-bottom-color:#ffb20a;}
+.tabview{display:none;} .tabview.tv-active{display:block;}
+.irow{display:flex;justify-content:space-between;align-items:flex-start;padding:9px 0;border-bottom:1px solid rgba(7,31,61,.07);gap:12px;}
+.irow:last-child{border-bottom:none;}
+.irow .ik{color:#5b6b80;font-size:12.5px;flex:0 0 130px;}
+.irow .iv{color:#071f3d;font-weight:700;font-size:13px;text-align:right;word-break:break-all;}
+.data-row{display:grid;grid-template-columns:1fr auto auto auto;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid rgba(7,31,61,.07);}
+.data-row:last-child{border-bottom:none;}
+.dqs-bar-wrap{height:8px;background:#eef0f4;border-radius:4px;overflow:hidden;width:80px;}
+.dqs-bar{height:100%;border-radius:4px;transition:.3s;}
+.user-row{display:grid;grid-template-columns:1fr auto auto auto;gap:8px;align-items:center;padding:10px 0;border-bottom:1px solid rgba(7,31,61,.07);}
+.user-row:last-child{border-bottom:none;}
+.ver-row{display:grid;grid-template-columns:auto 1fr auto auto;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid rgba(7,31,61,.07);}
+.ver-row:last-child{border-bottom:none;}
+.act-btn{width:100%;padding:12px;border:0;border-radius:10px;font-family:inherit;font-size:13px;font-weight:800;cursor:pointer;transition:.15s;}
+.act-primary{background:#ffb20a;color:#071f3d;}
+.act-primary:hover{background:#ffc030;}
+.act-success{background:#0d8a5d;color:#fff;}
+.act-success:hover{background:#0a7050;}
+.act-danger{background:#c7352b;color:#fff;}
+.act-danger:hover{background:#a82923;}
+.act-ghost{background:rgba(7,31,61,.07);color:#071f3d;}
+.act-btn:disabled{opacity:.45;cursor:not-allowed;}
+.sla-ring{width:60px;height:60px;border-radius:50%;display:grid;place-items:center;font-size:16px;font-weight:900;}
+.audit-entry{padding:6px 10px;border-radius:6px;background:#f7f8fa;font-size:12px;color:#5b6b80;line-height:1.4;}
+.modal-overlay{position:fixed;inset:0;background:rgba(7,31,61,.5);z-index:200;display:grid;place-items:center;}
+.modal-box{background:#fff;border-radius:20px;padding:28px;max-width:440px;width:90%;box-shadow:0 30px 80px rgba(0,0,0,.25);}
+</style>
+</head>
+<body class="app" data-require="admin">
+<div class="app-shell">
+
+  <!-- SIDEBAR -->
+  <aside class="app-sidebar">
+    <a href="../index.html" class="app-brand">
+      <img src="../assets/logo-vcpc.jpg" alt="VCPC"/>
+      <div><b>VCPC Admin</b><span>Cổng review chuyên gia</span></div>
+    </a>
+    <div class="app-section-label">Pipeline duyệt</div>
+    <nav class="app-nav">
+      <a href="index.html"><span>Hàng đợi review</span></a>
+      <a href="data-review.html"><span>Data review</span></a>
+      <a href="ai-review.html"><span>AI review</span></a>
+      <a href="mi.html"><span>Market Intelligence</span></a>
+      <a href="payments.html"><span>Thanh toán &amp; VAT</span></a>
+      <a href="promo.html"><span>Mã khuyến mãi</span></a>
+      <a href="affiliate.html"><span>Affiliate</span></a>
+      <a href="audit.html"><span>Audit log</span></a>
+      <a href="org-detail.html" class="active"><span>Hồ sơ KH</span></a>
+    </nav>
+    <div class="app-bottom">
+      <button class="app-signout" data-action="signout">↩ Đăng xuất</button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="app-main" style="padding-bottom:60px;">
+
+    <!-- Topbar -->
+    <div class="app-topbar" style="flex-wrap:wrap;gap:12px;border-bottom:1px solid rgba(7,31,61,.1);">
+      <div style="flex:1;min-width:280px;">
+        <div class="app-crumb">Admin · Hồ sơ khách hàng</div>
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:2px;">
+          <h1 class="app-title" style="margin:0;" id="orgTitle">Đang tải...</h1>
+          <span class="badge solid" id="stateBadge" style="font-size:12px;">—</span>
+          <span class="badge" id="planBadge" style="background:rgba(7,31,61,.08);color:#071f3d;font-size:11.5px;">—</span>
+          <span id="slaBadge" style="font-size:12px;font-weight:800;color:#c7352b;background:rgba(199,53,43,.1);padding:4px 10px;border-radius:999px;display:none;">⏱ <span id="slaText">—</span></span>
+        </div>
+        <p class="app-sub" id="orgSub" style="margin-top:4px;">—</p>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+        <a id="viewDashBtn" href="#" target="_blank" class="app-btn app-btn-ghost" style="font-size:13px;display:none;">👁 Xem dashboard KH →</a>
+        <a href="index.html" class="app-btn app-btn-ghost" style="font-size:13px;">← Hàng đợi</a>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div style="display:flex;gap:0;border-bottom:2px solid rgba(7,31,61,.1);margin:0 -24px;padding:0 24px;overflow-x:auto;">
+      <button class="tab-btn tab-active" data-tab="overview">📋 Tổng quan</button>
+      <button class="tab-btn" data-tab="data">🗄 Dữ liệu</button>
+      <button class="tab-btn" data-tab="dashboard">📊 Dashboard</button>
+      <button class="tab-btn" data-tab="users">👥 Thành viên KH</button>
+    </div>
+
+    <!-- Layout: content + action panel -->
+    <div style="display:grid;grid-template-columns:1fr 270px;gap:18px;margin-top:18px;align-items:start;">
+
+      <!-- CONTENT AREA -->
+      <div>
+
+        <!-- TAB: Tổng quan -->
+        <div class="tabview tv-active" id="tv-overview">
+          <div style="display:grid;gap:14px;">
+
+            <div class="app-card">
+              <div class="app-card-head" style="display:flex;justify-content:space-between;">
+                <b>Thông tin doanh nghiệp</b>
+                <button id="editOrgBtn" class="app-btn app-btn-ghost" style="font-size:12px;">✏ Chỉnh sửa</button>
+              </div>
+              <div id="orgInfo" style="display:grid;grid-template-columns:1fr 1fr;gap:0;"></div>
+            </div>
+
+            <div class="app-card">
+              <div class="app-card-head"><b>Thanh toán &amp; Kỳ hạn</b></div>
+              <div id="payInfo" style="display:grid;gap:0;font-size:13.5px;"></div>
+            </div>
+
+            <div class="app-card">
+              <div class="app-card-head"><b>Audit log gần đây</b></div>
+              <div id="auditLog" style="display:grid;gap:6px;max-height:220px;overflow-y:auto;"></div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- TAB: Dữ liệu -->
+        <div class="tabview" id="tv-data">
+          <div style="display:grid;gap:14px;">
+
+            <div class="app-card">
+              <div class="app-card-head" style="display:flex;justify-content:space-between;align-items:center;">
+                <b>Nguồn dữ liệu đã upload</b>
+                <span id="dqsOverall" class="badge" style="font-size:12px;">DQS: —</span>
+              </div>
+              <div id="dataList" style="display:grid;gap:0;"></div>
+            </div>
+
+            <div class="app-card">
+              <div class="app-card-head"><b>Phân tích lỗi dữ liệu</b></div>
+              <div id="issueList" style="display:grid;gap:6px;font-size:13px;"></div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- TAB: Dashboard -->
+        <div class="tabview" id="tv-dashboard">
+          <div style="display:grid;gap:14px;">
+
+            <div class="app-card">
+              <div class="app-card-head" style="display:flex;justify-content:space-between;align-items:center;">
+                <b>Phiên bản dashboard</b>
+                <a id="vcpcPreviewLink" href="#" target="_blank" class="app-btn app-btn-ghost" style="font-size:12.5px;">🔗 Xem dashboard (VCPC view)</a>
+              </div>
+              <div id="dashVersions" style="display:grid;gap:0;"></div>
+            </div>
+
+            <div class="app-card">
+              <div class="app-card-head"><b>✏ Lệnh chỉnh sửa dashboard (AI Prompt)</b></div>
+              <p style="font-size:12.5px;color:#5b6b80;margin-bottom:12px;line-height:1.6;">Nhập câu lệnh để AI chỉnh nội dung / layout / dữ liệu dashboard. Mỗi lần áp dụng tạo version mới, có thể rollback.</p>
+              <textarea id="promptInput" rows="5" style="width:100%;font-family:inherit;font-size:13px;resize:vertical;border:1px solid rgba(7,31,61,.18);border-radius:10px;padding:12px;line-height:1.6;" placeholder="Vd:&#10;- Thêm tab Dòng tiền với biểu đồ waterfall 12 tháng&#10;- Đổi màu accent sang xanh dương #1a56db&#10;- Ẩn tab Capital Readiness cho gói Starter&#10;- Cập nhật logo công ty trong header&#10;- Thêm ghi chú tại tab Overview: 'Số liệu tháng 5/2026'"></textarea>
+              <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">
+                <button id="applyPromptBtn" class="app-btn app-btn-primary">▶ Áp dụng &amp; Tạo version mới</button>
+                <button id="savePromptBtn" class="app-btn app-btn-ghost">💾 Lưu nháp</button>
+              </div>
+              <div id="promptStatus" style="margin-top:8px;font-size:12.5px;min-height:20px;"></div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- TAB: Users -->
+        <div class="tabview" id="tv-users">
+          <div style="display:grid;gap:14px;">
+
+            <div class="app-card">
+              <div class="app-card-head" style="display:flex;justify-content:space-between;align-items:center;">
+                <b>Tài khoản user phía KH</b>
+                <button id="addUserBtn" class="app-btn app-btn-primary" style="font-size:12.5px;">+ Thêm user</button>
+              </div>
+              <p style="font-size:12.5px;color:#5b6b80;margin-bottom:10px;">Khi bấm "Hoàn thành Dashboard Preview", hệ thống tự cấp tài khoản cho các user dưới đây. KH nhận email với mật khẩu mặc định và có thể đổi ngay.</p>
+              <div id="userList" style="display:grid;gap:0;"></div>
+            </div>
+
+            <!-- Add user form -->
+            <div id="addUserForm" class="app-card" style="display:none;border:2px solid #ffb20a;">
+              <div class="app-card-head"><b>Thêm tài khoản cho KH</b></div>
+              <div style="display:grid;gap:12px;">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                  <div class="field"><label>Họ tên</label><input id="nuName" placeholder="Nguyễn Văn A" style="min-height:44px;"/></div>
+                  <div class="field"><label>Email đăng nhập</label><input id="nuEmail" type="email" placeholder="vanA@congty.com" style="min-height:44px;"/></div>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                  <div class="field">
+                    <label>Vai trò</label>
+                    <select id="nuRole" style="min-height:44px;">
+                      <option value="owner">Owner / CEO</option>
+                      <option value="admin">Org Admin</option>
+                      <option value="finance" selected>Finance / Data Owner</option>
+                      <option value="manager">Functional Manager</option>
+                      <option value="branch">Branch Manager</option>
+                      <option value="viewer">Board / Viewer</option>
+                    </select>
+                  </div>
+                  <div class="field">
+                    <label>Mật khẩu mặc định</label>
+                    <div style="display:flex;gap:6px;">
+                      <input id="nuPass" style="flex:1;min-height:44px;font-family:monospace;" readonly/>
+                      <button id="regenPassBtn" class="app-btn app-btn-ghost" style="height:44px;padding:0 10px;font-size:14px;" title="Sinh lại">🔄</button>
+                    </div>
+                  </div>
+                </div>
+                <div style="display:flex;gap:8px;">
+                  <button id="saveUserBtn" class="app-btn app-btn-primary">✅ Lưu tài khoản</button>
+                  <button id="cancelUserBtn" class="app-btn app-btn-ghost">Hủy</button>
+                </div>
+                <div id="addUserStatus" style="font-size:12.5px;min-height:18px;"></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div><!-- /content -->
+
+      <!-- ACTION PANEL -->
+      <div style="display:grid;gap:14px;position:sticky;top:20px;">
+
+        <div class="app-card" style="border:2px solid rgba(255,178,10,.4);">
+          <div style="font-size:11px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:#7a5400;margin-bottom:12px;">⚡ Hành động chuyên viên</div>
+          <div id="actionButtons" style="display:grid;gap:8px;"></div>
+        </div>
+
+        <div class="app-card">
+          <div class="app-card-head"><b>SLA &amp; Tiến độ</b></div>
+          <div id="slaPanel" style="display:grid;gap:8px;font-size:13px;"></div>
+        </div>
+
+        <div class="app-card">
+          <div class="app-card-head"><b>Thanh toán</b></div>
+          <div id="payStatusPanel" style="display:grid;gap:6px;font-size:13px;"></div>
+        </div>
+
+      </div>
+
+    </div><!-- /grid -->
+  </main>
+</div>
+
+<!-- Confirm Modal -->
+<div id="confirmModal" class="modal-overlay" style="display:none;">
+  <div class="modal-box">
+    <h2 id="modalTitle" style="font-size:18px;font-weight:900;color:#071f3d;margin-bottom:10px;"></h2>
+    <p id="modalBody" style="font-size:13.5px;color:#5b6b80;line-height:1.6;margin-bottom:20px;"></p>
+    <div style="display:flex;gap:8px;justify-content:flex-end;">
+      <button id="modalCancel" class="app-btn app-btn-ghost">Hủy</button>
+      <button id="modalConfirm" class="app-btn app-btn-primary">Xác nhận</button>
+    </div>
+  </div>
+</div>
+
+<script src="../assets/app-config.js"></script>
+<script src="../assets/mock-backend.js"></script>
+<script src="../assets/guards.js"></script>
+<script src="../assets/app-core.js"></script>
+<script>
+(function(){
+'use strict';
+
+/* ========== SEED DEMO DATA ========== */
+function seedDemo(){
+  const rid = p => p + '_' + Math.random().toString(36).slice(2,9);
+  const now = Date.now();
+
+  // Org
+  const org = VCPC_DB.upsert('organizations', {
+    id:'org_demo01', name:'Công ty CP Thực phẩm Hoa Mặt Trời', industry:'F&B Retail',
+    size:'50–200 nhân viên', contact_name:'Nguyễn Thanh Bình', contact_email:'binh@hoamattroifood.vn',
+    contact_phone:'0901 234 567', website:'hoamattroifood.vn',
+    owner_id:'u_demo', created_at: now - 7*86400*1000
+  },'id');
+
+  // Engagement in BUILDING state
+  VCPC_DB.upsert('engagements',{
+    id:'eng_demo01', organization_id:'org_demo01', owner_id:'u_demo',
+    product:'strategy_os', plan_code:'OS_STANDARD', state:'BUILDING',
+    billing_term:6, deposit_paid_at: now - 2.5*86400*1000,
+    data_approved_at: now - 2.5*86400*1000, created_at: now - 8*86400*1000
+  },'id');
+
+  // Payment 20%
+  VCPC_DB.upsert('payments',{
+    id:'pay_demo01', engagement_id:'eng_demo01', organization_id:'org_demo01',
+    instalment:'deposit', amount:4770000, currency:'VND', status:'PAID',
+    provider:'bank_transfer', reference:'VCPC ENG01 D1', paid_at: now - 2.5*86400*1000,
+    created_at: now - 2.5*86400*1000
+  },'id');
+
+  // Data uploads
+  VCPC_DB.upsert('data_uploads',{
+    id:'du01', engagement_id:'eng_demo01', organization_id:'org_demo01',
+    name:'BaoCaoTaiChinh_2025.xlsx', type:'financial', status:'validated',
+    dqs_score:82, rows:1240, sheets:4, issues:2,
+    uploaded_by:'binh@hoamattroifood.vn', created_at: now - 3*86400*1000
+  },'id');
+  VCPC_DB.upsert('data_uploads',{
+    id:'du02', engagement_id:'eng_demo01', organization_id:'org_demo01',
+    name:'DoanhThu_ChiNhanh_Q1Q2.xlsx', type:'sales', status:'validated',
+    dqs_score:91, rows:3800, sheets:3, issues:0,
+    uploaded_by:'binh@hoamattroifood.vn', created_at: now - 2.8*86400*1000
+  },'id');
+  VCPC_DB.upsert('data_uploads',{
+    id:'du03', engagement_id:'eng_demo01', organization_id:'org_demo01',
+    name:'TonKho_May5.xlsx', type:'inventory', status:'warning',
+    dqs_score:68, rows:920, sheets:2, issues:5,
+    uploaded_by:'binh@hoamattroifood.vn', created_at: now - 2*86400*1000
+  },'id');
+
+  // Dashboard versions
+  VCPC_DB.upsert('dashboard_versions',{
+    id:'dv01', engagement_id:'eng_demo01', organization_id:'org_demo01',
+    version:'v0.1', note:'Khởi tạo cấu trúc tabs từ template BizOS Growth',
+    status:'draft', created_by:'vcpc_admin', created_at: now - 2*86400*1000
+  },'id');
+  VCPC_DB.upsert('dashboard_versions',{
+    id:'dv02', engagement_id:'eng_demo01', organization_id:'org_demo01',
+    version:'v0.2', note:'Cập nhật theo prompt: Thêm tab Dòng tiền, ẩn Capital, đổi nhãn chi nhánh theo tên thật',
+    status:'current', created_by:'vcpc_admin', created_at: now - 1*86400*1000
+  },'id');
+
+  // KH users (pre-invited, not yet activated)
+  VCPC_DB.upsert('organization_members',{
+    id:'mem01', organization_id:'org_demo01', name:'Nguyễn Thanh Bình',
+    email:'binh@hoamattroifood.vn', role:'owner', status:'pending',
+    default_pass:'', created_at: now - 2*86400*1000
+  },'id');
+  VCPC_DB.upsert('organization_members',{
+    id:'mem02', organization_id:'org_demo01', name:'Trần Kế Toán Trưởng',
+    email:'ketoan@hoamattroifood.vn', role:'finance', status:'pending',
+    default_pass:'', created_at: now - 2*86400*1000
+  },'id');
+
+  // Audit logs
+  VCPC_DB.insert('audit_logs',{ event:'PAYMENT_PAID', payload:{ instalment:'deposit', amount:4770000 }, organization_id:'org_demo01', user_id:'u_demo', at: now - 2.5*86400*1000 });
+  VCPC_DB.insert('audit_logs',{ event:'BUILDING_STARTED', payload:{ note:'20% confirmed, build kicked off' }, organization_id:'org_demo01', user_id:'vcpc_admin', at: now - 2.4*86400*1000 });
+  VCPC_DB.insert('audit_logs',{ event:'DATA_VALIDATED', payload:{ uploads:3, dqs_avg:80 }, organization_id:'org_demo01', user_id:'vcpc_admin', at: now - 2*86400*1000 });
+  VCPC_DB.insert('audit_logs',{ event:'DASHBOARD_PROMPT_APPLIED', payload:{ version:'v0.2', prompt:'Thêm tab Dòng tiền...' }, organization_id:'org_demo01', user_id:'vcpc_admin', at: now - 1*86400*1000 });
+
+  VCPC_DB.setCurrentOrg(org);
+  return org;
+}
+
+/* ========== LOAD DATA ========== */
+const params = new URLSearchParams(window.location.search);
+let ORG_ID = params.get('id') || null;
+
+// Ensure demo tables exist
+if (!VCPC_DB.select('data_uploads')) VCPC_DB.select('data_uploads');
+if (!VCPC_DB.select('dashboard_versions')) VCPC_DB.select('dashboard_versions');
+
+let ORG = null, ENG = null, PAYMENTS = [], UPLOADS = [], VERSIONS = [], MEMBERS = [], AUDITS = [];
+
+function loadAll(){
+  if (ORG_ID) {
+    ORG = (VCPC_DB.select('organizations', { id: ORG_ID }) || [])[0];
+  }
+  if (!ORG) {
+    // Try current org
+    ORG = VCPC_DB.currentOrg();
+  }
+  if (!ORG) {
+    if (window.VCPC_CONFIG && VCPC_CONFIG.DEMO_MODE) {
+      ORG = seedDemo(); ORG_ID = ORG.id;
+    } else {
+      window.location.href = 'index.html'; return;
+    }
+  } else {
+    ORG_ID = ORG.id;
+  }
+
+  ENG      = (VCPC_DB.select('engagements',          { organization_id: ORG_ID }) || [])[0] || null;
+  VCPC_DB.setCurrentOrg(ORG);
+  if (ENG) VCPC_DB.setCurrentEngagement(ENG);
+  PAYMENTS  = VCPC_DB.select('payments',              { organization_id: ORG_ID }) || [];
+  UPLOADS   = VCPC_DB.select('data_uploads',          { organization_id: ORG_ID }) || [];
+  VERSIONS  = VCPC_DB.select('dashboard_versions',    { organization_id: ORG_ID }) || [];
+  MEMBERS   = VCPC_DB.select('organization_members',  { organization_id: ORG_ID }) || [];
+  AUDITS    = (VCPC_DB.select('audit_logs',           { organization_id: ORG_ID }) || [])
+              .sort((a,b) => (b.at||b.created_at||0) - (a.at||a.created_at||0)).slice(0,20);
+}
+
+/* ========== RENDER HELPERS ========== */
+const fmt = v => VCPC_APP.fmtMoney(v,'VND');
+function irow(k,v){ return '<div class="irow"><span class="ik">'+k+'</span><span class="iv">'+v+'</span></div>'; }
+function badge(txt,cls){ return '<span class="badge '+(cls||'')+'">'+txt+'</span>'; }
+
+const STATE_LABELS = {
+  BUILDING:'⚙ Đang dựng', AI_QA:'🤖 AI QA', VCPC_REVIEW:'📋 VCPC Review',
+  PUBLISHED:'✅ Đã phát hành', PREVIEW:'👁 Preview 48h',
+  ACTIVE_90D:'✅ Hoạt động (90ng)', ACTIVE:'✅ Đang hoạt động',
+  DUE:'⚠ Sắp hạn', GRACE_READ_ONLY:'⏳ Grace', SUSPENDED:'🔒 Khóa',
+  ARCHIVED:'📦 Lưu trữ', TERMINATED:'❌ Chấm dứt'
+};
+const STATE_CLASS = {
+  BUILDING:'info', AI_QA:'info', VCPC_REVIEW:'info', PUBLISHED:'good',
+  PREVIEW:'good', ACTIVE_90D:'good', ACTIVE:'good',
+  DUE:'bad', GRACE_READ_ONLY:'bad', SUSPENDED:'bad', ARCHIVED:'', TERMINATED:'bad'
+};
+const ROLE_LABELS = {
+  owner:'Owner/CEO', admin:'Org Admin', finance:'Finance/Data Owner',
+  manager:'Functional Manager', branch:'Branch Manager', viewer:'Board/Viewer'
+};
+const TYPE_LABELS = { financial:'Tài chính', sales:'Bán hàng', inventory:'Tồn kho', hr:'Nhân sự', other:'Khác' };
+
+function dqsColor(s){ return s>=80?'#0d8a5d':s>=65?'#d97200':'#c7352b'; }
+function dqsClass(s){ return s>=80?'good':s>=65?'':' '; }
+
+/* ========== RENDER HEADER ========== */
+function renderHeader(){
+  document.getElementById('orgTitle').textContent = ORG ? ORG.name : '—';
+  if (ENG){
+    const lbl = STATE_LABELS[ENG.state] || ENG.state;
+    const cls = STATE_CLASS[ENG.state] || '';
+    document.getElementById('stateBadge').textContent = lbl;
+    document.getElementById('stateBadge').className = 'badge solid ' + cls;
+    document.getElementById('planBadge').textContent = ENG.plan_code + (ENG.billing_term ? ' · ' + ENG.billing_term + ' tháng' : '');
+    document.getElementById('orgSub').textContent =
+      (ORG.industry||'') + (ORG.contact_email ? ' · ' + ORG.contact_email : '');
+
+    // SLA: 3 days from data_approved_at or deposit_paid_at
+    const start = ENG.data_approved_at || ENG.deposit_paid_at || 0;
+    if (start && ['BUILDING','AI_QA','VCPC_REVIEW'].includes(ENG.state)){
+      const elapsed = (Date.now() - start) / 86400000;
+      const remain = Math.max(0, 3 - elapsed);
+      const slaEl = document.getElementById('slaBadge');
+      const slaText = document.getElementById('slaText');
+      slaEl.style.display = 'inline-flex';
+      slaText.textContent = remain < 0.5 ? 'Hôm nay' : remain.toFixed(1) + ' ngày còn lại';
+      slaEl.style.background = remain < 1 ? 'rgba(199,53,43,.15)' : 'rgba(255,178,10,.15)';
+      slaEl.style.color = remain < 1 ? '#c7352b' : '#7a5400';
+    }
+
+    // View dashboard link
+    const dashUrl = ENG.product === 'strategy_os' ? '../app/dashboard-strategy.html' : '../app/dashboard-bizhealth.html';
+    const vdb = document.getElementById('viewDashBtn');
+    vdb.href = dashUrl + '?vcpc_preview=1&eng=' + ENG.id;
+    vdb.style.display = 'inline-flex';
+  }
+}
+
+/* ========== TAB: Tổng quan ========== */
+function renderOverview(){
+  const el = document.getElementById('orgInfo');
+  if (!ORG){ el.innerHTML='<div style="color:#5b6b80;padding:10px;">—</div>'; return; }
+  el.innerHTML = [
+    irow('Tên DN', ORG.name||'—'),
+    irow('Ngành', ORG.industry||'—'),
+    irow('Quy mô', ORG.size||'—'),
+    irow('Liên hệ', ORG.contact_name||'—'),
+    irow('Email', ORG.contact_email||'—'),
+    irow('SĐT', ORG.contact_phone||'—'),
+    irow('Website', ORG.website||'—'),
+    irow('Ngày tạo', ORG.created_at ? new Date(ORG.created_at).toLocaleDateString('vi-VN') : '—')
+  ].join('');
+
+  // Pay info
+  const depPaid = PAYMENTS.find(p=>p.status==='PAID'&&p.instalment==='deposit');
+  const finPaid = PAYMENTS.find(p=>p.status==='PAID'&&p.instalment==='final');
+  const plan = ENG ? ENG.plan_code : '—';
+  document.getElementById('payInfo').innerHTML = [
+    irow('Gói & kỳ hạn', plan + (ENG&&ENG.billing_term?' · '+ENG.billing_term+' tháng':'')),
+    irow('Đợt 1 (20%)', depPaid ? badge('✓ Đã TT ' + (depPaid.amount?fmt(depPaid.amount):''),'good') : badge('Chưa TT','')),
+    irow('Đợt 2 (80%)', finPaid ? badge('✓ Đã TT ' + (finPaid.amount?fmt(finPaid.amount):''),'good') : (depPaid ? badge('Còn lại','bad') : badge('Chờ đợt 1',''))),
+    irow('Trạng thái', ENG ? badge(STATE_LABELS[ENG.state]||ENG.state, 'solid '+(STATE_CLASS[ENG.state]||'')) : '—')
+  ].join('');
+
+  // Audit
+  const al = document.getElementById('auditLog');
+  if (!AUDITS.length){ al.innerHTML='<div style="color:#5b6b80;font-size:12.5px;">Chưa có log.</div>'; return; }
+  al.innerHTML = AUDITS.map(a => {
+    const ts = a.at ? new Date(a.at).toLocaleString('vi-VN',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}) : '—';
+    return '<div class="audit-entry"><b style="color:#071f3d;">' + a.event + '</b> · ' + ts +
+      (a.payload && Object.keys(a.payload).length ? ' · ' + JSON.stringify(a.payload).slice(0,80) : '') + '</div>';
+  }).join('');
+}
+
+/* ========== TAB: Dữ liệu ========== */
+function renderData(){
+  const dl = document.getElementById('dataList');
+  if (!UPLOADS.length){ dl.innerHTML='<div style="color:#5b6b80;padding:10px 0;font-size:13px;">Chưa có dữ liệu nào.</div>'; return; }
+
+  const avgDqs = Math.round(UPLOADS.reduce((s,u)=>s+(u.dqs_score||0),0)/UPLOADS.length);
+  document.getElementById('dqsOverall').innerHTML = 'DQS trung bình: <b style="color:'+dqsColor(avgDqs)+'">'+avgDqs+'</b>';
+  document.getElementById('dqsOverall').className = 'badge';
+
+  dl.innerHTML = UPLOADS.map(u => {
+    const sc = u.dqs_score||0;
+    const stCls = u.status==='validated'?'good':u.status==='warning'?'':' bad';
+    const stLbl = {validated:'✓ Hợp lệ', warning:'⚠ Cảnh báo', error:'✗ Lỗi'}[u.status]||u.status;
+    const ts = u.created_at ? new Date(u.created_at).toLocaleDateString('vi-VN') : '—';
+    return '<div class="data-row">' +
+      '<div>' +
+        '<div style="font-weight:700;color:#071f3d;font-size:13px;">'+u.name+'</div>' +
+        '<div style="font-size:11.5px;color:#9aa7b8;">'+(TYPE_LABELS[u.type]||u.type)+' · '+(u.rows||0)+' dòng · '+ts+'</div>' +
+      '</div>' +
+      '<div style="text-align:center;">' +
+        '<div style="font-size:13px;font-weight:900;color:'+dqsColor(sc)+';">'+sc+'</div>' +
+        '<div class="dqs-bar-wrap"><div class="dqs-bar" style="width:'+sc+'%;background:'+dqsColor(sc)+';"></div></div>' +
+        '<div style="font-size:10px;color:#9aa7b8;margin-top:2px;">DQS</div>' +
+      '</div>' +
+      '<span class="badge'+stCls+'">'+stLbl+(u.issues?(' · '+u.issues+' lỗi'):'')+'</span>' +
+      '<button class="app-btn app-btn-ghost" style="font-size:12px;" onclick="viewUpload(\''+u.id+'\')">Chi tiết</button>' +
+    '</div>';
+  }).join('');
+
+  // Issues
+  const allIssues = UPLOADS.filter(u=>u.issues>0);
+  const il = document.getElementById('issueList');
+  if (!allIssues.length){
+    il.innerHTML='<div style="color:#0d8a5d;font-weight:700;font-size:13px;">✓ Không có lỗi nghiêm trọng.</div>';
+  } else {
+    il.innerHTML = allIssues.map(u =>
+      '<div style="padding:10px 12px;border-radius:8px;background:#fff8e8;border:1px solid rgba(255,178,10,.25);">' +
+        '<b style="color:#7a5400;">'+u.name+'</b> · ' +
+        '<span style="color:#c7352b;">'+u.issues+' lỗi cần xem xét</span>' +
+      '</div>'
+    ).join('');
+  }
+}
+
+window.viewUpload = function(id){
+  const u = UPLOADS.find(x=>x.id===id);
+  if (!u) return;
+  showModal('Chi tiết: '+u.name, 'File: '+u.name+'\nLoại: '+(TYPE_LABELS[u.type]||u.type)+'\nDQS: '+u.dqs_score+'\nSố dòng: '+u.rows+'\nSố sheet: '+u.sheets+'\nSố lỗi: '+u.issues+'\nTrạng thái: '+u.status, null);
+};
+
+/* ========== TAB: Dashboard ========== */
+function renderDashboard(){
+  const dv = document.getElementById('dashVersions');
+  const dashUrl = ENG ? (ENG.product==='strategy_os'?'../app/dashboard-strategy.html':'../app/dashboard-bizhealth.html') : '#';
+  document.getElementById('vcpcPreviewLink').href = dashUrl + '?vcpc_preview=1&eng=' + (ENG?ENG.id:'');
+
+  if (!VERSIONS.length){
+    dv.innerHTML='<div style="color:#5b6b80;padding:10px 0;font-size:13px;">Chưa có phiên bản nào.</div>';
+    return;
+  }
+
+  dv.innerHTML = VERSIONS.slice().reverse().map((v,i) => {
+    const isCurrent = v.status === 'current';
+    const ts = v.created_at ? new Date(v.created_at).toLocaleString('vi-VN',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}) : '—';
+    return '<div class="ver-row">' +
+      '<span class="badge '+(isCurrent?'good':'')+'">'+v.version+(isCurrent?' ★':' ')+'</span>' +
+      '<div><div style="font-weight:700;color:#071f3d;font-size:13px;">'+v.note+'</div><div style="font-size:11.5px;color:#9aa7b8;">'+ts+' · '+v.created_by+'</div></div>' +
+      (isCurrent?'<span style="font-size:11px;color:#0d8a5d;font-weight:700;">LIVE</span>':'') +
+      (i===0&&!isCurrent?'<button class="app-btn app-btn-ghost" style="font-size:12px;" onclick="rollbackTo(\''+v.id+'\')">Rollback</button>':'<span></span>') +
+    '</div>';
+  }).join('');
+}
+
+window.rollbackTo = function(id){
+  const v = VERSIONS.find(x=>x.id===id); if (!v) return;
+  showModal('Rollback về '+v.version, 'Bạn có chắc muốn rollback về phiên bản '+v.version+'? Version hiện tại sẽ được lưu lại.', function(){
+    VERSIONS.forEach(x=>{ x.status = x.id===id?'current':'archived'; VCPC_DB.upsert('dashboard_versions',x,'id'); });
+    VCPC_DB.audit('DASHBOARD_ROLLBACK',{ organization_id:ORG_ID, version:v.version });
+    reloadData(); showAlert('✓ Đã rollback về '+v.version,'good');
+  });
+};
+
+/* AI Prompt */
+document.getElementById('applyPromptBtn').addEventListener('click', function(){
+  const txt = document.getElementById('promptInput').value.trim();
+  if (!txt){ document.getElementById('promptStatus').innerHTML='<span style="color:#c7352b;">Vui lòng nhập lệnh.</span>'; return; }
+  const vNum = 'v0.' + (VERSIONS.length + 1);
+  const nv = VCPC_DB.insert('dashboard_versions',{
+    engagement_id: ENG?ENG.id:'', organization_id: ORG_ID,
+    version: vNum, note: txt.slice(0,120), status:'current',
+    created_by:'vcpc_admin', created_at: Date.now()
+  });
+  VERSIONS.forEach(x=>{ if (x.status==='current'){ x.status='archived'; VCPC_DB.upsert('dashboard_versions',x,'id'); } });
+  VCPC_DB.audit('DASHBOARD_PROMPT_APPLIED',{ organization_id:ORG_ID, version:vNum, prompt:txt.slice(0,100) });
+  document.getElementById('promptStatus').innerHTML='<span style="color:#0d8a5d;font-weight:700;">✓ Đã tạo '+vNum+' thành công.</span>';
+  document.getElementById('promptInput').value='';
+  reloadData();
+});
+
+document.getElementById('savePromptBtn').addEventListener('click', function(){
+  const txt = document.getElementById('promptInput').value.trim();
+  if (!txt) return;
+  localStorage.setItem('vcpc.admin.prompt.draft.'+ORG_ID, txt);
+  document.getElementById('promptStatus').innerHTML='<span style="color:#5b6b80;">💾 Đã lưu nháp.</span>';
+});
+
+// Restore draft
+window.addEventListener('DOMContentLoaded', function(){
+  const draft = localStorage.getItem('vcpc.admin.prompt.draft.'+(ORG_ID||''));
+  if (draft) document.getElementById('promptInput').value = draft;
+});
+
+/* ========== TAB: Users ========== */
+function genPass(){
+  const chars='ABCDEFGHJKMNPQRSTWXYZabcdefghjkmnpqrstwxyz23456789@#';
+  return Array.from({length:10},()=>chars[Math.floor(Math.random()*chars.length)]).join('');
+}
+
+function renderUsers(){
+  const ul = document.getElementById('userList');
+  if (!MEMBERS.length){
+    ul.innerHTML='<div style="color:#5b6b80;font-size:13px;padding:10px 0;">Chưa có tài khoản nào. Thêm user trước khi bấm "Hoàn thành Dashboard".</div>';
+    return;
+  }
+  ul.innerHTML = MEMBERS.map(m => {
+    const stCls = m.status==='active'?'good':m.status==='pending'?'info':'';
+    const stLbl = {active:'✓ Đã kích hoạt', pending:'Chờ kích hoạt', suspended:'Tạm khóa'}[m.status]||m.status;
+    const lastLogin = m.last_login ? new Date(m.last_login).toLocaleString('vi-VN',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}) : '—';
+    return '<div class="user-row">' +
+      '<div>' +
+        '<div style="font-weight:700;color:#071f3d;font-size:13px;">'+m.name+'</div>' +
+        '<div style="font-size:11.5px;color:#9aa7b8;">'+m.email+' · '+(ROLE_LABELS[m.role]||m.role)+' · Lần đăng nhập: '+lastLogin+'</div>' +
+      '</div>' +
+      '<span class="badge '+stCls+'">'+stLbl+'</span>' +
+      '<button class="app-btn app-btn-ghost" style="font-size:12px;" onclick="resetUserPass(\''+m.id+'\')">🔄 Pass</button>' +
+      '<button class="app-btn app-btn-ghost" style="font-size:12px;color:#c7352b;" onclick="deleteUser(\''+m.id+'\')">✕</button>' +
+    '</div>';
+  }).join('');
+}
+
+document.getElementById('addUserBtn').addEventListener('click', function(){
+  document.getElementById('addUserForm').style.display = 'block';
+  document.getElementById('nuPass').value = genPass();
+  this.style.display = 'none';
+});
+document.getElementById('regenPassBtn').addEventListener('click', function(){
+  document.getElementById('nuPass').value = genPass();
+});
+document.getElementById('cancelUserBtn').addEventListener('click', function(){
+  document.getElementById('addUserForm').style.display = 'none';
+  document.getElementById('addUserBtn').style.display = 'inline-flex';
+  document.getElementById('addUserStatus').innerHTML = '';
+});
+document.getElementById('saveUserBtn').addEventListener('click', function(){
+  const name=document.getElementById('nuName').value.trim(),email=document.getElementById('nuEmail').value.trim(),role=document.getElementById('nuRole').value,st=document.getElementById('addUserStatus');
+  if(!name||!email){st.innerHTML='<span style="color:#c7352b;">Vui lòng điền đầy đủ.</span>';return;}
+  try{
+    const r=VCPC_DB.callFunction('admin-create-dashboard-user',{organization_id:ORG_ID,engagement_id:ENG&&ENG.id,name,email,role});
+    if(!r||r.error)throw new Error(r&&r.error||'CREATE_USER_FAILED');
+    document.getElementById('addUserForm').style.display='none';document.getElementById('addUserBtn').style.display='inline-flex';st.innerHTML='';reloadData();
+    showAlert('✓ Đã tạo tài khoản: '+email+' · Mật khẩu tạm thời: '+r.temporary_password,'good');
+  }catch(ex){st.innerHTML='<span style="color:#c7352b;">Không thể tạo tài khoản: '+ex.message+'</span>';}
+});
+
+window.resetUserPass=function(id){
+  const m=MEMBERS.find(x=>x.id===id);if(!m)return;
+  try{const r=VCPC_DB.callFunction('admin-create-dashboard-user',{organization_id:ORG_ID,engagement_id:ENG&&ENG.id,name:m.name||'',email:m.email,role:m.role});if(!r||r.error)throw new Error(r&&r.error||'RESET_FAILED');showAlert('✓ Mật khẩu tạm thời mới cho '+m.email+': '+r.temporary_password,'info');}
+  catch(ex){showAlert('Không thể tạo mật khẩu tạm thời: '+ex.message,'bad');}
+};
+
+window.deleteUser = function(id){
+  const m = MEMBERS.find(x=>x.id===id); if (!m) return;
+  showModal('Xóa tài khoản', 'Xóa user '+m.email+' khỏi danh sách? Nếu đã kích hoạt, quyền truy cập sẽ bị thu hồi.', function(){
+    VCPC_DB.remove('organization_members',{ id });
+    VCPC_DB.audit('USER_DELETED',{ organization_id:ORG_ID, email:m.email });
+    reloadData();
+  });
+};
+
+/* ========== ACTION PANEL ========== */
+function renderActionPanel(){
+  const ab = document.getElementById('actionButtons');
+  if (!ENG){ ab.innerHTML='<div style="color:#5b6b80;font-size:12.5px;">Không tìm thấy engagement.</div>'; return; }
+
+  const state = ENG.state;
+  let html = '';
+
+  if (state === 'BUILDING'){
+    html += btn('act-btn act-primary','completeBtn','✅ Hoàn thành Dashboard → PUBLISHED');
+    html += '<div style="font-size:11.5px;color:#5b6b80;line-height:1.5;padding:0 2px;">Bấm khi dashboard đã hoàn chỉnh. Hệ thống cấp tài khoản cho '+MEMBERS.length+' user KH và chuyển sang PUBLISHED.</div>';
+  }
+  else if (state === 'AI_QA' || state === 'VCPC_REVIEW'){
+    html += btn('act-btn act-success','completeReviewBtn','✅ Duyệt → PUBLISHED');
+    html += btn('act-btn act-ghost','requestChangeBtn','↩ Yêu cầu chỉnh sửa');
+  }
+  else if (state === 'PUBLISHED'){
+    html += btn('act-btn act-success','openPreviewBtn','👁 Mở Preview 48h cho KH');
+    html += '<div style="font-size:11.5px;color:#5b6b80;line-height:1.5;padding:0 2px;">KH nhận email thông báo + tài khoản để truy cập dashboard trong 48 giờ.</div>';
+  }
+  else if (state === 'PREVIEW'){
+    html += '<div style="padding:10px 12px;background:rgba(13,138,93,.08);border-radius:8px;font-size:12.5px;color:#0d8a5d;font-weight:700;">👁 KH đang xem Preview.<br/>Chờ thanh toán 80% còn lại.</div>';
+    html += btn('act-btn act-ghost','manualActivateBtn','⚡ Kích hoạt thủ công (đã nhận TT)');
+  }
+  else if (['ACTIVE','ACTIVE_90D'].includes(state)){
+    html += btn('act-btn act-ghost','archiveBtn','📦 Lưu trữ hồ sơ');
+    html += btn('act-btn act-success','renewBtn','🔄 Tạo hóa đơn gia hạn');
+  }
+  else if (state === 'SUSPENDED'){
+    html += btn('act-btn act-danger','unsuspendBtn','🔓 Mở khóa tài khoản');
+  }
+
+  // Always available
+  html += '<hr style="border:0;border-top:1px solid rgba(7,31,61,.1);margin:4px 0;"/>';
+  html += btn('act-btn act-ghost','viewDashBtn2','👁 Xem dashboard (VCPC)');
+
+  ab.innerHTML = html;
+  bindActionBtns();
+}
+
+function btn(cls, id, txt){
+  return '<button id="'+id+'" class="'+cls+'">'+txt+'</button>';
+}
+
+function bindActionBtns(){
+  bind('completeBtn', doCompleteBuilding);
+  bind('completeReviewBtn', doCompleteBuilding);
+  bind('openPreviewBtn', doOpenPreview);
+  bind('manualActivateBtn', doManualActivate);
+  bind('archiveBtn', function(){ doStateChange('ARCHIVED','📦 Lưu trữ hồ sơ KH?','Trạng thái chuyển sang ARCHIVED.'); });
+  bind('renewBtn', function(){ showAlert('Tính năng tạo hóa đơn gia hạn sẽ kết nối invoice backend.','info'); });
+  bind('unsuspendBtn', function(){ doStateChange('ACTIVE','Mở khóa tài khoản?','Tài khoản KH sẽ được kích hoạt trở lại.'); });
+  bind('requestChangeBtn', function(){ doStateChange('BUILDING','Trả về BUILDING?','Engagement sẽ về trạng thái BUILDING để chỉnh sửa thêm.'); });
+  bind('viewDashBtn2', function(){
+    const url = ENG.product==='strategy_os'?'../app/dashboard-strategy.html':'../app/dashboard-bizhealth.html';
+    window.open(url+'?vcpc_preview=1&eng='+ENG.id,'_blank');
+  });
+}
+
+function bind(id, fn){ const el=document.getElementById(id); if(el) el.addEventListener('click',fn); }
+
+/* ---- State transitions ---- */
+function doCompleteBuilding(){
+  if(!ENG)return;
+  let target=ENG.state==='BUILDING'?'AI_QA':ENG.state==='AI_QA'?'VCPC_REVIEW':ENG.state==='VCPC_REVIEW'?'PUBLISHED':null;
+  if(!target){showAlert('Trạng thái hiện tại không hỗ trợ thao tác này.','bad');return;}
+  showModal('Cập nhật trạng thái Dashboard','Chuyển '+ENG.state+' → '+target+'?',function(){
+    try{const r=VCPC_DB.callFunction('admin-transition-engagement',{engagement_id:ENG.id,state:target,note:'Admin review'});if(!r||r.error)throw new Error(r&&r.error||'TRANSITION_FAILED');reloadData();showAlert('✓ Đã chuyển sang '+target,'good');}
+    catch(ex){showAlert('Không thể chuyển trạng thái: '+ex.message,'bad');}
+  });
+}
+
+function doOpenPreview(){
+  showModal('👁 Mở Preview 48h cho KH','Hệ thống sẽ tạo phiên bản Dashboard, phát hành và mở Preview trong 48 giờ.',function(){
+    try{const current=VERSIONS.find(v=>v.status==='current'||v.status==='draft')||{};const r=VCPC_DB.callFunction('admin-publish-dashboard',{engagement_id:ENG.id,title:'Dashboard điều hành',config:{source_version_id:current.id||null,note:current.note||''}});if(!r||r.error)throw new Error(r&&r.error||'PUBLISH_FAILED');reloadData();showAlert('✅ Preview 48h đã mở.','good');}
+    catch(ex){showAlert('Không thể phát hành Dashboard: '+ex.message,'bad');}
+  });
+}
+
+function doManualActivate(){
+  showModal('⚡ Xác nhận thanh toán 80%','Tạo giao dịch 80% và xác nhận đã nhận đủ tiền?',function(){
+    try{
+      const amount=Number(ENG.balance_amount||0),tx='MANUAL-'+Date.now();
+      const pay=VCPC_DB.insert('payments',{engagement_id:ENG.id,organization_id:ORG_ID,instalment:'final',amount,currency:'VND',status:'AWAITING_CONFIRMATION',provider:'manual',transaction_id:tx,reference:tx,plan_code:ENG.plan_code,created_at:Date.now()});
+      const r=VCPC_DB.callFunction('admin-confirm-payment',{payment_id:pay.id});if(!r||r.error)throw new Error(r&&r.error||'CONFIRM_FAILED');reloadData();showAlert('✅ Dashboard đã kích hoạt.','good');
+    }catch(ex){showAlert('Không thể kích hoạt: '+ex.message,'bad');}
+  });
+}
+
+function doStateChange(newState, title, body){
+  showModal(title, body, function(){ updateState(newState); reloadData(); });
+}
+
+function updateState(newState){
+  const r=VCPC_DB.callFunction('admin-transition-engagement',{engagement_id:ENG.id,state:newState,note:'Admin action'});
+  if(!r||r.error)throw new Error(r&&r.error||'TRANSITION_FAILED');
+  ENG=(VCPC_DB.select('engagements',{id:ENG.id})||[])[0]||ENG;VCPC_DB.setCurrentEngagement(ENG);
+}
+
+/* ========== SLA PANEL ========== */
+function renderSlaPanel(){
+  const el = document.getElementById('slaPanel');
+  if (!ENG){ el.innerHTML='—'; return; }
+  const start = ENG.data_approved_at || ENG.deposit_paid_at || ENG.created_at || Date.now();
+  const elapsed = (Date.now() - start) / 86400000;
+  const remain = Math.max(0, 3 - elapsed);
+  const pct = Math.min(100, Math.round(elapsed/3*100));
+  const color = remain<1?'#c7352b':remain<2?'#d97200':'#0d8a5d';
+
+  el.innerHTML =
+    '<div style="display:flex;justify-content:space-between;align-items:center;">' +
+      '<span style="font-size:12px;color:#5b6b80;">Thời gian đã qua</span>' +
+      '<b style="color:'+color+';">'+elapsed.toFixed(1)+' / 3 ngày</b>' +
+    '</div>' +
+    '<div style="height:8px;background:#eef0f4;border-radius:4px;overflow:hidden;">' +
+      '<div style="height:100%;width:'+pct+'%;background:'+color+';border-radius:4px;transition:.3s;"></div>' +
+    '</div>' +
+    '<div style="font-size:12px;color:'+color+';font-weight:700;">' +
+      (remain<=0 ? '⚠ ĐÃ QUÁ HẠN 3 NGÀY' : '⏱ Còn '+remain.toFixed(1)+' ngày (SLA 3 ngày)') +
+    '</div>' +
+    '<div style="font-size:11px;color:#9aa7b8;">Tính từ ngày data được duyệt / đặt cọc 20%</div>';
+}
+
+/* ========== PAY STATUS PANEL ========== */
+function renderPayStatusPanel(){
+  const el = document.getElementById('payStatusPanel');
+  const depPaid = PAYMENTS.find(p=>p.status==='PAID'&&p.instalment==='deposit');
+  const finPaid = PAYMENTS.find(p=>p.status==='PAID'&&p.instalment==='final');
+  el.innerHTML =
+    '<div style="display:flex;justify-content:space-between;"><span style="color:#5b6b80;font-size:12px;">Đợt 1 (20%)</span>' +
+      (depPaid?'<span class="badge good">✓ '+(depPaid.amount?fmt(depPaid.amount):'Đã TT')+'</span>':'<span class="badge">Chưa TT</span>') + '</div>' +
+    '<div style="display:flex;justify-content:space-between;"><span style="color:#5b6b80;font-size:12px;">Đợt 2 (80%)</span>' +
+      (finPaid?'<span class="badge good">✓ '+(finPaid.amount?fmt(finPaid.amount):'Đã TT')+'</span>':(depPaid?'<span class="badge bad">Còn lại</span>':'<span class="badge">Chờ đợt 1</span>')) + '</div>';
+}
+
+/* ========== TABS ========== */
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', function(){
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('tab-active'));
+    this.classList.add('tab-active');
+    const tab = this.dataset.tab;
+    document.querySelectorAll('.tabview').forEach(tv=>tv.classList.remove('tv-active'));
+    const tvEl = document.getElementById('tv-'+tab);
+    if (tvEl) tvEl.classList.add('tv-active');
+  });
+});
+
+/* ========== MODAL ========== */
+let _modalCb = null;
+function showModal(title, body, onConfirm){
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalBody').innerHTML = body.replace(/\n/g,'<br/>');
+  document.getElementById('confirmModal').style.display = 'grid';
+  document.getElementById('modalConfirm').style.display = onConfirm ? 'inline-flex' : 'none';
+  _modalCb = onConfirm;
+}
+document.getElementById('modalCancel').addEventListener('click', function(){ document.getElementById('confirmModal').style.display='none'; });
+document.getElementById('modalConfirm').addEventListener('click', function(){ document.getElementById('confirmModal').style.display='none'; if(_modalCb) _modalCb(); });
+
+/* ========== ALERT TOAST ========== */
+function showAlert(msg, type){
+  let t = document.getElementById('vcpc-toast');
+  if (!t){ t = document.createElement('div'); t.id='vcpc-toast'; t.style.cssText='position:fixed;bottom:24px;right:24px;z-index:9999;padding:12px 20px;border-radius:12px;font-family:Montserrat,sans-serif;font-size:13px;font-weight:700;box-shadow:0 8px 24px rgba(0,0,0,.18);transition:.3s;'; document.body.appendChild(t); }
+  const bg = {good:'#0d8a5d',bad:'#c7352b',info:'#071f3d'}[type]||'#071f3d';
+  t.style.background = bg; t.style.color='#fff'; t.textContent = msg;
+  t.style.opacity='1'; t.style.transform='translateY(0)';
+  setTimeout(()=>{ t.style.opacity='0'; t.style.transform='translateY(10px)'; }, 3500);
+}
+
+/* ========== RELOAD & INIT ========== */
+function reloadData(){
+  PAYMENTS = VCPC_DB.select('payments',             { organization_id: ORG_ID }) || [];
+  UPLOADS  = VCPC_DB.select('data_uploads',         { organization_id: ORG_ID }) || [];
+  VERSIONS = VCPC_DB.select('dashboard_versions',   { organization_id: ORG_ID }) || [];
+  MEMBERS  = VCPC_DB.select('organization_members', { organization_id: ORG_ID }) || [];
+  AUDITS   = (VCPC_DB.select('audit_logs',          { organization_id: ORG_ID }) || [])
+             .sort((a,b)=>(b.at||b.created_at||0)-(a.at||a.created_at||0)).slice(0,20);
+  if (ENG) ENG = (VCPC_DB.select('engagements', { organization_id: ORG_ID })||[])[0] || ENG;
+
+  renderHeader();
+  renderOverview();
+  renderData();
+  renderDashboard();
+  renderUsers();
+  renderActionPanel();
+  renderSlaPanel();
+  renderPayStatusPanel();
+}
+
+// Boot
+loadAll();
+reloadData();
+
+})();
+</script>
+</body>
+</html>

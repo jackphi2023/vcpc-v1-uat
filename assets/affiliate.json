@@ -1,0 +1,61 @@
+{
+  "$note": "v3: affiliate commission 35% (1-4 khách) → 40% (từ khách thứ 5). Chi vào Thứ 3 hàng tuần khi giao dịch đã thu đủ & dịch vụ kích hoạt. Khách được giảm 10%.",
+  "program": {
+    "customer_discount_tiers": [
+      10,
+      15,
+      20
+    ],
+    "default_customer_discount_percent": 10,
+    "discount_scope": "first_month_or_setup",
+    "commission_percent": 35,
+    "commission_scope_months": "lifetime_of_engagement",
+    "validity_days": 90,
+    "new_customers_only": true,
+    "attribution": "last_valid_code_before_first_paid_order",
+    "attribution_locked_after_first_payment": true,
+    "commission_state_rule": "approved_when_customer_paid_and_service_activated",
+    "commission_tiers": [
+      {
+        "from_customers": 1,
+        "to_customers": 4,
+        "percent": 35
+      },
+      {
+        "from_customers": 5,
+        "to_customers": null,
+        "percent": 40
+      }
+    ],
+    "commission_basis": "activated_customer_revenue",
+    "payout_schedule": "weekly_tuesday"
+  },
+  "partner_types": [
+    {
+      "code": "consultant",
+      "vi": "Chuyên gia tư vấn / kế toán",
+      "en": "Consultants / accountants"
+    },
+    {
+      "code": "network",
+      "vi": "Hiệp hội & cộng đồng doanh nghiệp",
+      "en": "Business associations & communities"
+    },
+    {
+      "code": "agency",
+      "vi": "Agency marketing / chuyển đổi số",
+      "en": "Marketing / digital agencies"
+    },
+    {
+      "code": "individual",
+      "vi": "Cá nhân có mạng lưới chủ DN",
+      "en": "Individuals with a founder network"
+    }
+  ],
+  "commission_scope_months": 3,
+  "default_commission_percent": 35,
+  "tier_after_successful_customers": {
+    "count": 5,
+    "commission_percent": 40
+  }
+}

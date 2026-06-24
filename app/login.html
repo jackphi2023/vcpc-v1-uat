@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="theme-color" content="#071f3d"/>
+<link rel="icon" type="image/png" href="../assets/favicon.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../assets/vcpc.css"/>
+<link rel="stylesheet" href="../assets/app-core.css"/>
+<title>Đăng nhập · VCPC</title>
+</head>
+<body class="app">
+<div class="auth-page">
+  <aside class="auth-hero">
+    <a href="../index.html" style="display:flex;gap:12px;align-items:center;color:#fff;text-decoration:none;">
+      <img src="../assets/logo-vcpc.jpg" style="width:46px;height:46px;border-radius:10px;" alt="VCPC"/>
+      <div>
+        <b style="color:#ffd36b;font-weight:800;">Viet Capital Partners &amp; Consulting</b><br/>
+        <span style="font-size:11px;letter-spacing:.08em;color:#a9bbd2;text-transform:uppercase;">Advisory Platform</span>
+      </div>
+    </a>
+    <div>
+      <h1>Mở dashboard quản trị của doanh nghiệp.</h1>
+      <p>Đăng nhập để tiếp tục hành trình BizHealth hoặc BizOS — onboarding · data · thanh toán · dashboard.</p>
+    </div>
+    <div style="font-size:13px;color:#90a4c2;">© VCPC · vietcapitalpartners.com</div>
+  </aside>
+  <section class="auth-form-wrap">
+    <form class="auth-form" id="loginForm" autocomplete="on">
+      <h2>Đăng nhập</h2>
+      <p>Dùng email và mật khẩu đã đăng ký với VCPC.</p>
+
+      <div style="display:grid;gap:14px;margin-top:10px;">
+        <div class="field">
+          <label>Email</label>
+          <input name="email" type="email" required autocomplete="email" placeholder="ten@congty.com" style="min-height:44px;"/>
+        </div>
+        <div class="field">
+          <label>Mật khẩu</label>
+          <div style="position:relative;">
+            <input name="password" type="password" required autocomplete="current-password" id="pwInput" style="min-height:44px;padding-right:46px;"/>
+            <button type="button" id="togglePw" tabindex="-1" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);border:0;background:none;cursor:pointer;color:#5b6b80;font-size:16px;">👁</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="loginError" style="display:none;color:#c7352b;font-size:13px;font-weight:700;padding:10px 12px;background:rgba(199,53,43,.08);border-radius:8px;margin-top:6px;line-height:1.5;"></div>
+
+      <button type="submit" class="app-btn app-btn-primary" id="loginBtn" style="width:100%;margin-top:14px;min-height:44px;">Đăng nhập</button>
+
+      <div class="auth-foot" style="text-align:center;"><a href="forgot-password.html" style="color:#5b6b80;">Quên mật khẩu?</a></div>
+      <div class="auth-foot"><span>Chưa có tài khoản?</span> <a href="signup.html">Tạo tài khoản miễn phí</a></div>
+      <div class="auth-foot" style="margin-top:4px;"><a href="../index.html" style="color:#9aa7b8;font-size:12.5px;">← Về trang chính</a></div>
+    </form>
+  </section>
+</div>
+
+<script src="../assets/app-config.js"></script>
+<script src="../assets/mock-backend.js"></script>
+<script src="../assets/guards.js"></script>
+<script src="../assets/app-core.js"></script>
+<script>
+(function(){
+'use strict';
+document.getElementById('togglePw').addEventListener('click',function(){var i=document.getElementById('pwInput');i.type=i.type==='password'?'text':'password';});
+function dash(e){return e.product==='strategy_os'?'dashboard-strategy.html':'dashboard-bizhealth.html';}
+function route(){
+ var u=VCPC_DB.currentUser();if(!u)return;if(u.user_metadata&&u.user_metadata.must_change_password){location.href='reset-password.html?first=1';return;}
+ if(u.role==='affiliate'){
+  var a=(VCPC_DB.select('affiliates',{user_id:u.id})||[])[0];
+  location.href=a&&a.status==='ACTIVE'?'/doitackinhdoanh/'+encodeURIComponent(a.slug):'../affiliate.html';return;
+ }
+ var mems=(VCPC_DB.select('organization_members',{user_id:u.id})||[]).filter(function(m){return m.status==='active';});
+ if(!mems.length){document.getElementById('loginError').style.display='block';document.getElementById('loginError').textContent='Tài khoản chưa được gán Dashboard. Vui lòng liên hệ VCPC.';return;}
+ var items=[];mems.forEach(function(m){var o=(VCPC_DB.select('organizations',{id:m.organization_id})||[])[0];(VCPC_DB.select('engagements',{organization_id:m.organization_id})||[]).forEach(function(e){var protectedStates=['PREVIEW','ACTIVE','ACTIVE_90D','READONLY'];if(protectedStates.includes(e.state)){var di=(VCPC_DB.select('dashboard_instances',{engagement_id:e.id})||[])[0],access=di&&(VCPC_DB.select('dashboard_user_access',{dashboard_instance_id:di.id})||[]).some(function(a){return a.user_id===u.id&&a.status==='active';});if(!access&&!['owner','admin'].includes(m.role))return;}items.push({org:o,eng:e});});});
+ if(items.length>1){location.href='select-dashboard.html';return;}
+ if(!items.length){location.href='onboarding.html';return;}
+ var it=items[0],e=it.eng;VCPC_DB.setCurrentOrg(it.org);VCPC_DB.setCurrentEngagement(e);
+ var map={DRAFT:'onboarding.html',INTAKE:'intake.html',VALIDATING:'upload.html',DATA_INCOMPLETE:'upload.html',READY:'scope.html',SCOPE_CONFIRMED:'payment.html',AWAITING_DEPOSIT:'payment.html',AWAITING_CONFIRMATION:'payment-history.html',BUILDING:'payment.html',AI_QA:'payment.html',VCPC_REVIEW:'payment.html',PUBLISHED:'payment.html',PREVIEW:dash(e),ACTIVE:dash(e),ACTIVE_90D:dash(e),AWAITING_BALANCE:'payment.html',DUE:'billing.html',GRACE_READ_ONLY:'billing.html',READONLY:dash(e),SUSPENDED:'billing.html',TERMINATED:'billing.html',ARCHIVED:'billing.html'};
+ location.href=map[e.state]||'onboarding.html';
+}
+document.getElementById('loginForm').addEventListener('submit',function(e){e.preventDefault();var email=this.email.value.trim().toLowerCase(),pw=this.password.value,btn=document.getElementById('loginBtn'),err=document.getElementById('loginError');btn.disabled=true;btn.textContent='Đang xử lý…';err.style.display='none';try{var r=VCPC_DB.signinPassword(email,pw);if(!r||r.error)throw new Error('INVALID');route();}catch(ex){err.style.display='block';err.textContent='Email hoặc mật khẩu không đúng. Vui lòng kiểm tra lại hoặc chọn "Quên mật khẩu".';}finally{btn.disabled=false;btn.textContent='Đăng nhập';}});
+})();
+</script>
+</body>
+</html>

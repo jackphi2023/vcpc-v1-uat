@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="theme-color" content="#071f3d"/><link rel="icon" type="image/png" href="../assets/favicon.png"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/><link rel="stylesheet" href="../assets/tokens.css"/><link rel="stylesheet" href="../assets/vcpc.css"/><link rel="stylesheet" href="../assets/app-core.css"/><title>Thanh toán · VCPC</title></head>
+<body class="app" data-require="auth">
+<main class="app-main" style="max-width:1100px;margin:0 auto;padding:40px 22px 60px;">
+<div class="app-stepper"><div class="app-step done"><span class="num">1</span><span data-vi="Tạo tổ chức &amp; chọn gói" data-en="Org &amp; plan">Tạo tổ chức &amp; chọn gói</span></div><div class="app-step done"><span class="num">2</span><span data-vi="Khai báo nhu cầu" data-en="Intake">Khai báo nhu cầu</span></div><div class="app-step done"><span class="num">3</span><span data-vi="Kiểm tra dữ liệu" data-en="Data check">Kiểm tra dữ liệu</span></div><div class="app-step done"><span class="num">4</span><span data-vi="Phạm vi &amp; báo giá" data-en="Scope">Phạm vi &amp; báo giá</span></div><div class="app-step active"><span class="num">5</span><span data-vi="Thanh toán" data-en="Payment">Thanh toán</span></div><div class="app-step "><span class="num">6</span><span data-vi="Dashboard" data-en="Dashboard">Dashboard</span></div></div>
+<div class="app-row-2">
+  <div class="app-card">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;">
+      <h1 class="app-title" style="margin:0;" data-vi="Thanh toán 20% / 80%" data-en="20% / 80% payment">Thanh toán 20% / 80%</h1>
+      <a class="app-btn app-btn-ghost" href="payment-history.html" style="font-size:13px;" data-vi="Lịch sử thanh toán →" data-en="Payment history →">Lịch sử thanh toán →</a>
+    </div>
+    <div id="planLine" style="margin:6px 0 2px;font-size:13.5px;color:#5b6b80;"></div>
+    <p class="app-sub" data-vi="20% kích hoạt triển khai (BUILDING → AI QA → VCPC Review → Preview 48h). 80% còn lại kích hoạt dashboard đầy đủ sau preview." data-en="20% activates the build (BUILDING → AI QA → VCPC Review → 48h Preview). Remaining 80% fully activates the dashboard after preview.">20% kích hoạt triển khai → VCPC dựng → review → Preview 48h. 80% còn lại kích hoạt đầy đủ.</p>
+
+    <!-- Promo / affiliate code -->
+    <div class="field" style="margin-top:16px;">
+      <label data-vi="Mã khuyến mãi / mã giới thiệu (nếu có)" data-en="Promo / referral code (optional)">Mã khuyến mãi / mã giới thiệu (nếu có)</label>
+      <div style="display:flex;gap:10px;">
+        <input id="promoInput" placeholder="VCPC-XXXX" style="flex:1;text-transform:uppercase;"/>
+        <button id="promoBtn" class="app-btn app-btn-dark" style="white-space:nowrap;" data-vi="Áp dụng" data-en="Apply">Áp dụng</button>
+      </div>
+      <div id="promoMsg" style="font-size:12.5px;margin-top:4px;"></div>
+    </div>
+
+    <div class="app-grid cols-2" style="gap:14px;margin-top:18px;">
+      <div class="kpi"><div class="lbl" data-vi="Đợt 1 (20%)" data-en="Instalment 1 (20%)">Đợt 1 (20%)</div><div class="val" style="font-size:22px;" id="amt1">—</div><div class="sub" data-vi="Kích hoạt build &amp; VCPC review" data-en="Activates build &amp; VCPC review">Kích hoạt build &amp; VCPC review</div></div>
+      <div class="kpi"><div class="lbl" data-vi="Đợt 2 (80%)" data-en="Instalment 2 (80%)">Đợt 2 (80%)</div><div class="val" style="font-size:22px;" id="amt2">—</div><div class="sub" data-vi="Kích hoạt dashboard đầy đủ" data-en="Fully activates dashboard">Kích hoạt dashboard đầy đủ</div></div>
+    </div>
+    <div id="discountLine" style="display:none;margin-top:10px;font-size:13px;color:#0d8a5d;font-weight:700;"></div>
+
+    <h3 class="pay-h" data-vi="Phương thức thanh toán" data-en="Payment method">Phương thức thanh toán</h3>
+    <div id="gwPicker" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
+      <button data-gw="sepay" class="gw active"><b data-vi="Quét QR (Sepay)" data-en="Scan QR (Sepay)">Quét QR (Sepay)</b><small data-vi="VietQR · tự động xác nhận" data-en="VietQR · auto-confirmed">VietQR · tự động xác nhận</small></button>
+      <button data-gw="bank" class="gw"><b data-vi="Chuyển khoản tay" data-en="Manual transfer">Chuyển khoản tay</b><small data-vi="VCPC đối soát thủ công" data-en="VCPC reconciles manually">VCPC đối soát</small></button>
+      <button data-gw="mock" class="gw"><b>Mock</b><small data-vi="UAT / Demo" data-en="UAT / Demo">UAT / Demo</small></button>
+    </div>
+
+    <!-- SEPAY QR panel -->
+    <div id="sepayPanel" style="margin-top:20px;">
+      <div style="display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center;background:linear-gradient(135deg,#fff8e8,#fff);border:1px solid rgba(255,178,10,.30);border-radius:14px;padding:16px;">
+        <div id="sepayQR" style="width:180px;height:180px;background:#fff;border-radius:12px;display:grid;place-items:center;border:1px solid rgba(7,31,61,.10);"></div>
+        <div>
+          <div style="font-size:11px;font-weight:900;color:#7a5400;letter-spacing:.06em;text-transform:uppercase;" data-vi="Quét bằng app ngân hàng" data-en="Scan with your banking app">Quét bằng app ngân hàng</div>
+          <div id="sepayRows" style="display:grid;gap:6px;font-size:13.5px;margin-top:8px;"></div>
+        </div>
+      </div>
+      <p style="font-size:12.5px;color:#5b6b80;margin:12px 2px;" data-vi="Giữ NGUYÊN nội dung chuyển khoản để hệ thống tự đối chiếu. Khi tiền về, Sepay báo về hệ thống và dịch vụ kích hoạt tự động — thường trong 1–2 phút." data-en="Keep the transfer note EXACTLY so the system can match it. When the money arrives, Sepay notifies the system and the service activates automatically — usually within 1–2 minutes.">Giữ nguyên nội dung CK để hệ thống tự đối chiếu; dịch vụ kích hoạt tự động khi tiền về.</p>
+      <div id="sepayStatus" style="margin-top:6px;"></div>
+      <button id="sepaySimBtn" class="app-btn app-btn-ghost" style="margin-top:10px;font-size:12.5px;" data-vi="(Demo) Mô phỏng đã nhận tiền" data-en="(Demo) Simulate payment received">(Demo) Mô phỏng đã nhận tiền</button>
+    </div>
+
+    <!-- BANK manual panel -->
+    <div id="bankPanel" style="display:none;margin-top:20px;">
+      <div style="background:linear-gradient(135deg,#fff8e8,#fff);border:1px solid rgba(255,178,10,.30);border-radius:14px;padding:16px;">
+        <div style="font-size:11px;font-weight:900;color:#7a5400;letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px;" data-vi="Chuyển khoản tới tài khoản VCPC" data-en="Transfer to VCPC's account">Chuyển khoản tới tài khoản VCPC</div>
+        <div id="bankRows" style="display:grid;gap:8px;font-size:14px;"></div>
+      </div>
+      <p style="font-size:12.5px;color:#5b6b80;margin:12px 2px;" data-vi="Sau khi chuyển khoản, bấm nút dưới để VCPC đối soát và xác nhận trong giờ làm việc." data-en="After transferring, tap below so VCPC can reconcile and confirm during business hours.">Sau khi chuyển khoản, bấm nút dưới để VCPC đối soát và xác nhận.</p>
+      <button id="bankSaveBtn" class="app-btn app-btn-primary" style="width:100%;" data-vi="Tôi đã chuyển khoản — Lưu" data-en="I've transferred — Save">Tôi đã chuyển khoản — Lưu</button>
+      <div id="bankStatus" style="margin-top:12px;"></div>
+    </div>
+
+    <!-- MOCK panel -->
+    <div id="mockPanel" style="display:none;margin-top:20px;">
+      <button id="mockBtn" class="app-btn app-btn-primary" style="width:100%;" data-vi="Thanh toán mô phỏng (UAT)" data-en="Simulate payment (UAT)">Thanh toán mô phỏng (UAT)</button>
+      <div id="mockStatus" style="margin-top:12px;"></div>
+    </div>
+
+    <div id="buildNote" style="display:none;margin-top:14px;padding:12px 16px;background:rgba(13,138,93,.08);border-radius:10px;font-size:13px;color:#0d8a5d;font-weight:700;">⚙ VCPC đang dựng dashboard — bạn sẽ nhận email khi bản Preview 48h sẵn sàng.</div>
+    <div style="display:flex;justify-content:space-between;gap:16px;margin-top:24px;flex-wrap:wrap;">
+      <a class="app-btn app-btn-ghost" href="scope.html">← Quay lại</a>
+      <a id="skipBtn" class="app-btn app-btn-ghost" style="display:none;">Vào xem trước →</a>
+    </div>
+  </div>
+
+  <div class="app-card">
+    <div class="app-card-head"><b data-vi="Trạng thái hồ sơ dịch vụ" data-en="Engagement status">Trạng thái hồ sơ dịch vụ</b></div>
+    <div id="stateView" style="display:grid;gap:8px;font-size:13.5px;"></div>
+    <div class="app-card-head" style="margin-top:18px;"><b data-vi="Lịch sử thanh toán" data-en="Payment history">Lịch sử thanh toán</b></div>
+    <div id="payHistory" style="font-size:13px;color:#5b6b80;"></div>
+    <a class="app-btn app-btn-ghost" href="payment-history.html" style="margin-top:12px;font-size:13px;" data-vi="Chi tiết &amp; xuất hóa đơn VAT →" data-en="Details &amp; VAT invoice →">Chi tiết &amp; xuất hóa đơn VAT →</a>
+  </div>
+</div>
+</main>
+<script src="../assets/i18n/loader.js" data-i18n-base="../assets/i18n"></script><script src="../assets/app-config.js"></script><script src="../assets/mock-backend.js"></script><script src="../assets/guards.js"></script><script src="../assets/app-core.js"></script>
+<script src="../assets/payment/gateway.js"></script><script src="../assets/payment/mock-gateway.js"></script><script src="../assets/payment/sepay-gateway.js"></script>
+<style>
+  .pay-h{font-size:14px;color:#071f3d;font-weight:900;margin:24px 0 10px;letter-spacing:.04em;text-transform:uppercase;}
+  .gw{padding:14px;border:1px solid rgba(7,31,61,.14);border-radius:12px;background:#fff;cursor:pointer;text-align:left;display:grid;gap:4px;font-family:inherit;}
+  .gw b{display:block;color:#071f3d;font-size:14px;} .gw small{display:block;color:#5b6b80;font-size:12px;}
+  .gw.active{border:2px solid #ffb20a;background:#fff8e8;} .gw[disabled]{opacity:.45;cursor:not-allowed;}
+  .bank-row{display:flex;justify-content:space-between;gap:14px;border-bottom:1px dashed rgba(7,31,61,.16);padding-bottom:7px;}
+  .bank-row b{color:#071f3d;text-align:right;word-break:break-all;} .copy{cursor:pointer;color:#7a5400;font-weight:800;font-size:12px;margin-left:8px;}
+</style>
+<script>
+const isEN = function(){ return (window.VCPC_I18N&&VCPC_I18N.current)==='en'; };
+const L = function(o){ return o[(window.VCPC_I18N&&VCPC_I18N.current)||'vi']||o.vi; };
+if (!VCPC_DB.currentUser()) window.location.href = 'login.html';
+const eng = VCPC_DB.currentEngagement();
+if (!eng) window.location.href = 'onboarding.html';
+
+const ccy = VCPC_APP.detectCurrency();
+let selectedGw = 'sepay';
+let PLAN = null, BANK = null, SEPAYCFG = null, baseTotal = null, discountPct = 0, appliedCode = null;
+let pollTimer = null;
+
+function fmtMoney(v){ return VCPC_APP.fmtMoney(v, ccy); }
+function transferRef(inst){ return 'VCPC-' + eng.id.replace(/[^A-Za-z0-9]/g,'').slice(-8).toUpperCase() + '-C01-' + (inst==='deposit'?'D20':'B80'); }
+function effectiveTotal(){ if(eng.quote_locked_at && eng.final_amount) return Number(eng.final_amount); return baseTotal==null ? null : Math.round(baseTotal * (1 - discountPct/100)); }
+function depositAmount(){ const t = effectiveTotal(); return t==null ? null : Math.round(t * 0.20); }
+function finalAmount(){ const t = effectiveTotal(); return t==null ? null : Math.round(t * 0.80); }
+function instalmentAmount(){ const inst = nextInstalment(); return inst==='deposit' ? depositAmount() : finalAmount(); }
+
+Promise.all([
+  fetch('../assets/plans.json',{cache:'no-cache'}).then(r=>r.json()),
+  fetch('../assets/bank-config.json',{cache:'no-cache'}).then(r=>r.json()).catch(()=>null),
+  fetch('../assets/integrations.json',{cache:'no-cache'}).then(r=>r.json()).catch(()=>null)
+]).then(function(res){
+  const plans = res[0]; BANK = res[1]; SEPAYCFG = res[2] && res[2].sepay;
+  const all = [].concat(plans.bizhealth, plans.strategy_os);
+  PLAN = all.find(function(p){ return p.code === eng.plan_code; }) || all[0];
+  document.getElementById('planLine').innerHTML = '<b style="color:#071f3d;">'+L(PLAN.product_label)+' · '+L(PLAN.name)+'</b>';
+  const price = PLAN.price && PLAN.price[ccy.toLowerCase()];
+  const term = PLAN.billing_type==='monthly' ? (Number(eng.billing_term)||3) : 1;
+  const termDisc = term===6 ? 0.10 : term===12 ? 0.15 : 0;
+  baseTotal = (price != null) ? Math.round(price * term * (1-termDisc)) : null;
+  if (eng.promo_discount_percent) { discountPct = Number(eng.promo_discount_percent)||0; appliedCode = eng.promo_code || eng.affiliate_code || null; }
+  renderAmounts(); updatePicker(); renderState();
+});
+
+function renderAmounts(){
+  const dep = depositAmount(); const fin = finalAmount();
+  if (dep != null){
+    document.getElementById('amt1').textContent = fmtMoney(dep);
+    document.getElementById('amt2').textContent = fmtMoney(fin);
+  } else {
+    document.getElementById('amt1').textContent = isEN() ? '20% of quote' : '20% theo báo giá';
+    document.getElementById('amt2').textContent = isEN() ? '80% of quote' : '80% theo báo giá';
+  }
+  const dl = document.getElementById('discountLine');
+  if (discountPct > 0){
+    dl.style.display = 'block';
+    dl.textContent = (isEN()?'Promo applied: ':'Đã áp mã: ') + appliedCode + ' · −' + discountPct + '%' + (baseTotal==null ? (isEN()?' (applied when VCPC sets the price)':' (áp khi VCPC chốt giá)') : '');
+  } else dl.style.display = 'none';
+}
+
+/* ---- Promo / affiliate code ---- */
+function applyQuoteCode(code, shouldLock){
+  if(window.VCPC_CONFIG&&VCPC_CONFIG.BACKEND_READY){
+    const result=VCPC_DB.rpc('vcpc_apply_quote',{p_engagement_id:eng.id,p_code:code||null,p_lock:!!shouldLock});
+    if(result&&result.error)throw new Error(result.error);
+    const fresh=(VCPC_DB.select('engagements',{id:eng.id})||[])[0];
+    if(fresh)Object.assign(eng,fresh);
+    discountPct=Number(eng.promo_discount_percent)||0;
+    appliedCode=eng.promo_code||eng.affiliate_code||null;
+    return eng;
+  }
+  return null;
+}
+document.getElementById('promoBtn').addEventListener('click', function(){
+  const code = (document.getElementById('promoInput').value||'').trim().toUpperCase();
+  const msg = document.getElementById('promoMsg');
+  if(eng.quote_locked_at){msg.innerHTML='<span style="color:#c7352b;font-weight:700;">'+(isEN()?'The quote is locked.':'Báo giá đã được khóa.')+'</span>';return;}
+  if(window.VCPC_CONFIG&&VCPC_CONFIG.BACKEND_READY){
+    try{
+      applyQuoteCode(code||null,false);
+      msg.innerHTML=discountPct>0?'<span style="color:#0d8a5d;font-weight:700;">✓ '+(isEN()?'Applied −':'Đã áp −')+discountPct+'%</span>':'';
+    }catch(err){discountPct=0;appliedCode=null;msg.innerHTML='<span style="color:#c7352b;font-weight:700;">'+(err.message||'Không thể áp mã.')+'</span>';}
+    renderAmounts();if(selectedGw==='sepay')renderSepay();if(selectedGw==='bank')renderBank();return;
+  }
+  if (!code){ msg.innerHTML=''; discountPct=0; appliedCode=null; renderAmounts(); return; }
+  const promos = VCPC_DB.select('promo_codes', { code: code }) || [];
+  let pct = 0, ok = false, reason = '';
+  if (promos.length){
+    const p = promos[0]; const used = (p.used||0), qty = (p.quantity||0);
+    if (p.active === false) reason = isEN()?'Code is inactive.':'Mã đã ngừng áp dụng.';
+    else if (qty && used >= qty) reason = isEN()?'Code usage limit reached.':'Mã đã hết lượt áp dụng.';
+    else { pct = p.discount_percent||0; ok = true; }
+  } else {
+    const affs = VCPC_DB.select('affiliates', { code: code }) || [];
+    const aff = affs.find(function(a){ return a.status === 'ACTIVE'; });
+    if (aff) { pct = Number(aff.customer_discount_percent || 10); ok = true; }
+    else reason = isEN()?'Code not found.':'Không tìm thấy mã.';
+  }
+  if (ok){
+    discountPct = pct; appliedCode = code;
+    msg.innerHTML = '<span style="color:#0d8a5d;font-weight:700;">✓ '+(isEN()?'Applied −':'Đã áp −')+pct+'%</span>';
+    const total = baseTotal==null ? 0 : Math.round(baseTotal * (1-pct/100));
+    const quote = Object.assign({}, eng, {promo_code:promos.length?code:null,affiliate_code:promos.length?(eng.affiliate_code||null):code,promo_discount_percent:pct,promo_discount_amount:baseTotal==null?0:baseTotal-total,final_amount:total,deposit_amount:Math.round(total*0.20),balance_amount:Math.round(total*0.80)});
+    VCPC_DB.upsert('engagements', quote); Object.assign(eng, quote);
+  } else {discountPct = 0; appliedCode = null;msg.innerHTML = '<span style="color:#c7352b;font-weight:700;">'+reason+'</span>';}
+  renderAmounts(); if (selectedGw==='sepay') renderSepay(); if (selectedGw==='bank') renderBank();
+});
+
+function updatePicker(){
+  document.querySelectorAll('#gwPicker .gw').forEach(function(b){ b.classList.toggle('active', b.dataset.gw === selectedGw); });
+  document.getElementById('sepayPanel').style.display = selectedGw==='sepay' ? 'block' : 'none';
+  document.getElementById('bankPanel').style.display = selectedGw==='bank' ? 'block' : 'none';
+  document.getElementById('mockPanel').style.display = selectedGw==='mock' ? 'block' : 'none';
+  if (selectedGw==='sepay') renderSepay();
+  if (selectedGw==='bank') renderBank();
+}
+document.getElementById('gwPicker').addEventListener('click', function(e){
+  const b = e.target.closest('[data-gw]'); if (!b || b.hasAttribute('disabled')) return;
+  selectedGw = b.dataset.gw; updatePicker();
+});
+
+function renderSepay(){
+  const inst = nextInstalment() || 'deposit';
+  const ref = transferRef(inst);
+  const amt = instalmentAmount();
+  const qrUrl = (window.VCPC_SEPAY && SEPAYCFG) ? VCPC_SEPAY.buildVietQR(SEPAYCFG, amt, ref) : null;
+  document.getElementById('sepayQR').innerHTML = qrUrl
+    ? '<img src="'+qrUrl+'" alt="VietQR" style="width:100%;height:100%;object-fit:contain;border-radius:12px;"/>'
+    : '<span style="font-size:12px;color:#9aa7b8;text-align:center;padding:10px;">'+(isEN()?'Set Sepay account in integrations.json':'Cấu hình tài khoản Sepay trong integrations.json')+'</span>';
+  function row(k,v,copy){ return '<div class="bank-row"><span style="color:#5b6b80;">'+k+'</span><b>'+v+(copy?'<span class="copy" data-copy="'+String(v).replace(/"/g,'')+'">'+(isEN()?'Copy':'Sao chép')+'</span>':'')+'</b></div>'; }
+  document.getElementById('sepayRows').innerHTML =
+    (SEPAYCFG ? row(isEN()?'Bank':'Ngân hàng', SEPAYCFG.bank_name||SEPAYCFG.bank_code, false) : '') +
+    (SEPAYCFG ? row(isEN()?'Account':'Số TK', SEPAYCFG.account_number, true) : '') +
+    row(isEN()?'Amount':'Số tiền', amt!=null?fmtMoney(amt):(isEN()?'Per quote':'Theo báo giá'), false) +
+    row(isEN()?'Transfer note':'Nội dung CK', ref, true);
+}
+function renderBank(){
+  if (!BANK){ document.getElementById('bankRows').innerHTML = '<i>bank-config.json chưa cấu hình.</i>'; return; }
+  const inst = nextInstalment() || 'deposit';
+  const amt = instalmentAmount();
+  const amtTxt = amt != null ? fmtMoney(amt) : (isEN()?'Per VCPC quote':'Theo báo giá VCPC');
+  const ref = transferRef(inst);
+  function row(k,v,copy){ return '<div class="bank-row"><span style="color:#5b6b80;">'+k+'</span><b>'+v+(copy?'<span class="copy" data-copy="'+String(v).replace(/"/g,'')+'">'+(isEN()?'Copy':'Sao chép')+'</span>':'')+'</b></div>'; }
+  document.getElementById('bankRows').innerHTML =
+    row(isEN()?'Bank':'Ngân hàng', BANK.bank_name, false) +
+    row(isEN()?'Account no.':'Số tài khoản', BANK.account_number, true) +
+    row(isEN()?'Account name':'Chủ tài khoản', BANK.account_holder, false) +
+    row(isEN()?'Amount':'Số tiền', amtTxt, false) +
+    row(isEN()?'Transfer note':'Nội dung CK', ref, true);
+}
+document.addEventListener('click', function(e){
+  const c = e.target.closest('.copy'); if (!c) return;
+  navigator.clipboard && navigator.clipboard.writeText(c.getAttribute('data-copy'));
+  c.textContent = isEN()?'Copied':'Đã chép'; setTimeout(function(){ c.textContent = isEN()?'Copy':'Sao chép'; }, 1200);
+});
+
+function nextInstalment(){
+  const payments = VCPC_DB.select('payments', { engagement_id: eng.id }) || [];
+  const paid = payments.filter(function(p){return p.status==='PAID';}).map(function(p){return p.instalment;});
+  if (!paid.includes('deposit')) return 'deposit';
+  if (!paid.includes('final')) return 'final';
+  return null;
+}
+function routeToDashboard(){ window.location.href = eng.product==='strategy_os' ? 'dashboard-strategy.html' : 'dashboard-bizhealth.html'; }
+document.getElementById('skipBtn').addEventListener('click', routeToDashboard);
+
+function lockQuote(){
+  if(eng.quote_locked_at)return eng;
+  if(window.VCPC_CONFIG&&VCPC_CONFIG.BACKEND_READY){applyQuoteCode(appliedCode||eng.promo_code||eng.affiliate_code||null,true);return eng;}
+  const total=effectiveTotal(); if(total==null) return;
+  const term=PLAN&&PLAN.billing_type==='monthly'?(Number(eng.billing_term)||3):1;
+  const price=PLAN&&PLAN.price&&PLAN.price[ccy.toLowerCase()];
+  const rawBase=price==null?total:price*term;
+  const termPct=term===6?10:term===12?15:0;
+  const q=Object.assign({},eng,{monthly_price:price||0,base_amount:rawBase,term_discount_percent:termPct,term_discount_amount:rawBase-baseTotal,final_amount:total,deposit_percent:20,deposit_amount:Math.round(total*.2),balance_amount:Math.round(total*.8),quote_locked_at:eng.quote_locked_at||Date.now()});
+  VCPC_DB.upsert('engagements',q);Object.assign(eng,q);return eng;
+}
+function advance(inst){
+  if(window.VCPC_CONFIG&&VCPC_CONFIG.BACKEND_READY) return;
+  if(inst==='deposit'){
+    const e2=Object.assign({},eng,{state:'BUILDING',deposit_paid_at:Date.now()});VCPC_DB.upsert('engagements',e2);Object.assign(eng,e2);
+  }else{
+    const fs=eng.product==='strategy_os'?'ACTIVE':'ACTIVE_90D';const e2=Object.assign({},eng,{state:fs,final_paid_at:Date.now()});VCPC_DB.upsert('engagements',e2);Object.assign(eng,e2);
+  }
+}
+
+function stateLabel(s){
+  var M={DRAFT:['Bản nháp','Draft'],INTAKE:['Đang khai báo','Intake'],VALIDATING:['Đang xác thực dữ liệu','Validating'],DATA_INCOMPLETE:['Thiếu dữ liệu','Incomplete'],READY:['Sẵn sàng','Ready'],SCOPE_CONFIRMED:['Đã chốt phạm vi','Scope confirmed'],AWAITING_CONFIRMATION:['Chờ xác nhận','Awaiting confirmation'],BUILDING:['⚙ VCPC đang dựng','⚙ VCPC building'],AI_QA:['🤖 AI đang kiểm tra','🤖 AI QA'],VCPC_REVIEW:['📋 VCPC đang review','📋 VCPC reviewing'],PUBLISHED:['✅ Đã phát hành','✅ Published'],PREVIEW:['👁 Preview 48h','👁 Preview 48h'],ACTIVE_90D:['✅ Hoạt động (90 ngày)','✅ Active (90 days)'],ACTIVE:['✅ Đang hoạt động','✅ Active'],DUE:['⚠ Sắp đến hạn','⚠ Due'],GRACE_READ_ONLY:['⏳ Gia hạn — đọc','⏳ Grace read-only'],SUSPENDED:['🔒 Tạm khóa','🔒 Suspended'],ARCHIVED:['📦 Đã lưu trữ','📦 Archived'],TERMINATED:['❌ Chấm dứt','❌ Terminated']};
+  var m=M[s]; return m?(isEN()?m[1]:m[0]):s;
+}
+function renderState(){
+  const payments = VCPC_DB.select('payments', { engagement_id: eng.id }) || [];
+  document.getElementById('stateView').innerHTML =
+    '<div style="display:flex;justify-content:space-between;"><span data-vi="Mã hồ sơ" data-en="Engagement ID">Mã hồ sơ</span><b style="color:#071f3d;">'+eng.id+'</b></div>'+
+    '<div style="display:flex;justify-content:space-between;align-items:center;"><span data-vi="Trạng thái" data-en="State">Trạng thái</span><span class="badge solid">'+stateLabel(eng.state)+'</span></div>'+
+    '<div style="display:flex;justify-content:space-between;"><span data-vi="Tiền tệ" data-en="Currency">Tiền tệ</span><b>'+ccy+'</b></div>';
+  document.getElementById('payHistory').innerHTML = payments.length
+    ? payments.map(function(p){ return '· '+p.provider+' · '+(p.status||'-')+' · '+fmtMoney(p.amount)+' ('+(p.instalment||'-')+')'; }).join('<br/>')
+    : '<div data-vi="Chưa có giao dịch." data-en="No transactions yet.">Chưa có giao dịch.</div>';
+  const inst = nextInstalment();
+  const previewStates = ['PREVIEW','PUBLISHED'];
+  document.getElementById('skipBtn').style.display = (previewStates.indexOf(eng.state) >= 0 || !inst) ? 'inline-flex' : 'none';
+  const bn = document.getElementById('buildNote');
+  if (bn) bn.style.display = ['BUILDING','AI_QA','VCPC_REVIEW'].indexOf(eng.state) >= 0 ? 'block' : 'none';
+}
+
+/* ---- Sepay: show QR, poll backend; demo simulate webhook ---- */
+async function startSepay(){
+  lockQuote();
+  const inst = nextInstalment(); if (!inst){ routeToDashboard(); return; }
+  let order;
+  try {
+    order = await VCPC_PAY.get('sepay').createPaymentOrder({
+      engagement_id: eng.id, organization_id: eng.organization_id, instalment: inst,
+      amount: instalmentAmount(), currency: ccy, plan_code: eng.plan_code, reference: transferRef(inst),
+      sepayConfig: SEPAYCFG
+    });
+  } catch(err){
+    document.getElementById('sepayStatus').innerHTML = '<div class="badge bad">'+(isEN()?'Online payment is not available yet — please use manual bank transfer.':'Thanh toán online chưa sẵn sàng — vui lòng dùng chuyển khoản tay.')+'</div>';
+    return;
+  }
+  if(inst==='deposit' && ['SCOPE_CONFIRMED','AWAITING_DEPOSIT'].includes(eng.state)){ const e2=Object.assign({},eng,{state:'AWAITING_CONFIRMATION'}); VCPC_DB.upsert('engagements',e2); Object.assign(eng,e2); }
+  document.getElementById('sepayStatus').innerHTML = '<div class="badge info">⏳ '+(isEN()?'Waiting for transfer…':'Đang chờ chuyển khoản…')+'</div>';
+  renderState();
+  if (pollTimer) clearInterval(pollTimer);
+  pollTimer = setInterval(async function(){
+    const st = await VCPC_PAY.get('sepay').queryTransaction(order.transaction_id);
+    if (st.status === 'PAID'){ clearInterval(pollTimer); onSepayPaid(order.transaction_id, inst); }
+  }, (SEPAYCFG && SEPAYCFG.poll_interval_ms) || 4000);
+  // remember tx for simulate button
+  document.getElementById('sepaySimBtn').dataset.tx = order.transaction_id;
+  document.getElementById('sepaySimBtn').dataset.inst = inst;
+}
+function onSepayPaid(tx, inst){
+  if(!(window.VCPC_CONFIG&&VCPC_CONFIG.BACKEND_READY)){ const ps=VCPC_DB.select('payments',{transaction_id:tx}); ps.forEach(function(p){p.status='PAID';p.paid_at=Date.now();VCPC_DB.upsert('payments',p);}); advance(inst); }
+  document.getElementById('sepayStatus').innerHTML = '<div class="badge good">✓ '+(isEN()?'Payment received — service activating.':'Đã nhận tiền — dịch vụ đang kích hoạt.')+'</div>';
+  renderState();
+}
+if(window.VCPC_CONFIG&&VCPC_CONFIG.BACKEND_READY){document.getElementById('sepaySimBtn').style.display='none';document.querySelector('[data-gw="mock"]')&&document.querySelector('[data-gw="mock"]').setAttribute('disabled','disabled');}
+document.getElementById('sepaySimBtn').addEventListener('click', async function(){
+  let tx = this.dataset.tx, inst = this.dataset.inst;
+  if (!tx){ await startSepay(); tx = this.dataset.tx; inst = this.dataset.inst; }
+  await VCPC_SEPAY.simulateWebhook(tx); onSepayPaid(tx, inst); if (pollTimer) clearInterval(pollTimer);
+});
+
+/* ---- Bank manual ---- */
+document.getElementById('bankSaveBtn').addEventListener('click', function(){
+  const inst = nextInstalment(); if (!inst){ routeToDashboard(); return; }
+  lockQuote();
+  const ref = transferRef(inst);
+  const existing = (VCPC_DB.select('payments',{engagement_id:eng.id})||[]).find(function(p){return p.instalment===inst && ['CREATED','PENDING','AWAITING_CONFIRMATION'].includes(p.status);});
+  if(existing){ document.getElementById('bankStatus').innerHTML='<div class="badge warn">Giao dịch đang chờ VCPC xác nhận.</div>'; return; }
+  VCPC_DB.insert('payments', { provider:'bank_transfer', engagement_id:eng.id, organization_id:eng.organization_id, instalment:inst, amount:instalmentAmount(), currency:ccy, status:'AWAITING_CONFIRMATION', transaction_id:ref, reference:ref, plan_code:eng.plan_code, created_at:Date.now() });
+  if(inst==='deposit' && ['SCOPE_CONFIRMED','AWAITING_DEPOSIT'].includes(eng.state)){ const e2=Object.assign({},eng,{state:'AWAITING_CONFIRMATION'}); VCPC_DB.upsert('engagements',e2); Object.assign(eng,e2); }
+  VCPC_DB.audit('BANK_TRANSFER_DECLARED', { engagement_id:eng.id, instalment:inst, reference:ref });
+  document.getElementById('bankStatus').innerHTML = '<div class="badge good">✓ '+(isEN()?'Recorded. VCPC will confirm receipt, then open your dashboard.':'Đã ghi nhận. VCPC sẽ xác nhận đã nhận tiền rồi mở dashboard.')+'</div>';
+  document.getElementById('bankSaveBtn').disabled = true; renderState();
+});
+
+/* ---- Mock (UAT) ---- */
+document.getElementById('mockBtn').addEventListener('click', async function(){
+  const inst = nextInstalment(); if (!inst){ routeToDashboard(); return; }
+  let order;
+  try { order = await VCPC_PAY.get('mock').createPaymentOrder({ engagement_id:eng.id, organization_id:eng.organization_id, instalment:inst, amount:instalmentAmount(), currency:ccy, description:'VCPC '+eng.plan_code }); }
+  catch(err){ document.getElementById('mockStatus').innerHTML = '<div class="badge bad">'+(isEN()?'Mock gateway is disabled in production.':'Cổng mock đã tắt ở bản thật.')+'</div>'; return; }
+  await VCPC_PAY.get('mock').simulateSuccess(order.transaction_id);
+  const ps = VCPC_DB.select('payments', { transaction_id: order.transaction_id }); ps.forEach(function(p){ p.status='PAID'; p.plan_code=eng.plan_code; VCPC_DB.upsert('payments', p); });
+  advance(inst);
+  document.getElementById('mockStatus').innerHTML = '<div class="badge good">✓ '+(isEN()?'Paid (simulated).':'Đã thanh toán (mô phỏng).')+'</div>';
+  renderState();
+});
+
+document.addEventListener('vcpc:langchange', function(){ renderAmounts(); renderState(); updatePicker(); });
+</script>
+</body>
+</html>

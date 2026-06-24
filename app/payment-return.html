@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="theme-color" content="#071f3d"/>
+<link rel="icon" type="image/png" href="../assets/favicon.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../assets/vcpc.css"/>
+<link rel="stylesheet" href="../assets/app-core.css"/>
+<title>Kết quả thanh toán · VCPC</title>
+</head>
+<body class="app" data-require="auth">
+<main class="app-main" style="max-width:640px;margin:0 auto;padding:60px 22px;">
+  <div class="app-card" style="text-align:center;">
+    <div id="rIcon" style="font-size:48px;line-height:1;margin-bottom:8px;">⏳</div>
+    <h1 class="app-title" id="rTitle" data-vi="Đang xác nhận thanh toán…" data-en="Confirming your payment…">Đang xác nhận thanh toán…</h1>
+    <p class="app-sub" id="rSub" data-vi="Vui lòng đợi trong giây lát, đừng đóng trang." data-en="Please wait a moment, don't close this page.">Vui lòng đợi trong giây lát.</p>
+
+    <div id="rDetail" style="display:grid;gap:8px;font-size:13.5px;text-align:left;margin:22px auto 0;max-width:420px;"></div>
+
+    <div id="rActions" style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:26px;"></div>
+  </div>
+</main>
+
+<script src="../assets/i18n/loader.js" data-i18n-base="../assets/i18n"></script>
+<script src="../assets/app-config.js"></script><script src="../assets/mock-backend.js"></script><script src="../assets/guards.js"></script>
+<script src="../assets/app-core.js"></script>
+<script src="../assets/payment/gateway.js"></script>
+<script src="../assets/payment/mock-gateway.js"></script>
+<script src="../assets/payment/baokim-gateway.js"></script>
+<script src="../assets/payment/stripe-gateway.js"></script>
+<script>
+(function(){
+'use strict';
+var q=new URLSearchParams(location.search),tx=q.get('tx')||q.get('transaction_id')||q.get('order_id')||q.get('vpc_MerchTxnRef')||q.get('session_id');
+if(!VCPC_DB.currentUser()){location.href='login.html';return;}
+var eng=VCPC_DB.currentEngagement();
+function row(k,v){return '<div style="display:flex;justify-content:space-between;gap:14px;border-bottom:1px dashed rgba(7,31,61,.14);padding-bottom:6px;"><span style="color:#5b6b80;">'+k+'</span><b style="color:#071f3d;word-break:break-all;text-align:right;">'+v+'</b></div>';}
+function view(state,rec){var icon=document.getElementById('rIcon'),title=document.getElementById('rTitle'),sub=document.getElementById('rSub'),detail=document.getElementById('rDetail'),actions=document.getElementById('rActions');detail.innerHTML=(tx?row('Mã giao dịch',tx):'')+(rec?row('Số tiền',VCPC_APP.fmtMoney(rec.amount,rec.currency)):'' )+(eng?row('Mã hồ sơ',eng.id):'');
+ if(state==='PAID'){icon.textContent='✓';icon.style.color='#0d8a5d';title.textContent='Thanh toán đã được xác nhận';sub.textContent=rec&&rec.instalment==='deposit'?'VCPC đang dựng và rà soát Dashboard. Preview chỉ mở sau khi VCPC phát hành.':'Dịch vụ đã được kích hoạt theo trạng thái hồ sơ.';actions.innerHTML='<a class="app-btn app-btn-primary" href="payment.html">Xem trạng thái hồ sơ →</a>';}
+ else if(state==='PENDING'){icon.textContent='⏳';icon.style.color='#b8860b';title.textContent='Giao dịch đang chờ xác nhận';sub.textContent='Hệ thống chỉ cập nhật sau khi webhook hoặc Admin VCPC xác nhận khoản tiền thực nhận.';actions.innerHTML='<button class="app-btn app-btn-ghost" onclick="location.reload()">Kiểm tra lại</button><a class="app-btn app-btn-ghost" href="payment.html">Về trang thanh toán</a>';}
+ else {icon.textContent='✕';icon.style.color='#c0392b';title.textContent='Chưa tìm thấy giao dịch hợp lệ';sub.textContent='Vui lòng quay lại trang thanh toán hoặc liên hệ VCPC.';actions.innerHTML='<a class="app-btn app-btn-primary" href="payment.html">Về trang thanh toán</a>';}}
+if(!tx){view('FAILED',null);return;}
+var rec=(VCPC_DB.select('payments',{transaction_id:tx})||[])[0];
+if(!rec){view('FAILED',null);return;}
+view(rec.status==='PAID'?'PAID':'PENDING',rec);
+})();
+</script>
+</body>
+</html>

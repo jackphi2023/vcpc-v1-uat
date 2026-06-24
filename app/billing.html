@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="theme-color" content="#071f3d"/>
+<link rel="icon" type="image/png" href="../assets/favicon.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../assets/tokens.css"/>
+<link rel="stylesheet" href="../assets/vcpc.css"/>
+<link rel="stylesheet" href="../assets/app-core.css"/>
+<title>Thuê bao &amp; hóa đơn · VCPC</title>
+</head>
+<body class="app" data-require="auth">
+<div class="app-shell">
+
+  <aside class="app-sidebar">
+    <a href="../index.html" class="app-brand">
+      <img src="../assets/logo-vcpc.jpg" alt="VCPC"/>
+      <div><b>Viet Capital Partners &amp; Consulting</b><span id="sidebarProduct">BizOS</span></div>
+    </a>
+    <div class="app-section-label">Khu vực điều hành</div>
+    <nav class="app-nav">
+      <a href="index.html"><span>Tổng quan</span></a>
+      <a href="data.html"><span>Dữ liệu &amp; cập nhật</span></a>
+      <a href="index.html"><span>Market Intelligence</span></a>
+      <a href="index.html"><span>Cảnh báo</span></a>
+      <a href="index.html"><span>Kiến nghị &amp; thực thi</span></a>
+      <a href="team.html"><span>Thành viên</span></a>
+      <a href="billing.html" class="active"><span>Thuê bao &amp; hóa đơn</span></a>
+      <a href="mailto:partner@vietcapitalpartners.com"><span>Hỗ trợ</span></a>
+    </nav>
+    <div class="app-bottom">
+      <button class="app-signout" data-action="signout">↩ Đăng xuất</button>
+    </div>
+  </aside>
+
+  <main class="app-main">
+    <div class="app-topbar">
+      <div>
+        <div class="app-crumb" id="topCrumb">BizOS</div>
+        <h1 class="app-title">Thuê bao &amp; hóa đơn</h1>
+        <p class="app-sub">Gói, kỳ hạn 3/6/12 tháng, ưu đãi kỳ hạn, mã giảm giá, số đã trả / còn lại và hóa đơn.</p>
+      </div>
+    </div>
+
+    <!-- Alert: unpaid balance during PREVIEW -->
+    <div id="alertBanner" style="display:none;background:linear-gradient(90deg,#c7352b,#e04530);color:#fff;padding:13px 20px;border-radius:12px;margin-bottom:18px;font-size:13.5px;font-weight:700;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;">
+      <span>⚠ Còn 80% chưa thanh toán — dashboard sẽ bị khóa sau khi hết Preview 48h.</span>
+      <a href="payment.html" class="app-btn app-btn-primary" style="font-size:13px;background:#fff;color:#c7352b;">Thanh toán ngay →</a>
+    </div>
+
+    <div class="app-row-2">
+
+      <!-- ===== CỘT TRÁI ===== -->
+      <div style="display:grid;gap:18px;">
+
+        <!-- Gói đang dùng -->
+        <div class="app-card">
+          <div class="app-card-head"><b>Gói đang dùng</b></div>
+          <div id="planOverview" style="display:grid;gap:0;font-size:13.5px;">
+            <div style="color:#5b6b80;padding:10px 0;">Đang tải...</div>
+          </div>
+        </div>
+
+        <!-- Kỳ hạn & bảng tính phí -->
+        <div class="app-card">
+          <div class="app-card-head"><b>Kỳ hạn &amp; bảng tính phí</b></div>
+
+          <div style="margin-bottom:16px;">
+            <div class="field-label-sm">Chọn kỳ hạn</div>
+            <div id="termPicker" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+              <button data-term="3" class="term-btn term-active">
+                <div class="term-main">3 tháng</div>
+                <div class="term-disc">Giá gốc</div>
+              </button>
+              <button data-term="6" class="term-btn">
+                <div class="term-main">6 tháng</div>
+                <div class="term-disc" style="color:#0d8a5d;">Tiết kiệm 10%</div>
+              </button>
+              <button data-term="12" class="term-btn">
+                <div class="term-main">12 tháng</div>
+                <div class="term-disc" style="color:#0d8a5d;">Tiết kiệm 15%</div>
+              </button>
+            </div>
+          </div>
+
+          <div id="priceBreakdown" style="display:grid;gap:0;font-size:13.5px;"><!-- JS --></div>
+
+          <div style="margin-top:12px;padding:10px 14px;background:#f7f8fa;border-radius:8px;font-size:12px;color:#5b6b80;line-height:1.6;">
+            <b style="color:#071f3d;">Công thức:</b><br/>
+            Giá cuối = Giá/tháng × Số tháng × (1 − ưu đãi kỳ hạn) × (1 − % mã giảm)
+          </div>
+
+          <!-- Mã khuyến mãi -->
+          <div class="field" style="margin-top:16px;">
+            <label>Mã khuyến mãi / giới thiệu (nếu có)</label>
+            <div style="display:flex;gap:8px;">
+              <input id="promoInput" placeholder="VCPC-XXXX" style="flex:1;text-transform:uppercase;"/>
+              <button id="promoBtn" class="app-btn app-btn-dark" style="white-space:nowrap;">Áp dụng</button>
+            </div>
+            <div id="promoMsg" style="font-size:12.5px;margin-top:4px;min-height:18px;"></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ===== CỘT PHẢI ===== -->
+      <div style="display:grid;gap:18px;align-content:start;">
+
+        <!-- Trạng thái thanh toán -->
+        <div class="app-card">
+          <div class="app-card-head"><b>Trạng thái thanh toán</b></div>
+          <div id="paymentStatus" style="display:grid;gap:0;font-size:13.5px;"><!-- JS --></div>
+          <div id="billingCtas" style="display:grid;gap:8px;margin-top:16px;"><!-- JS --></div>
+        </div>
+
+        <!-- Lịch sử hóa đơn -->
+        <div class="app-card">
+          <div class="app-card-head" style="display:flex;justify-content:space-between;align-items:center;">
+            <b>Lịch sử thanh toán</b>
+            <button id="exportBtn" class="app-btn app-btn-ghost" style="font-size:12px;">↓ Xuất hóa đơn VAT</button>
+          </div>
+          <div id="invoiceList" style="display:grid;gap:0;font-size:13px;">
+            <div style="color:#5b6b80;padding:8px 0;">Chưa có giao dịch.</div>
+          </div>
+        </div>
+
+        <!-- Seat info -->
+        <div class="app-card">
+          <div class="app-card-head"><b>Thành viên &amp; Seat</b></div>
+          <div id="seatInfo" style="display:grid;gap:0;font-size:13.5px;"><!-- JS --></div>
+          <a href="team.html" class="app-btn app-btn-ghost" style="margin-top:12px;font-size:13px;">Quản lý thành viên →</a>
+        </div>
+
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="../assets/app-config.js"></script>
+<script src="../assets/mock-backend.js"></script>
+<script src="../assets/guards.js"></script>
+<script src="../assets/app-core.js"></script>
+
+<style>
+/* Term picker */
+.term-btn{padding:12px 8px;border:1px solid rgba(7,31,61,.14);border-radius:10px;background:#fff;cursor:pointer;text-align:center;font-family:inherit;transition:.15s ease;width:100%;}
+.term-btn:hover{border-color:rgba(255,178,10,.5);background:#fffdf5;}
+.term-active{border:2px solid #ffb20a!important;background:#fff8e8!important;}
+.term-main{font-size:14px;font-weight:800;color:#071f3d;}
+.term-disc{font-size:11.5px;color:#5b6b80;margin-top:2px;}
+.field-label-sm{font-size:12px;font-weight:900;color:#5b6b80;letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px;}
+
+/* Breakdown rows */
+.brow{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px dashed rgba(7,31,61,.10);}
+.brow:last-child{border-bottom:none;}
+.brow .bl{color:#5b6b80;font-size:13px;}
+.brow .bv{color:#071f3d;font-weight:700;font-size:13.5px;}
+.brow.total-row{padding:12px 0 0;margin-top:4px;}
+.brow.total-row .bl{font-weight:900;color:#071f3d;font-size:14px;}
+.brow.total-row .bv{font-size:18px;font-weight:900;color:#0d8a5d;}
+.brow.discount .bv{color:#0d8a5d;}
+
+/* Instalment mini cards */
+.inst-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px;}
+.inst-card{padding:12px;border-radius:10px;text-align:center;}
+.inst-card .ic-lbl{font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;}
+.inst-card .ic-val{font-size:17px;font-weight:900;}
+.inst-card .ic-sub{font-size:11px;color:#9aa7b8;margin-top:2px;}
+
+/* Payment status rows */
+.ps-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(7,31,61,.07);}
+.ps-row:last-child{border-bottom:none;}
+
+/* Invoice rows */
+.inv-row{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid rgba(7,31,61,.07);}
+.inv-row:last-child{border-bottom:none;}
+</style>
+
+<script>
+(function(){
+'use strict';
+
+if (!VCPC_DB.currentUser()) { window.location.href = 'login.html'; return; }
+const eng = VCPC_DB.currentEngagement();
+if (!eng) { window.location.href = 'onboarding.html'; return; }
+
+const ccy  = VCPC_APP.detectCurrency();
+const fmt  = v => VCPC_APP.fmtMoney(v, ccy);
+
+let PLAN = null, selectedTerm = Number(eng.billing_term)||3, discountPct = Number(eng.promo_discount_percent)||0, appliedCode = eng.promo_code||eng.affiliate_code||null;
+
+const TERM_DISC = { 3: 0, 6: 0.10, 12: 0.15 };
+
+const STATE_LABELS = {
+  BUILDING:'⚙ VCPC đang dựng dashboard', AI_QA:'🤖 AI đang kiểm tra',
+  VCPC_REVIEW:'📋 VCPC đang review', PUBLISHED:'✅ Đã phát hành',
+  PREVIEW:'👁 Đang xem trước (48h)', ACTIVE_90D:'✅ Hoạt động (90 ngày)',
+  ACTIVE:'✅ Đang hoạt động', DUE:'⚠ Sắp đến hạn',
+  GRACE_READ_ONLY:'⏳ Gia hạn — đọc', SUSPENDED:'🔒 Tạm khóa',
+  ARCHIVED:'📦 Đã lưu trữ', TERMINATED:'❌ Đã chấm dứt'
+};
+const sLabel = s => STATE_LABELS[s] || s;
+
+/* ---- price helpers ---- */
+function monthlyBase(){
+  if (!PLAN || !PLAN.price) return null;
+  return PLAN.price[ccy.toLowerCase()] ?? null;
+}
+function totalBase(){ if(eng.quote_locked_at&&eng.base_amount)return Number(eng.base_amount); const b=monthlyBase(); return b==null?null:b*selectedTerm; }
+function totalAfterTerm(){ const t=totalBase();if(t==null)return null;if(eng.quote_locked_at&&eng.term_discount_amount!=null)return t-Number(eng.term_discount_amount);return Math.round(t*(1-TERM_DISC[selectedTerm])); }
+function totalFinal(){ if(eng.quote_locked_at&&eng.final_amount)return Number(eng.final_amount);const t=totalAfterTerm();if(t==null)return null;return Math.round(t*(1-discountPct/100)); }
+function depositAmt(){if(eng.quote_locked_at&&eng.deposit_amount)return Number(eng.deposit_amount);const t=totalFinal();return t==null?null:Math.round(t*.20);}
+function finalAmt(){if(eng.quote_locked_at&&eng.balance_amount)return Number(eng.balance_amount);const t=totalFinal();return t==null?null:Math.round(t*.80);}
+
+/* ---- render plan overview ---- */
+function renderPlanOverview(){
+  if (!PLAN){ document.getElementById('planOverview').innerHTML='<div style="color:#5b6b80;padding:10px 0;">Chưa có gói.</div>'; return; }
+  const L = o => (o && (o.vi || o.en)) || o || '—';
+  const billingType = PLAN.billing_type === 'monthly' ? 'Thuê bao tháng' : 'Một lần (one-time)';
+  document.getElementById('planOverview').innerHTML = [
+    brow('Sản phẩm', '<b>' + L(PLAN.product_label) + '</b>'),
+    brow('Gói', '<b>' + L(PLAN.name) + '</b>'),
+    brow('Loại thanh toán', billingType),
+    brow('Trạng thái', '<span class="badge solid">' + sLabel(eng.state||'DRAFT') + '</span>')
+  ].join('');
+  // Update sidebar
+  if (document.getElementById('sidebarProduct')) document.getElementById('sidebarProduct').textContent = L(PLAN.product_label);
+  if (document.getElementById('topCrumb')) document.getElementById('topCrumb').textContent = L(PLAN.product_label);
+}
+
+/* ---- render breakdown ---- */
+function renderBreakdown(){
+  const b   = monthlyBase();
+  const tBase = totalBase();
+  const tTerm = totalAfterTerm();
+  const tFin  = totalFinal();
+  const dep   = depositAmt();
+  const fin   = finalAmt();
+  const td    = TERM_DISC[selectedTerm];
+
+  let html = '';
+  if (b != null){
+    html += brow('Giá gốc/tháng', fmt(b));
+    html += brow('Kỳ hạn', selectedTerm + ' tháng → ' + (tBase != null ? fmt(tBase) : '—'));
+    if (td > 0) html += browDisc('Ưu đãi kỳ hạn', '−' + (td*100) + '%  →  −' + (tBase != null ? fmt(tBase - (tTerm||tBase)) : '?'));
+    if (discountPct > 0) html += browDisc('Mã giảm giá (' + appliedCode + ')', '−' + discountPct + '%  →  −' + (tTerm != null ? fmt(Math.round(tTerm * discountPct/100)) : '?'));
+    html += browTotal('Tổng phí kỳ hạn', tFin != null ? fmt(tFin) : '—');
+    html += '<div class="inst-grid">';
+    html += instCard('Đợt 1 (20%)', dep != null ? fmt(dep) : '—', 'Kích hoạt build', '#fff8e8', '#7a5400');
+    html += instCard('Đợt 2 (80%)', fin != null ? fmt(fin) : '—', 'Kích hoạt đầy đủ', '#f0faf5', '#0d8a5d');
+    html += '</div>';
+  } else {
+    html = '<div style="color:#5b6b80;font-size:13px;padding:8px 0;">Giá theo báo giá VCPC — liên hệ để xác nhận.</div>';
+  }
+  document.getElementById('priceBreakdown').innerHTML = html;
+}
+
+function brow(lbl, val){
+  return '<div class="brow"><span class="bl">'+lbl+'</span><span class="bv">'+val+'</span></div>';
+}
+function browDisc(lbl, val){
+  return '<div class="brow discount"><span class="bl">'+lbl+'</span><span class="bv">'+val+'</span></div>';
+}
+function browTotal(lbl, val){
+  return '<div class="brow total-row"><span class="bl">'+lbl+'</span><span class="bv">'+val+'</span></div>';
+}
+function instCard(lbl, val, sub, bg, color){
+  return '<div class="inst-card" style="background:'+bg+';">' +
+    '<div class="ic-lbl" style="color:'+color+';">'+lbl+'</div>' +
+    '<div class="ic-val" style="color:'+color+';">'+val+'</div>' +
+    '<div class="ic-sub">'+sub+'</div></div>';
+}
+
+/* ---- render payment status ---- */
+function renderPaymentStatus(){
+  const payments = VCPC_DB.select('payments', { engagement_id: eng.id }) || [];
+  const depPaid  = payments.find(p => p.status === 'PAID' && p.instalment === 'deposit');
+  const finPaid  = payments.find(p => p.status === 'PAID' && p.instalment === 'final');
+  const dep = depositAmt(); const fin = finalAmt();
+
+  let html = '';
+  // Deposit row
+  html += '<div class="ps-row"><span>Đợt 1 (20%) — Kích hoạt build</span>';
+  if (depPaid)
+    html += '<span class="badge good">✓ Đã TT ' + (dep ? fmt(depPaid.amount||dep) : '') + '</span>';
+  else
+    html += '<span class="badge" style="background:rgba(255,178,10,.15);color:#7a5400;">' + (dep ? fmt(dep) : 'Theo báo giá') + ' — Chưa TT</span>';
+  html += '</div>';
+
+  // Final row
+  html += '<div class="ps-row"><span>Đợt 2 (80%) — Kích hoạt đầy đủ</span>';
+  if (finPaid)
+    html += '<span class="badge good">✓ Đã TT ' + (fin ? fmt(finPaid.amount||fin) : '') + '</span>';
+  else if (depPaid)
+    html += '<span class="badge" style="background:rgba(199,53,43,.1);color:#c7352b;">' + (fin ? fmt(fin) : 'Theo báo giá') + ' — Còn lại</span>';
+  else
+    html += '<span class="badge" style="background:#f0f2f5;color:#9aa7b8;">Chờ đợt 1</span>';
+  html += '</div>';
+
+  // State-specific notice
+  const buildStates = ['BUILDING','AI_QA','VCPC_REVIEW','PUBLISHED'];
+  if (buildStates.includes(eng.state)){
+    html += '<div style="margin-top:8px;padding:10px 14px;background:rgba(13,138,93,.08);border-radius:8px;font-size:12.5px;color:#0d8a5d;font-weight:700;">' +
+      '⚙ VCPC đang dựng dashboard của bạn. Bạn sẽ nhận email khi bản Preview 48h sẵn sàng.' +
+      '</div>';
+  }
+  if (eng.state === 'PREVIEW'){
+    const exp = eng.preview_until
+      ? new Date(eng.preview_until).toLocaleString('vi-VN', {day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})
+      : 'không xác định';
+    html += '<div style="margin-top:8px;padding:10px 14px;background:rgba(255,178,10,.12);border-radius:8px;font-size:12.5px;color:#7a5400;font-weight:700;">' +
+      '👁 Đang Preview — hết hạn ' + exp + '. Thanh toán 80% còn lại để kích hoạt đầy đủ.' +
+      '</div>';
+  }
+
+  document.getElementById('paymentStatus').innerHTML = html;
+  renderCtas(depPaid, finPaid);
+}
+
+function renderCtas(depPaid, finPaid){
+  const state = eng.state || 'DRAFT';
+  let html = '';
+  if (!depPaid && !['SUSPENDED','ARCHIVED','TERMINATED'].includes(state)){
+    html += '<a href="payment.html" class="app-btn app-btn-primary" style="width:100%;justify-content:center;">Thanh toán 20% — Kích hoạt build →</a>';
+  } else if (depPaid && !finPaid && state === 'PREVIEW'){
+    html += '<a href="payment.html" class="app-btn app-btn-primary" style="width:100%;justify-content:center;">Thanh toán 80% còn lại — Kích hoạt đầy đủ →</a>';
+    html += '<a href="'+(eng.product==='strategy_os'?'dashboard-strategy.html':'dashboard-bizhealth.html')+'" class="app-btn app-btn-ghost" style="width:100%;justify-content:center;font-size:13px;">Vào xem trước dashboard →</a>';
+  } else if (['ACTIVE','ACTIVE_90D'].includes(state)){
+    html += '<a href="payment.html" class="app-btn app-btn-primary" style="width:100%;justify-content:center;background:#0d8a5d;">Gia hạn kỳ tiếp theo →</a>';
+  } else if (['GRACE_READ_ONLY','DUE'].includes(state)){
+    html += '<a href="payment.html" class="app-btn app-btn-primary" style="width:100%;justify-content:center;background:#c7352b;">Thanh toán để gia hạn →</a>';
+  } else if (state === 'SUSPENDED'){
+    html += '<a href="payment.html" class="app-btn app-btn-primary" style="width:100%;justify-content:center;background:#c7352b;">Thanh toán để mở lại →</a>';
+  } else if (['BUILDING','AI_QA','VCPC_REVIEW','PUBLISHED'].includes(state)){
+    html += '<button class="app-btn app-btn-ghost" disabled style="width:100%;justify-content:center;opacity:.55;cursor:not-allowed;">⚙ Chờ VCPC hoàn tất dashboard…</button>';
+  }
+  document.getElementById('billingCtas').innerHTML = html;
+}
+
+/* ---- render invoices ---- */
+function renderInvoices(){
+  const payments = VCPC_DB.select('payments', { engagement_id: eng.id }) || [];
+  if (!payments.length){ return; }
+  const html = payments.slice().reverse().map(p => {
+    const date    = p.created_at ? new Date(p.created_at).toLocaleDateString('vi-VN') : '—';
+    const amount  = p.amount ? fmt(p.amount) : '—';
+    const iLbl    = p.instalment === 'deposit' ? 'Đợt 1 (20%)' : 'Đợt 2 (80%)';
+    const sCls    = {PAID:'good',AWAITING_CONFIRMATION:'info',FAILED:'bad'}[p.status] || '';
+    const sLbl    = {PAID:'Đã TT',AWAITING_CONFIRMATION:'Chờ xác nhận',FAILED:'Thất bại'}[p.status] || p.status;
+    return '<div class="inv-row">' +
+      '<div><div style="font-weight:700;color:#071f3d;">'+iLbl+'</div><div style="font-size:11.5px;color:#9aa7b8;">'+date+' · '+(p.provider||'—')+'</div></div>' +
+      '<div style="font-weight:800;color:#071f3d;">'+amount+'</div>' +
+      '<span class="badge '+sCls+'">'+sLbl+'</span>' +
+      '</div>';
+  }).join('');
+  document.getElementById('invoiceList').innerHTML = html;
+}
+
+/* ---- render seat info ---- */
+function renderSeatInfo(){
+  const org     = VCPC_DB.currentOrg();
+  const members = org ? (VCPC_DB.select('organization_members', { organization_id: org.id }) || []) : [];
+  const seatLim = (PLAN && PLAN.limits && PLAN.limits.seats) ? PLAN.limits.seats : 5;
+  document.getElementById('seatInfo').innerHTML =
+    brow('Đã dùng', '<b>' + members.length + ' / ' + seatLim + ' seat</b>') +
+    brow('Seat tối đa theo gói', '<b>' + seatLim + ' người dùng</b>');
+}
+
+/* ---- alert banner ---- */
+function checkAlertBanner(){
+  const payments = VCPC_DB.select('payments', { engagement_id: eng.id }) || [];
+  const finPaid  = payments.find(p => p.status === 'PAID' && p.instalment === 'final');
+  const banner   = document.getElementById('alertBanner');
+  banner.style.display = (eng.state === 'PREVIEW' && !finPaid) ? 'flex' : 'none';
+}
+
+/* ---- term picker ---- */
+document.getElementById('termPicker').addEventListener('click', function(e){
+  const btn = e.target.closest('[data-term]'); if (!btn) return; if(eng.quote_locked_at){ alert('Báo giá đã được khóa sau khi xác nhận phạm vi.'); return; }
+  selectedTerm = parseInt(btn.dataset.term);
+  document.querySelectorAll('.term-btn').forEach(b => b.classList.toggle('term-active', b === btn));
+  renderBreakdown();
+});
+
+/* ---- promo code ---- */
+document.getElementById('promoBtn').addEventListener('click', function(){
+  const code = (document.getElementById('promoInput').value||'').trim().toUpperCase();
+  const msg  = document.getElementById('promoMsg');
+  if (!code){ discountPct=0; appliedCode=null; msg.innerHTML=''; renderBreakdown(); return; }
+  const promos = VCPC_DB.select('promo_codes', { code }) || [];
+  let pct=0, ok=false, reason='';
+  if (promos.length){
+    const p = promos[0];
+    if (!p.active)                            reason = 'Mã đã ngừng áp dụng.';
+    else if (p.quantity && (p.used||0)>=p.quantity) reason = 'Mã đã hết lượt.';
+    else { pct=p.discount_percent||0; ok=true; }
+  } else {
+    const affiliates=(VCPC_DB.select('affiliates',{code:code})||[]).filter(a=>a.status==='ACTIVE');
+    if(affiliates.length){pct=Number(affiliates[0].customer_discount_percent||0);ok=true;}
+    else reason='Không tìm thấy mã.';
+  }
+  if (ok){
+    discountPct=pct; appliedCode=code;
+    msg.innerHTML = '<span style="color:#0d8a5d;font-weight:700;">✓ Đã áp −'+pct+'%</span>';
+    VCPC_DB.audit('PROMO_APPLIED_BILLING', { engagement_id: eng.id, code, discount_percent: pct });
+  } else {
+    discountPct=0; appliedCode=null;
+    msg.innerHTML = '<span style="color:#c7352b;font-weight:700;">'+reason+'</span>';
+  }
+  renderBreakdown();
+});
+
+/* ---- export stub ---- */
+document.getElementById('exportBtn').addEventListener('click', function(){
+  alert('Tính năng xuất hóa đơn VAT sẽ khả dụng khi kết nối Supabase backend.\nLiên hệ: partner@vietcapitalpartners.com');
+});
+
+/* ---- boot ---- */
+fetch('../assets/plans.json',{cache:'no-cache'}).then(r=>r.json()).then(function(plans){
+  const all = [].concat(plans.bizhealth||[], plans.strategy_os||[]);
+  PLAN = all.find(p => p.code === eng.plan_code) || all[1];
+
+  // Restore saved term if stored on engagement
+  if (eng.billing_term && TERM_DISC[eng.billing_term] !== undefined){
+    selectedTerm = eng.billing_term;
+    document.querySelectorAll('.term-btn').forEach(b => {
+      b.classList.toggle('term-active', parseInt(b.dataset.term) === selectedTerm);
+    });
+  }
+
+  renderPlanOverview();
+  renderBreakdown();
+  renderPaymentStatus();
+  renderInvoices();
+  renderSeatInfo();
+  checkAlertBanner();
+});
+
+})();
+</script>
+</body>
+</html>

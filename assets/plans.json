@@ -1,0 +1,380 @@
+{
+  "$note": "v3 positioning: BizOS = 'Nền tảng Quản trị & Điều hành thông minh hàng đầu cho Doanh nghiệp Việt Nam'. Code OS_PARTNER stable; display name đổi thành OS Premium (tháng 6/2026). Real listed prices set; OS billed monthly with 3/6/12-month term discounts (0/-10/-15%). Final coupon stacks per defaults.discount_formula.",
+  "defaults": {
+    "deposit_percent": 20,
+    "tax_percent": 0,
+    "preview_hours": 48,
+    "term_discounts": {
+      "3": 0,
+      "6": 0.1,
+      "12": 0.15
+    },
+    "discount_formula": "final = base * (1 - term_discount) * (1 - coupon_percent)",
+    "positioning": {
+      "vi": "Nền tảng Quản trị & Điều hành thông minh hàng đầu cho Doanh nghiệp Việt Nam",
+      "en": "Vietnam's leading intelligent management & execution platform"
+    }
+  },
+  "bizhealth": [
+    {
+      "code": "BIZHEALTH_FREE",
+      "product": "bizhealth",
+      "product_label": {
+        "vi": "BizHealth",
+        "en": "BizHealth"
+      },
+      "tier": "free",
+      "name": {
+        "vi": "BizHealth Free Scan",
+        "en": "BizHealth Free Scan"
+      },
+      "audience": {
+        "vi": "Tự kiểm tra sơ bộ, không cần upload dữ liệu nhạy cảm",
+        "en": "Self-check, no sensitive data upload"
+      },
+      "billing_type": "one_time",
+      "price": {
+        "vnd": 0,
+        "usd": 0,
+        "eur": 0
+      },
+      "dqs_threshold": 0,
+      "limits": {
+        "tabs": 1,
+        "recommendations": 3,
+        "dataset_months": 0
+      },
+      "includes": [
+        {
+          "vi": "15–20 câu tự khai theo ngành",
+          "en": "15–20 industry-aware self-assessment questions"
+        },
+        {
+          "vi": "Điểm sơ bộ + 2–3 đèn đỏ + điểm mạnh",
+          "en": "Preliminary score + 2–3 red flags + strengths"
+        },
+        {
+          "vi": "Chế độ kín đáo — dữ liệu không rời tay; engine cố định, kết quả tái lập",
+          "en": "Private mode — data stays with you; deterministic engine, reproducible"
+        }
+      ],
+      "requires_vcpc_review": false
+    },
+    {
+      "code": "BIZHEALTH_STANDARD",
+      "product": "bizhealth",
+      "product_label": {
+        "vi": "BizHealth",
+        "en": "BizHealth"
+      },
+      "tier": "soi_nhanh",
+      "name": {
+        "vi": "BizHealth Standard",
+        "en": "BizHealth Standard"
+      },
+      "audience": {
+        "vi": "Cần tìm nhanh điểm nghẽn chính về tài chính, bán hàng, vận hành",
+        "en": "Quickly surface the main financial / sales / ops bottlenecks"
+      },
+      "billing_type": "one_time",
+      "price": {
+        "vnd": 24900000,
+        "usd": null,
+        "eur": null
+      },
+      "dqs_threshold": 70,
+      "limits": {
+        "tabs": 6,
+        "recommendations": 8,
+        "dataset_months": 12,
+        "preview_hours": 48,
+        "active_days": 90
+      },
+      "includes": [
+        {
+          "vi": "5–7 ngày · lõi 30–40 câu chọn lọc",
+          "en": "5–7 days · 30–40 curated core questions"
+        },
+        {
+          "vi": "6 tab: Tổng quan · Lời/lỗ · Chi nhánh/SP · Marketing · Dòng tiền · Kiến nghị",
+          "en": "6 tabs: Overview · P&L · Branch/Product · Marketing · Cash · Recommendations"
+        },
+        {
+          "vi": "5 điểm nghẽn + 3 kiến nghị · VCPC ký duyệt trước khi publish",
+          "en": "5 bottlenecks + 3 recommendations · VCPC sign-off before publish"
+        },
+        {
+          "vi": "50/50 · preview 48h · dashboard 90 ngày",
+          "en": "50/50 · 48h preview · 90-day dashboard"
+        }
+      ],
+      "requires_vcpc_review": true
+    },
+    {
+      "code": "BIZHEALTH_PREMIUM",
+      "product": "bizhealth",
+      "product_label": {
+        "vi": "BizHealth",
+        "en": "BizHealth"
+      },
+      "tier": "chuyen_sau",
+      "name": {
+        "vi": "BizHealth Premium",
+        "en": "BizHealth Premium"
+      },
+      "audience": {
+        "vi": "Đa chi nhánh / sản phẩm / kênh · cần chẩn đoán sâu + nền dữ liệu để vào OS",
+        "en": "Multi-branch/product/channel · deep diagnostic + clean data to enter OS"
+      },
+      "billing_type": "one_time",
+      "price": {
+        "vnd": 39900000,
+        "usd": null,
+        "eur": null
+      },
+      "dqs_threshold": 85,
+      "limits": {
+        "tabs": 8,
+        "recommendations": 12,
+        "dataset_months": 36,
+        "preview_hours": 48,
+        "active_days": 90
+      },
+      "includes": [
+        {
+          "vi": "2–3 tuần · 80–108 câu · drill-down theo chi nhánh, sản phẩm, kênh",
+          "en": "2–3 weeks · 80–108 questions · drill-down by branch, product, channel"
+        },
+        {
+          "vi": "Benchmark ngành + thiết kế KPI tree · dọn data sạch để vào OS",
+          "en": "Industry benchmark + KPI tree design · clean data for OS onboarding"
+        },
+        {
+          "vi": "Stress test + chẩn đoán vận hành chuyên sâu · VCPC ký duyệt chuyên sâu",
+          "en": "Stress test + deep operational diagnostic · deep VCPC sign-off"
+        },
+        {
+          "vi": "Phần gọi vốn (định giá, sẵn sàng vốn) thuộc dịch vụ Capital, không nằm ở gói này",
+          "en": "Capital items (valuation, funding readiness) live in the Capital service, not here"
+        }
+      ],
+      "requires_vcpc_review": true
+    }
+  ],
+  "strategy_os": [
+    {
+      "code": "OS_LITE",
+      "product": "strategy_os",
+      "product_label": {
+        "vi": "BizOS",
+        "en": "BizOS"
+      },
+      "tier": "starter",
+      "name": {
+        "vi": "BizOS Starter",
+        "en": "BizOS Starter"
+      },
+      "audience": {
+        "vi": "Kiểm soát 4 nhóm lõi · cập nhật dữ liệu hằng tháng",
+        "en": "Control 4 core groups · monthly data updates"
+      },
+      "billing_type": "monthly",
+      "price": {
+        "vnd": 7900000,
+        "usd": null,
+        "eur": null
+      },
+      "dqs_threshold": 70,
+      "limits": {
+        "tabs": 8,
+        "alerts": 10,
+        "reviews_per_month": 1,
+        "mi_freq": "monthly",
+        "upload_freq": "monthly"
+      },
+      "includes": [
+        {
+          "vi": "4 tab lõi: Sales · Profit · Cash · Operations",
+          "en": "4 core tabs: Sales · Profit · Cash · Operations"
+        },
+        {
+          "vi": "5–10 alert · bản tin benchmark/tháng · 1 review/tháng",
+          "en": "5–10 alerts · monthly benchmark brief · 1 review/month"
+        }
+      ],
+      "requires_vcpc_review": true
+    },
+    {
+      "code": "OS_STANDARD",
+      "product": "strategy_os",
+      "product_label": {
+        "vi": "BizOS",
+        "en": "BizOS"
+      },
+      "tier": "growth",
+      "name": {
+        "vi": "BizOS Growth",
+        "en": "BizOS Growth"
+      },
+      "audience": {
+        "vi": "Quản trị chuỗi / DN vừa · cập nhật tuần hoặc tháng",
+        "en": "Chain / mid-size management · weekly or monthly updates"
+      },
+      "billing_type": "monthly",
+      "price": {
+        "vnd": 15900000,
+        "usd": null,
+        "eur": null
+      },
+      "dqs_threshold": 80,
+      "limits": {
+        "tabs": 11,
+        "alerts": 20,
+        "reviews_per_month": 1,
+        "mi_freq": "weekly_monthly",
+        "upload_freq": "weekly_monthly"
+      },
+      "includes": [
+        {
+          "vi": "Thêm KPI chi nhánh/sản phẩm · Marketing · KPI/OKR · Market Intelligence · Alerts · Kiến nghị",
+          "en": "Adds branch/product KPIs · Marketing · KPI/OKR · Market Intelligence · Alerts · Recommendations"
+        },
+        {
+          "vi": "10–20 alert · MI ngành/đối thủ · 1 review/tháng",
+          "en": "10–20 alerts · industry/competitor MI · 1 review/month"
+        }
+      ],
+      "requires_vcpc_review": true
+    },
+    {
+      "code": "OS_PARTNER",
+      "product": "strategy_os",
+      "product_label": {
+        "vi": "BizOS",
+        "en": "BizOS"
+      },
+      "tier": "scale",
+      "name": {
+        "vi": "BizOS Scale",
+        "en": "BizOS Scale"
+      },
+      "audience": {
+        "vi": "Điều hành & thực thi chiến lược · cập nhật tuần / tích hợp",
+        "en": "Strategy execution operating · weekly / integration updates"
+      },
+      "billing_type": "monthly",
+      "price": {
+        "vnd": 28900000,
+        "usd": null,
+        "eur": null
+      },
+      "dqs_threshold": 85,
+      "limits": {
+        "tabs": 13,
+        "alerts": 30,
+        "reviews_per_month": 2,
+        "mi_freq": "deep",
+        "upload_freq": "weekly_integration"
+      },
+      "includes": [
+        {
+          "vi": "Thêm Strategy Options · Scenario · Execution Tracker · Risk · Board Pack · Capital Readiness",
+          "en": "Adds Strategy Options · Scenario · Execution Tracker · Risk · Board Pack · Capital Readiness"
+        },
+        {
+          "vi": "20–30 alert · MI sâu + execution tracker · 2 review/tháng",
+          "en": "20–30 alerts · deep MI + execution tracker · 2 reviews/month"
+        }
+      ],
+      "requires_vcpc_review": true
+    }
+  ],
+  "biz_deal": [
+    {
+      "code": "BIZDEAL_READINESS",
+      "product": "biz_deal",
+      "tier": "deal_readiness",
+      "product_label": {
+        "vi": "BizDeal",
+        "en": "BizDeal"
+      },
+      "name": {
+        "vi": "BizDeal — Deal Readiness",
+        "en": "BizDeal — Deal Readiness"
+      },
+      "audience": {
+        "vi": "Doanh nghiệp cần chuẩn bị hồ sơ, định giá và sẵn sàng cho thương vụ vốn / M&A.",
+        "en": "Companies preparing documentation, valuation and readiness for capital or M&A events."
+      },
+      "billing_type": "one_time",
+      "price": {
+        "vnd": null,
+        "usd": null,
+        "eur": null
+      },
+      "dqs_threshold": 80,
+      "includes": [
+        {
+          "vi": "Rà soát tài chính & chuẩn hoá hồ sơ",
+          "en": "Financial review & documentation standardization"
+        },
+        {
+          "vi": "Định giá sơ bộ (DCF + comparable)",
+          "en": "Preliminary valuation (DCF + comparable)"
+        },
+        {
+          "vi": "Đánh giá sẵn sàng gọi vốn / M&A",
+          "en": "Capital / M&A readiness assessment"
+        },
+        {
+          "vi": "Kế hoạch hành động ưu tiên",
+          "en": "Priority action plan"
+        }
+      ],
+      "requires_vcpc_review": true
+    },
+    {
+      "code": "BIZDEAL_EXECUTION",
+      "product": "biz_deal",
+      "tier": "deal_execution",
+      "product_label": {
+        "vi": "BizDeal",
+        "en": "BizDeal"
+      },
+      "name": {
+        "vi": "BizDeal — Deal Execution",
+        "en": "BizDeal — Deal Execution"
+      },
+      "audience": {
+        "vi": "Doanh nghiệp đang triển khai giao dịch vốn, M&A hoặc hợp tác chiến lược.",
+        "en": "Companies actively running a capital deal, M&A or strategic partnership transaction."
+      },
+      "billing_type": "one_time",
+      "price": {
+        "vnd": null,
+        "usd": null,
+        "eur": null
+      },
+      "dqs_threshold": 85,
+      "includes": [
+        {
+          "vi": "Đồng hành xuyên suốt quá trình giao dịch",
+          "en": "Full transaction execution support"
+        },
+        {
+          "vi": "Kết nối nhà đầu tư / người mua / đối tác từ mạng lưới VCPC",
+          "en": "Investor / buyer / partner introductions via VCPC network"
+        },
+        {
+          "vi": "Cấu trúc giao dịch & đàm phán",
+          "en": "Deal structuring & negotiation"
+        },
+        {
+          "vi": "Hỗ trợ due diligence & ký kết",
+          "en": "Due diligence & closing support"
+        }
+      ],
+      "requires_vcpc_review": true
+    }
+  ]
+}

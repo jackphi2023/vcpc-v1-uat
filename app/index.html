@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="theme-color" content="#071f3d"/><link rel="icon" type="image/png" href="../assets/favicon.png"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/><link rel="stylesheet" href="../assets/vcpc.css"/><link rel="stylesheet" href="../assets/app-core.css"/><title>VCPC Auto</title></head>
+<body class="app">
+<div style="display:grid;place-items:center;min-height:100vh;text-align:center;padding:40px;">
+  <div>
+    <img src="../assets/logo-vcpc.jpg" style="width:64px;height:64px;border-radius:14px;margin:0 auto 14px;" alt="VCPC"/>
+    <h1 style="color:#071f3d;font-size:28px;margin-bottom:10px;" data-vi="Đang đưa bạn vào ứng dụng…" data-en="Routing you in…">Đang đưa bạn vào ứng dụng…</h1>
+    <p style="color:#5b6b80;" data-vi="Nếu không tự chuyển trang, " data-en="If you are not redirected, ">Nếu không tự chuyển trang, </p>
+    <a href="login.html" class="app-btn app-btn-primary" style="margin-top:18px;display:inline-flex;" data-vi="vào đăng nhập" data-en="open sign-in">vào đăng nhập</a>
+  </div>
+</div>
+<script src="../assets/i18n/loader.js" data-i18n-base="../assets/i18n"></script><script src="../assets/app-config.js"></script><script src="../assets/mock-backend.js"></script><script src="../assets/guards.js"></script><script src="../assets/app-core.js"></script><script src="../assets/engines/dqs.js"></script>
+<script>
+const u=VCPC_DB.currentUser();
+if(!u){window.location.href='login.html';}
+else if(u.user_metadata&&u.user_metadata.must_change_password){window.location.href='reset-password.html?first=1';}
+else{
+ const org=VCPC_DB.currentOrg();if(!org){window.location.href='onboarding.html';}
+ else{const e=VCPC_DB.currentEngagement();if(!e){window.location.href='onboarding.html';}
+ else{const state=e.state||'DRAFT';let dest='onboarding.html';
+  if(['DRAFT','INTAKE','VALIDATING','DATA_INCOMPLETE','READY'].includes(state))dest=state==='DRAFT'?'onboarding.html':state==='INTAKE'?'intake.html':state==='VALIDATING'||state==='DATA_INCOMPLETE'?'upload.html':'scope.html';
+  else if(['SCOPE_CONFIRMED','AWAITING_DEPOSIT','AWAITING_CONFIRMATION','AWAITING_BALANCE','DUE','GRACE_READ_ONLY','SUSPENDED'].includes(state))dest='payment.html';
+  else if(['BUILDING','AI_QA','VCPC_REVIEW','PUBLISHED'].includes(state))dest='billing.html';
+  else if(['PREVIEW','ACTIVE','ACTIVE_90D','READONLY'].includes(state))dest=e.product==='strategy_os'?'dashboard-strategy.html':'dashboard-bizhealth.html';
+  else if(['TERMINATED','ARCHIVED'].includes(state))dest='billing.html';
+  window.location.href=dest;
+ }}
+}
+</script>
+</body>
+</html>

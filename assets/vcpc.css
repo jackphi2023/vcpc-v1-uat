@@ -1,0 +1,541 @@
+/* ==========================================================================
+   VCPC — Shared design system (header, breadcrumb, effects, footer)
+   Loaded LAST on every page so it harmonises the chrome across all 4 pages.
+   ========================================================================== */
+:root{
+  --vcpc-navy:#071f3d; --vcpc-navy2:#0d2d57; --vcpc-ink:#10213a;
+  --vcpc-gold:#ffb20a; --vcpc-gold2:#ffd36b; --vcpc-brown:#6f3a1f;
+  --vcpc-cream:#fbf7ee; --vcpc-cream2:#fff8e8;
+  --vcpc-line:rgba(7,31,61,.12);
+  --vcpc-head-h:74px;
+  --vcpc-ease:cubic-bezier(.22,.61,.36,1);
+}
+
+/* Type ------------------------------------------------------------------- */
+html{overflow-x:clip;}
+body{
+  font-family:"Montserrat",Inter,ui-sans-serif,system-ui,-apple-system,
+    BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+
+/* Smooth in-page jumps clear the sticky header ---------------------------- */
+:where(section,[id]){scroll-margin-top:calc(var(--vcpc-head-h) + 14px);}
+
+/* ==========================================================================
+   HEADER  (markup: header.vcpc-header > nav.nav)
+   ========================================================================== */
+header.vcpc-header{
+  position:sticky; top:0; z-index:100;
+  background:rgba(251,247,238,.86);
+  -webkit-backdrop-filter:saturate(180%) blur(16px);
+  backdrop-filter:saturate(180%) blur(16px);
+  border-bottom:1px solid rgba(255,178,10,.28);
+  box-shadow:none;
+  transition:box-shadow .3s var(--vcpc-ease), background .3s var(--vcpc-ease);
+}
+header.vcpc-header.scrolled{
+  background:rgba(251,247,238,.97);
+  box-shadow:0 10px 32px rgba(7,31,61,.10);
+}
+header.vcpc-header .nav{
+  width:min(1180px,92vw); max-width:1180px; margin:0 auto;
+  display:flex; align-items:center; justify-content:space-between; gap:18px;
+  min-height:var(--vcpc-head-h); padding:12px 0;
+}
+
+/* Brand + breadcrumb ----------------------------------------------------- */
+header.vcpc-header .brand{
+  display:flex; align-items:center; gap:13px;
+  color:var(--vcpc-navy); text-decoration:none; min-width:0;
+}
+header.vcpc-header .brand-mark{
+  width:46px; height:46px; flex:0 0 46px; padding:0; overflow:hidden;
+  border-radius:6px; background:transparent;
+  box-shadow:0 8px 18px rgba(255,178,10,.28);
+  border:0;
+  display:grid; place-items:center;
+  transition:transform .3s var(--vcpc-ease), box-shadow .3s var(--vcpc-ease);
+}
+header.vcpc-header .brand:hover .brand-mark{
+  transform:translateY(-1px) rotate(-3deg);
+  box-shadow:0 14px 28px rgba(255,178,10,.42);
+}
+header.vcpc-header .brand-mark img{
+  width:100%; height:100%; object-fit:cover; display:block; margin:0; border-radius:6px;
+}
+header.vcpc-header .brand-text,
+header.vcpc-header .brand-name{display:block; line-height:1.18; min-width:0;}
+header.vcpc-header .brand-text strong,
+header.vcpc-header .brand-name .brand-title{
+  display:block; color:var(--vcpc-gold); font-weight:800;
+  font-size:13.5px; letter-spacing:.02em; text-transform:uppercase;
+  line-height:1.18; white-space:nowrap;
+}
+header.vcpc-header .breadcrumb{
+  display:flex; align-items:center; gap:6px; margin-top:3px;
+  font-size:12px; font-weight:700; letter-spacing:0; text-transform:none;
+  color:#7a6647;
+}
+header.vcpc-header .breadcrumb a{color:#7a6647; text-decoration:none; transition:color .2s var(--vcpc-ease);}
+header.vcpc-header .breadcrumb a:hover{color:var(--vcpc-brown);}
+header.vcpc-header .breadcrumb em,
+header.vcpc-header .breadcrumb .sep{font-style:normal; color:#c39b3e; font-weight:600;}
+header.vcpc-header .breadcrumb .current,
+header.vcpc-header .breadcrumb > span:last-child{color:var(--vcpc-navy); font-weight:800;}
+
+/* Nav links -------------------------------------------------------------- */
+header.vcpc-header .nav-links{
+  display:flex; align-items:center; gap:20px;
+  position:static; inset:auto; min-height:0; transform:none;
+  background:transparent; padding:0; box-shadow:none;
+}
+header.vcpc-header .nav-links a:not(.btn){
+  position:relative; padding:6px 0; font-size:12.5px; font-weight:700;
+  text-transform:uppercase; letter-spacing:.04em; color:var(--vcpc-navy);
+  opacity:.82; transition:color .2s var(--vcpc-ease), opacity .2s var(--vcpc-ease);
+}
+header.vcpc-header .nav-links a:not(.btn)::after{
+  content:""; position:absolute; left:0; right:0; bottom:0; height:2px;
+  background:var(--vcpc-gold); border-radius:2px;
+  transform:scaleX(0); transform-origin:left; transition:transform .25s var(--vcpc-ease);
+}
+header.vcpc-header .nav-links a:not(.btn):hover{color:var(--vcpc-brown); opacity:1;}
+header.vcpc-header .nav-links a:not(.btn):hover::after{transform:scaleX(1);}
+
+/* Language switch -------------------------------------------------------- */
+header.vcpc-header .lang,
+header.vcpc-header .lang-toggle{
+  display:inline-flex; align-items:center; gap:4px; margin:0; padding:3px;
+  border:1px solid rgba(255,178,10,.4); border-radius:999px;
+  background:rgba(255,255,255,.7);
+}
+header.vcpc-header .lang button,
+header.vcpc-header .lang-toggle button{
+  border:0; background:transparent; color:var(--vcpc-navy);
+  border-radius:999px; padding:6px 11px; font-weight:800; font-size:12px;
+  line-height:1; cursor:pointer; transition:background .2s var(--vcpc-ease), color .2s var(--vcpc-ease);
+}
+header.vcpc-header .lang button:hover,
+header.vcpc-header .lang-toggle button:hover{color:var(--vcpc-brown);}
+header.vcpc-header .lang button.active,
+header.vcpc-header .lang-toggle button.active{
+  background:linear-gradient(135deg,var(--vcpc-gold),var(--vcpc-gold2));
+  color:var(--vcpc-ink); box-shadow:0 6px 14px rgba(255,178,10,.28);
+}
+
+/* Right cluster + hamburger --------------------------------------------- */
+header.vcpc-header .nav-cta{display:flex; align-items:center; gap:10px;}
+header.vcpc-header .hamburger,
+header.vcpc-header .menu-btn{
+  display:none; border:0; cursor:pointer;
+  background:var(--vcpc-navy); color:#fff; border-radius:11px;
+  width:44px; height:44px; padding:0; place-items:center;
+}
+header.vcpc-header .hamburger span{
+  display:block; width:20px; height:2px; margin:4px auto;
+  background:#fff; border-radius:999px; transition:transform .25s var(--vcpc-ease), opacity .2s var(--vcpc-ease);
+}
+header.vcpc-header .hamburger[aria-expanded="true"] span:nth-child(1){transform:translateY(6px) rotate(45deg);}
+header.vcpc-header .hamburger[aria-expanded="true"] span:nth-child(2){opacity:0;}
+header.vcpc-header .hamburger[aria-expanded="true"] span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
+
+/* Mobile drawer --------------------------------------------------------- */
+@media(max-width:1000px){
+  header.vcpc-header .nav{min-height:66px; padding:10px 0;}
+  header.vcpc-header .hamburger,
+  header.vcpc-header .menu-btn{display:grid;}
+  header.vcpc-header .nav-links{
+    position:fixed; top:66px; right:0; left:auto;
+    width:min(86vw,360px);
+    min-height:calc(100vh - 66px); height:calc(100dvh - 66px);
+    background:rgba(251,247,238,.99);
+    -webkit-backdrop-filter:blur(18px); backdrop-filter:blur(18px);
+    flex-direction:column; align-items:flex-start; justify-content:flex-start;
+    gap:6px; padding:26px 26px 40px; overflow-y:auto;
+    transform:translateX(100%); transition:transform .3s var(--vcpc-ease);
+    box-shadow:-24px 0 60px rgba(7,31,61,.16);
+  }
+  header.vcpc-header .nav-links.open{transform:translateX(0);}
+  header.vcpc-header .nav-links a:not(.btn){
+    font-size:17px; padding:13px 0; width:100%;
+    border-bottom:1px solid rgba(7,31,61,.07); text-transform:none; letter-spacing:0;
+  }
+  header.vcpc-header .nav-links a:not(.btn)::after{display:none;}
+  header.vcpc-header .nav-links .btn{width:100%; justify-content:center; margin-top:14px;}
+  header.vcpc-header .lang,
+  header.vcpc-header .lang-toggle{margin-top:16px;}
+}
+@media(max-width:560px){
+  header.vcpc-header .brand-mark{width:42px; height:42px; flex-basis:42px;}
+  header.vcpc-header .brand-text strong,
+  header.vcpc-header .brand-name .brand-title{font-size:12px; letter-spacing:.01em;}
+  header.vcpc-header .breadcrumb{font-size:11px;}
+}
+/* Keep the long company name from squeezing the nav on mid widths */
+@media(max-width:1180px) and (min-width:1001px){
+  header.vcpc-header .nav-links{gap:15px;}
+  header.vcpc-header .nav-links a:not(.btn){font-size:11.5px;}
+}
+
+body.menu-open{overflow:hidden;}
+
+/* ==========================================================================
+   BUTTONS — primary shine sweep (synchronised across pages)
+   ========================================================================== */
+.btn-primary{
+  position:relative; overflow:hidden;
+  background:linear-gradient(135deg,var(--vcpc-gold),var(--vcpc-gold2));
+  color:var(--vcpc-ink); border:1px solid rgba(255,211,107,.5);
+  box-shadow:0 12px 26px rgba(255,178,10,.22);
+}
+.btn-primary:hover{background:linear-gradient(135deg,#ffbb22,#ffdd84); color:var(--vcpc-ink);}
+.btn-primary::after{
+  content:""; position:absolute; top:-40%; left:-60%;
+  width:42%; height:180%; transform:rotate(22deg); pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.6),transparent);
+  animation:vcpcShine 4.5s ease-in-out infinite;
+}
+@keyframes vcpcShine{0%,55%{left:-70%} 78%,100%{left:140%}}
+
+/* ==========================================================================
+   CARD HOVER — unified lift for every card-like block
+   ========================================================================== */
+.card,.service-card,.package,.package-card,.package-box,.flow-step,.why-item,
+.path-card,.issue,.module-card,.investor,.investor-card,.acc-item,.link-card,
+.report-card,.trust-card{
+  transition:transform .3s var(--vcpc-ease), box-shadow .3s var(--vcpc-ease),
+             border-color .3s var(--vcpc-ease);
+}
+.card:hover,.service-card:hover,.package:hover,.package-card:hover,.package-box:hover,
+.flow-step:hover,.why-item:hover,.path-card:hover,.issue:hover,.module-card:hover,
+.investor:hover,.investor-card:hover,.link-card:hover,.report-card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 24px 54px rgba(13,45,87,.13);
+  border-color:rgba(255,178,10,.45);
+}
+/* Don't fight the dark-band cards' own treatment */
+.section-navy .card:hover,.dark-band .card:hover{border-color:rgba(255,211,107,.45);}
+
+/* ==========================================================================
+   HERO FLOAT — gentle bob on hero showcase panels
+   ========================================================================== */
+@media (prefers-reduced-motion:no-preference){
+  .hero-panel,.hero-card,.hero-visual,.strategy-map,.deal-card,.deal-flow{
+    animation:vcpcFloat 6.5s ease-in-out infinite;
+  }
+}
+@keyframes vcpcFloat{0%,100%{transform:translateY(0)} 50%{transform:translateY(-9px)}}
+
+/* ==========================================================================
+   BACK TO TOP
+   ========================================================================== */
+.back-top{
+  position:fixed; right:20px; bottom:20px; z-index:95;
+  width:48px; height:48px; border-radius:50%; border:1px solid rgba(255,178,10,.32);
+  background:linear-gradient(135deg,var(--vcpc-navy),var(--vcpc-navy2));
+  color:var(--vcpc-gold2); font-size:18px; font-weight:900; cursor:pointer;
+  display:grid; place-items:center;
+  box-shadow:0 14px 30px rgba(7,31,61,.28);
+  opacity:0; transform:translateY(16px) scale(.9); pointer-events:none;
+  transition:opacity .3s var(--vcpc-ease), transform .3s var(--vcpc-ease);
+}
+.back-top.show{opacity:1; transform:translateY(0) scale(1); pointer-events:auto;}
+.back-top:hover{transform:translateY(-2px) scale(1.05); color:#fff;}
+
+/* ==========================================================================
+   REVEAL ON SCROLL
+   ========================================================================== */
+.reveal{opacity:0; transform:translateY(30px); transition:opacity .7s var(--vcpc-ease), transform .7s var(--vcpc-ease);}
+.reveal.visible{opacity:1; transform:translateY(0);}
+.stagger>*{opacity:0; transform:translateY(22px); transition:opacity .6s var(--vcpc-ease), transform .6s var(--vcpc-ease);}
+.stagger.visible>*{opacity:1; transform:translateY(0);}
+.stagger.visible>*:nth-child(2){transition-delay:.07s}
+.stagger.visible>*:nth-child(3){transition-delay:.14s}
+.stagger.visible>*:nth-child(4){transition-delay:.21s}
+.stagger.visible>*:nth-child(5){transition-delay:.28s}
+.stagger.visible>*:nth-child(6){transition-delay:.35s}
+@media (prefers-reduced-motion:reduce){
+  .reveal,.stagger>*{opacity:1 !important; transform:none !important;}
+}
+
+/* ==========================================================================
+   FOOTER — unified
+   ========================================================================== */
+footer.vcpc-footer{background:#041523; color:#c4d2e2; padding:40px 0;}
+footer.vcpc-footer .vcpc-foot{
+  width:min(1180px,92vw); margin:0 auto;
+  display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap;
+}
+footer.vcpc-footer .foot-brand{display:flex; align-items:center; gap:14px; min-width:0;}
+footer.vcpc-footer .foot-brand img{width:46px; height:46px; border-radius:11px; display:block;}
+footer.vcpc-footer .foot-brand strong{color:#fff; font-size:15px; font-weight:800; letter-spacing:.01em;}
+footer.vcpc-footer .foot-brand span{display:block; color:#8fa3ba; font-size:13px; margin-top:3px;}
+footer.vcpc-footer .foot-meta{font-size:14px; color:#aebfd1; text-align:right;}
+footer.vcpc-footer .foot-meta a{color:var(--vcpc-gold2); font-weight:700; text-decoration:none; transition:color .2s var(--vcpc-ease);}
+footer.vcpc-footer .foot-meta a:hover{color:#fff; text-decoration:underline;}
+@media(max-width:640px){
+  footer.vcpc-footer .vcpc-foot{justify-content:flex-start;}
+  footer.vcpc-footer .foot-meta{text-align:left;}
+}
+
+/* ==========================================================================
+   REFINEMENTS (batch 2)
+   ========================================================================== */
+
+/* Eyebrows / kickers -> 16px everywhere */
+.eyebrow,.kicker,.section-kicker{font-size:16px;}
+
+/* Hero: trim vertical padding so it fits the first screen */
+.hero-grid{padding-top:10px; padding-bottom:10px;}
+.hero-wrap{padding-top:10px; padding-bottom:10px;}
+
+/* Shared service icon (navy disc + gold line glyph) -------------------- */
+.vcpc-ico{
+  width:50px; height:50px; flex:0 0 50px; border-radius:50%;
+  display:grid; place-items:center; background:var(--vcpc-navy);
+  border:1px solid rgba(255,178,10,.40); box-shadow:0 8px 18px rgba(7,31,61,.18);
+}
+.vcpc-ico svg{width:27px; height:27px; fill:none; stroke:var(--vcpc-gold2); stroke-width:2; stroke-linecap:round; stroke-linejoin:round;}
+
+/* Hero trust block (homepage, on dark hero) ---------------------------- */
+.vcpc-trust{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; margin-top:22px; max-width:760px;}
+.vcpc-trust .t{background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.16); border-radius:16px; padding:13px 14px; min-height:74px;}
+.vcpc-trust .t b{display:block; font-size:21px; color:var(--vcpc-gold2); line-height:1; font-weight:900;}
+.vcpc-trust .t span{display:block; margin-top:6px; color:rgba(255,255,255,.80); font-size:12px; line-height:1.35;}
+@media(max-width:560px){.vcpc-trust{grid-template-columns:repeat(2,1fr);}}
+
+/* Premium solution cards (homepage services + strategy/capital packages) */
+.service-card,.card.package{
+  position:relative; overflow:hidden;
+  background:linear-gradient(180deg,#ffffff 0%,#fff8ec 100%);
+  border:1px solid rgba(255,178,10,.30);
+  border-radius:24px; padding:30px;
+  box-shadow:0 14px 38px rgba(13,45,87,.08);
+}
+.service-card::before,.card.package::before{
+  content:""; position:absolute; left:0; top:0; height:5px; width:100%;
+  background:linear-gradient(90deg,var(--vcpc-gold),rgba(255,178,10,0));
+  transform:scaleX(.4); transform-origin:left; transition:transform .35s var(--vcpc-ease);
+}
+.service-card:hover::before,.card.package:hover::before{transform:scaleX(1);}
+.service-card.featured,.card.package.featured{
+  border:2px solid var(--vcpc-gold);
+  box-shadow:0 26px 60px rgba(255,178,10,.20);
+}
+.service-card.featured::before,.card.package.featured::before{transform:scaleX(1);}
+/* Featured ribbon */
+.service-card.featured[data-badge]::after,.card.package.featured[data-badge]::after,
+.card.featured[data-badge]::after{
+  content:attr(data-badge); position:absolute; top:16px; right:0;
+  background:linear-gradient(135deg,var(--vcpc-gold),var(--vcpc-gold2)); color:var(--vcpc-ink);
+  font-size:11px; font-weight:900; letter-spacing:.03em; padding:7px 13px;
+  border-radius:999px 0 0 999px; box-shadow:0 8px 18px rgba(255,178,10,.30); text-transform:uppercase;
+}
+.service-card.featured{transform:translateY(-6px);}
+/* Premium check lists */
+.service-card ul,.card.package ul{list-style:none; padding-left:0; margin:14px 0 22px;}
+.service-card ul li,.card.package ul li,.card.package .bullets li{
+  list-style:none; position:relative; padding-left:26px; margin:10px 0; color:var(--vcpc-navy2);
+}
+.card.package .bullets{padding-left:0;}
+.service-card ul li::before,.card.package ul li::before,.card.package .bullets li::before{
+  content:"\2713"; position:absolute; left:0; top:0; color:var(--vcpc-brown);
+  font-weight:900; font-size:14px;
+}
+/* Heading icon used inside solution cards */
+.service-card .vcpc-ico,.card.package .vcpc-ico{margin-bottom:16px;}
+.service-meta,.card.package .time,.card.package .price{font-size:13px; letter-spacing:.04em;}
+
+/* Soft blue panels (commitment / positioning) ------------------------- */
+.vcpc-soft{
+  background:linear-gradient(180deg,#eef4fb,#e2ecf8) !important;
+  border:1px solid rgba(13,45,87,.12) !important;
+  box-shadow:0 14px 34px rgba(13,45,87,.08) !important;
+}
+.vcpc-soft h3,.vcpc-soft h2{color:var(--vcpc-navy) !important;}
+.vcpc-soft p,.vcpc-soft li{color:#41546b !important;}
+/* Capital — investor cards hover blue */
+.investor:hover{
+  background:linear-gradient(180deg,#eef4fb,#e2ecf8) !important;
+  border-color:rgba(13,45,87,.18) !important;
+}
+
+/* Knowledge-hub document thumbnail (shared illustration) -------------- */
+.doc-thumb{overflow:hidden;}
+.doc-thumb.doc-illu{
+  background:linear-gradient(150deg,#0d2d57,#071f3d) !important;
+  display:grid; place-items:center; padding:14px;
+}
+.doc-thumb.doc-illu svg{width:100%; height:auto; max-height:86px; display:block;}
+
+/* Capital — soft-blue sections (Capital events + Commitment box) ------ */
+#transactions{background:linear-gradient(180deg,#eef4fb,#e9f1fa);}
+.commitment{
+  background:linear-gradient(180deg,#eef4fb,#e2ecf8);
+  border:1px solid rgba(13,45,87,.12); border-radius:24px;
+  padding:24px; box-shadow:0 14px 34px rgba(13,45,87,.08);
+}
+
+/* ==========================================================================
+   REFINEMENTS (batch 3)
+   ========================================================================== */
+
+/* Shared hero background image (all pages) ---------------------------- */
+.hero{
+  background:linear-gradient(100deg,rgba(7,31,61,.88) 0%,rgba(7,31,61,.62) 46%,rgba(7,31,61,.22) 100%),
+             url('bg-hero.png') center bottom/cover no-repeat !important;
+}
+
+/* Homepage footer — stacked meta (address / domain / email) ----------- */
+footer.vcpc-footer .foot-meta{line-height:1.7;}
+footer.vcpc-footer .foot-meta .addr{color:#cdd9e6; font-weight:700;}
+
+/* Bold solution cards (HOMEPAGE — home.style look) -------------------- */
+.svc-bold{
+  position:relative; overflow:hidden; padding:0;
+  display:flex; flex-direction:column;
+  background:#fff; border:1px solid var(--vcpc-line); border-radius:22px;
+  box-shadow:0 16px 40px rgba(13,45,87,.10);
+}
+.svc-bold::before{display:none;}
+.svc-bold .svc-bold-head{
+  padding:22px 22px 20px; color:#fff; display:flex; flex-direction:column; gap:9px; position:relative;
+}
+.svc-bold .svc-bold-head.t-blue{background:linear-gradient(135deg,#2a6fdb,#1842a8);}
+.svc-bold .svc-bold-head.t-navy{background:linear-gradient(135deg,#0d2d57,#071f3d);}
+.svc-bold .svc-bold-ic{
+  width:48px; height:48px; border-radius:13px; display:grid; place-items:center;
+  background:rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.28);
+}
+.svc-bold .svc-bold-ic svg{width:25px; height:25px; fill:none; stroke:#fff; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;}
+.svc-bold .svc-bold-meta{font-size:11px; font-weight:800; letter-spacing:.05em; text-transform:uppercase; color:var(--vcpc-gold2);}
+.svc-bold .svc-bold-head h3{font-size:23px; line-height:1.18; color:#fff; margin:0;}
+.svc-bold .svc-bold-body{padding:18px 22px 4px; flex:1;}
+.svc-bold .svc-bold-body p{color:#41546b; font-size:14px; margin:0 0 14px;}
+.svc-bold .svc-bold-list{list-style:none; padding:0; margin:0 0 18px; display:grid; gap:11px;}
+.svc-bold .svc-bold-list li{position:relative; padding-left:28px; color:var(--vcpc-navy2); font-size:14px; line-height:1.45;}
+.svc-bold .svc-bold-list li::before{
+  content:"\2713"; position:absolute; left:0; top:1px; width:18px; height:18px; border-radius:5px;
+  background:rgba(255,178,10,.16); color:var(--vcpc-brown); font-size:11px; font-weight:900;
+  display:grid; place-items:center;
+}
+.svc-bold .svc-bold-foot{
+  margin:auto 18px 18px; display:flex; align-items:center; gap:9px; justify-content:center;
+  padding:14px 18px; border-radius:14px; font-weight:800; font-size:15px; color:#fff;
+  transition:transform .2s var(--vcpc-ease), box-shadow .2s var(--vcpc-ease);
+}
+.svc-bold .svc-bold-foot.t-blue{background:linear-gradient(135deg,#2a6fdb,#1842a8);}
+.svc-bold .svc-bold-foot.t-navy{background:linear-gradient(135deg,#0d2d57,#071f3d);}
+.svc-bold .svc-bold-foot.t-gold{background:linear-gradient(135deg,#ffb20a,#ffd36b); color:var(--vcpc-ink);}
+.svc-bold .svc-bold-foot:hover{transform:translateY(-2px); box-shadow:0 12px 26px rgba(13,45,87,.2);}
+/* VI labels are longer — smaller type so they sit on one line */
+html[lang="vi"] .svc-bold .svc-bold-foot{font-size:12px;}
+.svc-bold.featured{border:2px solid var(--vcpc-gold); box-shadow:0 26px 60px rgba(255,178,10,.22);}
+.svc-bold.featured::after{
+  content:attr(data-badge); position:absolute; top:18px; right:-40px; transform:rotate(45deg);
+  background:linear-gradient(135deg,#ffb20a,#ffd36b); color:var(--vcpc-ink);
+  font-size:10px; font-weight:900; letter-spacing:.04em; padding:6px 44px;
+  box-shadow:0 6px 14px rgba(0,0,0,.18); z-index:2;
+}
+.svc-bold:hover{transform:translateY(-6px); box-shadow:0 28px 60px rgba(13,45,87,.16); border-color:rgba(255,178,10,.45);}
+
+/* Homepage section tones (Why = grey, Knowledge = white) -------------- */
+#why.tone-grey{background:#eef1f5;}
+#insights.tone-white{background:#fff;}
+
+/* FAQ accordion (scoped — does not touch landing-page accordions) ----- */
+.vcpc-faq{display:grid; gap:12px; max-width:920px; margin:0 auto;}
+.vcpc-faq .acc-item{background:#fff; border:1px solid var(--vcpc-line); border-radius:16px; overflow:hidden; box-shadow:0 8px 22px rgba(13,45,87,.05);}
+.vcpc-faq .acc-title{
+  width:100%; text-align:left; border:0; background:transparent; cursor:pointer; font-family:inherit;
+  padding:18px 22px; display:flex; justify-content:space-between; gap:18px; align-items:center;
+  font-weight:800; color:var(--vcpc-navy); font-size:16px; line-height:1.4;
+}
+.vcpc-faq .acc-title .pm{flex:0 0 auto; color:var(--vcpc-gold); font-size:24px; line-height:1; transition:transform .25s var(--vcpc-ease);}
+.vcpc-faq .acc-item.active .acc-title .pm{transform:rotate(45deg);}
+.vcpc-faq .acc-content{max-height:0; overflow:hidden; transition:max-height .32s var(--vcpc-ease);}
+.vcpc-faq .acc-content p{padding:0 22px 18px; margin:0; color:#41546b; line-height:1.7;}
+
+/* Hero H1 size (landing pages 56px; homepage keeps its inline size) --- */
+.hero h1,.hero .h1{font-size:clamp(34px,5.2vw,56px); letter-spacing:-1.4px;}
+
+/* BizHealth packages -> cream landing.style (match other landings) ---- */
+.package-box{
+  position:relative; overflow:hidden;
+  background:linear-gradient(180deg,#ffffff,#fff8ec) !important;
+  border:1px solid rgba(255,178,10,.30) !important; border-radius:24px !important;
+  padding:30px !important; box-shadow:0 16px 40px rgba(13,45,87,.08) !important;
+  color:var(--vcpc-navy2) !important;
+}
+.package-box::before{content:""; position:absolute; left:0; top:0; height:5px; width:100%;
+  background:linear-gradient(90deg,var(--vcpc-gold),rgba(255,178,10,0));}
+.package-box.standard{border:2px solid var(--vcpc-gold) !important; box-shadow:0 26px 60px rgba(255,178,10,.20) !important;}
+.package-box .package-head{background:transparent !important; padding:0 0 14px !important;
+  display:flex !important; align-items:center !important; gap:14px !important; border:0 !important; box-shadow:none !important;}
+.package-box .pkg-icon{
+  width:50px !important; height:50px !important; flex:0 0 50px !important; border-radius:50% !important;
+  background:var(--vcpc-navy) !important; color:var(--vcpc-gold2) !important;
+  display:grid !important; place-items:center !important; font-size:22px !important;
+  border:1px solid rgba(255,178,10,.4) !important; box-shadow:0 8px 18px rgba(7,31,61,.18) !important;
+}
+.package-box .package-head h3{color:var(--vcpc-navy) !important; font-size:24px !important; margin:0 !important;}
+.package-box .package-list{list-style:none !important; padding:0 !important; margin:4px 0 18px !important; display:grid !important; gap:11px !important;}
+.package-box .package-list li{display:grid !important; grid-template-columns:22px 1fr !important; gap:9px !important;
+  color:#41546b !important; font-size:14px !important; align-items:start !important; line-height:1.45 !important;}
+.package-box .package-list .li-icon{
+  color:var(--vcpc-brown) !important; font-weight:900 !important; background:rgba(255,178,10,.16) !important;
+  width:20px !important; height:20px !important; border-radius:5px !important;
+  display:grid !important; place-items:center !important; font-size:11px !important; margin:1px 0 0 !important;
+}
+.package-box .package-footer-banner{
+  background:linear-gradient(135deg,rgba(255,178,10,.16),rgba(255,178,10,.06)) !important;
+  color:var(--vcpc-brown) !important; border:1px solid rgba(255,178,10,.32) !important;
+  border-radius:14px !important; padding:12px 14px !important; display:flex !important; gap:9px !important;
+  align-items:center !important; font-weight:800 !important; font-size:14px !important;
+}
+.package-box .package-footer-banner .footer-icon{color:var(--vcpc-gold) !important; background:transparent !important;}
+.package-box .package-ribbon{background:linear-gradient(135deg,var(--vcpc-gold),var(--vcpc-gold2)) !important; color:var(--vcpc-ink) !important;}
+
+/* Contact form status message --------------------------------------- */
+.vcpc-form-msg{margin:12px 0 0; padding:12px 14px; border-radius:12px; font-weight:700; font-size:14px; line-height:1.5;}
+.vcpc-form-msg.ok{background:rgba(19,138,101,.12); color:#0d6b4e; border:1px solid rgba(19,138,101,.32);}
+.vcpc-form-msg.err{background:rgba(199,53,43,.10); color:#a32b22; border:1px solid rgba(199,53,43,.32);}
+
+/* ==========================================================================
+   REFINEMENTS (batch 4 — homepage)
+   ========================================================================== */
+/* Bold solution card header: center icon + meta + title */
+.svc-bold .svc-bold-head{align-items:center; text-align:center;}
+/* FAQ tighter vertical rhythm */
+#faq{padding-top:60px; padding-bottom:60px;}
+/* Why-VCPC stat row */
+.vcpc-stats{display:grid; grid-template-columns:repeat(3,1fr); gap:22px; margin-top:34px;}
+.vcpc-stats .stat{
+  text-align:center; background:#fff; border:1px solid var(--vcpc-line);
+  border-radius:18px; padding:28px 18px; box-shadow:0 12px 30px rgba(13,45,87,.06);
+  transition:transform .3s var(--vcpc-ease), box-shadow .3s var(--vcpc-ease), border-color .3s var(--vcpc-ease);
+}
+.vcpc-stats .stat:hover{transform:translateY(-5px); box-shadow:0 22px 48px rgba(13,45,87,.12); border-color:rgba(255,178,10,.45);}
+.vcpc-stats .stat b{display:block; font-size:42px; font-weight:900; line-height:1; letter-spacing:-1.5px;
+  background:linear-gradient(135deg,#e69500,#ffc64a); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; color:#e69500;}
+.vcpc-stats .stat span{display:block; margin-top:12px; color:var(--vcpc-navy2); font-weight:700; font-size:14.5px; line-height:1.45;}
+@media(max-width:760px){.vcpc-stats{grid-template-columns:1fr; gap:14px;} .vcpc-stats .stat{padding:22px 16px;} .vcpc-stats .stat b{font-size:36px;}}
+
+/* ==========================================================================
+   GLOBAL POLISH (batch 5)
+   ========================================================================== */
+@media (prefers-reduced-motion:no-preference){ html{scroll-behavior:smooth;} }
+h1,h2,h3{text-wrap:balance;}
+p,li{text-wrap:pretty;}
+img,svg,video{max-width:100%;}
+::selection{background:rgba(255,178,10,.85); color:var(--vcpc-ink);}
+:focus-visible{outline:2px solid var(--vcpc-gold); outline-offset:3px; border-radius:4px;}
+button{font-family:inherit;}
+input,select,textarea{font-family:inherit;}
+/* Even card heights inside grids */
+.grid-3>.card,.package-grid-ref>.package-box{display:flex; flex-direction:column;}
+.grid-3>.card.package{justify-content:space-between; gap:18px;}
+.grid-3>.card.package .btn{align-self:flex-start;}
+

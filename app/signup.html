@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="theme-color" content="#071f3d"/>
+<link rel="icon" type="image/png" href="../assets/favicon.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../assets/vcpc.css"/>
+<link rel="stylesheet" href="../assets/app-core.css"/>
+<title>Đăng ký · VCPC</title>
+</head>
+<body class="app">
+<div class="auth-page">
+
+  <!-- Hero -->
+  <aside class="auth-hero">
+    <a href="../index.html" style="display:flex;gap:12px;align-items:center;color:#fff;text-decoration:none;">
+      <img src="../assets/logo-vcpc.jpg" style="width:46px;height:46px;border-radius:10px;" alt="VCPC"/>
+      <div>
+        <b style="color:#ffd36b;font-weight:800;">Viet Capital Partners &amp; Consulting</b><br/>
+        <span style="font-size:11px;letter-spacing:.08em;color:#a9bbd2;text-transform:uppercase;">Advisory Platform</span>
+      </div>
+    </a>
+    <div>
+      <h1>Tạo tài khoản — bắt đầu hành trình quản trị thông minh.</h1>
+      <p>Một tài khoản cho BizHealth, BizOS và BizDeal. Không cần đăng nhập lại sau khi đăng ký.</p>
+    </div>
+    <!-- Service summary if from service page -->
+    <div id="serviceSummary" style="display:none;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:14px;padding:16px;">
+      <div style="font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#ffd36b;margin-bottom:8px;">Dịch vụ đã chọn</div>
+      <div style="font-size:15px;font-weight:900;color:#fff;" id="sumService">—</div>
+      <div style="font-size:13px;color:#c0d0e4;margin-top:4px;" id="sumPlanTerm">—</div>
+      <div style="font-size:17px;font-weight:900;color:#ffd36b;margin-top:6px;" id="sumPrice">—</div>
+    </div>
+    <div style="font-size:13px;color:#90a4c2;">© VCPC · vietcapitalpartners.com</div>
+  </aside>
+
+  <!-- Form -->
+  <section class="auth-form-wrap">
+    <form class="auth-form" id="signupForm" autocomplete="on" novalidate>
+      <h2>Tạo tài khoản</h2>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div class="field">
+          <label>Họ và tên <span style="color:#c7352b;">*</span></label>
+          <input name="name" required placeholder="Nguyễn Văn A" autocomplete="name" style="min-height:44px;"/>
+        </div>
+        <div class="field">
+          <label>Số điện thoại / Zalo <span style="color:#c7352b;">*</span></label>
+          <input name="phone" type="tel" required placeholder="0909 000 000" autocomplete="tel" style="min-height:44px;"/>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Email công ty <span style="color:#c7352b;">*</span></label>
+        <input name="email" type="email" required placeholder="ten@congty.com" autocomplete="email" style="min-height:44px;"/>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div class="field">
+          <label>Mật khẩu <span style="color:#c7352b;">*</span></label>
+          <input name="password" type="password" required placeholder="Ít nhất 8 ký tự" autocomplete="new-password" style="min-height:44px;"/>
+        </div>
+        <div class="field">
+          <label>Xác nhận mật khẩu <span style="color:#c7352b;">*</span></label>
+          <input name="confirm" type="password" required placeholder="Nhập lại" autocomplete="new-password" style="min-height:44px;"/>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Tên doanh nghiệp <span style="color:#c7352b;">*</span></label>
+        <input name="org_name" required placeholder="Công ty CP ABC" autocomplete="organization" style="min-height:44px;"/>
+      </div>
+
+      <div class="field">
+        <label>Mã số thuế <span style="font-weight:400;color:#9aa7b8;font-size:12px;">(không bắt buộc)</span></label>
+        <input name="tax_id" placeholder="0123456789" style="min-height:44px;"/>
+      </div>
+
+      <div id="signupError" style="display:none;color:#c7352b;font-size:13px;font-weight:700;padding:10px 14px;background:rgba(199,53,43,.08);border-radius:8px;line-height:1.5;"></div>
+
+      <button type="submit" class="app-btn app-btn-primary" id="signupBtn" style="width:100%;margin-top:8px;min-height:48px;font-size:14px;">
+        Tạo tài khoản &amp; tiếp tục →
+      </button>
+
+      <p style="font-size:11.5px;color:#9aa7b8;text-align:center;margin-top:10px;line-height:1.5;">
+        Bằng cách đăng ký, bạn đồng ý với
+        <a href="../terms.html" target="_blank">Điều khoản sử dụng</a> và
+        <a href="../privacy.html" target="_blank">Chính sách bảo mật</a> của VCPC.
+      </p>
+
+      <div class="auth-foot">
+        <span>Đã có tài khoản?</span>
+        <a href="../dashboard.html">Đăng nhập</a>
+      </div>
+    </form>
+  </section>
+</div>
+
+<script src="../assets/app-config.js"></script>
+<script src="../assets/mock-backend.js"></script>
+<script src="../assets/app-core.js"></script>
+<script>
+(function(){
+'use strict';
+var params=new URLSearchParams(location.search);
+var SERVICE=(params.get('service')||'BIZHEALTH').toUpperCase();
+var PLAN=(params.get('plan')||'BIZHEALTH_STANDARD').toUpperCase();
+var TERM=parseInt(params.get('term'),10)||3;
+var REF=(params.get('ref')||params.get('affiliate')||'').toUpperCase();
+if(SERVICE){
+ document.getElementById('serviceSummary').style.display='block';
+ var names={BIZHEALTH:'BizHealth',BIZOS:'BizOS',BIZDEAL:'BizDeal'};
+ document.getElementById('sumService').textContent=names[SERVICE]||SERVICE;
+ document.getElementById('sumPlanTerm').textContent=(PLAN||'Chưa chọn gói')+' · '+TERM+' tháng';
+ fetch('../assets/plans.json',{cache:'no-cache'}).then(function(r){return r.json();}).then(function(plans){
+  var all=[].concat(plans.bizhealth||[],plans.strategy_os||[]),found=all.find(function(p){return p.code===PLAN||String(p.tier).toUpperCase()===PLAN;});
+  if(found&&found.price&&found.price.vnd!=null){var months=found.billing_type==='monthly'?TERM:1;var base=found.price.vnd*months;var disc=months===6?.10:months===12?.15:0;var total=Math.round(base*(1-disc));document.getElementById('sumPrice').textContent=new Intl.NumberFormat('vi-VN').format(total)+' đ'+(disc?' (đã giảm '+disc*100+'%)':'');}
+ }).catch(function(){});
+}
+document.getElementById('signupForm').addEventListener('submit',function(e){
+ e.preventDefault();var f=this,name=f.name.value.trim(),phone=f.phone.value.trim(),email=f.email.value.trim().toLowerCase(),password=f.password.value,confirm=f.confirm.value,org=f.org_name.value.trim(),tax=f.tax_id.value.trim();
+ var err=document.getElementById('signupError'),btn=document.getElementById('signupBtn');err.style.display='none';
+ if(!name||!phone||!email||!password||!org){err.style.display='block';err.textContent='Vui lòng điền đầy đủ các trường bắt buộc (*)';return;}
+ if(password.length<8){err.style.display='block';err.textContent='Mật khẩu phải có ít nhất 8 ký tự.';return;}
+ if(password!==confirm){err.style.display='block';err.textContent='Mật khẩu xác nhận không khớp. Vui lòng nhập lại.';return;}
+ btn.disabled=true;btn.textContent='Đang tạo tài khoản…';
+ try{
+  var result=VCPC_DB.signupWithPassword({email:email,password:password,full_name:name,phone:phone,organization_name:org,tax_id:tax,service_code:SERVICE,plan_code:PLAN,billing_term_months:TERM,affiliate_code:REF});
+  if(!result||result.error)throw new Error(result&&result.error||'SIGNUP_FAILED');
+  if(result.needs_confirmation){err.style.display='block';err.style.color='#0d8a5d';err.textContent='Đã tạo tài khoản. Vui lòng kiểm tra email để xác nhận, sau đó hệ thống sẽ tiếp tục tự động.';return;}
+  location.href='onboarding.html?service='+encodeURIComponent(SERVICE)+'&plan='+encodeURIComponent(PLAN)+'&term='+TERM;
+ }catch(ex){err.style.display='block';err.style.color='#c7352b';err.textContent=String(ex.message||'Có lỗi xảy ra khi tạo tài khoản. Vui lòng thử lại.').includes('already')?'Email này đã được đăng ký. Vui lòng đăng nhập hoặc dùng email khác.':'Có lỗi xảy ra khi tạo tài khoản. Vui lòng thử lại.';}
+ finally{btn.disabled=false;btn.textContent='Tạo tài khoản & tiếp tục →';}
+});
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="theme-color" content="#071f3d"/><link rel="icon" type="image/png" href="../assets/favicon.png"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/><link rel="stylesheet" href="../assets/vcpc.css"/><link rel="stylesheet" href="../assets/app-core.css"/><title>BizHealth Dashboard · VCPC Auto</title>
+<style>
+  .bz-hero{background:linear-gradient(135deg,#fff8e8,#fff);border:1px solid rgba(255,178,10,.32);border-radius:14px;padding:14px 18px;display:flex;gap:12px;margin-bottom:18px;align-items:flex-start;}
+  .bz-hero .ico{width:36px;height:36px;border-radius:10px;background:#071f3d;color:#ffd36b;display:grid;place-items:center;flex:0 0 36px;font-weight:900;}
+  .bz-hero p{margin:0;color:#41546b;font-size:13.5px;line-height:1.5;}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;font-size:11.5px;color:#5b6b80;}
+  .legend .dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:middle;}
+  .tier-switch{display:inline-flex;gap:4px;background:rgba(7,31,61,.08);border:1px solid var(--app-line);padding:3px;border-radius:999px;}
+  .tier-switch button{border:0;background:transparent;padding:6px 14px;border-radius:999px;font-weight:800;font-size:12px;cursor:pointer;color:var(--app-muted);}
+  .tier-switch button.active{background:var(--app-navy);color:#fff;}
+</style>
+</head>
+<body class="app" data-require="auth" data-need-state="PREVIEW,ACTIVE,ACTIVE_90D,READONLY">
+<div class="app-shell">
+  <aside class="app-sidebar">
+    <a href="../index.html" class="app-brand">
+      <img src="../assets/logo-vcpc.jpg" alt="VCPC"/>
+      <div><b data-vi="Viet Capital Partners & Consulting" data-en="Viet Capital Partners & Consulting">Viet Capital Partners &amp; Consulting</b><span data-vi="BizHealth Dashboard" data-en="BizHealth Dashboard">BizHealth Dashboard</span></div>
+    </a>
+    <div class="app-langrow"><button class="active" data-lang="vi">VI</button><button data-lang="en">EN</button></div>
+    <div class="app-section-label" data-vi="BizHealth" data-en="BizHealth">BizHealth</div>
+    <nav class="app-nav" data-tab-group data-tab-scope="body" id="bzNav"></nav>
+    <div class="app-section-label" style="margin-top:14px;">Quản lý</div>
+    <nav class="app-nav"><a href="data.html"><span>Dữ liệu & cập nhật</span></a><a href="team.html"><span>Thành viên</span></a><a href="billing.html"><span>Thuê bao & hóa đơn</span></a></nav>
+    <div class="app-bottom">
+      <button class="app-signout" data-action="signout" data-vi="↩ Đăng xuất" data-en="↩ Sign out">↩ Đăng xuất</button>
+    </div>
+  </aside>
+  <main class="app-main">
+    <div class="app-topbar">
+      <div>
+        <div class="app-crumb"><span data-vi="BIZHEALTH · VCPC" data-en="BIZHEALTH · VCPC">BIZHEALTH · VCPC</span></div>
+        <h1 class="app-title" id="tabTitle">Tổng quan</h1>
+        <p class="app-sub" id="tabSub" data-vi="Sức khỏe kinh doanh tuần này — doanh thu, lợi nhuận, dòng tiền và rủi ro." data-en="Business health this week — revenue, profit, cash and risks.">Sức khỏe kinh doanh tuần này — doanh thu, lợi nhuận, dòng tiền và rủi ro.</p>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <div class="tier-switch" id="tierSwitch"><button class="active" data-tier="standard" data-vi="Soi nhanh" data-en="Quick Scan">Soi nhanh</button><button data-tier="premium" data-vi="Chuyên sâu" data-en="Deep-dive">Chuyên sâu</button></div>
+        <span class="app-period"><span class="dot"></span><span id="periodTxt">2026-01-01 → 2026-06-10 · weekly</span></span>
+        <button class="app-btn app-btn-ghost" id="refreshBtn" data-vi="↻ Làm mới" data-en="↻ Refresh">↻ Làm mới</button>
+      </div>
+    </div>
+
+    <div id="bzPreviewBanner" class="bz-hero" style="display:none;">
+      <span class="ico">!</span>
+      <p data-vi="Đang ở chế độ <b>Preview 48h</b>. Số liệu đã VCPC review nhưng có watermark. Thanh toán đợt 2 để gỡ watermark và kích hoạt 90 ngày." data-en="You are in <b>48h Preview</b>. Numbers are VCPC-reviewed but watermarked. Pay instalment 2 to remove watermark and start the 90-day window."></p>
+    </div>
+
+    <div id="bzPaymentGate" class="bz-hero" style="display:none;background:#fff0e8;border-color:rgba(199,53,43,.24);">
+      <span class="ico" style="background:#c7352b;color:#fff;">$</span>
+      <div>
+        <p style="margin:0;color:#c7352b;font-weight:900;font-size:14px;" data-vi="Chỉ có tab <b>Tổng quan</b> được mở" data-en="Only <b>Overview</b> tab is available">Chỉ có tab <b>Tổng quan</b> được mở</p>
+        <p style="margin:6px 0 0;color:#5b6b80;font-size:13px;" data-vi="Bạn đã thanh toán 20%. Để xem toàn bộ tabs (P&L, Chi nhánh, Marketing, Dòng tiền, Kiến nghị), vui lòng thanh toán 80% còn lại." data-en="You paid 20%. To unlock all tabs (P&L, Branch, Marketing, Cash, Recommendations), please pay the remaining 80%."></p>
+        <a href="billing.html" class="app-btn app-btn-primary" style="margin-top:10px;display:inline-block;padding:8px 16px;font-size:12px;" data-vi="Thanh toán 80% →" data-en="Pay 80% →">Thanh toán 80% →</a>
+      </div>
+    </div>
+
+    <!-- ========== TAB: OVERVIEW ========== -->
+    <section data-tabview="overview" class="app-tabview active">
+      <div class="app-grid cols-6" style="gap:14px;margin-bottom:18px;">
+        <div class="kpi"><div class="lbl" data-vi="DOANH THU YTD" data-en="REVENUE YTD">DOANH THU YTD</div><div class="val" id="kRev">—</div><div class="sub" id="kRevSub">—</div><span class="dlabel actual">THỰC TẾ</span></div>
+        <div class="kpi"><div class="lbl" data-vi="ĐẠT KH (%)" data-en="PLAN ATTAINMENT">ĐẠT KH (%)</div><div class="val" id="kPlan">—</div><div class="sub" id="kPlanSub">—</div><span class="dlabel actual">THỰC TẾ</span></div>
+        <div class="kpi"><div class="lbl" data-vi="BIÊN EBITDA" data-en="EBITDA MARGIN">BIÊN EBITDA</div><div class="val" id="kEbit">—</div><div class="sub" id="kEbitSub">—</div><span class="dlabel actual">THỰC TẾ</span></div>
+        <div class="kpi"><div class="lbl" data-vi="NGÀY TIỀN MẶT" data-en="CASH RUNWAY">NGÀY TIỀN MẶT</div><div class="val" id="kCash">—</div><div class="sub" id="kCashSub">—</div><span class="dlabel actual">THỰC TẾ</span></div>
+        <div class="kpi"><div class="lbl" data-vi="% CHI NHÁNH ĐẠT KH" data-en="% BRANCHES AT PLAN">% CHI NHÁNH ĐẠT KH</div><div class="val" id="kBranches">—</div><div class="sub" id="kBranchesSub">—</div><span class="dlabel actual">THỰC TẾ</span></div>
+        <div class="kpi"><div class="lbl" data-vi="ROAS BÌNH QUÂN" data-en="AVG ROAS">ROAS BÌNH QUÂN</div><div class="val" id="kRoas">—</div><div class="sub" id="kRoasSub">—</div><span class="dlabel actual">THỰC TẾ</span></div>
+      </div>
+
+      <div class="app-row-2" style="gap:18px;">
+        <div class="app-card">
+          <div class="app-card-head"><b data-vi="Doanh thu theo tháng vs kế hoạch vs online" data-en="Monthly revenue vs plan vs online">Doanh thu theo tháng vs kế hoạch vs online</b><small>tỷ VND</small></div>
+          <div id="revChart" style="height:280px;"></div>
+        </div>
+        <div class="app-card">
+          <div class="app-card-head"><b data-vi="Cảnh báo điều hành ưu tiên" data-en="Priority operational alerts">Cảnh báo điều hành ưu tiên</b></div>
+          <div id="topAlerts"></div>
+        </div>
+      </div>
+
+      <div class="app-row-2" style="gap:18px;margin-top:18px;">
+        <div class="app-card">
+          <div class="app-card-head"><b data-vi="Cần chú ý tuần này — chi nhánh tụt hạng" data-en="Watchlist — branches sliding this week">Cần chú ý tuần này</b></div>
+          <div id="watchlist"></div>
+        </div>
+        <div class="app-card">
+          <div class="app-card-head"><b data-vi="Cơ cấu doanh thu theo miền" data-en="Revenue mix by region">Cơ cấu doanh thu theo miền</b></div>
+          <div id="regionDonut" style="display:flex;align-items:center;gap:18px;justify-content:center;height:200px;"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== TAB: P&L (Standard combined ; Premium separate) ========== -->
+    <section data-tabview="pnl" class="app-tabview">
+      <div class="app-grid cols-4" style="gap:14px;margin-bottom:18px;">
+        <div class="kpi"><div class="lbl" data-vi="DOANH THU LŨY KẾ" data-en="REVENUE YTD">DOANH THU LŨY KẾ</div><div class="val">197,9 tỷ</div><div class="sub" data-vi="ước cả năm 438 · mục tiêu 450" data-en="full-year est. 438 · target 450">ước cả năm 438 · mục tiêu 450</div><span class="dlabel actual">THỰC TẾ</span></div>
+        <div class="kpi"><div class="lbl" data-vi="BIÊN LÃI GỘP" data-en="GROSS MARGIN">BIÊN LÃI GỘP</div><div class="val">45,1%</div><div class="sub" data-vi="so benchmark 46% (tham khảo)" data-en="vs 46% benchmark (ref.)">so benchmark 46%</div><span class="dlabel actual">THỰC TẾ</span></div>
+        <div class="kpi"><div class="lbl" data-vi="BIÊN EBITDA" data-en="EBITDA MARGIN">BIÊN EBITDA</div><div class="val">12,2%</div><div class="sub" data-vi="EBITDA luỹ kế 24,1 tỷ" data-en="EBITDA YTD 24.1B">EBITDA luỹ kế 24,1 tỷ</div><span class="dlabel actual">THỰC TẾ</span></div>
+        <div class="kpi"><div class="lbl" data-vi="DOANH THU ONLINE" data-en="ONLINE REVENUE">DOANH THU ONLINE</div><div class="val">28,4 tỷ</div><div class="sub" data-vi="14,3% tổng · mục tiêu 65 tỷ" data-en="14.3% of total · target 65B">14,3% tổng · mục tiêu 65 tỷ</div><span class="dlabel actual">THỰC TẾ</span></div>
+      </div>
+
+      <div class="app-row-2" style="gap:18px;">
+        <div class="app-card">
+          <div class="app-card-head"><b data-vi="Cấu trúc lãi lỗ luỹ kế (waterfall)" data-en="P&L waterfall YTD">Cấu trúc lãi lỗ luỹ kế (waterfall)</b><small data-vi="tỷ VND · Doanh thu → Giá vốn → Lãi gộp → Chi phí VH → EBITDA" data-en="VND B · Revenue → COGS → GP → OpEx → EBITDA">tỷ VND</small></div>
+          <div id="waterfall" style="height:320px;"></div>
+        </div>
+        <div class="app-card">
+          <div class="app-card-head"><b data-vi="Xu hướng biên lợi nhuận" data-en="Margin trends">Xu hướng biên lợi nhuận</b></div>
+          <div id="marginTrend" style="height:280px;"></div>
+        </div>
+      </div>
+
+      <div class="app-card" style="margin-top:18px;">
+        <div class="app-card-head"><b data-vi="Lãi lỗ theo tháng" data-en="Monthly P&L">Lãi lỗ theo tháng</b></div>
+        <table class="app-table">
+          <thead><tr><th>Tháng</th><th>Doanh thu</th><th>Giá vốn</th><th>Lãi gộp</th><th>Chi phí VH</th><th>EBITDA</th><th>Biên EBITDA</th></tr></thead>
+          <tbody id="pnlTable"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ========== TAB: Branches & Product (Standard combined ; Premium = Branches only) ========== -->
+    <section data-tabview="branches" class="app-tabview">
+      <div class="app-row-2" style="gap:18px;">
+        <div class="app-card">
+          <div class="app-card-head"><b data-vi="Bản đồ nhiệt 40 chi nhánh" data-en="40-branch heatmap">Bản đồ nhiệt 40 chi nhánh</b><small data-vi="theo điểm sức khỏe" data-en="by health score">theo điểm sức khỏe</small></div>
+          <div id="branchHeat" class="heatmap"></div>
+          <div class="legend">
+            <span><i class="dot" style="background:#c7352b;"></i>&lt;40 Nguy cấp</span>
+            <span><i class="dot" style="background:#d49b3e;"></i>40–54</span>
+            <span><i class="dot" style="background:#e2b35a;"></i>55–69</span>
+            <span><i class="dot" style="background:#7ab27d;"></i>70+</span>
+            <span><i class="dot" style="background:#0d8a5d;"></i>≥85 Tốt</span>
+          </div>
+        </div>
+        <div class="app-card">
+          <div class="app-card-head"><b data-vi="Xếp hạng chi nhánh" data-en="Branch ranking">Xếp hạng chi nhánh</b><small data-vi="theo biên gộp (top 10)" data-en="by gross margin (top 10)">top 10</small></div>
+          <div id="branchRank"></div>
+        </div>
+      </div>
+
+      <div class="app-card" style="margin-top:18px;">
+        <div class="app-card-head"><b data-vi="Hiệu suất chi nhánh — top cảnh báo" data-en="Branch performance — top alerts">Hiệu suất chi nhánh — top cảnh báo</b></div>
+        <table class="app-table">
+          <thead><tr><th>Chi nhánh</th><th>Miền · format</th><th>DT lũy kế</th><th>Đạt KH</th><th>8 tuần</th><th>Biên gộp</th><th>Tồn (ngày)</th><th>Conv.</th><th>Trạng thái</th></tr></thead>
+          <tbody id="branchTable"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ========== TAB: Product / Channel (Premium only) ========== -->
+    <section data-tabview="product" class="app-tabview">
+      <div class="app-card">
+        <div class="app-card-head"><b data-vi="Hiệu suất theo nhóm sản phẩm" data-en="Performance by product group">Hiệu suất theo nhóm sản phẩm</b></div>
+        <table class="app-table"><thead><tr><th>Sản phẩm</th><th>Doanh thu (tỷ)</th><th>Biên gộp</th><th>Tồn (ngày)</th><th>Sell-through</th><th>Khuyến nghị</th></tr></thead><tbody id="productTable"></tbody></table>
+      </div>
+      <div class="app-card" style="margin-top:18px;">
+        <div class="app-card-head"><b data-vi="Hiệu suất kênh bán" data-en="Channel performance">Hiệu suất kênh bán</b></div>
+        <table class="app-table"><thead><tr><th>Kênh</th><th>Doanh thu (tỷ)</th><th>Chi phí (tỷ)</th><th>ROAS</th><th>Chi phí/DT</th><th>Khuyến nghị</th></tr></thead><tbody id="channelTable"></tbody></table>
+      </div>
+    </section>
+
+    <!-- ========== TAB: Marketing ========== -->
+    <section data-tabview="marketing" class="app-tabview">
+      <div class="app-grid cols-4" style="gap:14px;margin-bottom:18px;">
+        <div class="kpi"><div class="lbl">ROAS bình quân</div><div class="val">3,19x</div><div class="sub">benchmark 3,5</div><span class="dlabel actual">THỰC TẾ</span></div>
+        <div class="kpi"><div class="lbl">Chi phí / Doanh thu</div><div class="val">7,4%</div><div class="sub">mục tiêu 6,0%</div><span class="dlabel actual">THỰC TẾ</span></div>
+        <div class="kpi"><div class="lbl">Conversion web</div><div class="val">1,9%</div><div class="sub">mục tiêu 2,4%</div><span class="dlabel actual">THỰC TẾ</span></div>
+        <div class="kpi"><div class="lbl">Doanh thu online</div><div class="val">14,3%</div><div class="sub">28,4/197,9 tỷ</div><span class="dlabel actual">THỰC TẾ</span></div>
+      </div>
+      <div class="app-row-2" style="gap:18px;">
+        <div class="app-card">
+          <div class="app-card-head"><b data-vi="ROAS theo kênh" data-en="ROAS by channel">ROAS theo kênh</b></div>
+          <div id="roasChart" style="height:260px;"></div>
+        </div>
+        <div class="app-card">
+          <div class="app-card-head"><b data-vi="Kênh nên cắt giảm hoặc tái phân bổ" data-en="Channels to cut or reallocate">Kênh nên cắt giảm hoặc tái phân bổ</b></div>
+          <div id="cutList"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== TAB: Cash & Working capital ========== -->
+    <section data-tabview="cash" class="app-tabview">
+      <div class="app-grid cols-4" style="gap:14px;margin-bottom:18px;">
+        <div class="kpi"><div class="lbl">Tiền mặt hiện tại</div><div class="val">11,4 tỷ</div><div class="sub">runway 52 ngày</div><span class="dlabel actual">THỰC TẾ</span></div>
+        <div class="kpi"><div class="lbl">Runway nếu PO lớn T6</div><div class="val">43 ngày</div><div class="sub">↓ 9 ngày</div><span class="dlabel estimate">ƯỚC TÍNH</span></div>
+        <div class="kpi"><div class="lbl">DSO</div><div class="val">38 ngày</div><div class="sub">benchmark 35</div><span class="dlabel actual">THỰC TẾ</span></div>
+        <div class="kpi"><div class="lbl">Inventory days</div><div class="val">64 ngày</div><div class="sub">benchmark 55</div><span class="dlabel actual">THỰC TẾ</span></div>
+      </div>
+      <div class="app-row-2" style="gap:18px;">
+        <div class="app-card">
+          <div class="app-card-head"><b data-vi="Dự báo dòng tiền 90 ngày" data-en="90-day cash forecast">Dự báo dòng tiền 90 ngày</b></div>
+          <div id="cashChart" style="height:260px;"></div>
+        </div>
+        <div class="app-card">
+          <div class="app-card-head"><b data-vi="Vốn lưu động" data-en="Working capital">Vốn lưu động</b></div>
+          <div style="display:grid;gap:12px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;"><span>AR · Phải thu (DSO)</span><b>38 ngày</b></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;"><span>Inventory · Tồn kho</span><b>64 ngày</b></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;"><span>AP · Phải trả (DPO)</span><b>28 ngày</b></div>
+            <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--app-line);display:flex;justify-content:space-between;align-items:center;font-weight:900;color:#071f3d;font-size:15px;"><span>CCC</span><b>74 ngày</b></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== TAB: Cost & Operations (Premium) ========== -->
+    <section data-tabview="cost" class="app-tabview">
+      <div class="app-card">
+        <div class="app-card-head"><b data-vi="Cơ cấu chi phí vận hành" data-en="Operating cost structure">Cơ cấu chi phí vận hành</b></div>
+        <div id="costStack" style="height:260px;"></div>
+      </div>
+      <div class="app-row-2" style="gap:18px;margin-top:18px;">
+        <div class="app-card">
+          <div class="app-card-head"><b data-vi="Khoản chi rò rỉ phát hiện" data-en="Detected cost leakage">Khoản chi rò rỉ phát hiện</b></div>
+          <div id="leakList"></div>
+        </div>
+        <div class="app-card">
+          <div class="app-card-head"><b data-vi="Năng suất nhân sự" data-en="Workforce productivity">Năng suất nhân sự</b></div>
+          <div style="display:grid;gap:12px;">
+            <div style="display:flex;justify-content:space-between;font-size:14px;"><span>Doanh thu / nhân viên</span><b>341 triệu</b></div>
+            <div style="display:flex;justify-content:space-between;font-size:14px;"><span>Lương / Doanh thu</span><b>11,8%</b></div>
+            <div style="display:flex;justify-content:space-between;font-size:14px;"><span>Turnover trung bình</span><b>22%/năm</b></div>
+            <div style="display:flex;justify-content:space-between;font-size:14px;"><span>Chi nhánh có turnover >25%</span><b style="color:var(--app-bad);">7</b></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== TAB: Recommendations / KPI / Alerts ========== -->
+    <section data-tabview="recs" class="app-tabview">
+      <div class="app-row-2" style="gap:18px;">
+        <div class="app-card">
+          <div class="app-card-head"><b data-vi="Kiến nghị ưu tiên (tương ứng với báo cáo BizHealth đã review)" data-en="Priority recommendations (linked to the VCPC-reviewed BizHealth report)">Kiến nghị ưu tiên</b></div>
+          <div id="recList"></div>
+        </div>
+        <div class="app-card">
+          <div class="app-card-head"><b data-vi="Tổng tác động ước tính" data-en="Total estimated impact">Tổng tác động ước tính</b></div>
+          <div style="background:linear-gradient(135deg,#0d2d57,#071f3d);color:#fff;border-radius:14px;padding:24px;margin-bottom:16px;">
+            <div style="font-size:42px;font-weight:900;color:#ffd36b;letter-spacing:-1px;">~15,6 tỷ</div>
+            <div style="margin-top:8px;color:#cbd9ee;font-size:13.5px;" data-vi="Tổng tác động ước tính/năm từ các kiến nghị có lượng hoá được" data-en="Total estimated annual impact from quantified recommendations">Tổng tác động ước tính/năm từ các kiến nghị có lượng hoá được</div>
+            <span class="dlabel estimate" style="margin-top:10px;display:inline-block;">ƯỚC TÍNH</span>
+          </div>
+
+          <div class="app-card-head" style="margin-top:8px;"><b data-vi="KPI chính theo dõi" data-en="Key KPIs">KPI chính theo dõi</b></div>
+          <div style="display:grid;gap:10px;font-size:13px;">
+            <div style="display:flex;justify-content:space-between;border-bottom:1px dashed rgba(7,31,61,.10);padding-bottom:5px;"><span>Gross margin %</span><b>45,1%</b></div>
+            <div style="display:flex;justify-content:space-between;border-bottom:1px dashed rgba(7,31,61,.10);padding-bottom:5px;"><span>EBITDA margin %</span><b>12,2%</b></div>
+            <div style="display:flex;justify-content:space-between;border-bottom:1px dashed rgba(7,31,61,.10);padding-bottom:5px;"><span>Cash runway</span><b>52 ngày</b></div>
+            <div style="display:flex;justify-content:space-between;border-bottom:1px dashed rgba(7,31,61,.10);padding-bottom:5px;"><span>Plan attainment</span><b>98%</b></div>
+            <div style="display:flex;justify-content:space-between;"><span>ROAS</span><b>3,19x</b></div>
+          </div>
+
+          <div class="app-card-head" style="margin-top:18px;"><b data-vi="Tất cả alert đang mở" data-en="All open alerts">Tất cả alert đang mở</b></div>
+          <div id="allAlerts"></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="app-footer">
+      <div><span data-vi="Cập nhật" data-en="Last refresh">Cập nhật</span>: <b id="lastRefresh">2026-06-10</b> · <span class="badge muted reviewedBadge" data-vi="Đã VCPC kiểm duyệt" data-en="VCPC reviewed">Đã VCPC kiểm duyệt</span></div>
+      <div><a href="../security.html" data-vi="Bảo mật" data-en="Security">Bảo mật</a> · <a href="../pricing.html" data-vi="Bảng giá" data-en="Pricing">Bảng giá</a> · <a href="payment.html" data-vi="Quản lý gói" data-en="Manage plan">Quản lý gói</a></div>
+    </div>
+  </main>
+</div>
+
+<div class="preview-watermark" id="previewMark" style="display:none;"></div>
+<script src="../assets/i18n/loader.js" data-i18n-base="../assets/i18n"></script><script src="../assets/app-config.js"></script><script src="../assets/mock-backend.js"></script><script src="../assets/guards.js"></script><script src="../assets/seed-retail.js"></script><script src="../assets/engines/kpi.js"></script><script src="../assets/engines/alert.js"></script><script src="../assets/engines/recommendation.js"></script><script src="../assets/app-core.js"></script>
+<script>
+// Direct/demo viewing allowed — falls back to the seeded engagement below.
+const S = window.VCPC_SEED;
+const eng = VCPC_DB.currentEngagement() || { plan_code: 'BIZHEALTH_STANDARD', product: 'bizhealth', state: 'PREVIEW' };
+let tier = (eng.plan_code === 'BIZHEALTH_PREMIUM') ? 'premium' : 'standard';
+
+// Show preview watermark + banner if in PREVIEW state
+function refreshPreviewUI(){
+  const isPreview = eng.state === 'PREVIEW';
+  document.getElementById('previewMark').style.display = isPreview ? 'block' : 'none';
+  document.getElementById('bzPreviewBanner').style.display = isPreview ? 'flex' : 'none';
+}
+refreshPreviewUI();
+
+// Build nav for current tier
+const TABS = {
+  standard: [
+    { key:'overview', vi:'Tổng quan', en:'Overview' },
+    { key:'pnl', vi:'P&L & Chi phí', en:'P&L & Cost' },
+    { key:'branches', vi:'Chi nhánh & Sản phẩm', en:'Branches & Products' },
+    { key:'marketing', vi:'Marketing & Bán hàng', en:'Marketing & Sales' },
+    { key:'cash', vi:'Dòng tiền', en:'Cash flow' },
+    { key:'recs', vi:'Kiến nghị · KPI · Alert', en:'Recs · KPI · Alerts' }
+  ],
+  premium: [
+    { key:'overview', vi:'Tổng quan', en:'Overview' },
+    { key:'pnl', vi:'P&L', en:'P&L' },
+    { key:'branches', vi:'Chi nhánh', en:'Branches' },
+    { key:'product', vi:'Sản phẩm / Kênh', en:'Product / Channel' },
+    { key:'marketing', vi:'Marketing', en:'Marketing' },
+    { key:'cash', vi:'Dòng tiền & WC', en:'Cash & WC' },
+    { key:'cost', vi:'Chi phí & Vận hành', en:'Cost & Ops' },
+    { key:'recs', vi:'Kiến nghị · KPI · Alert', en:'Recs · KPI · Alerts' }
+  ]
+};
+
+function buildNav(){
+  const list = TABS[tier];
+  const lang = (VCPC_I18N && VCPC_I18N.current) || 'vi';
+  const html = list.map(function(t, i){
+    return '<a href="#" data-tab="'+t.key+'" class="'+(i===0?'active':'')+'"><span>'+t[lang]+'</span></a>';
+  }).join('');
+  document.getElementById('bzNav').innerHTML = html;
+  // tier-switch active
+  document.querySelectorAll('#tierSwitch button').forEach(function(b){ b.classList.toggle('active', b.dataset.tier === tier); });
+}
+buildNav();
+document.getElementById('tierSwitch').addEventListener('click', function(e){
+  const b = e.target.closest('[data-tier]'); if (!b) return;
+  tier = b.dataset.tier; buildNav();
+  // ensure visible tab is one in the new tier
+  const allowed = TABS[tier].map(function(t){return t.key;});
+  const active = document.querySelector('.app-tabview.active');
+  const cur = active && active.getAttribute('data-tabview');
+  if (!allowed.includes(cur)){
+    document.querySelectorAll('.app-tabview').forEach(function(v){ v.classList.toggle('active', v.getAttribute('data-tabview') === 'overview'); });
+    document.querySelectorAll('#bzNav a').forEach(function(a){ a.classList.toggle('active', a.getAttribute('data-tab') === 'overview'); });
+  }
+  syncTitle();
+});
+
+// Sync title to current tab
+function syncTitle(){
+  const a = document.querySelector('#bzNav a.active');
+  if (!a) return;
+  document.getElementById('tabTitle').textContent = a.textContent.trim();
+}
+document.getElementById('bzNav').addEventListener('click', function(e){
+  const a = e.target.closest('a[data-tab]'); if (!a) return;
+  e.preventDefault();
+  document.querySelectorAll('#bzNav a').forEach(function(x){ x.classList.toggle('active', x===a); });
+  const key = a.getAttribute('data-tab');
+  document.querySelectorAll('.app-tabview').forEach(function(v){ v.classList.toggle('active', v.getAttribute('data-tabview') === key); });
+  syncTitle();
+});
+document.addEventListener('vcpc:langchange', function(){ buildNav(); syncTitle(); render(); });
+
+// ============= RENDER =============
+function render(){
+  const lang = (VCPC_I18N && VCPC_I18N.current) || 'vi';
+  // ---- Overview KPIs ----
+  const k = S.kpis;
+  document.getElementById('kRev').textContent = k.revenue_ytd.toLocaleString('vi-VN').replace(',', '.') + ' tỷ';
+  document.getElementById('kRevSub').textContent = (lang==='en' ? 'YTD · target ' : 'lũy kế · mục tiêu ') + k.revenue_target + ' tỷ';
+  document.getElementById('kPlan').textContent = k.plan_attainment_pct + '%';
+  document.getElementById('kPlanSub').textContent = (lang==='en' ? 'vs plan 95%' : 'so kế hoạch 95%');
+  document.getElementById('kEbit').textContent = k.ebitda_margin_pct + '%';
+  document.getElementById('kEbitSub').textContent = (lang==='en' ? 'target 12%' : 'mục tiêu 12%');
+  document.getElementById('kCash').textContent = k.cash_runway_days + (lang==='en' ? ' days' : ' ngày');
+  document.getElementById('kCashSub').textContent = (lang==='en' ? 'if PO ↑ → 43d' : 'nếu PO lớn → 43 ngày');
+  document.getElementById('kBranches').textContent = Math.round(k.branches_at_plan/40*100) + '%';
+  document.getElementById('kBranchesSub').textContent = k.branches_at_plan+'/40 chi nhánh · ' + k.branches_at_risk + (lang==='en' ? ' at risk' : ' nguy cấp');
+  document.getElementById('kRoas').textContent = k.roas_avg + 'x';
+  document.getElementById('kRoasSub').textContent = (lang==='en' ? 'benchmark 3.5' : 'benchmark 3,5');
+
+  // ---- Revenue chart (SVG line, actual vs plan vs online) ----
+  const data = S.revenue_by_month;
+  const W = 540, H = 240, P = 32;
+  const max = Math.max.apply(null, data.flatMap(function(d){return [d.actual,d.plan,d.online];})) * 1.15;
+  function x(i){ return P + i * (W - 2*P) / (data.length - 1); }
+  function y(v){ return H - P - (v/max) * (H - 2*P); }
+  function path(arr, k){ return arr.map(function(d,i){ return (i?'L':'M')+x(i)+','+y(d[k]); }).join(' '); }
+  const axisLabels = data.map(function(d,i){ return '<text x="'+x(i)+'" y="'+(H-8)+'" text-anchor="middle" font-size="11" fill="#5b6b80" font-weight="700">'+d.m+'</text>'; }).join('');
+  const pts = function(arr, k, color){ return arr.map(function(d,i){ return '<circle cx="'+x(i)+'" cy="'+y(d[k])+'" r="3.5" fill="'+color+'"/>'; }).join(''); };
+  document.getElementById('revChart').innerHTML = ''+
+    '<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:100%;">'+
+      '<defs><linearGradient id="g1" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#2a6fdb" stop-opacity=".3"/><stop offset="1" stop-color="#2a6fdb" stop-opacity="0"/></linearGradient></defs>'+
+      '<path d="'+path(data,'actual')+' L'+x(data.length-1)+','+(H-P)+' L'+x(0)+','+(H-P)+' Z" fill="url(#g1)"/>'+
+      '<path d="'+path(data,'plan')+'" fill="none" stroke="#ffb20a" stroke-width="2.2" stroke-dasharray="4 4"/>'+
+      '<path d="'+path(data,'actual')+'" fill="none" stroke="#2a6fdb" stroke-width="2.6"/>'+
+      '<path d="'+path(data,'online')+'" fill="none" stroke="#0d8a5d" stroke-width="2.2"/>'+
+      pts(data,'actual','#2a6fdb')+pts(data,'plan','#ffb20a')+pts(data,'online','#0d8a5d')+
+      axisLabels+
+    '</svg>'+
+    '<div style="display:flex;gap:14px;font-size:11px;color:#5b6b80;margin-top:4px;"><span><i style="display:inline-block;width:12px;height:3px;background:#2a6fdb;vertical-align:middle;margin-right:5px;"></i>'+(lang==='en'?'Actual':'Thực tế')+'</span><span><i style="display:inline-block;width:12px;height:3px;background:#ffb20a;vertical-align:middle;margin-right:5px;"></i>'+(lang==='en'?'Plan':'Kế hoạch')+'</span><span><i style="display:inline-block;width:12px;height:3px;background:#0d8a5d;vertical-align:middle;margin-right:5px;"></i>Online</span></div>';
+
+  // ---- Top alerts ----
+  document.getElementById('topAlerts').innerHTML = S.alerts_seed.slice(0,5).map(function(a){
+    const cls = a.sev === 'red' ? 'red' : 'orange';
+    const ownerVi = ({COO:'Giám đốc vận hành',CFO:'Giám đốc tài chính',Marketing:'Trưởng marketing',Merchandising:'Quản trị hàng hoá','E-commerce':'Phụ trách TMĐT',HR:'Trưởng nhân sự'})[a.owner] || a.owner;
+    return ''
+    + '<div class="alert-row '+cls+'">'
+    +   '<div class="sev"></div>'
+    +   '<div style="flex:1;"><b>'+(lang==='en'?a.label_en:a.label_vi)+'</b><small>'+a.target+' · '+(lang==='en'?'actual':'thực tế')+' '+a.actual+' ('+a.operator + (a.threshold||'')+')</small></div>'
+    +   '<span class="badge muted">'+(lang==='en'?a.owner:ownerVi)+'</span>'
+    + '</div>';
+  }).join('');
+
+  // ---- Watchlist (branches sliding) ----
+  const sliding = [
+    { code:'HN-03', name:'Kim Mã', delta:-9.4 },
+    { code:'ND-01', name:'Nam Định', delta:-8.3 },
+    { code:'BN-01', name:'Bắc Ninh', delta:-6.7 },
+    { code:'CT-01', name:'Ninh Kiều', delta:-4.8 }
+  ];
+  document.getElementById('watchlist').innerHTML = sliding.map(function(b){
+    return '<div style="display:flex;justify-content:space-between;align-items:center;padding:11px 12px;border-bottom:1px solid var(--app-line);"><div><b style="color:#071f3d;font-size:13.5px;">'+b.code+' · '+b.name+'</b></div><span class="badge bad">▼ '+Math.abs(b.delta)+'%</span></div>';
+  }).join('');
+
+  // ---- Region donut ----
+  const r = S.company.regions;
+  const total = r.South + r.North + r.Central;
+  const south = r.South/total, north = r.North/total, central = r.Central/total;
+  function donut(){
+    const C = 2*Math.PI*40;
+    let off = 0;
+    function seg(p, color){
+      const len = p * C;
+      const s = ''+'<circle cx="60" cy="60" r="40" fill="none" stroke="'+color+'" stroke-width="18" stroke-dasharray="'+len+' '+(C-len)+'" stroke-dashoffset="'+(-off)+'" transform="rotate(-90 60 60)"/>';
+      off += len; return s;
+    }
+    return '<svg viewBox="0 0 120 120" style="width:130px;height:130px;">'+ seg(south,'#0d8a5d') + seg(north,'#2a6fdb') + seg(central,'#ffb20a') +
+      '<text x="60" y="60" text-anchor="middle" dy="6" font-size="22" font-weight="900" fill="#071f3d">198</text>'+
+      '<text x="60" y="76" text-anchor="middle" font-size="11" fill="#5b6b80">tỷ · luỹ kế</text>'+
+    '</svg>';
+  }
+  document.getElementById('regionDonut').innerHTML = donut() + ''
+    + '<div style="display:flex;flex-direction:column;gap:6px;font-size:13px;">'
+    +   '<div style="display:flex;gap:8px;align-items:center;"><i style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#0d8a5d;"></i>'+(lang==='en'?'South':'Miền Nam')+' <b style="margin-left:6px;">'+r.South+' CN · '+Math.round(south*100)+'%</b></div>'
+    +   '<div style="display:flex;gap:8px;align-items:center;"><i style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#2a6fdb;"></i>'+(lang==='en'?'North':'Miền Bắc')+' <b style="margin-left:6px;">'+r.North+' CN · '+Math.round(north*100)+'%</b></div>'
+    +   '<div style="display:flex;gap:8px;align-items:center;"><i style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#ffb20a;"></i>'+(lang==='en'?'Central':'Miền Trung')+' <b style="margin-left:6px;">'+r.Central+' CN · '+Math.round(central*100)+'%</b></div>'
+    + '</div>';
+
+  // ---- P&L waterfall ----
+  const wf = S.pnl_waterfall;
+  const wMax = Math.max.apply(null, wf.map(function(x){return x.value;})) * 1.15;
+  const wfBars = wf.map(function(x, i){
+    const h = (x.value / wMax) * 240;
+    const colors = ['#2a6fdb','#c7352b','#2a6fdb','#c7352b','#0d8a5d'];
+    return ''
+    + '<div style="display:flex;flex-direction:column;align-items:center;flex:1;gap:6px;">'
+    +   '<div style="font-size:13px;font-weight:900;color:#071f3d;">'+x.value+'</div>'
+    +   '<div style="width:60px;height:'+h+'px;background:'+colors[i]+';border-radius:4px 4px 0 0;"></div>'
+    +   '<div style="font-size:11.5px;color:#5b6b80;font-weight:700;text-align:center;">'+(lang==='en'?x.label.en:x.label.vi)+'</div>'
+    + '</div>';
+  }).join('');
+  document.getElementById('waterfall').innerHTML = '<div style="display:flex;align-items:flex-end;justify-content:space-around;height:300px;padding:10px 20px;">'+wfBars+'</div>';
+
+  // ---- Margin trend (3 lines) ----
+  const m = S.monthly_pnl;
+  const MW = 540, MH = 240, MP = 32;
+  function lineSvg(data, keys){
+    const allVals = data.flatMap(function(d){ return keys.map(function(k){return d[k];}); });
+    const max = Math.max.apply(null, allVals) * 1.15;
+    const min = Math.min.apply(null, allVals) * 0.8;
+    function xx(i){ return MP + i*(MW-2*MP)/(data.length-1); }
+    function yy(v){ return MH - MP - ((v-min)/(max-min)) * (MH - 2*MP); }
+    const colors = { gp_pct:'#0d8a5d', opex_pct:'#ffb20a', ebitda_pct:'#2a6fdb' };
+    const lines = keys.map(function(k){
+      const path = data.map(function(d, i){ return (i?'L':'M') + xx(i) + ',' + yy((k==='gp_pct'?d.gp/d.rev*100:k==='opex_pct'?d.opex/d.rev*100:d.ebitda_pct)); }).join(' ');
+      return '<path d="'+path+'" fill="none" stroke="'+colors[k]+'" stroke-width="2.4"/>';
+    }).join('');
+    const axis = data.map(function(d,i){ return '<text x="'+xx(i)+'" y="'+(MH-8)+'" text-anchor="middle" font-size="11" fill="#5b6b80" font-weight="700">'+d.m+'</text>'; }).join('');
+    return '<svg viewBox="0 0 '+MW+' '+MH+'" style="width:100%;height:100%;">'+lines+axis+'</svg>';
+  }
+  document.getElementById('marginTrend').innerHTML = lineSvg(m, ['gp_pct','opex_pct','ebitda_pct']);
+
+  // ---- P&L table ----
+  document.getElementById('pnlTable').innerHTML = S.monthly_pnl.map(function(r){
+    return '<tr><td><b>'+r.m+'</b></td><td>'+r.rev+'</td><td>'+r.cogs+'</td><td>'+r.gp+'</td><td>'+r.opex+'</td><td>'+r.ebitda+'</td><td><span class="badge good">'+r.ebitda_pct+'%</span></td></tr>';
+  }).join('');
+
+  // ---- Branch heatmap + ranking + table ----
+  const branches = S.branches;
+  document.getElementById('branchHeat').innerHTML = branches.map(function(b){
+    const cls = b.health >= 85 ? 'h-best' : b.health >= 70 ? 'h-good' : b.health >= 55 ? 'h-watch' : b.health >= 40 ? 'h-warn' : 'h-bad';
+    return '<div class="heat-cell '+cls+'"><span>'+b.id+'</span><small>'+b.health+'</small></div>';
+  }).join('');
+  const rank = branches.slice().sort(function(a,b){ return b.gmPct - a.gmPct; }).slice(0,10);
+  const maxGm = rank[0].gmPct;
+  document.getElementById('branchRank').innerHTML = rank.map(function(b){
+    const pct = b.gmPct / maxGm * 100;
+    return ''
+    + '<div style="display:grid;grid-template-columns:60px 1fr 50px;gap:10px;align-items:center;font-size:12.5px;margin-bottom:7px;">'
+    +   '<b style="color:#071f3d;">'+b.id+'</b>'
+    +   '<div style="background:#eef1f5;height:10px;border-radius:5px;overflow:hidden;"><div style="background:linear-gradient(90deg,#ffb20a,#ffd36b);width:'+pct+'%;height:100%;"></div></div>'
+    +   '<b style="color:#071f3d;text-align:right;">'+b.gmPct+'%</b>'
+    + '</div>';
+  }).join('');
+  const tableRows = branches.slice().sort(function(a,b){ return a.health - b.health; }).slice(0,12);
+  function spark(arr){
+    const w=80, h=24;
+    const max = Math.max.apply(null, arr), min = Math.min.apply(null, arr);
+    const path = arr.map(function(v, i){ return (i?'L':'M') + (i*w/(arr.length-1)) + ',' + (h - (v-min)/(max-min)*h); }).join(' ');
+    const stroke = arr[arr.length-1] >= arr[0] ? '#0d8a5d' : '#c7352b';
+    return '<svg viewBox="0 0 '+w+' '+h+'" style="width:80px;height:24px;"><path d="'+path+'" fill="none" stroke="'+stroke+'" stroke-width="2"/></svg>';
+  }
+  document.getElementById('branchTable').innerHTML = tableRows.map(function(b){
+    const stCls = b.health<40?'bad':b.health<55?'warn':b.health<70?'gold':'good';
+    const stTxt = b.health<40?'Nguy cấp':b.health<55?'Cảnh báo':b.health<70?'Theo dõi':'Tốt';
+    return ''
+    + '<tr>'
+    +   '<td><b>'+b.id+'</b><br/><small style="color:#5b6b80;">'+b.street+'</small></td>'
+    +   '<td>'+b.region+' · '+b.format+'</td>'
+    +   '<td>'+b.ytdRev+' tỷ</td>'
+    +   '<td><div style="display:flex;align-items:center;gap:6px;"><div style="background:#eef1f5;width:70px;height:8px;border-radius:4px;overflow:hidden;"><div style="background:#2a6fdb;width:'+Math.min(100,b.planYtdPct)+'%;height:100%;"></div></div><b>'+b.planYtdPct+'%</b></div></td>'
+    +   '<td>'+spark(b.trend)+'</td>'
+    +   '<td>'+b.gmPct+'%</td>'
+    +   '<td>'+b.inventoryDays+'</td>'
+    +   '<td>'+b.conversionPct+'%</td>'
+    +   '<td><span class="badge '+stCls+'">'+stTxt+'</span></td>'
+    + '</tr>';
+  }).join('');
+
+  // ---- Product / Channel tables (Premium) ----
+  document.getElementById('productTable').innerHTML = S.products.map(function(p){
+    const reco = p.markdown ? (p.action==='markdown'?'Markdown':'Điều chuyển') : '—';
+    const sevBadge = p.markdown ? '<span class="badge warn">'+reco+'</span>' : '<span class="badge good">OK</span>';
+    return '<tr><td><b>'+(lang==='en'?p.name.en:p.name.vi)+'</b></td><td>'+p.rev+'</td><td>'+p.gmPct+'%</td><td>'+p.inventoryDays+'</td><td>'+p.sellThrough+'%</td><td>'+sevBadge+'</td></tr>';
+  }).join('');
+  document.getElementById('channelTable').innerHTML = S.channels.map(function(c){
+    const cut = c.cut;
+    return '<tr><td><b>'+(lang==='en'?c.name.en:c.name.vi)+'</b></td><td>'+c.rev+'</td><td>'+c.cost+'</td><td>'+c.roas+'x</td><td>'+c.costToRevPct+'%</td><td>'+(cut?'<span class="badge bad">Cắt</span>':'<span class="badge good">Giữ</span>')+'</td></tr>';
+  }).join('');
+
+  // ---- Marketing ROAS bars ----
+  const ch = S.channels;
+  const cMax = Math.max.apply(null, ch.map(function(c){return c.roas;}));
+  document.getElementById('roasChart').innerHTML =
+    '<div class="bar-chart" style="height:200px;align-items:flex-end;">' +
+    ch.map(function(c){
+      const h = c.roas / cMax * 100;
+      const cls = c.roas >= 3.5 ? 'green' : c.roas >= 3.0 ? 'gold' : 'red';
+      return '<div class="bar '+cls+'" style="height:'+h+'%;position:relative;"><span class="bar-value">'+c.roas+'x</span><span class="bar-label">'+(lang==='en'?c.name.en:c.name.vi)+'</span></div>';
+    }).join('') + '</div>';
+  document.getElementById('cutList').innerHTML = ch.filter(function(c){return c.cut;}).map(function(c){
+    return '<div class="alert-row orange"><div class="sev"></div><div style="flex:1;"><b>'+(lang==='en'?c.name.en:c.name.vi)+'</b><small>ROAS '+c.roas+' · '+(lang==='en'?'cost/rev':'chi phí/DT')+' '+c.costToRevPct+'%</small></div><span class="badge warn">'+(lang==='en'?'Cut / reallocate':'Cắt / tái phân bổ')+'</span></div>';
+  }).join('');
+
+  // ---- Cash forecast (line) ----
+  const cash = S.cashflow;
+  const cashSeries = [cash.cash_now, cash.cash_30d, cash.cash_60d, cash.cash_90d];
+  const cMax2 = Math.max.apply(null, cashSeries) * 1.2;
+  function cashPath(arr){ return arr.map(function(v,i){ return (i?'L':'M') + (32 + i*150) + ',' + (220 - v/cMax2*180); }).join(' '); }
+  document.getElementById('cashChart').innerHTML = '<svg viewBox="0 0 540 240" style="width:100%;height:100%;">'+
+    '<defs><linearGradient id="cg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#0d8a5d" stop-opacity=".3"/><stop offset="1" stop-color="#0d8a5d" stop-opacity="0"/></linearGradient></defs>'+
+    '<path d="'+cashPath(cashSeries)+' L482,220 L32,220 Z" fill="url(#cg)"/>'+
+    '<path d="'+cashPath(cashSeries)+'" fill="none" stroke="#0d8a5d" stroke-width="2.6"/>'+
+    cashSeries.map(function(v,i){ return '<g><circle cx="'+(32+i*150)+'" cy="'+(220-v/cMax2*180)+'" r="4" fill="#0d8a5d"/><text x="'+(32+i*150)+'" y="'+(220-v/cMax2*180-10)+'" text-anchor="middle" font-size="12" font-weight="800" fill="#071f3d">'+v+'</text></g>'; }).join('')+
+    ['Hôm nay','30 ngày','60 ngày','90 ngày'].map(function(t,i){ return '<text x="'+(32+i*150)+'" y="234" text-anchor="middle" font-size="11" fill="#5b6b80" font-weight="700">'+t+'</text>'; }).join('')+
+  '</svg>';
+
+  // ---- Cost stack (Premium) ----
+  const costs = [
+    { label_vi:'Lương', label_en:'Labor', value:23.4 },
+    { label_vi:'Thuê mặt bằng', label_en:'Rent', value:14.8 },
+    { label_vi:'Marketing', label_en:'Marketing', value:10.6 },
+    { label_vi:'Vận hành', label_en:'Operating', value:8.9 },
+    { label_vi:'Khác', label_en:'Other', value:7.5 }
+  ];
+  const total2 = costs.reduce(function(s,x){return s+x.value;},0);
+  document.getElementById('costStack').innerHTML = '<div style="display:flex;height:60px;border-radius:8px;overflow:hidden;border:1px solid var(--app-line);margin-bottom:14px;">'+
+    costs.map(function(c,i){
+      const colors=['#2a6fdb','#0d8a5d','#ffb20a','#c47a08','#5b6b80'];
+      const p = c.value/total2*100;
+      return '<div style="flex:'+c.value+';background:'+colors[i]+';color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;">'+Math.round(p)+'%</div>';
+    }).join('') + '</div>' +
+    '<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;font-size:12px;">'+
+    costs.map(function(c,i){
+      const colors=['#2a6fdb','#0d8a5d','#ffb20a','#c47a08','#5b6b80'];
+      return '<div><b style="color:#071f3d;">'+(lang==='en'?c.label_en:c.label_vi)+'</b><br/><span style="color:'+colors[i]+';font-weight:800;">'+c.value+' tỷ</span></div>';
+    }).join('') + '</div>';
+
+  document.getElementById('leakList').innerHTML = [
+    { label_vi:'Chi phí ngoài quy chế tăng 22% MoM ở HCM-12', label_en:'Off-policy spend +22% MoM at HCM-12', impact:'~280 triệu/tháng', owner:'CFO' },
+    { label_vi:'Hợp đồng dịch vụ chưa tự động hoá', label_en:'Manual service contracts', impact:'~150 triệu/quý', owner:'COO' },
+    { label_vi:'Hao hụt hàng hoá vượt 0,8%', label_en:'Shrinkage above 0.8%', impact:'~210 triệu/tháng', owner:'Operations' }
+  ].map(function(l){ return '<div class="alert-row orange"><div class="sev"></div><div style="flex:1;"><b>'+(lang==='en'?l.label_en:l.label_vi)+'</b><small>'+(lang==='en'?'estimated impact':'tác động ước tính')+': '+l.impact+'</small></div><span class="badge muted">'+l.owner+'</span></div>'; }).join('');
+
+  // ---- Recommendations ----
+  document.getElementById('recList').innerHTML = S.recommendations_seed.map(function(r){
+    const stCls = r.status==='done'?'good':r.status==='doing'?'info':'muted';
+    const stTxt = r.status==='done'?'Xong':r.status==='doing'?'Đang làm':'Đề xuất';
+    const prCls = r.priority==='high'?'bad':'warn';
+    const prTxt = r.priority==='high'?'Cao':r.priority==='medium'?'Vừa':'Thấp';
+    return ''
+    + '<div style="background:linear-gradient(180deg,#fffbf0,#fff);border:1px solid rgba(255,178,10,.32);border-radius:14px;padding:14px 16px;margin-bottom:12px;">'
+    +   '<div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start;"><b style="color:#071f3d;font-size:15px;">'+(lang==='en'?r.title_en:r.title_vi)+'</b><span class="badge '+prCls+'">'+prTxt+'</span></div>'
+    +   '<p style="margin:8px 0;color:#41546b;font-size:13.5px;">'+(lang==='en'?r.detail_en:r.detail_vi)+'</p>'
+    +   '<div style="display:flex;gap:8px;flex-wrap:wrap;margin:8px 0;">'+ r.tags.map(function(t){return '<span class="badge muted">'+t+'</span>';}).join('') +'</div>'
+    +   '<div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;color:#5b6b80;"><span>'+(lang==='en'?'Owner':'Phụ trách')+': <b style="color:#071f3d;">'+r.owner+'</b> · '+(lang==='en'?'Impact':'Tác động')+' ~<b style="color:#7a5400;">'+r.impact+' tỷ/năm</b></span><span class="badge '+stCls+'">'+stTxt+'</span></div>'
+    + '</div>';
+  }).join('');
+
+  document.getElementById('allAlerts').innerHTML = S.alerts_seed.map(function(a){
+    const cls = a.sev === 'red' ? 'red' : 'orange';
+    return '<div class="alert-row '+cls+'"><div class="sev"></div><div style="flex:1;"><b>'+(lang==='en'?a.label_en:a.label_vi)+'</b><small>'+a.target+'</small></div></div>';
+  }).join('');
+}
+render();
+document.getElementById('refreshBtn').addEventListener('click', function(){
+  document.getElementById('lastRefresh').textContent = new Date().toISOString().slice(0,10);
+  render();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="theme-color" content="#071f3d"/><link rel="icon" type="image/png" href="../assets/favicon.png"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/><link rel="stylesheet" href="../assets/vcpc.css"/><link rel="stylesheet" href="../assets/app-core.css"/><title>Cổng đối tác · VCPC Affiliate</title></head>
+<body class="app" data-require="auth">
+<main class="app-main" style="max-width:1080px;margin:0 auto;padding:34px 22px 60px;">
+  <div class="app-topbar">
+    <div><div class="app-crumb">VCPC AFFILIATE</div><h1 class="app-title" data-vi="Cổng đối tác" data-en="Partner portal">Cổng đối tác</h1><p class="app-sub" data-vi="Theo dõi lượt giới thiệu, khách đã thanh toán và hoa hồng ghi nhận." data-en="Track referrals, paid customers and accrued commission.">Theo dõi lượt giới thiệu, khách đã thanh toán và hoa hồng.</p></div>
+    <div class="app-langrow" style="display:flex;gap:6px;"><button class="active" data-lang="vi" style="border:0;padding:8px 12px;border-radius:8px;background:#071f3d;color:#fff;font-weight:800;cursor:pointer;">VI</button><button data-lang="en" style="border:0;padding:8px 12px;border-radius:8px;background:#eef1f5;color:#071f3d;font-weight:800;cursor:pointer;">EN</button></div>
+  </div>
+
+  <div class="app-card" style="background:linear-gradient(135deg,#fff8e8,#fff);border:1px solid rgba(255,178,10,.32);margin-bottom:18px;">
+    <div style="display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;align-items:center;">
+      <div><div style="font-size:11px;font-weight:900;color:#7a5400;letter-spacing:.06em;text-transform:uppercase;" data-vi="Mã giới thiệu của bạn" data-en="Your referral code">Mã giới thiệu của bạn</div>
+        <div style="font-size:30px;font-weight:900;color:#071f3d;letter-spacing:-.5px;margin:4px 0;" id="affCode">VCPC-DEMO-A7K</div>
+        <div style="font-size:13px;color:#5b6b80;" id="affLink">vietcapitalpartners.com/app/signup.html?ref=VCPC-DEMO-A7K</div>
+      </div>
+      <button class="app-btn app-btn-primary" id="copyBtn" data-vi="Sao chép link" data-en="Copy link">Sao chép link</button>
+    </div>
+  </div>
+
+  <div class="app-grid cols-4" style="gap:14px;margin-bottom:18px;">
+    <div class="kpi"><div class="lbl" data-vi="Lượt bấm" data-en="Clicks">Lượt bấm</div><div class="val">312</div><div class="sub">30 ngày</div></div>
+    <div class="kpi"><div class="lbl" data-vi="Đăng ký" data-en="Signups">Đăng ký</div><div class="val">18</div><div class="sub">conv 5,8%</div></div>
+    <div class="kpi"><div class="lbl" data-vi="Khách đã thanh toán" data-en="Paid customers">Khách đã thanh toán</div><div class="val">6</div><div class="sub" data-vi="đối soát đủ" data-en="fully settled">đối soát đủ</div></div>
+    <div class="kpi"><div class="lbl" data-vi="Hoa hồng ghi nhận" data-en="Accrued commission">Hoa hồng ghi nhận</div><div class="val" style="color:#0d8a5d;">~58,2tr</div><div class="sub" data-vi="bậc 40% · approved + pending" data-en="40% tier · approved + pending">bậc 40% · approved + pending</div></div>
+  </div>
+
+  <div class="app-card">
+    <div class="app-card-head"><b data-vi="Sổ hoa hồng" data-en="Commission ledger">Sổ hoa hồng</b><small data-vi="approved chỉ khi giao dịch thu đủ" data-en="approved only when fully settled">approved khi thu đủ</small></div>
+    <table class="app-table">
+      <thead><tr><th data-vi="Khách" data-en="Customer">Khách</th><th data-vi="Gói" data-en="Plan">Gói</th><th data-vi="Mã" data-en="Code">Mã</th><th data-vi="Giảm cho khách" data-en="Customer discount">Giảm cho khách</th><th data-vi="Hoa hồng" data-en="Commission">Hoa hồng</th><th data-vi="Trạng thái" data-en="Status">Trạng thái</th></tr></thead>
+      <tbody id="ledger"></tbody>
+    </table>
+  </div>
+
+  <div class="app-footer"><div data-vi="Hoa hồng tính trên doanh thu thực thu. Mức cuối do VCPC cấu hình." data-en="Commission is on settled revenue. Final rates set by VCPC.">Hoa hồng tính trên doanh thu thực thu.</div><div><a href="../affiliate.html" data-vi="Về trang đối tác" data-en="Back to affiliate page">Về trang đối tác</a></div></div>
+</main>
+<script src="../assets/i18n/loader.js" data-i18n-base="../assets/i18n"></script><script src="../assets/app-config.js"></script><script src="../assets/mock-backend.js"></script><script src="../assets/guards.js"></script><script src="../assets/app-core.js"></script>
+<script>
+(function(){
+'use strict';
+var user=VCPC_DB.currentUser();if(!user){location.href='../dashboard.html';return;}
+var aff=(VCPC_DB.select('affiliates',{user_id:user.id})||[])[0];
+if(!aff||aff.status!=='ACTIVE'){location.href='../affiliate.html';return;}
+var slug=new URLSearchParams(location.search).get('slug')||aff.slug;if(slug&&slug!==aff.slug){location.href='/doitackinhdoanh/'+encodeURIComponent(aff.slug);return;}
+var code=aff.code,link=location.origin+'/app/signup.html?ref='+encodeURIComponent(code);document.getElementById('affCode').textContent=code;document.getElementById('affLink').textContent=link;
+document.getElementById('copyBtn').addEventListener('click',function(){navigator.clipboard&&navigator.clipboard.writeText(link);this.textContent='Đã sao chép ✓';});
+var refs=VCPC_DB.select('affiliate_referrals',{affiliate_id:aff.id})||[],comms=VCPC_DB.select('affiliate_commissions',{affiliate_id:aff.id})||[];
+var paid=comms.filter(function(c){return c.status==='PAID';}),payable=comms.filter(function(c){return c.status==='PAYABLE'||c.status==='PENDING';});
+var kpis=document.querySelectorAll('.app-grid.cols-4 .val');if(kpis[0])kpis[0].textContent='—';if(kpis[1])kpis[1].textContent=refs.length;if(kpis[2])kpis[2].textContent=comms.length;if(kpis[3])kpis[3].textContent=VCPC_APP.fmtMoney(comms.reduce(function(s,c){return s+Number(c.amount||0);},0),'VND');
+function plan(c){var map={BIZHEALTH_STANDARD:'BizHealth Standard',BIZHEALTH_PREMIUM:'BizHealth Premium',OS_LITE:'BizOS Starter',OS_STANDARD:'BizOS Growth',OS_PARTNER:'BizOS Scale'};return map[c]||c;}
+document.getElementById('ledger').innerHTML=comms.length?comms.map(function(c){var st=c.status==='PAID'?'Đã thanh toán':c.status==='PAYABLE'?'Chờ thanh toán':'Đang chờ';return '<tr><td><b>'+(c.customer_name||'Doanh nghiệp')+'</b></td><td>'+plan(c.plan_code)+'</td><td>'+code+'</td><td>'+(aff.customer_discount_percent||10)+'%</td><td><b style="color:#0d8a5d;">'+VCPC_APP.fmtMoney(c.amount,'VND')+'</b></td><td><span class="badge '+(c.status==='PAID'?'good':'warn')+'">'+st+'</span></td></tr>';}).join(''):'<tr><td colspan="6">Chưa có giao dịch đủ điều kiện ghi nhận hoa hồng.</td></tr>';
+})();
+</script>
+</body>
+</html>

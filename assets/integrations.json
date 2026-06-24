@@ -1,0 +1,15 @@
+{
+  "$note": "Cấu hình tích hợp ngoài. Điền giá trị thật. google_sheet_webapp_url là URL Apps Script Web App (deploy doPost) ghi vào Google Sheet đã chia sẻ.",
+  "google_sheet_webapp_url": "",
+  "google_sheet_id": "1tSRtFam68cXK4eGHsKBzZodQXQv5sAeGa-gG4wmQv7Y",
+  "sepay": {
+    "account_number": "0011004000713",
+    "bank_code": "VCB",
+    "bank_name": "Vietcombank",
+    "account_holder": "TIEU VO DINH PHI",
+    "template": "compact",
+    "webhook_secret": "",
+    "poll_interval_ms": 4000,
+    "$note": "Sepay tạo QR VietQR động theo nội dung chuyển khoản. Backend nhận webhook /api/sepay/webhook khi có tiền về, đối chiếu nội dung CK → đánh dấu PAID. Front-end poll trạng thái."
+  }
+}

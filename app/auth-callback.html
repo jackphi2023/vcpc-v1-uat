@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="theme-color" content="#071f3d"/>
+<link rel="icon" type="image/png" href="../assets/favicon.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../assets/vcpc.css"/>
+<link rel="stylesheet" href="../assets/app-core.css"/>
+<title>Xác nhận email · VCPC</title>
+</head>
+<body class="app">
+<div class="auth-page">
+  <aside class="auth-hero">
+    <a href="../index.html" style="display:flex;gap:12px;align-items:center;color:#fff;text-decoration:none;">
+      <img src="../assets/logo-vcpc.jpg" style="width:46px;height:46px;border-radius:10px;" alt="VCPC"/>
+      <div><b style="color:#ffd36b;font-weight:800;">Viet Capital Partners &amp; Consulting</b><br/>
+      <span style="font-size:11px;letter-spacing:.08em;color:#a9bbd2;text-transform:uppercase;">Advisory Platform</span></div>
+    </a>
+    <div>
+      <h1>Xác nhận email thành công.</h1>
+      <p>Tài khoản của bạn đã được kích hoạt. Đang chuyển đến onboarding…</p>
+    </div>
+    <div style="font-size:13px;color:#90a4c2;">© VCPC · vietcapitalpartners.com</div>
+  </aside>
+
+  <section class="auth-form-wrap">
+    <div class="auth-form" id="callbackMsg">
+      <div style="font-size:40px;margin-bottom:16px;" id="callbackIcon">⏳</div>
+      <h2 id="callbackTitle">Đang xử lý…</h2>
+      <p id="callbackBody" style="color:#5b6b80;line-height:1.7;margin-top:10px;">Vui lòng đợi trong giây lát.</p>
+      <div id="callbackCta" style="display:none;margin-top:20px;display:grid;gap:8px;"></div>
+    </div>
+  </section>
+</div>
+
+<script src="../assets/app-config.js"></script>
+<script src="../assets/mock-backend.js"></script>
+<script src="../assets/app-core.js"></script>
+<script>
+(function(){
+var icon=document.getElementById('callbackIcon'),title=document.getElementById('callbackTitle'),body=document.getElementById('callbackBody'),cta=document.getElementById('callbackCta');
+function ok(msg,dest){icon.textContent='✅';title.textContent='Xác nhận thành công!';body.textContent=msg||'Đang chuyển tiếp…';setTimeout(function(){location.href=dest||'onboarding.html';},1200);}
+function fail(msg){icon.textContent='❌';title.textContent='Có lỗi xảy ra';body.textContent=msg;cta.style.display='grid';cta.innerHTML='<a href="../dashboard.html" class="app-btn app-btn-primary">Đăng nhập lại →</a><a href="mailto:partner@vietcapitalpartners.com" class="app-btn app-btn-ghost">Liên hệ VCPC</a>';}
+try{
+ var c=VCPC_DB.consumeAuthCallback?VCPC_DB.consumeAuthCallback():null;
+ if(c&&c.error)throw new Error(c.error);
+ if(!VCPC_DB.currentUser())throw new Error('Phiên xác nhận không hợp lệ hoặc đã hết hạn.');
+ var done=VCPC_DB.completePendingSignup?VCPC_DB.completePendingSignup():{ok:true};
+ if(done&&done.error)throw new Error(done.error);
+ ok('Tài khoản đã được kích hoạt. Đang chuyển đến onboarding.','onboarding.html');
+}catch(e){fail(e.message||'Không thể kích hoạt tài khoản.');}
+})();
+</script>
+</body>
+</html>

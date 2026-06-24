@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="theme-color" content="#071f3d"/>
+<link rel="icon" type="image/png" href="../assets/favicon.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../assets/vcpc.css"/>
+<link rel="stylesheet" href="../assets/app-core.css"/>
+<title>Chọn Dashboard · VCPC</title>
+</head>
+<body class="app" data-require="auth">
+<div class="auth-page">
+  <aside class="auth-hero">
+    <a href="../index.html" style="display:flex;gap:12px;align-items:center;color:#fff;text-decoration:none;">
+      <img src="../assets/logo-vcpc.jpg" style="width:46px;height:46px;border-radius:10px;" alt="VCPC"/>
+      <div><b style="color:#ffd36b;font-weight:800;">Viet Capital Partners &amp; Consulting</b><br/>
+      <span style="font-size:11px;letter-spacing:.08em;color:#a9bbd2;text-transform:uppercase;">Advisory Platform</span></div>
+    </a>
+    <div>
+      <h1>Chọn Dashboard để tiếp tục.</h1>
+      <p>Tài khoản của bạn có quyền truy cập nhiều dashboard. Chọn dashboard bạn muốn vào.</p>
+    </div>
+    <div style="font-size:13px;color:#90a4c2;">© VCPC · vietcapitalpartners.com</div>
+  </aside>
+
+  <section class="auth-form-wrap">
+    <div class="auth-form">
+      <h2>Chọn Dashboard</h2>
+      <p id="welcomeText" style="color:#5b6b80;font-size:13.5px;margin-bottom:18px;"></p>
+      <div id="dashList" style="display:grid;gap:12px;"></div>
+      <div class="auth-foot" style="margin-top:20px;">
+        <button type="button" onclick="VCPC_DB.signout();window.location.href='../dashboard.html';" class="app-btn app-btn-ghost" style="font-size:13px;">↩ Đăng xuất</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script src="../assets/app-config.js"></script>
+<script src="../assets/mock-backend.js"></script>
+<script src="../assets/guards.js"></script>
+<script src="../assets/app-core.js"></script>
+<script>
+(function(){
+var user=VCPC_DB.currentUser();if(!user){location.href='../dashboard.html';return;}
+document.getElementById('welcomeText').textContent=user.email||'';
+var mems=(VCPC_DB.select('organization_members',{user_id:user.id})||[]).filter(function(m){return m.status==='active';}),items=[];
+mems.forEach(function(m){var o=(VCPC_DB.select('organizations',{id:m.organization_id})||[])[0];(VCPC_DB.select('engagements',{organization_id:m.organization_id})||[]).forEach(function(e){var protectedStates=['PREVIEW','ACTIVE','ACTIVE_90D','READONLY'];if(protectedStates.includes(e.state)){var di=(VCPC_DB.select('dashboard_instances',{engagement_id:e.id})||[])[0],access=di&&(VCPC_DB.select('dashboard_user_access',{dashboard_instance_id:di.id})||[]).some(function(a){return a.user_id===user.id&&a.status==='active';});if(!access&&!['owner','admin'].includes(m.role))return;}items.push({org:o,eng:e});});});
+function label(e){return e.product==='strategy_os'?'BizOS':'BizHealth';}
+function path(e){return e.product==='strategy_os'?'dashboard-strategy.html':'dashboard-bizhealth.html';}
+document.getElementById('dashList').innerHTML=items.length?items.map(function(it,i){return '<button type="button" class="dash-item" data-i="'+i+'" style="text-align:left;border:1px solid rgba(7,31,61,.12);background:#fff;border-radius:12px;padding:16px;cursor:pointer;"><b>'+((it.org&&it.org.name)||'Doanh nghiệp')+' — '+label(it.eng)+'</b><div style="font-size:12px;color:#5b6b80;margin-top:4px;">'+it.eng.plan_code+' · '+it.eng.state+'</div></button>';}).join(''):'<div>Không có Dashboard được gán.</div>';
+document.getElementById('dashList').addEventListener('click',function(e){var b=e.target.closest('[data-i]');if(!b)return;var it=items[Number(b.dataset.i)];VCPC_DB.setCurrentOrg(it.org);VCPC_DB.setCurrentEngagement(it.eng);var st=it.eng.state;if(['PREVIEW','ACTIVE','ACTIVE_90D','READONLY'].includes(st))location.href=path(it.eng);else if(['SUSPENDED','TERMINATED','ARCHIVED','DUE','GRACE_READ_ONLY'].includes(st))location.href='billing.html';else location.href='payment.html';});
+})();
+</script>
+<style>
+.dash-item:hover:not([style*="not-allowed"]){ border-color:rgba(255,178,10,.5)!important; background:#fffdf5!important; transform:translateY(-1px); box-shadow:0 4px 14px rgba(7,31,61,.08); }
+</style>
+</body>
+</html>
