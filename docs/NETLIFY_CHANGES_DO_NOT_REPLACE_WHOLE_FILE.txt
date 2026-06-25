@@ -1,0 +1,29 @@
+DO NOT replace your latest netlify.toml with the old ZIP version.
+Add these redirect blocks to the END of the current netlify.toml only if they do not already exist:
+
+[[redirects]]
+  from = "/app/affiliate"
+  to = "/app/affiliate-login.html"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/app/affiliate/"
+  to = "/app/affiliate-login.html"
+  status = 302
+  force = true
+
+Keep the existing portal rewrite:
+
+[[redirects]]
+  from = "/doitackinhdoanh/:slug"
+  to = "/app/affiliate.html?slug=:slug"
+  status = 200
+
+If the repository also uses a root _redirects file, add these lines ABOVE the final /* 404 rule:
+
+/app/affiliate                    /app/affiliate-login.html                 302!
+/app/affiliate/                   /app/affiliate-login.html                 302!
+
+Keep this existing line:
+/doitackinhdoanh/*                /app/affiliate.html?slug=:splat           200

@@ -1,0 +1,9 @@
+In the current root file affiliate.html, find this link:
+
+href="app/affiliate.html"
+
+Replace only that href with:
+
+href="/app/affiliate-login.html"
+
+Do not replace the whole affiliate.html file because the latest GitHub wording may be newer than the uploaded ZIP.

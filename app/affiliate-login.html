@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#071f3d" />
+  <meta name="robots" content="noindex,nofollow" />
+  <link rel="icon" type="image/png" href="../assets/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/vcpc.css" />
+  <link rel="stylesheet" href="../assets/app-core.css" />
+  <title>Đăng nhập Cổng Đối tác · VCPC</title>
+</head>
+<body class="app">
+  <div class="auth-page">
+    <aside class="auth-hero">
+      <a href="../index.html" style="display:flex;gap:12px;align-items:center;color:#fff;text-decoration:none;">
+        <img src="../assets/logo-vcpc.jpg" style="width:46px;height:46px;border-radius:10px;" alt="VCPC" />
+        <div>
+          <b style="color:#ffd36b;font-weight:800;">Viet Capital Partners &amp; Consulting</b><br />
+          <span style="font-size:11px;letter-spacing:.08em;color:#a9bbd2;text-transform:uppercase;">Business Partner Portal</span>
+        </div>
+      </a>
+      <div>
+        <h1>Cổng Đối tác Kinh doanh VCPC</h1>
+        <p>Theo dõi khách hàng giới thiệu, trạng thái giao dịch, doanh số và hoa hồng hợp tác.</p>
+      </div>
+      <div style="font-size:13px;color:#90a4c2;">© VCPC · vietcapitalpartner.com</div>
+    </aside>
+
+    <section class="auth-form-wrap">
+      <form class="auth-form" id="affiliateLoginForm" method="post" autocomplete="on" novalidate>
+        <div id="loginStep">
+          <h2>Đăng nhập Cổng Đối tác</h2>
+          <p>Chỉ áp dụng cho Đối tác Kinh doanh đã được VCPC phê duyệt tài khoản Affiliate.</p>
+
+          <div style="display:grid;gap:14px;margin-top:16px;">
+            <div class="field">
+              <label for="affiliateEmail">Email đối tác</label>
+              <input id="affiliateEmail" name="email" type="email" required autocomplete="email" placeholder="ten@email.com" style="min-height:44px;" />
+            </div>
+            <div class="field">
+              <label for="affiliatePassword">Mật khẩu</label>
+              <div style="position:relative;">
+                <input id="affiliatePassword" name="password" type="password" required autocomplete="current-password" style="min-height:44px;padding-right:46px;" />
+                <button type="button" id="toggleLoginPassword" tabindex="-1" aria-label="Hiện hoặc ẩn mật khẩu" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);border:0;background:none;cursor:pointer;color:#5b6b80;font-size:16px;">👁</button>
+              </div>
+            </div>
+          </div>
+
+          <div id="loginError" role="alert" aria-live="polite" style="display:none;color:#c7352b;font-size:13px;font-weight:700;padding:10px 12px;background:rgba(199,53,43,.08);border-radius:8px;margin-top:12px;line-height:1.5;"></div>
+
+          <button type="submit" class="app-btn app-btn-primary" id="affiliateLoginBtn" style="width:100%;margin-top:14px;min-height:44px;">Đăng nhập Cổng Đối tác</button>
+
+          <div class="auth-foot" style="text-align:center;">
+            <span>Chưa đăng ký làm đối tác?</span> <a href="../affiliate.html">Đăng ký Affiliate</a>
+          </div>
+          <div class="auth-foot" style="text-align:center;">
+            <a href="mailto:partner@vietcapitalpartners.com?subject=Hỗ trợ mật khẩu Cổng Đối tác" style="color:#5b6b80;">Cần hỗ trợ mật khẩu?</a>
+          </div>
+          <div class="auth-foot" style="margin-top:4px;"><a href="../index.html" style="color:#9aa7b8;font-size:12.5px;">← Về trang chính</a></div>
+        </div>
+
+        <div id="changePasswordStep" style="display:none;">
+          <h2>Tạo mật khẩu cá nhân</h2>
+          <p>Đây là lần đăng nhập đầu tiên. Vui lòng thay mật khẩu tạm bằng mật khẩu mới của bạn.</p>
+          <div style="padding:12px;margin:16px 0;border-radius:10px;background:#f3f6fa;font-size:13px;line-height:1.6;">
+            Mật khẩu cần ít nhất 10 ký tự, gồm chữ hoa, chữ thường, số và ký tự đặc biệt.
+          </div>
+          <div style="display:grid;gap:14px;">
+            <div class="field">
+              <label for="newPassword">Mật khẩu mới</label>
+              <input id="newPassword" name="newPassword" type="password" autocomplete="new-password" minlength="10" style="min-height:44px;" />
+            </div>
+            <div class="field">
+              <label for="confirmPassword">Xác nhận mật khẩu mới</label>
+              <input id="confirmPassword" name="confirmPassword" type="password" autocomplete="new-password" minlength="10" style="min-height:44px;" />
+            </div>
+          </div>
+          <div id="passwordError" role="alert" aria-live="polite" style="display:none;color:#c7352b;font-size:13px;font-weight:700;padding:10px 12px;background:rgba(199,53,43,.08);border-radius:8px;margin-top:12px;line-height:1.5;"></div>
+          <div id="passwordSuccess" role="status" aria-live="polite" style="display:none;color:#0d7b52;font-size:13px;font-weight:700;padding:10px 12px;background:rgba(13,123,82,.08);border-radius:8px;margin-top:12px;line-height:1.5;"></div>
+          <button type="button" class="app-btn app-btn-primary" id="changePasswordBtn" style="width:100%;margin-top:14px;min-height:44px;">Đổi mật khẩu và vào Portal</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <script src="../assets/app-config.js"></script>
+  <script src="../assets/mock-backend.js"></script>
+  <script src="../assets/app-core.js"></script>
+  <script>
+  (function(){
+    'use strict';
+    var form=document.getElementById('affiliateLoginForm');
+    var emailInput=document.getElementById('affiliateEmail');
+    var passwordInput=document.getElementById('affiliatePassword');
+    var loginButton=document.getElementById('affiliateLoginBtn');
+    var loginError=document.getElementById('loginError');
+    var loginStep=document.getElementById('loginStep');
+    var changePasswordStep=document.getElementById('changePasswordStep');
+    var newPasswordInput=document.getElementById('newPassword');
+    var confirmPasswordInput=document.getElementById('confirmPassword');
+    var changePasswordButton=document.getElementById('changePasswordBtn');
+    var passwordError=document.getElementById('passwordError');
+    var passwordSuccess=document.getElementById('passwordSuccess');
+    var temporaryPassword='';
+    var currentAffiliate=null;
+
+    function show(el,msg){el.textContent=msg;el.style.display='block';}
+    function hide(el){el.textContent='';el.style.display='none';}
+    function loginLoading(on){loginButton.disabled=on;loginButton.textContent=on?'Đang kiểm tra…':'Đăng nhập Cổng Đối tác';}
+    function passwordLoading(on){changePasswordButton.disabled=on;changePasswordButton.textContent=on?'Đang cập nhật…':'Đổi mật khẩu và vào Portal';}
+    function strongPassword(p){return p.length>=10&&/[a-z]/.test(p)&&/[A-Z]/.test(p)&&/[0-9]/.test(p)&&/[^A-Za-z0-9]/.test(p);}
+    function portal(slug){window.location.replace('/doitackinhdoanh/'+encodeURIComponent(slug));}
+    function statusMessage(status){
+      if(status==='NOT_REGISTERED')return 'Email này chưa đăng ký Affiliate. Vui lòng đăng ký chương trình Đối tác trước khi đăng nhập.';
+      if(status==='PENDING')return 'Hồ sơ đối tác của bạn đang chờ VCPC phê duyệt. Tài khoản và mã giới thiệu chỉ được kích hoạt sau khi được duyệt.';
+      if(status==='REJECTED')return 'Hồ sơ Affiliate này chưa được phê duyệt. Vui lòng liên hệ VCPC để được hỗ trợ.';
+      if(status==='SUSPENDED')return 'Tài khoản Affiliate hiện đang tạm khóa. Vui lòng liên hệ VCPC.';
+      return 'Tài khoản Affiliate hiện chưa thể đăng nhập.';
+    }
+    function loadCurrentAffiliate(){
+      var r=VCPC_DB.callFunction('affiliate-current',{});
+      if(!r||r.error||!r.affiliate)throw new Error((r&&r.error)||'AFFILIATE_NOT_FOUND');
+      return r.affiliate;
+    }
+    function enterPasswordStep(affiliate){
+      currentAffiliate=affiliate;
+      loginStep.style.display='none';
+      changePasswordStep.style.display='block';
+      newPasswordInput.required=true;
+      confirmPasswordInput.required=true;
+      newPasswordInput.focus();
+    }
+
+    document.getElementById('toggleLoginPassword').addEventListener('click',function(){
+      passwordInput.type=passwordInput.type==='password'?'text':'password';
+      this.textContent=passwordInput.type==='password'?'👁':'🙈';
+    });
+
+    form.addEventListener('submit',function(event){
+      event.preventDefault();event.stopPropagation();hide(loginError);
+      var email=emailInput.value.trim().toLowerCase();
+      var password=passwordInput.value;
+      if(!email){show(loginError,'Vui lòng nhập email đối tác.');emailInput.focus();return;}
+      if(!password){show(loginError,'Vui lòng nhập mật khẩu.');passwordInput.focus();return;}
+      if(!window.VCPC_DB){show(loginError,'Hệ thống đăng nhập chưa được tải. Vui lòng tải lại trang.');return;}
+      loginLoading(true);
+      try{
+        var statusResult=VCPC_DB.callFunction('affiliate-status',{email:email});
+        if(!statusResult||statusResult.error)throw new Error('Không thể kiểm tra trạng thái hồ sơ Affiliate.');
+        if(statusResult.status!=='ACTIVE')throw new Error(statusMessage(statusResult.status));
+        var authResult=VCPC_DB.signinPassword(email,password);
+        if(!authResult||authResult.error)throw new Error('Email hoặc mật khẩu không đúng. Vui lòng kiểm tra lại.');
+        var user=VCPC_DB.currentUser();
+        if(!user||user.role!=='affiliate'){
+          VCPC_DB.signout();
+          throw new Error('Tài khoản này không thuộc Cổng Đối tác Kinh doanh.');
+        }
+        temporaryPassword=password;
+        currentAffiliate=loadCurrentAffiliate();
+        if(currentAffiliate.must_change_password){enterPasswordStep(currentAffiliate);return;}
+        portal(currentAffiliate.slug);
+      }catch(error){
+        console.error('[affiliate-login]',error);
+        show(loginError,error.message||'Không thể đăng nhập Cổng Đối tác.');
+      }finally{loginLoading(false);}
+    });
+
+    try{
+      var existingUser=window.VCPC_DB&&VCPC_DB.currentUser?VCPC_DB.currentUser():null;
+      if(existingUser&&existingUser.role==='affiliate'){
+        currentAffiliate=loadCurrentAffiliate();
+        if(currentAffiliate.must_change_password)enterPasswordStep(currentAffiliate);
+        else portal(currentAffiliate.slug);
+      }
+    }catch(resumeError){
+      console.warn('[affiliate-login resume]',resumeError);
+    }
+
+    changePasswordButton.addEventListener('click',function(){
+      hide(passwordError);hide(passwordSuccess);
+      var p1=newPasswordInput.value;
+      var p2=confirmPasswordInput.value;
+      if(!strongPassword(p1)){show(passwordError,'Mật khẩu phải có ít nhất 10 ký tự, gồm chữ hoa, chữ thường, số và ký tự đặc biệt.');return;}
+      if(p1!==p2){show(passwordError,'Hai mật khẩu mới chưa khớp nhau.');return;}
+      if(p1===temporaryPassword){show(passwordError,'Mật khẩu mới phải khác mật khẩu tạm.');return;}
+      passwordLoading(true);
+      try{
+        var result=VCPC_DB.callFunction('affiliate-complete-password',{new_password:p1});
+        if(!result||result.error)throw new Error(result&&result.error==='WEAK_PASSWORD'?'Mật khẩu chưa đáp ứng yêu cầu bảo mật.':(result&&result.error)||'Không thể đổi mật khẩu.');
+        show(passwordSuccess,'Mật khẩu đã được cập nhật. Đang mở Cổng Đối tác…');
+        portal(result.slug||(currentAffiliate&&currentAffiliate.slug));
+      }catch(error){
+        console.error('[affiliate-password]',error);
+        show(passwordError,error.message||'Không thể đổi mật khẩu. Vui lòng thử lại.');
+      }finally{passwordLoading(false);}
+    });
+  })();
+  </script>
+</body>
+</html>
