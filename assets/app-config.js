@@ -6,7 +6,7 @@ window.VCPC_CONFIG = {
   BACKEND_READY: true,
   ALLOW_MOCK_GATEWAY: false,
   ENFORCE_AUTH_IN_DEMO: true,
-  APP_URL: 'https://www.vietcapitalpartner.com',
+  APP_URL: 'https://vietcapitalpartner.com',
   UAT_URL: '',
   PAYMENT_API_BASE: '/.netlify/functions',
   SUPABASE_URL: 'https://sfuoaafqefpygvzhvagq.supabase.co',
