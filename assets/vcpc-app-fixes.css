@@ -1,0 +1,225 @@
+/*
+ * VCPC UI Safe Layer — App/Admin/Auth fixes
+ * Version: 1.0.0
+ *
+ * Scope: body.app, .app-shell and .auth-page only.
+ * Load AFTER assets/app-core.css and AFTER assets/vcpc-system.css.
+ * No feature logic, no content replacement, no visibility locks.
+ */
+
+body.app {
+  --app-bg: #f1f3f7;
+  --app-card: #ffffff;
+  --app-ink: #0b1d3a;
+  --app-muted: #5b6b80;
+  --app-line: rgba(7, 31, 61, 0.10);
+  --app-line-strong: rgba(7, 31, 61, 0.18);
+  --app-navy: #071f3d;
+  --app-navy-2: #0d2d57;
+  --app-gold: #ffb20a;
+  --app-gold-2: #ffd36b;
+}
+
+/* Prevent grid/flex children from forcing horizontal page overflow */
+body.app :where(
+  .app-shell,
+  .app-main,
+  .app-topbar,
+  .app-card,
+  .app-grid,
+  .app-row-2,
+  .auth-page,
+  .auth-form-wrap,
+  .auth-form,
+  .field
+) {
+  min-width: 0;
+}
+
+/* Sidebar remains usable on shorter laptop screens */
+body.app .app-sidebar {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* App topbar may wrap instead of colliding */
+body.app .app-topbar {
+  flex-wrap: wrap;
+}
+
+/* Form labels and controls */
+body.app .field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+body.app .field > label,
+body.app .app-form > label {
+  margin: 0;
+  color: var(--app-navy);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+body.app :where(
+  .field input,
+  .field select,
+  .field textarea,
+  .app-form input,
+  .app-form select,
+  .app-form textarea
+) {
+  width: 100%;
+  max-width: 100%;
+  min-height: 46px;
+  box-sizing: border-box;
+  font-family: inherit;
+  line-height: 1.35;
+}
+
+body.app :where(
+  .field input,
+  .field select,
+  .field textarea,
+  .app-form input,
+  .app-form select,
+  .app-form textarea
+):focus {
+  border-color: var(--app-gold);
+  box-shadow: 0 0 0 4px rgba(255, 178, 10, 0.16);
+}
+
+body.app :where(.app-btn, button.app-btn) {
+  min-height: 44px;
+}
+
+/* Authentication pages */
+body.app .auth-form-wrap {
+  overflow-x: hidden;
+}
+
+body.app .auth-form {
+  max-width: 420px;
+}
+
+body.app .auth-form h2 {
+  line-height: 1.2;
+}
+
+body.app .auth-form p {
+  line-height: 1.55;
+}
+
+/*
+ * Current signup.html uses inline 2-column grid styles.
+ * This is the only targeted !important rule in the package because normal CSS
+ * cannot override an inline grid-template-columns declaration.
+ */
+@media (max-width: 640px) {
+  body.app .auth-form > div[style*="grid-template-columns:1fr 1fr"],
+  body.app .auth-form > div[style*="grid-template-columns: 1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  body.app .auth-form-wrap {
+    padding: 30px 18px;
+  }
+
+  body.app .auth-hero {
+    padding: 30px 22px;
+  }
+
+  body.app .auth-hero h1 {
+    font-size: clamp(30px, 9vw, 38px);
+  }
+}
+
+/* Cards and dashboards */
+body.app .app-card {
+  max-width: 100%;
+}
+
+body.app .app-card-head {
+  min-width: 0;
+  flex-wrap: wrap;
+}
+
+body.app .kpi,
+body.app .alert-row,
+body.app .badge,
+body.app .app-step {
+  min-width: 0;
+}
+
+body.app .alert-row .owner {
+  flex-wrap: wrap;
+}
+
+/* Tables: retain table semantics and enable scrolling through a safe wrapper */
+body.app .vcpc-table-scroll {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+body.app .vcpc-table-scroll > .app-table {
+  min-width: 680px;
+}
+
+/* Existing tables remain untouched unless explicitly wrapped */
+body.app .app-table th,
+body.app .app-table td {
+  vertical-align: top;
+}
+
+/* Long codes, URLs and identifiers should wrap instead of breaking cards */
+body.app :where(.app-card, .kpi, .alert-row) :where(a, code, small, span, p) {
+  overflow-wrap: anywhere;
+}
+
+/* Stepper remains horizontally usable on small screens */
+@media (max-width: 720px) {
+  body.app .app-stepper {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 5px;
+    scrollbar-width: thin;
+  }
+
+  body.app .app-step {
+    flex: 0 0 auto;
+  }
+}
+
+/* Keep desktop layout unchanged; only tighten common small-screen collisions */
+@media (max-width: 640px) {
+  body.app .app-main {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  body.app .app-card {
+    padding: 18px;
+  }
+
+  body.app .app-title {
+    line-height: 1.16;
+  }
+
+  body.app .app-period {
+    max-width: 100%;
+    white-space: normal;
+  }
+
+  body.app .alert-row {
+    flex-wrap: wrap;
+  }
+
+  body.app .alert-row .owner {
+    width: 100%;
+    margin-left: 16px;
+  }
+}
