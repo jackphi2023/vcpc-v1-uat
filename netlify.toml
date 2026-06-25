@@ -48,6 +48,17 @@
   from = "/admin"
   to = "/admin/index.html"
   status = 200
+  [[redirects]]
+
+  from = "/app/affiliate"
+  to = "/app/affiliate-login.html"
+  status = 302
+  force = true  
+[[redirects]]
+  from = "/app/affiliate/"
+  to = "/app/affiliate-login.html"
+  status = 302
+  force = true
 [[redirects]]
   from = "/doitackinhdoanh/:slug"
   to = "/app/affiliate.html?slug=:slug"
