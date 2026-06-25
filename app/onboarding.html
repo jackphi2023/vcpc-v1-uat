@@ -1,8 +1,29 @@
 <!DOCTYPE html>
 <html lang="vi">
-<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="theme-color" content="#071f3d"/><link rel="icon" type="image/png" href="../assets/favicon.png"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/><link rel="stylesheet" href="../assets/vcpc.css"/><link rel="stylesheet" href="../assets/app-core.css"/><title>Onboarding · VCPC Auto</title></head>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="theme-color" content="#071f3d"/>
+  <meta name="robots" content="noindex,nofollow"/>
+  <link rel="icon" type="image/png" href="../assets/favicon.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../assets/vcpc.css"/>
+  <link rel="stylesheet" href="../assets/app-core.css"/>
+  <title>Tạo tổ chức &amp; chọn dịch vụ · VCPC</title>
+  <style>
+    .vcpc-org-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .vcpc-plan-grid,.vcpc-group-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .vcpc-section-title{font-size:18px;margin:28px 0 12px;color:#071f3d;font-weight:900}
+    .vcpc-note{padding:12px 14px;border-radius:10px;background:#f3f6fa;color:#41546b;font-size:13px;line-height:1.6}
+    .vcpc-error{display:none;margin-top:16px;padding:12px 14px;border-radius:10px;background:rgba(199,53,43,.08);border:1px solid rgba(199,53,43,.18);color:#c7352b;font-size:13px;font-weight:700;line-height:1.55}
+    .vcpc-selected-summary{display:none;margin:18px 0 4px;padding:14px 16px;border-radius:12px;background:#fff8e8;border:1px solid #f0d48c;color:#41546b;font-size:13px;line-height:1.6}
+    @media(max-width:720px){.vcpc-org-grid,.vcpc-plan-grid,.vcpc-group-grid{grid-template-columns:1fr}.app-main{padding-left:14px!important;padding-right:14px!important}.app-card{padding:18px!important}}
+  </style>
+</head>
 <body class="app" data-require="auth">
-<main class="app-main" style="max-width:920px;margin:0 auto;padding:40px 22px 60px;">
+<main class="app-main" style="max-width:960px;margin:0 auto;padding:40px 22px 60px;">
   <div class="app-stepper">
     <div class="app-step active"><span class="num">1</span><span data-vi="Tạo tổ chức &amp; chọn gói" data-en="Org &amp; plan">Tạo tổ chức &amp; chọn gói</span></div>
     <div class="app-step"><span class="num">2</span><span data-vi="Khai báo nhu cầu" data-en="Intake">Khai báo nhu cầu</span></div>
@@ -14,123 +35,366 @@
 
   <div class="app-card">
     <h1 class="app-title" data-vi="Tạo tổ chức &amp; chọn dịch vụ" data-en="Create your organization &amp; pick a service">Tạo tổ chức &amp; chọn dịch vụ</h1>
-    <p class="app-sub" data-vi="Thông tin tổ chức để đăng ký sử dụng giải pháp của chúng tôi." data-en="Organization information to register for our solutions.">Thông tin tổ chức để đăng ký sử dụng giải pháp của chúng tôi.</p>
+    <p class="app-sub" id="pageIntro" data-vi="Kiểm tra thông tin doanh nghiệp và xác nhận dịch vụ phù hợp trước khi tiếp tục." data-en="Review your organization information and confirm the right service before continuing.">Kiểm tra thông tin doanh nghiệp và xác nhận dịch vụ phù hợp trước khi tiếp tục.</p>
 
-    <form id="orgForm" class="app-form" style="max-width:none;margin-top:22px;display:grid;grid-template-columns:1fr 1fr;gap:18px;">
-      <div><label data-vi="Tên pháp lý" data-en="Legal name">Tên pháp lý</label><input name="legal_name" required placeholder="Công ty CP …"/></div>
-      <div><label data-vi="Tên thương mại" data-en="Trade name">Tên thương mại</label><input name="trade_name" placeholder="…"/></div>
-      <div><label data-vi="MST" data-en="Tax ID">MST</label><input name="tax_id" placeholder="0123456789"/></div>
-      <div><label data-vi="Ngành" data-en="Industry">Ngành</label><select name="industry">
-        <option value="retail_apparel">Bán lẻ thời trang</option><option value="fnb">F&amp;B / Dịch vụ ăn uống</option><option value="retail_general">Bán lẻ khác</option><option value="clinic_spa">Clinic / Spa / Nha khoa</option><option value="manufacturing">Sản xuất</option><option value="distribution">Phân phối / Thương mại</option><option value="service">Dịch vụ khác</option>
-      </select></div>
-      <div><label data-vi="Khoảng doanh thu (tỷ VND)" data-en="Revenue band (VND B)">Khoảng doanh thu</label><select name="revenue_band">
-        <option value="under_50">Dưới 50 tỷ</option><option value="50_300">50–300 tỷ</option><option value="over_300">Trên 300 tỷ</option>
-      </select></div>
-      <div><label data-vi="Số chi nhánh" data-en="Branches">Số chi nhánh</label><input name="branches" type="number" min="0" value="1"/></div>
-      <div><label data-vi="Số nhân sự" data-en="Employees">Số nhân sự</label><input name="employees" type="number" min="0" value="10"/></div>
-      <div><label data-vi="Vùng / địa bàn chính" data-en="Primary regions">Vùng / địa bàn chính</label><input name="regions" placeholder="HCM, Hà Nội, Đà Nẵng"/></div>
-    </form>
+    <div id="selectedSummary" class="vcpc-selected-summary"></div>
 
-    <h2 style="font-size:18px;margin:28px 0 12px;color:#071f3d;font-weight:900;" data-vi="Chọn nhóm dịch vụ" data-en="Pick a service line">Chọn nhóm dịch vụ</h2>
-    <div id="groupGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;"></div>
+    <form id="orgForm" class="app-form" style="max-width:none;margin-top:22px;">
+      <h2 class="vcpc-section-title" style="margin-top:0" data-vi="Thông tin tổ chức" data-en="Organization information">Thông tin tổ chức</h2>
 
-    <div id="serviceWrap" style="display:none;margin-top:22px;">
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">
-        <h2 style="font-size:18px;margin:0;color:#071f3d;font-weight:900;" id="serviceTitle" data-vi="Chọn gói dịch vụ" data-en="Pick a plan">Chọn gói dịch vụ</h2>
-        <button type="button" id="changeGroup" class="app-btn app-btn-ghost" style="font-size:12.5px;padding:8px 14px;" data-vi="← Đổi nhóm" data-en="← Change line">← Đổi nhóm</button>
+      <div class="vcpc-org-grid">
+        <div>
+          <label for="legalName" data-vi="Tên pháp lý" data-en="Legal name">Tên pháp lý</label>
+          <input id="legalName" name="legal_name" required placeholder="Công ty CP …" autocomplete="organization"/>
+        </div>
+        <div>
+          <label for="tradeName" data-vi="Tên thương mại" data-en="Trade name">Tên thương mại</label>
+          <input id="tradeName" name="trade_name" placeholder="Tên thương hiệu đang sử dụng"/>
+        </div>
+        <div>
+          <label for="taxId" data-vi="Mã số thuế" data-en="Tax ID">Mã số thuế</label>
+          <input id="taxId" name="tax_id" placeholder="0123456789" inputmode="numeric"/>
+        </div>
+        <div>
+          <label for="industry" data-vi="Ngành" data-en="Industry">Ngành</label>
+          <select id="industry" name="industry" required>
+            <option value="">Chọn ngành</option>
+            <option value="retail_apparel">Bán lẻ thời trang</option>
+            <option value="fnb">F&amp;B / Dịch vụ ăn uống</option>
+            <option value="retail_general">Bán lẻ khác</option>
+            <option value="clinic_spa">Clinic / Spa / Nha khoa</option>
+            <option value="manufacturing">Sản xuất</option>
+            <option value="distribution">Phân phối / Thương mại</option>
+            <option value="education">Giáo dục</option>
+            <option value="real_estate">Bất động sản</option>
+            <option value="service">Dịch vụ khác</option>
+          </select>
+        </div>
+        <div>
+          <label for="revenueBand" data-vi="Khoảng doanh thu" data-en="Revenue band">Khoảng doanh thu</label>
+          <select id="revenueBand" name="revenue_band" required>
+            <option value="">Chọn khoảng doanh thu</option>
+            <option value="under_50">Dưới 50 tỷ VND/năm</option>
+            <option value="50_300">50–300 tỷ VND/năm</option>
+            <option value="over_300">Trên 300 tỷ VND/năm</option>
+          </select>
+        </div>
+        <div>
+          <label for="branches" data-vi="Số chi nhánh" data-en="Branches">Số chi nhánh</label>
+          <input id="branches" name="branches" type="number" min="0" value="1"/>
+        </div>
+        <div>
+          <label for="employees" data-vi="Số nhân sự" data-en="Employees">Số nhân sự</label>
+          <input id="employees" name="employees" type="number" min="0" value="10"/>
+        </div>
+        <div>
+          <label for="regions" data-vi="Vùng / địa bàn chính" data-en="Primary regions">Vùng / địa bàn chính</label>
+          <input id="regions" name="regions" placeholder="TP.HCM, Hà Nội, Đà Nẵng"/>
+        </div>
+        <div>
+          <label for="contactName" data-vi="Người liên hệ" data-en="Contact person">Người liên hệ</label>
+          <input id="contactName" name="contact_name" required autocomplete="name"/>
+        </div>
+        <div>
+          <label for="contactEmail">Email</label>
+          <input id="contactEmail" name="contact_email" type="email" required autocomplete="email"/>
+        </div>
+        <div>
+          <label for="contactPhone" data-vi="Số điện thoại / Zalo" data-en="Phone / Zalo">Số điện thoại / Zalo</label>
+          <input id="contactPhone" name="contact_phone" type="tel" required autocomplete="tel"/>
+        </div>
+        <div>
+          <label for="website">Website</label>
+          <input id="website" name="website" type="url" placeholder="https://..." autocomplete="url"/>
+        </div>
       </div>
-      <div id="planGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:12px;"></div>
-    </div>
 
-    <h2 style="font-size:18px;margin:28px 0 12px;color:#071f3d;font-weight:900;" data-vi="Cam kết" data-en="Consent">Cam kết</h2>
-    <div style="display:grid;gap:8px;">
-      <label style="display:flex;gap:10px;align-items:flex-start;"><input type="checkbox" name="c1" required/><span data-vi="Tôi có quyền cung cấp các dữ liệu được upload." data-en="I have the right to provide the uploaded data.">Tôi có quyền cung cấp các dữ liệu được upload.</span></label>
-      <label style="display:flex;gap:10px;align-items:flex-start;"><input type="checkbox" name="c2" required/><span data-vi="Tôi đồng ý cho VCPC xử lý dữ liệu để phục vụ dịch vụ" data-en="I consent to VCPC processing the data for our services.">Tôi đồng ý cho VCPC xử lý dữ liệu để phục vụ dịch vụ</span></label>
-      <label style="display:flex;gap:10px;align-items:flex-start;"><input type="checkbox" name="c3" required/><span data-vi="Tôi hiểu kết quả phụ thuộc chất lượng dữ liệu được cung cấp." data-en="I understand the output depends on data quality.">Tôi hiểu kết quả phụ thuộc chất lượng dữ liệu được cung cấp.</span></label>
+      <h2 class="vcpc-section-title" data-vi="Chọn nhóm dịch vụ" data-en="Pick a service line">Chọn nhóm dịch vụ</h2>
+      <p class="vcpc-note" id="serviceHelp">Nếu đã chọn gói từ trang BizHealth hoặc BizOS, hệ thống sẽ chọn sẵn. Bạn vẫn có thể thay đổi trước khi tiếp tục.</p>
+      <div id="groupGrid" class="vcpc-group-grid" style="margin-top:14px;"></div>
 
-    </div>
+      <div id="serviceWrap" style="display:none;margin-top:22px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">
+          <h2 style="font-size:18px;margin:0;color:#071f3d;font-weight:900;" id="serviceTitle" data-vi="Chọn gói dịch vụ" data-en="Pick a plan">Chọn gói dịch vụ</h2>
+          <button type="button" id="changeGroup" class="app-btn app-btn-ghost" style="font-size:12.5px;padding:8px 14px;" data-vi="← Đổi nhóm" data-en="← Change line">← Đổi nhóm</button>
+        </div>
+        <div id="planGrid" class="vcpc-plan-grid" style="margin-top:12px;"></div>
+      </div>
 
-    <div style="display:flex;justify-content:space-between;gap:16px;margin-top:30px;flex-wrap:wrap;">
-      <a class="app-btn app-btn-ghost" href="login.html" data-vi="← Quay lại" data-en="← Back">← Quay lại</a>
-      <button id="continueBtn" class="app-btn app-btn-primary" data-vi="Tiếp tục" data-en="Continue">Tiếp tục</button>
-    </div>
+      <h2 class="vcpc-section-title" data-vi="Cam kết" data-en="Consent">Cam kết</h2>
+      <div style="display:grid;gap:10px;">
+        <label style="display:flex;gap:10px;align-items:flex-start;"><input type="checkbox" name="c1" required/><span data-vi="Tôi có quyền cung cấp các dữ liệu được tải lên." data-en="I have the right to provide the uploaded data.">Tôi có quyền cung cấp các dữ liệu được tải lên.</span></label>
+        <label style="display:flex;gap:10px;align-items:flex-start;"><input type="checkbox" name="c2" required/><span data-vi="Tôi đồng ý cho VCPC xử lý dữ liệu để cung cấp dịch vụ." data-en="I consent to VCPC processing the data for the service.">Tôi đồng ý cho VCPC xử lý dữ liệu để cung cấp dịch vụ.</span></label>
+        <label style="display:flex;gap:10px;align-items:flex-start;"><input type="checkbox" name="c3" required/><span data-vi="Tôi hiểu kết quả phụ thuộc vào chất lượng và tính đầy đủ của dữ liệu được cung cấp." data-en="I understand the output depends on the quality and completeness of the supplied data.">Tôi hiểu kết quả phụ thuộc vào chất lượng và tính đầy đủ của dữ liệu được cung cấp.</span></label>
+      </div>
+
+      <div id="formError" class="vcpc-error" role="alert" aria-live="polite"></div>
+
+      <div style="display:flex;justify-content:space-between;gap:16px;margin-top:30px;flex-wrap:wrap;">
+        <a class="app-btn app-btn-ghost" href="login.html" data-vi="← Quay lại" data-en="← Back">← Quay lại</a>
+        <button type="submit" id="continueBtn" class="app-btn app-btn-primary" data-vi="Lưu và tiếp tục" data-en="Save &amp; continue">Lưu và tiếp tục</button>
+      </div>
+    </form>
   </div>
 </main>
-<script src="../assets/i18n/loader.js" data-i18n-base="../assets/i18n"></script><script src="../assets/app-config.js"></script><script src="../assets/mock-backend.js"></script><script src="../assets/guards.js"></script><script src="../assets/app-core.js"></script>
+
+<script src="../assets/i18n/loader.js" data-i18n-base="../assets/i18n"></script>
+<script src="../assets/app-config.js"></script>
+<script src="../assets/mock-backend.js"></script>
+<script src="../assets/guards.js"></script>
+<script src="../assets/app-core.js"></script>
 <script>
-if (!VCPC_DB.currentUser()) window.location.href = 'login.html';
-const isEN = function(){ return (window.VCPC_I18N&&VCPC_I18N.current)==='en'; };
-const params = new URLSearchParams(location.search);
-let plansData = null;
-let existingEng = VCPC_DB.currentEngagement();
-let selected = params.get('plan') || (existingEng && existingEng.plan_code) || null;
-let selectedTerm = Number(params.get('term') || (existingEng && existingEng.billing_term) || 3);
-let groupSel = null;
-if (selected && selected.startsWith('BIZHEALTH') && selected !== 'BIZHEALTH_FREE') groupSel = 'bizhealth';
-else if (selected && selected.startsWith('OS_')) groupSel = 'strategy_os';
-else selected = null;
+(function(){
+  'use strict';
 
-async function loadPlans(){
-  plansData = await fetch('../assets/plans.json',{cache:'no-cache'}).then(r=>r.json());
-  renderGroups(); renderPlans();
-}
-function L(o){ const lang = (VCPC_I18N && VCPC_I18N.current) || 'vi'; return o[lang] || o.vi; }
-const GROUPS = [
-  { key:'bizhealth', label:{vi:'BizHealth', en:'BizHealth'}, icon:'🩺', desc:{vi:'Chẩn đoán sức khỏe kinh doanh: lời/lỗ thật, dòng tiền, rò rỉ chi phí — báo cáo + dashboard 90 ngày.', en:'Business health diagnostic: true P&L, cash, cost leakage — report + 90-day dashboard.'} },
-  { key:'strategy_os', label:{vi:'BizOS', en:'BizOS'}, icon:'📊', desc:{vi:'Dashboard điều hành theo thuê bao: KPI, cảnh báo, market intelligence, đồng hành thực thi.', en:'Subscription operating dashboard: KPIs, alerts, market intelligence, execution.'} }
-];
-function renderGroups(){
-  document.getElementById('groupGrid').innerHTML = GROUPS.map(function(g){
-    const active = g.key === groupSel;
-    return '<button type="button" data-group="'+g.key+'" class="app-card" style="border:'+(active?'2px solid #ffb20a':'1px solid rgba(7,31,61,.10)')+';padding:20px;text-align:left;background:'+(active?'#fff8e8':'#fff')+';cursor:pointer;display:flex;gap:14px;align-items:flex-start;"><span style="font-size:30px;line-height:1;">'+g.icon+'</span><span><span style="display:block;font-size:18px;font-weight:900;color:#071f3d;">'+L(g.label)+'</span><span style="display:block;font-size:13px;color:#5b6b80;margin-top:5px;line-height:1.5;">'+L(g.desc)+'</span></span></button>';
-  }).join('');
-  document.getElementById('serviceWrap').style.display = groupSel ? 'block' : 'none';
-}
-function renderPlans(){
-  if (!groupSel || !plansData) return;
-  let list = (groupSel==='bizhealth' ? plansData.bizhealth : plansData.strategy_os).filter(function(p){ return p.code !== 'BIZHEALTH_FREE'; });
-  document.getElementById('serviceTitle').textContent = isEN() ? ('Pick a '+(groupSel==='bizhealth'?'BizHealth':'BizOS')+' plan') : ('Chọn gói '+(groupSel==='bizhealth'?'BizHealth':'BizOS'));
-  document.getElementById('planGrid').innerHTML = list.map(function(p){
-    const active=p.code===selected;
-    return '<button type="button" data-plan="'+p.code+'" class="app-card" style="border:'+(active?'2px solid #ffb20a':'1px solid rgba(7,31,61,.10)')+';padding:16px;text-align:left;background:'+(active?'#fff8e8':'#fff')+';cursor:pointer;"><small style="font-size:10px;font-weight:900;color:#7a5400;letter-spacing:.08em;text-transform:uppercase;">'+L(p.product_label)+'</small><div style="font-size:17px;font-weight:900;color:#071f3d;margin:6px 0;">'+L(p.name)+'</div><div style="font-size:12.5px;color:#5b6b80;">'+L(p.audience)+'</div><div style="margin-top:10px;font-size:11.5px;color:#41546b;">'+(isEN()?'Min. data score':'Điểm dữ liệu tối thiểu')+' '+p.dqs_threshold+'</div></button>';
-  }).join('');
-}
-document.getElementById('groupGrid').addEventListener('click',function(e){const b=e.target.closest('[data-group]');if(!b)return;groupSel=b.getAttribute('data-group');selected=null;renderGroups();renderPlans();});
-document.getElementById('changeGroup').addEventListener('click',function(){groupSel=null;selected=null;renderGroups();});
-document.getElementById('planGrid').addEventListener('click',function(e){const b=e.target.closest('[data-plan]');if(!b)return;selected=b.getAttribute('data-plan');renderPlans();});
-document.addEventListener('vcpc:langchange',function(){renderGroups();renderPlans();});
-
-document.getElementById('continueBtn').addEventListener('click',function(){
-  const f=document.getElementById('orgForm');
-  if(!f.checkValidity()){f.reportValidity();return;}
-  if(!selected){alert(isEN()?'Please pick a service plan.':'Vui lòng chọn một gói dịch vụ.');return;}
-  const data=Object.fromEntries(new FormData(f).entries());
-  const u=VCPC_DB.currentUser();
-  let org=VCPC_DB.currentOrg();
-  if(!org){
-    org=VCPC_DB.insert('organizations',{owner_id:u.id,name:data.trade_name||data.legal_name,tax_id:data.tax_id||null,industry:data.industry||null,size:data.size||null,contact_name:data.contact_name||null,contact_email:data.contact_email||u.email,contact_phone:data.contact_phone||null,website:data.website||null});
-    VCPC_DB.insert('organization_members',{organization_id:org.id,user_id:u.id,email:u.email,name:u.full_name||u.name||'',role:'owner',status:'active',activated_at:Date.now()});
-  }else{
-    org=VCPC_DB.upsert('organizations',Object.assign({},org,{name:data.trade_name||data.legal_name||org.name,tax_id:data.tax_id||org.tax_id||null,industry:data.industry||org.industry||null,size:data.size||org.size||null,contact_name:data.contact_name||org.contact_name||null,contact_email:data.contact_email||org.contact_email||u.email,contact_phone:data.contact_phone||org.contact_phone||null,website:data.website||org.website||null}));
+  if(!VCPC_DB.currentUser()){
+    window.location.replace('login.html');
+    return;
   }
-  VCPC_DB.setCurrentOrg(org);
-  const all=[].concat(plansData.bizhealth||[],plansData.strategy_os||[]);
-  const plan=all.find(function(x){return x.code===selected;});
-  const term=plan&&plan.billing_type==='monthly'?(selectedTerm===6||selectedTerm===12?selectedTerm:3):1;
-  const price=plan&&plan.price&&Number(plan.price.vnd||0);
-  const termPct=term===6?10:term===12?15:0;
-  const base=price*term;
-  const afterTerm=Math.round(base*(1-termPct/100));
-  let eng=existingEng;
-  const payload={organization_id:org.id,owner_id:u.id,plan_code:selected,product:selected.startsWith('BIZHEALTH')?'bizhealth':'strategy_os',billing_term:term,state:'INTAKE',monthly_price:price,base_amount:base,term_discount_percent:termPct,term_discount_amount:base-afterTerm,final_amount:afterTerm,deposit_percent:20,deposit_amount:Math.round(afterTerm*.2),balance_amount:Math.round(afterTerm*.8),intake:(eng&&eng.intake)||{}};
-  if(eng&&eng.id) eng=VCPC_DB.upsert('engagements',Object.assign({},eng,payload));
-  else eng=VCPC_DB.insert('engagements',payload);
-  VCPC_DB.setCurrentEngagement(eng);
-  VCPC_DB.audit('ORG_ONBOARDING_UPDATED',{organization_id:org.id,engagement_id:eng.id});
-  VCPC_DB.audit('PLAN_SELECTED',{organization_id:org.id,engagement_id:eng.id,plan_code:selected,billing_term:term});
-  window.location.href='intake.html';
-});
-loadPlans();
+
+  var PLAN_RULES={
+    BIZHEALTH_STANDARD:{group:'bizhealth',service:'BIZHEALTH',product:'bizhealth',term:1,label:'BizHealth Standard'},
+    BIZHEALTH_PREMIUM:{group:'bizhealth',service:'BIZHEALTH',product:'bizhealth',term:1,label:'BizHealth Premium'},
+    OS_LITE:{group:'strategy_os',service:'BIZOS',product:'strategy_os',term:3,label:'BizOS Starter'},
+    OS_STANDARD:{group:'strategy_os',service:'BIZOS',product:'strategy_os',term:6,label:'BizOS Growth'},
+    OS_PARTNER:{group:'strategy_os',service:'BIZOS',product:'strategy_os',term:12,label:'BizOS Scale'}
+  };
+
+  var params=new URLSearchParams(window.location.search);
+  var user=VCPC_DB.currentUser();
+  var existingOrg=VCPC_DB.currentOrg();
+  var existingEng=VCPC_DB.currentEngagement();
+  var pendingMeta={};
+  try{pendingMeta=JSON.parse(localStorage.getItem('vcpc.pending.signup')||'{}')||{};}catch(e){pendingMeta={};}
+  var userMeta=(user&&user.user_metadata)||{};
+  var meta=Object.assign({},userMeta,pendingMeta);
+
+  var requestedPlan=String(params.get('plan')||(existingEng&&existingEng.plan_code)||meta.plan_code||'').trim().toUpperCase();
+  var selected=PLAN_RULES[requestedPlan]?requestedPlan:null;
+  var groupSel=selected?PLAN_RULES[selected].group:null;
+  var plansData=null;
+  var form=document.getElementById('orgForm');
+  var continueBtn=document.getElementById('continueBtn');
+  var errorBox=document.getElementById('formError');
+  var selectedSummary=document.getElementById('selectedSummary');
+
+  function isEN(){return (window.VCPC_I18N&&VCPC_I18N.current)==='en';}
+  function L(obj){var lang=(window.VCPC_I18N&&VCPC_I18N.current)||'vi';return obj&&obj[lang]||obj&&obj.vi||'';}
+  function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(ch){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch];});}
+  function money(v){return new Intl.NumberFormat('vi-VN').format(Number(v||0))+' đ';}
+  function showError(message){errorBox.textContent=message;errorBox.style.display='block';}
+  function hideError(){errorBox.textContent='';errorBox.style.display='none';}
+  function setLoading(value){continueBtn.disabled=value;continueBtn.textContent=value?(isEN()?'Saving…':'Đang lưu…'):(isEN()?'Save & continue':'Lưu và tiếp tục');}
+
+  var GROUPS=[
+    {key:'bizhealth',label:{vi:'BizHealth',en:'BizHealth'},icon:'🩺',desc:{vi:'Chẩn đoán sức khỏe kinh doanh, xác định điểm nghẽn và cơ hội cải thiện.',en:'Business health diagnostic to identify bottlenecks and improvement opportunities.'}},
+    {key:'strategy_os',label:{vi:'BizOS',en:'BizOS'},icon:'📊',desc:{vi:'Nền tảng quản trị và điều hành theo thuê bao với KPI, cảnh báo và Market Intelligence.',en:'Subscription operating platform with KPIs, alerts and market intelligence.'}}
+  ];
+
+  function getPlanRecord(code){
+    if(!plansData)return null;
+    return [].concat(plansData.bizhealth||[],plansData.strategy_os||[]).find(function(item){return item.code===code;})||null;
+  }
+
+  function renderSummary(){
+    if(!selected||!PLAN_RULES[selected]){
+      selectedSummary.style.display='block';
+      selectedSummary.innerHTML='<strong>'+(isEN()?'No service selected yet.':'Chưa chọn dịch vụ.')+'</strong> '+(isEN()?'Please choose a BizHealth or BizOS plan below.':'Vui lòng chọn một gói BizHealth hoặc BizOS bên dưới.');
+      return;
+    }
+    var rule=PLAN_RULES[selected];
+    var plan=getPlanRecord(selected);
+    var price=plan&&plan.price&&plan.price.vnd;
+    var base=price?(plan.billing_type==='monthly'?price*rule.term:price):0;
+    var discount=rule.term===6?10:(rule.term===12?15:0);
+    var finalAmount=Math.round(base*(1-discount/100));
+    selectedSummary.style.display='block';
+    selectedSummary.innerHTML='<strong>'+(isEN()?'Selected plan: ':'Gói đang chọn: ')+esc(plan?L(plan.name):rule.label)+'</strong> · '+(rule.product==='bizhealth'?(isEN()?'One-time':'Thanh toán một lần'):(rule.term+' '+(isEN()?'months':'tháng')))+(finalAmount?' · '+money(finalAmount):'')+(discount?' ('+(isEN()?'discount ':'giảm ')+discount+'%)':'')+'. '+(isEN()?'You may change it before continuing.':'Bạn vẫn có thể thay đổi trước khi tiếp tục.');
+  }
+
+  function renderGroups(){
+    document.getElementById('groupGrid').innerHTML=GROUPS.map(function(group){
+      var active=group.key===groupSel;
+      return '<button type="button" data-group="'+group.key+'" class="app-card" style="border:'+(active?'2px solid #ffb20a':'1px solid rgba(7,31,61,.10)')+';padding:20px;text-align:left;background:'+(active?'#fff8e8':'#fff')+';cursor:pointer;display:flex;gap:14px;align-items:flex-start;"><span style="font-size:30px;line-height:1;">'+group.icon+'</span><span><span style="display:block;font-size:18px;font-weight:900;color:#071f3d;">'+esc(L(group.label))+'</span><span style="display:block;font-size:13px;color:#5b6b80;margin-top:5px;line-height:1.5;">'+esc(L(group.desc))+'</span></span></button>';
+    }).join('');
+    document.getElementById('serviceWrap').style.display=groupSel?'block':'none';
+  }
+
+  function renderPlans(){
+    if(!groupSel||!plansData){renderSummary();return;}
+    var list=(groupSel==='bizhealth'?plansData.bizhealth:plansData.strategy_os).filter(function(plan){return PLAN_RULES[plan.code];});
+    document.getElementById('serviceTitle').textContent=isEN()?('Pick a '+(groupSel==='bizhealth'?'BizHealth':'BizOS')+' plan'):('Chọn gói '+(groupSel==='bizhealth'?'BizHealth':'BizOS'));
+    document.getElementById('planGrid').innerHTML=list.map(function(plan){
+      var active=plan.code===selected;
+      var rule=PLAN_RULES[plan.code];
+      var base=plan.billing_type==='monthly'?Number(plan.price.vnd||0)*rule.term:Number(plan.price.vnd||0);
+      var discount=rule.term===6?10:(rule.term===12?15:0);
+      var finalAmount=Math.round(base*(1-discount/100));
+      var billing=plan.billing_type==='monthly'?(rule.term+' '+(isEN()?'months':'tháng')):(isEN()?'One-time':'Một lần');
+      return '<button type="button" data-plan="'+plan.code+'" class="app-card" style="border:'+(active?'2px solid #ffb20a':'1px solid rgba(7,31,61,.10)')+';padding:16px;text-align:left;background:'+(active?'#fff8e8':'#fff')+';cursor:pointer;"><small style="font-size:10px;font-weight:900;color:#7a5400;letter-spacing:.08em;text-transform:uppercase;">'+esc(L(plan.product_label))+'</small><div style="font-size:17px;font-weight:900;color:#071f3d;margin:6px 0;">'+esc(L(plan.name))+'</div><div style="font-size:12.5px;color:#5b6b80;line-height:1.5;">'+esc(L(plan.audience))+'</div><div style="margin-top:10px;font-size:14px;font-weight:900;color:#071f3d;">'+money(finalAmount)+' · '+billing+(discount?' · '+(isEN()?'Save ':'Giảm ')+discount+'%':'')+'</div><div style="margin-top:7px;font-size:11.5px;color:#41546b;">'+(isEN()?'Minimum data score ':'Điểm dữ liệu tối thiểu ')+plan.dqs_threshold+'</div></button>';
+    }).join('');
+    renderSummary();
+  }
+
+  function prefill(){
+    var orgName=(existingOrg&&existingOrg.name)||meta.organization_name||'';
+    form.legal_name.value=orgName;
+    form.trade_name.value=(existingOrg&&existingOrg.name)||meta.organization_name||'';
+    form.tax_id.value=(existingOrg&&existingOrg.tax_id)||meta.tax_id||'';
+    form.industry.value=(existingOrg&&existingOrg.industry)||'';
+    form.revenue_band.value=(existingOrg&&existingOrg.size)||'';
+    form.contact_name.value=(existingOrg&&existingOrg.contact_name)||meta.full_name||user.full_name||user.name||'';
+    form.contact_email.value=(existingOrg&&existingOrg.contact_email)||user.email||meta.email||'';
+    form.contact_phone.value=(existingOrg&&existingOrg.contact_phone)||meta.phone||user.phone||'';
+    form.website.value=(existingOrg&&existingOrg.website)||'';
+    var profile=existingEng&&existingEng.intake&&existingEng.intake.organization_profile||{};
+    if(profile.branches!=null)form.branches.value=profile.branches;
+    if(profile.employees!=null)form.employees.value=profile.employees;
+    if(profile.regions)form.regions.value=profile.regions;
+  }
+
+  function loadPlans(){
+    fetch('../assets/plans.json',{cache:'no-cache'}).then(function(response){if(!response.ok)throw new Error('PLAN_LOAD_FAILED');return response.json();}).then(function(data){plansData=data;renderGroups();renderPlans();}).catch(function(error){console.error(error);showError(isEN()?'Cannot load service plans. Please reload the page.':'Không tải được danh sách dịch vụ. Vui lòng tải lại trang.');});
+  }
+
+  document.getElementById('groupGrid').addEventListener('click',function(event){
+    var button=event.target.closest('[data-group]');
+    if(!button)return;
+    groupSel=button.getAttribute('data-group');
+    if(!selected||PLAN_RULES[selected].group!==groupSel)selected=null;
+    renderGroups();renderPlans();
+  });
+
+  document.getElementById('changeGroup').addEventListener('click',function(){groupSel=null;selected=null;renderGroups();renderPlans();});
+  document.getElementById('planGrid').addEventListener('click',function(event){var button=event.target.closest('[data-plan]');if(!button)return;selected=button.getAttribute('data-plan');groupSel=PLAN_RULES[selected].group;renderGroups();renderPlans();});
+  document.addEventListener('vcpc:langchange',function(){renderGroups();renderPlans();});
+
+  form.addEventListener('submit',function(event){
+    event.preventDefault();
+    event.stopPropagation();
+    hideError();
+
+    if(!form.checkValidity()){
+      form.reportValidity();
+      return;
+    }
+    if(!selected||!PLAN_RULES[selected]){
+      showError(isEN()?'Please select a service plan before continuing.':'Vui lòng chọn một gói dịch vụ trước khi tiếp tục.');
+      document.getElementById('groupGrid').scrollIntoView({behavior:'smooth',block:'center'});
+      return;
+    }
+    if(!plansData){showError(isEN()?'Service plans are still loading.':'Danh sách dịch vụ đang được tải.');return;}
+
+    var data=Object.fromEntries(new FormData(form).entries());
+    var rule=PLAN_RULES[selected];
+    var affiliateCode=String(meta.affiliate_code||'').trim().toUpperCase()||null;
+    setLoading(true);
+
+    try{
+      var org;
+      var eng;
+
+      if(VCPC_DB.isBackend()){
+        var completed=VCPC_DB.rpc('vcpc_complete_signup',{
+          p_organization_name:data.trade_name||data.legal_name,
+          p_tax_id:data.tax_id||'',
+          p_service_code:rule.service,
+          p_plan_code:selected,
+          p_billing_term:rule.term,
+          p_affiliate_code:affiliateCode
+        });
+        if(Array.isArray(completed))completed=completed[0];
+        if(!completed||!completed.organization_id||!completed.engagement_id)throw new Error('SIGNUP_CONTEXT_MISSING');
+
+        org=VCPC_DB.select('organizations',{id:completed.organization_id})[0];
+        if(!org)throw new Error('ORGANIZATION_NOT_FOUND');
+        org=VCPC_DB.upsert('organizations',Object.assign({},org,{
+          name:data.trade_name||data.legal_name||org.name,
+          tax_id:data.tax_id||null,
+          industry:data.industry||null,
+          size:data.revenue_band||null,
+          contact_name:data.contact_name||null,
+          contact_email:data.contact_email||user.email,
+          contact_phone:data.contact_phone||null,
+          website:data.website||null
+        }));
+
+        eng=VCPC_DB.select('engagements',{id:completed.engagement_id})[0];
+        if(!eng)throw new Error('ENGAGEMENT_NOT_FOUND');
+        var intake=Object.assign({},eng.intake||{});
+        intake.organization_profile={
+          legal_name:data.legal_name||'',
+          trade_name:data.trade_name||'',
+          revenue_band:data.revenue_band||'',
+          branches:Number(data.branches||0),
+          employees:Number(data.employees||0),
+          regions:data.regions||''
+        };
+        eng=VCPC_DB.upsert('engagements',Object.assign({},eng,{
+          state:eng.state==='DRAFT'?'INTAKE':eng.state,
+          intake:intake
+        }));
+      }else{
+        org=existingOrg;
+        if(!org){
+          org=VCPC_DB.insert('organizations',{
+            owner_id:user.id,
+            name:data.trade_name||data.legal_name,
+            tax_id:data.tax_id||null,
+            industry:data.industry||null,
+            size:data.revenue_band||null,
+            contact_name:data.contact_name||null,
+            contact_email:data.contact_email||user.email,
+            contact_phone:data.contact_phone||null,
+            website:data.website||null
+          });
+          VCPC_DB.insert('organization_members',{organization_id:org.id,user_id:user.id,email:user.email,name:user.full_name||user.name||'',role:'owner',status:'active',activated_at:Date.now()});
+        }else{
+          org=VCPC_DB.upsert('organizations',Object.assign({},org,{
+            name:data.trade_name||data.legal_name||org.name,
+            tax_id:data.tax_id||null,
+            industry:data.industry||null,
+            size:data.revenue_band||null,
+            contact_name:data.contact_name||null,
+            contact_email:data.contact_email||user.email,
+            contact_phone:data.contact_phone||null,
+            website:data.website||null
+          }));
+        }
+
+        var plan=getPlanRecord(selected);
+        var price=plan&&plan.price&&Number(plan.price.vnd||0)||0;
+        var base=plan&&plan.billing_type==='monthly'?price*rule.term:price;
+        var discount=rule.term===6?10:(rule.term===12?15:0);
+        var afterTerm=Math.round(base*(1-discount/100));
+        eng=existingEng;
+        var localIntake=Object.assign({},eng&&eng.intake||{});
+        localIntake.organization_profile={legal_name:data.legal_name||'',trade_name:data.trade_name||'',revenue_band:data.revenue_band||'',branches:Number(data.branches||0),employees:Number(data.employees||0),regions:data.regions||''};
+        var payload={organization_id:org.id,owner_id:user.id,plan_code:selected,product:rule.product,billing_term:rule.term,state:'INTAKE',monthly_price:price,base_amount:base,term_discount_percent:discount,term_discount_amount:base-afterTerm,final_amount:afterTerm,deposit_percent:20,deposit_amount:Math.round(afterTerm*.2),balance_amount:Math.round(afterTerm*.8),affiliate_code:affiliateCode,intake:localIntake};
+        if(eng&&eng.id)eng=VCPC_DB.upsert('engagements',Object.assign({},eng,payload));else eng=VCPC_DB.insert('engagements',payload);
+      }
+
+      VCPC_DB.setCurrentOrg(org);
+      VCPC_DB.setCurrentEngagement(eng);
+      localStorage.removeItem('vcpc.pending.signup');
+      VCPC_DB.audit('ORG_ONBOARDING_UPDATED',{organization_id:org.id,engagement_id:eng.id});
+      VCPC_DB.audit('PLAN_SELECTED',{organization_id:org.id,engagement_id:eng.id,plan_code:selected,billing_term:rule.term});
+      window.location.replace('intake.html');
+    }catch(error){
+      console.error('VCPC onboarding error:',error);
+      var message=String(error&&error.message||'');
+      if(message.indexOf('INVALID_PLAN')!==-1)showError('Gói dịch vụ không hợp lệ hoặc đã ngừng áp dụng. Vui lòng chọn lại.');
+      else if(message.indexOf('INVALID_TERM')!==-1)showError('Kỳ hạn dịch vụ không hợp lệ. Vui lòng chọn lại gói.');
+      else if(message.indexOf('PLAN_LOCKED')!==-1)showError('Báo giá đã được khóa nên không thể thay đổi gói. Vui lòng liên hệ VCPC.');
+      else if(message.indexOf('SERVICE_PLAN_MISMATCH')!==-1)showError('Dịch vụ và gói đã chọn không khớp. Vui lòng chọn lại.');
+      else showError('Không thể lưu thông tin tổ chức. Vui lòng thử lại hoặc liên hệ VCPC.');
+      setLoading(false);
+    }
+  });
+
+  prefill();
+  loadPlans();
+})();
 </script>
 </body>
 </html>
