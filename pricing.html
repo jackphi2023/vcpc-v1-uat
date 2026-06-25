@@ -1,247 +1,1423 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="theme-color" content="#071f3d"/><link rel="icon" type="image/png" href="assets/favicon.png"/><link rel="apple-touch-icon" href="assets/favicon.png"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/><link rel="stylesheet" href="assets/vcpc.css"/>
-<title>Bảng giá · BizHealth & BizOS | VCPC</title>
-<meta name="description" content="BizHealth, BizOS, BizDeal — bảng giá minh bạch, đặt cọc 20%, kích hoạt 80% khi dịch vụ sẵn sàng."/>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="theme-color" content="#071f3d"/>
+<link rel="icon" type="image/png" href="assets/favicon.png"/>
+<link rel="apple-touch-icon" href="assets/favicon.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="assets/vcpc.css"/>
+<title>Bảng giá Giải pháp · BizHealth · BizOS · BizDeal | VCPC</title>
+<meta name="description" content="Bảng giá giải pháp VCPC: BizHealth chẩn đoán tài chính, BizOS quản trị điều hành, BizDeal tư vấn giao dịch vốn và M&A. Phạm vi rõ ràng, kết quả cụ thể."/>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="Bảng giá Giải pháp · BizHealth · BizOS · BizDeal | VCPC"/>
+<meta property="og:description" content="Bảng giá giải pháp VCPC: BizHealth chẩn đoán tài chính, BizOS quản trị điều hành, BizDeal tư vấn giao dịch vốn và M&A."/>
+<meta property="og:image" content="assets/thumbnail.png"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="assets/thumbnail.png"/>
+
 <style>
-  body{background:#fbf7ee;font-family:"Montserrat",ui-sans-serif,system-ui,sans-serif;color:#10213a;line-height:1.6;margin:0;}
-  .pricing-hero{background:radial-gradient(circle at 88% -10%, rgba(255,178,10,.36), transparent 30%), linear-gradient(135deg,#071f3d 0%, #0d2d57 60%, #0a274b 100%);color:#fff;padding:78px 22px 44px;}
-  .pricing-hero .wrap{max-width:1180px;margin:0 auto;text-align:center;}
-  .pricing-hero .kicker{color:#ffd36b;font-weight:900;letter-spacing:.14em;text-transform:uppercase;font-size:13px;}
-  .pricing-hero h1{font-size:clamp(36px,4.6vw,54px);letter-spacing:-1.4px;margin:14px auto 18px;max-width:920px;line-height:1.08;}
-  .pricing-hero p{color:#cbd9ee;max-width:780px;margin:0 auto;font-size:17px;}
-  .ccy-row{display:inline-flex;gap:4px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.20);padding:4px;border-radius:999px;margin-top:24px;}
-  .ccy-row button{border:0;background:transparent;color:#fff;padding:8px 14px;border-radius:999px;font-weight:800;font-size:12.5px;cursor:pointer;}
-  .ccy-row button.active{background:linear-gradient(135deg,#ffb20a,#ffd36b);color:#071f3d;}
-  .pricing-tag{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,178,10,.36);font-size:12.5px;font-weight:800;letter-spacing:.05em;color:#ffd36b;margin-bottom:18px;}
-  .pricing-section{padding:64px 22px;}
-  .pricing-section .wrap{max-width:1180px;margin:0 auto;}
-  .pricing-h{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:30px;}
-  .pricing-h h2{font-size:32px;font-weight:900;letter-spacing:-.5px;color:#071f3d;margin:0;}
-  .pricing-h .stamp{display:flex;gap:10px;align-items:center;font-size:13px;color:#5b6b80;}
-  .pricing-h .stamp .pill{background:#fff;border:1px solid rgba(7,31,61,.10);padding:6px 12px;border-radius:999px;font-weight:700;color:#071f3d;}
-  .pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
-  @media(max-width:980px){.pgrid{grid-template-columns:1fr;}}
-  .pcard{background:#fff;border:1px solid rgba(7,31,61,.10);border-radius:24px;padding:28px;box-shadow:0 18px 44px rgba(13,45,87,.08);display:flex;flex-direction:column;gap:14px;position:relative;overflow:hidden;}
-  .pcard.featured{border:2px solid #ffb20a;box-shadow:0 26px 60px rgba(255,178,10,.20);transform:translateY(-6px);}
-  .pcard.featured::before{content:"PHỔ BIẾN";position:absolute;top:18px;right:-40px;transform:rotate(45deg);background:linear-gradient(135deg,#ffb20a,#ffd36b);color:#071f3d;font-size:10px;font-weight:900;letter-spacing:.08em;padding:6px 44px;}
-  .ptier{font-size:11px;font-weight:900;letter-spacing:.10em;text-transform:uppercase;color:#7a5400;}
-  .pname{font-size:25px;font-weight:900;color:#071f3d;line-height:1.15;letter-spacing:-.4px;}
-  .paud{color:#5b6b80;font-size:13.5px;}
-  .pprice{display:flex;align-items:baseline;gap:8px;padding:14px 0;border-top:1px dashed rgba(7,31,61,.16);border-bottom:1px dashed rgba(7,31,61,.16);margin:6px 0;}
-  .pprice b{font-size:28px;font-weight:900;color:#071f3d;letter-spacing:-.8px;}
-  .pprice .cycle{font-size:12.5px;color:#5b6b80;font-weight:700;}
-  .pprice .tba{display:inline-block;padding:4px 12px;border-radius:999px;background:rgba(255,178,10,.16);color:#7a5400;font-weight:800;font-size:12px;letter-spacing:.04em;}
-  .pdqs{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;color:#5b6b80;background:rgba(13,45,87,.04);padding:8px 12px;border-radius:8px;}
-  .pdqs b{color:#071f3d;}
-  .plist{list-style:none;padding:0;margin:6px 0 0;display:grid;gap:9px;}
-  .plist li{position:relative;padding-left:26px;font-size:14px;color:#41546b;line-height:1.5;}
-  .plist li::before{content:"✓";position:absolute;left:0;top:0;width:18px;height:18px;border-radius:5px;background:rgba(255,178,10,.16);color:#7a5400;font-weight:900;display:grid;place-items:center;font-size:11px;}
-  .pcta{margin-top:auto;display:flex;gap:10px;flex-wrap:wrap;}
-  .pcta .app-btn-primary{flex:1;background:linear-gradient(135deg,#ffb20a,#ffd36b);color:#071f3d;text-decoration:none;text-align:center;padding:12px 16px;border-radius:10px;font-weight:800;font-size:13.5px;border:0;cursor:pointer;}
-  .pcta .app-btn-ghost{flex:1;background:#fff;color:#071f3d;border:1px solid rgba(7,31,61,.16);text-decoration:none;text-align:center;padding:12px 16px;border-radius:10px;font-weight:800;font-size:13.5px;}
-  .terms-panel{background:linear-gradient(135deg,#0d2d57,#071f3d);color:#fff;border-radius:24px;padding:36px;margin-top:36px;display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center;}
-  @media(max-width:980px){.terms-panel{grid-template-columns:1fr;padding:26px;}}
-  .terms-panel h3{font-size:24px;letter-spacing:-.4px;margin:0 0 10px;color:#fff;}
-  .terms-panel p{color:#cbd9ee;font-size:14.5px;margin:0;}
-  .terms-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
-  .terms-item{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:14px 16px;}
-  .terms-item b{display:block;color:#ffd36b;font-size:13px;font-weight:900;letter-spacing:.04em;text-transform:uppercase;margin-bottom:4px;}
-  .terms-item span{display:block;color:#dde6f4;font-size:13.5px;}
-  .footnote{margin-top:30px;text-align:center;color:#5b6b80;font-size:13px;}
+/* ================================================================
+   VCPC Pricing Page — All selectors scoped to .vcpc-pricing-page
+   Version: 2.0 | Effective: 2026-06
+   ================================================================ */
+
+/* ── CSS variables (từ vcpc.css) ─────────────────────────────── */
+:root{
+  --vcpc-navy:#071f3d; --vcpc-navy2:#0d2d57; --vcpc-ink:#10213a;
+  --vcpc-gold:#ffb20a; --vcpc-gold2:#ffd36b; --vcpc-brown:#6f3a1f;
+  --vcpc-cream:#fbf7ee; --vcpc-head-h:74px;
+  --vcpc-ease:cubic-bezier(.22,.61,.36,1);
+}
+
+/* ── Header (từ vcpc.css) ────────────────────────────────────── */
+header.vcpc-header{
+  position:sticky; top:0; z-index:100;
+  background:rgba(251,247,238,.88);
+  -webkit-backdrop-filter:saturate(180%) blur(16px);
+  backdrop-filter:saturate(180%) blur(16px);
+  border-bottom:1px solid rgba(255,178,10,.28);
+  transition:box-shadow .3s var(--vcpc-ease), background .3s var(--vcpc-ease);
+}
+header.vcpc-header.scrolled{
+  background:rgba(251,247,238,.97);
+  box-shadow:0 10px 32px rgba(7,31,61,.10);
+}
+header.vcpc-header .nav{
+  width:min(1180px,92vw); max-width:1180px; margin:0 auto;
+  display:flex; align-items:center; justify-content:space-between; gap:18px;
+  min-height:var(--vcpc-head-h); padding:12px 0;
+}
+header.vcpc-header .brand{
+  display:flex; align-items:center; gap:13px;
+  color:var(--vcpc-navy); text-decoration:none; min-width:0; flex-shrink:0;
+}
+header.vcpc-header .brand-mark{
+  width:46px; height:46px; flex:0 0 46px; overflow:hidden;
+  border-radius:6px; background:transparent;
+  box-shadow:0 8px 18px rgba(255,178,10,.28);
+  display:grid; place-items:center;
+}
+header.vcpc-header .brand-mark img{
+  width:100%; height:100%; object-fit:cover; display:block; border-radius:6px;
+}
+header.vcpc-header .brand-text,
+header.vcpc-header .brand-name{ display:block; line-height:1.18; min-width:0; }
+header.vcpc-header .brand-name .brand-title{
+  display:block; color:var(--vcpc-gold); font-weight:800;
+  font-size:13.5px; letter-spacing:.02em; text-transform:uppercase;
+  line-height:1.18; white-space:nowrap;
+}
+header.vcpc-header .breadcrumb{
+  display:flex; align-items:center; gap:5px; margin-top:3px;
+  font-size:12px; font-weight:700; color:#7a6647;
+  text-transform:none; letter-spacing:0;
+}
+header.vcpc-header .breadcrumb a{ color:#7a6647; text-decoration:none; }
+header.vcpc-header .breadcrumb em{ font-style:normal; color:#c39b3e; font-weight:600; }
+header.vcpc-header .breadcrumb > span:last-child{ color:var(--vcpc-navy); font-weight:800; }
+header.vcpc-header .nav-links{
+  display:flex; align-items:center; gap:22px;
+  position:static; background:transparent; padding:0;
+}
+header.vcpc-header .hamburger,
+header.vcpc-header .menu-btn{
+  display:none; border:0; cursor:pointer;
+  background:var(--vcpc-navy); color:#fff; border-radius:11px;
+  width:44px; height:44px; padding:0; place-items:center;
+}
+header.vcpc-header .hamburger span{
+  display:block; width:20px; height:2px; margin:4px auto;
+  background:#fff; border-radius:999px;
+}
+@media(max-width:1000px){
+  header.vcpc-header .nav{ min-height:66px; padding:10px 0; }
+  header.vcpc-header .hamburger,
+  header.vcpc-header .menu-btn{ display:grid; }
+  header.vcpc-header .nav-links{
+    position:fixed; top:66px; right:0; left:auto;
+    width:min(86vw,360px); min-height:calc(100vh - 66px);
+    background:rgba(251,247,238,.99);
+    flex-direction:column; align-items:flex-start; gap:6px;
+    padding:26px 26px 40px; overflow-y:auto;
+    transform:translateX(100%); transition:transform .3s var(--vcpc-ease);
+    box-shadow:-24px 0 60px rgba(7,31,61,.16);
+  }
+  header.vcpc-header .nav-links.open{ transform:translateX(0); }
+  header.vcpc-header .nav-links a:not(.btn){
+    font-size:17px; padding:13px 0; width:100%;
+    border-bottom:1px solid rgba(7,31,61,.07);
+    text-transform:none; letter-spacing:0;
+  }
+}
+
+/* ── Header nav links (uppercase, navy) ─────────────────────── */
+header.vcpc-header .nav-links a:not(.btn) {
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: #071f3d !important;
+  opacity: 1 !important;
+}
+header.vcpc-header .nav-links a:not(.btn):hover {
+  color: #ffb20a !important;
+}
+header.vcpc-header .nav-links a:not(.btn)::after { display: none; }
+
+/* ── Box-sizing reset (scoped) ──────────────────────────────── */
+.vcpc-pricing-page *,
+.vcpc-pricing-page *::before,
+.vcpc-pricing-page *::after { box-sizing: border-box; }
+
+/* ── Base ────────────────────────────────────────────────────── */
+.vcpc-pricing-page {
+  background: #fbf7ee;
+  font-family: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+}
+
+/* ── Hero ────────────────────────────────────────────────────── */
+.vcpc-pricing-page .pp-hero {
+  background:
+    radial-gradient(circle at 88% -6%, rgba(255,178,10,.30), transparent 26%),
+    linear-gradient(132deg, #071f3d 0%, #0d2d57 58%, #071f3d 100%);
+  color: #fff;
+  padding: 52px 22px 46px;
+}
+.vcpc-pricing-page .pp-hero-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+}
+.vcpc-pricing-page .pp-kicker {
+  display: inline-block;
+  color: #ffd36b;
+  font-weight: 900;
+  font-size: 11px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.vcpc-pricing-page .pp-hero h1 {
+  font-size: clamp(26px, 3.6vw, 42px);
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -.8px;
+  max-width: 800px;
+  margin: 0 0 14px;
+  color: #fff;
+}
+.vcpc-pricing-page .pp-hero-desc {
+  color: rgba(255,255,255,.8);
+  font-size: 15px;
+  max-width: 680px;
+  margin: 0 0 22px;
+  line-height: 1.62;
+}
+.vcpc-pricing-page .pp-hero-chips {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.vcpc-pricing-page .pp-hero-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.2);
+  background: rgba(255,255,255,.08);
+  font-size: 12.5px;
+  font-weight: 700;
+  color: rgba(255,255,255,.9);
+}
+.vcpc-pricing-page .pp-hero-chip::before {
+  content: "✓";
+  color: #ffd36b;
+  font-size: 11px;
+  font-weight: 900;
+}
+
+/* ── Tab bar ─────────────────────────────────────────────────── */
+.vcpc-pricing-page .pp-tabs-wrap {
+  position: sticky;
+  top: 74px;
+  z-index: 90;
+  background: rgba(251,247,238,.96);
+  -webkit-backdrop-filter: saturate(160%) blur(14px);
+  backdrop-filter: saturate(160%) blur(14px);
+  border-bottom: 1px solid rgba(255,178,10,.22);
+  box-shadow: 0 4px 18px rgba(7,31,61,.07);
+}
+.vcpc-pricing-page .pp-tabs {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 22px;
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.vcpc-pricing-page .pp-tabs::-webkit-scrollbar { display: none; }
+.vcpc-pricing-page .pp-tab {
+  flex: 0 0 auto;
+  border: 0;
+  background: transparent;
+  padding: 17px 30px;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 800;
+  cursor: pointer;
+  color: #6b7a8e;
+  border-bottom: 3px solid transparent;
+  white-space: nowrap;
+  transition: color .18s ease, border-color .18s ease, background .18s ease;
+  letter-spacing: .02em;
+}
+.vcpc-pricing-page .pp-tab:hover {
+  color: #071f3d;
+}
+.vcpc-pricing-page .pp-tab[aria-selected="true"] {
+  color: #071f3d;
+  font-weight: 900;
+  border-bottom-color: #ffb20a;
+  background: rgba(255,178,10,.05);
+}
+
+/* ── Panel / section ─────────────────────────────────────────── */
+.vcpc-pricing-page .pp-panel[hidden] { display: none !important; }
+.vcpc-pricing-page .pp-section { padding: 48px 22px; }
+.vcpc-pricing-page .pp-section-white { background: #fff; }
+.vcpc-pricing-page .pp-wrap { max-width: 1180px; margin: 0 auto; }
+
+/* ── Section heading ─────────────────────────────────────────── */
+.vcpc-pricing-page .pp-sh h2 {
+  font-size: clamp(21px, 2.8vw, 31px);
+  font-weight: 900;
+  color: #071f3d;
+  letter-spacing: -.4px;
+  line-height: 1.15;
+  margin: 0 0 8px;
+}
+.vcpc-pricing-page .pp-sh-desc {
+  color: #5b6b80;
+  font-size: 15px;
+  max-width: 700px;
+  line-height: 1.62;
+  margin: 0 0 30px;
+}
+
+/* ── Info row ────────────────────────────────────────────────── */
+.vcpc-pricing-page .pp-info-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 36px;
+}
+.vcpc-pricing-page .pp-info-box {
+  background: #fff;
+  border: 1px solid rgba(7,31,61,.09);
+  border-radius: 16px;
+  padding: 18px 20px;
+}
+.vcpc-pricing-page .pp-info-box b {
+  display: block;
+  font-size: 10.5px;
+  font-weight: 900;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #6f3a1f;
+  margin-bottom: 7px;
+}
+.vcpc-pricing-page .pp-info-box p {
+  font-size: 13px;
+  color: #41546b;
+  line-height: 1.56;
+  margin: 0;
+}
+
+/* ── Card grid ───────────────────────────────────────────────── */
+.vcpc-pricing-page .pp-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  align-items: stretch;
+}
+
+/* ── Pricing card ────────────────────────────────────────────── */
+.vcpc-pricing-page .pp-card {
+  background: #fff;
+  border: 1.5px solid rgba(7,31,61,.10);
+  border-radius: 20px;
+  padding: 26px;
+  box-shadow: 0 6px 24px rgba(7,31,61,.06);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+.vcpc-pricing-page .pp-card.pp-featured {
+  border-color: #ffb20a;
+  background: #fffef8;
+  box-shadow: 0 12px 40px rgba(255,178,10,.14);
+}
+.vcpc-pricing-page .pp-card-badge {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  background: #ffb20a;
+  color: #071f3d;
+  font-size: 9.5px;
+  font-weight: 900;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+.vcpc-pricing-page .pp-card-tier {
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #7a5400;
+  margin-bottom: 6px;
+}
+.vcpc-pricing-page .pp-card-name {
+  font-size: 21px;
+  font-weight: 900;
+  color: #071f3d;
+  letter-spacing: -.3px;
+  line-height: 1.18;
+  margin-bottom: 5px;
+  padding-right: 80px; /* room for badge */
+}
+.vcpc-pricing-page .pp-card-sublabel {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 800;
+  background: rgba(7,31,61,.07);
+  color: #5b6b80;
+  border-radius: 999px;
+  padding: 3px 10px;
+  margin-bottom: 11px;
+}
+.vcpc-pricing-page .pp-card-audience {
+  font-size: 12.5px;
+  color: #5b6b80;
+  line-height: 1.52;
+  margin-bottom: 14px;
+}
+
+/* ── Price block ─────────────────────────────────────────────── */
+.vcpc-pricing-page .pp-price {
+  border-top: 1px dashed rgba(7,31,61,.13);
+  border-bottom: 1px dashed rgba(7,31,61,.13);
+  padding: 13px 0;
+  margin-bottom: 16px;
+}
+.vcpc-pricing-page .pp-price-val {
+  font-size: 23px;
+  font-weight: 900;
+  color: #071f3d;
+  letter-spacing: -.4px;
+}
+.vcpc-pricing-page .pp-price-unit {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #5b6b80;
+  margin-top: 3px;
+  line-height: 1.4;
+}
+.vcpc-pricing-page .pp-price-total {
+  font-size: 12px;
+  font-weight: 700;
+  color: #5b6b80;
+  margin-top: 5px;
+}
+.vcpc-pricing-page .pp-discount-badge {
+  display: inline-block;
+  background: rgba(13,138,93,.12);
+  color: #0a6b48;
+  font-size: 10.5px;
+  font-weight: 900;
+  padding: 2px 7px;
+  border-radius: 999px;
+  margin-left: 4px;
+}
+.vcpc-pricing-page .pp-price-tba {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 800;
+  color: #7a5400;
+  background: rgba(255,178,10,.13);
+  border-radius: 8px;
+  padding: 7px 14px;
+}
+
+/* ── Scope & list ────────────────────────────────────────────── */
+.vcpc-pricing-page .pp-scope-lbl {
+  font-size: 9.5px;
+  font-weight: 900;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #7a8a9a;
+  margin-bottom: 8px;
+}
+.vcpc-pricing-page .pp-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  flex: 1;
+}
+.vcpc-pricing-page .pp-list li {
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  font-size: 12.5px;
+  color: #41546b;
+  line-height: 1.5;
+}
+.vcpc-pricing-page .pp-list li::before {
+  content: "✓";
+  flex: 0 0 16px;
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  background: rgba(255,178,10,.16);
+  color: #7a5400;
+  font-size: 9px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+}
+.vcpc-pricing-page .pp-result {
+  border-top: 1px solid rgba(7,31,61,.08);
+  padding-top: 12px;
+  margin-bottom: 16px;
+  font-size: 12px;
+  color: #5b6b80;
+  line-height: 1.55;
+}
+.vcpc-pricing-page .pp-result strong {
+  color: #071f3d;
+  font-weight: 800;
+}
+
+/* ── CTA button ──────────────────────────────────────────────── */
+.vcpc-pricing-page .pp-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 13px 16px;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  border: 0;
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+  margin-top: auto;
+  min-height: 44px;
+  line-height: 1.2;
+}
+.vcpc-pricing-page .pp-cta:hover { transform: translateY(-1px); }
+.vcpc-pricing-page .pp-cta-gold {
+  background: linear-gradient(135deg, #ffb20a, #ffd36b);
+  color: #071f3d;
+  box-shadow: 0 6px 18px rgba(255,178,10,.26);
+}
+.vcpc-pricing-page .pp-cta-gold:hover { box-shadow: 0 10px 28px rgba(255,178,10,.38); }
+.vcpc-pricing-page .pp-cta-ghost {
+  background: #fff;
+  color: #071f3d;
+  border: 1.5px solid rgba(7,31,61,.15);
+}
+.vcpc-pricing-page .pp-cta-ghost:hover { border-color: #ffb20a; }
+
+/* ── Section note ────────────────────────────────────────────── */
+.vcpc-pricing-page .pp-snote {
+  margin-top: 24px;
+  font-size: 12.5px;
+  color: #7a8a9a;
+  line-height: 1.6;
+  padding: 12px 16px;
+  border-left: 3px solid rgba(255,178,10,.38);
+  background: rgba(255,178,10,.04);
+  border-radius: 0 8px 8px 0;
+  font-style: italic;
+}
+
+/* ── Term switcher ───────────────────────────────────────────── */
+.vcpc-pricing-page .pp-term-wrap { margin-bottom: 28px; }
+.vcpc-pricing-page .pp-term-lbl {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #5b6b80;
+  margin-bottom: 10px;
+}
+.vcpc-pricing-page .pp-term-row {
+  display: inline-flex;
+  gap: 4px;
+  background: #fff;
+  border: 1px solid rgba(7,31,61,.12);
+  border-radius: 999px;
+  padding: 4px;
+}
+.vcpc-pricing-page .pp-term-btn {
+  border: 0;
+  background: transparent;
+  padding: 9px 18px;
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  color: #5b6b80;
+  transition: background .15s ease, color .15s ease;
+  white-space: nowrap;
+  min-height: 38px;
+}
+.vcpc-pricing-page .pp-term-btn.active {
+  background: linear-gradient(135deg, #ffb20a, #ffd36b);
+  color: #071f3d;
+  box-shadow: 0 4px 10px rgba(255,178,10,.24);
+}
+
+/* ── Process section ─────────────────────────────────────────── */
+.vcpc-pricing-page .pp-process {
+  background: #fff;
+  padding: 52px 22px;
+  border-top: 1px solid rgba(7,31,61,.07);
+}
+.vcpc-pricing-page .pp-process-group-lbl {
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #071f3d;
+  margin-bottom: 16px;
+  margin-top: 8px;
+}
+.vcpc-pricing-page .pp-steps {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  margin-bottom: 14px;
+  position: relative;
+}
+.vcpc-pricing-page .pp-steps::before {
+  content: "";
+  position: absolute;
+  top: 22px;
+  left: 30px;
+  right: 30px;
+  height: 2px;
+  background: linear-gradient(90deg, #ffb20a 0%, rgba(255,178,10,.18) 100%);
+  z-index: 0;
+}
+.vcpc-pricing-page .pp-step {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+  z-index: 1;
+}
+.vcpc-pricing-page .pp-step-no {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #071f3d;
+  color: #ffb20a;
+  font-size: 16px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+  flex-shrink: 0;
+}
+.vcpc-pricing-page .pp-step h4 {
+  font-size: 12.5px;
+  font-weight: 900;
+  color: #071f3d;
+  line-height: 1.3;
+  margin-bottom: 6px;
+}
+.vcpc-pricing-page .pp-step p {
+  font-size: 12px;
+  color: #5b6b80;
+  line-height: 1.58;
+  margin: 0;
+}
+.vcpc-pricing-page .pp-process-caution {
+  margin-top: 14px;
+  font-size: 12px;
+  color: #7a8a9a;
+  background: rgba(7,31,61,.04);
+  border-radius: 10px;
+  padding: 11px 16px;
+  line-height: 1.6;
+}
+.vcpc-pricing-page .pp-bizdeal-note {
+  margin-top: 26px;
+  padding: 16px 20px;
+  background: rgba(255,178,10,.06);
+  border: 1px solid rgba(255,178,10,.22);
+  border-radius: 12px;
+  font-size: 13.5px;
+  color: #41546b;
+  line-height: 1.55;
+}
+.vcpc-pricing-page .pp-bizdeal-note strong {
+  display: block;
+  margin-bottom: 5px;
+  color: #071f3d;
+  font-weight: 900;
+}
+
+/* ── Footnote ────────────────────────────────────────────────── */
+.vcpc-pricing-page .pp-footnote {
+  background: #fbf7ee;
+  padding: 22px 22px;
+  border-top: 1px solid rgba(7,31,61,.08);
+  text-align: center;
+}
+.vcpc-pricing-page .pp-footnote p {
+  font-size: 13px;
+  color: #5b6b80;
+  line-height: 1.6;
+  max-width: 780px;
+  margin: 0 auto;
+}
+.vcpc-pricing-page .pp-footnote p + p {
+  margin-top: 5px;
+  font-size: 12px;
+  color: #7a8a9a;
+}
+.vcpc-pricing-page .pp-footnote strong {
+  color: #071f3d;
+  font-weight: 800;
+}
+
+/* ── Contact bar ─────────────────────────────────────────────── */
+.vcpc-pricing-page .pp-contact-bar {
+  background: #071f3d;
+  padding: 28px 22px;
+  border-top: 1px solid rgba(255,178,10,.18);
+}
+.vcpc-pricing-page .pp-contact-lbl {
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: -.3px;
+  text-transform: none;
+  color: #fff;
+  margin-bottom: 16px;
+  text-align: center;
+}
+.vcpc-pricing-page .pp-contact-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px 16px;
+}
+.vcpc-pricing-page .pp-contact-item {
+  font-size: 13.5px;
+  color: rgba(255,255,255,.82);
+  font-weight: 600;
+}
+.vcpc-pricing-page .pp-contact-name {
+  font-weight: 800;
+  color: #fff;
+}
+.vcpc-pricing-page .pp-contact-sep {
+  color: rgba(255,178,10,.6);
+  font-size: 16px;
+  line-height: 1;
+}
+.vcpc-pricing-page .pp-contact-link {
+  text-decoration: none;
+  color: rgba(255,255,255,.82);
+  transition: color .15s ease;
+}
+.vcpc-pricing-page .pp-contact-link:hover {
+  color: #ffd36b;
+}
+
+/* ── Responsive ──────────────────────────────────────────────── */
+@media(max-width:980px) {
+  .vcpc-pricing-page .pp-info-row { grid-template-columns: repeat(2,1fr); }
+  .vcpc-pricing-page .pp-grid { grid-template-columns: 1fr; max-width: 560px; }
+  .vcpc-pricing-page .pp-steps { grid-template-columns: repeat(3,1fr); }
+  .vcpc-pricing-page .pp-steps::before { display: none; }
+}
+@media(max-width:640px) {
+  .vcpc-pricing-page .pp-hero { padding: 36px 16px 30px; }
+  .vcpc-pricing-page .pp-section { padding: 36px 16px; }
+  .vcpc-pricing-page .pp-process { padding: 36px 16px; }
+  .vcpc-pricing-page .pp-grid { max-width: 100%; }
+  .vcpc-pricing-page .pp-info-row { grid-template-columns: 1fr; }
+  .vcpc-pricing-page .pp-steps { grid-template-columns: 1fr 1fr; }
+  .vcpc-pricing-page .pp-tab { padding: 14px 16px; font-size: 12.5px; }
+  .vcpc-pricing-page .pp-term-btn { padding: 9px 12px; font-size: 12px; }
+  .vcpc-pricing-page .pp-card-name { padding-right: 0; }
+}
+@media(max-width:400px) {
+  .vcpc-pricing-page .pp-steps { grid-template-columns: 1fr; }
+  .vcpc-pricing-page .pp-final-btns .pp-btn-gold,
+  .vcpc-pricing-page .pp-final-btns .pp-btn-outline { width: 100%; }
+}
+@media(prefers-reduced-motion: reduce) {
+  .vcpc-pricing-page * { transition: none !important; animation: none !important; }
+}
+
+/* Floating FAB */
+.vcpc-fab{position:fixed;right:20px;bottom:20px;z-index:120;display:flex;flex-direction:column;gap:12px;align-items:center}
+.vcpc-fab a,.vcpc-fab button{display:flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:50%;font-family:inherit;border:0;cursor:pointer;text-decoration:none;box-shadow:0 12px 26px -8px rgba(7,31,61,.5);transition:transform .2s ease,box-shadow .2s ease}
+.vcpc-fab .vcpc-call{background:#f5a800;color:#071f3d}
+.vcpc-fab .vcpc-call svg{width:23px;height:23px;fill:#071f3d}
+.vcpc-fab .vcpc-call:hover{transform:translateY(-2px);box-shadow:0 16px 32px -8px rgba(245,168,0,.6)}
+.vcpc-fab .vcpc-top{background:#0b2742;color:#fff;opacity:0;pointer-events:none;transform:translateY(10px)}
+.vcpc-fab .vcpc-top svg{width:22px;height:22px;stroke:#fff;stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.vcpc-fab .vcpc-top.show{opacity:1;pointer-events:auto;transform:translateY(0)}
+.vcpc-fab .vcpc-top:hover{transform:translateY(-2px) scale(1.06)}
 </style>
 </head>
 <body>
-<header class="vcpc-header" id="header"><nav class="nav" aria-label="Main navigation"><a aria-label="Viet Capital Partners &amp; Consulting" class="brand" href="index.html"><div class="brand-mark"><img alt="VCPC logo" class="brand-icon" src="assets/logo-vcpc.jpg"/></div><div class="brand-text brand-name"><strong class="brand-title">Viet Capital Partners &amp; Consulting</strong><span class="breadcrumb"><span data-i18n="home">Trang chủ</span><em>›</em><span data-i18n-key>pricing</span></span></div></a><button aria-expanded="false" aria-label="Menu" class="hamburger menu-btn" id="hamburger" type="button"><span></span><span></span><span></span></button><nav class="nav-links" id="navLinks"><a href="bizhealth.html" data-i18n="bizhealth">BizHealth</a><a href="biz-os.html" data-i18n="strategyOs">BizOS</a><a href="biz-deal.html" data-i18n="capitalAdvisory">Capital & M&amp;A Advisory</a><a href="pricing.html" data-i18n="navPricing">Bảng giá</a><a href="security.html" data-i18n="navSecurity">Bảo mật</a><a class="btn btn-primary" href="app/login.html" data-i18n="navApp">Vào ứng dụng</a><div class="lang lang-toggle" aria-label="Language switcher"><button class="active" data-lang="vi" type="button">VI</button><button data-lang="en" type="button">EN</button></div></nav></nav></header>
-<main>
-  <section class="pricing-hero">
-    <div class="wrap">
-      <span class="pricing-tag" data-i18n="pricingEyebrow">Bảng giá minh bạch · cấu hình được</span>
-      <h1 data-i18n="pricingTitle">BizHealth · BizOS · BizDeal</h1>
-      <p data-i18n="pricingLead">Đặt cọc 20% sau khi qua cổng chất lượng dữ liệu → xây dựng + VCPC kiểm duyệt + xem trước 48h → thanh toán 80% còn lại để kích hoạt dashboard 90 ngày (BizHealth), bắt đầu thuê bao tháng (BizOS) hoặc tiếp tục thương vụ (BizDeal).</p>
-      <div class="ccy-row" id="ccyRow"><button class="active" data-ccy="VND">VND</button><button data-ccy="USD">USD</button><button data-ccy="EUR">EUR</button></div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     HEADER — cấu trúc giống index.html, bizhealth.html, biz-os.html
+     ═══════════════════════════════════════════════════════════ -->
+<header class="vcpc-header" id="header">
+  <nav class="nav" aria-label="Main navigation">
+    <a class="brand" href="index.html" aria-label="Viet Capital Partners &amp; Consulting">
+      <div class="brand-mark"><img class="brand-icon" src="assets/logo-vcpc.jpg" alt="VCPC logo"/></div>
+      <div class="brand-text brand-name">
+        <strong class="brand-title">Viet Capital Partners &amp; Consulting</strong>
+        <span class="breadcrumb">
+          <a href="index.html">Trang chủ</a>
+          <em>›</em>
+          <span>Bảng giá</span>
+        </span>
+      </div>
+    </a>
+    <button class="hamburger menu-btn" id="hamburger" type="button" aria-expanded="false" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="nav-links" id="navLinks">
+      <a href="bizhealth.html">BizHealth</a>
+      <a href="biz-os.html">BizOS</a>
+      <a href="biz-deal.html">BizDeal</a>
+    </nav>
+  </nav>
+</header>
+
+<main class="vcpc-pricing-page" id="pricingMain">
+
+  <!-- ═══ PHẦN A — HERO ════════════════════════════════════════ -->
+  <section class="pp-hero">
+    <div class="pp-hero-inner">
+      <span class="pp-kicker">Bảng giá giải pháp</span>
+      <h1>Chọn giải pháp phù hợp với nhu cầu của doanh nghiệp</h1>
+      <p class="pp-hero-desc">Từ chẩn đoán sức khỏe doanh nghiệp, xây dựng hệ thống điều hành đến chuẩn bị và thực thi giao dịch vốn/M&amp;A. Mỗi giải pháp có phạm vi, kết quả và lộ trình triển khai rõ ràng.</p>
+      <div class="pp-hero-chips">
+        <span class="pp-hero-chip">Phạm vi rõ ràng</span>
+        <span class="pp-hero-chip">Kết quả cụ thể</span>
+        <span class="pp-hero-chip">Triển khai theo dữ liệu thực tế</span>
+      </div>
     </div>
   </section>
 
-  <section class="pricing-section" style="background:#fff;padding-bottom:24px;">
-    <div class="wrap">
-      <div class="pricing-h"><h2 data-vi="Chưa biết chọn gói nào? Bắt đầu từ tình huống của bạn" data-en="Not sure which plan? Start from your situation">Chưa biết chọn gói nào? Bắt đầu từ tình huống của bạn</h2></div>
-      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;">
-        <div style="background:#fbf7ee;border:1px solid rgba(7,31,61,.10);border-radius:16px;padding:20px;">
-          <div style="font-size:15.5px;font-weight:800;color:#071f3d;" data-vi="“Tôi không biết cửa hàng / sản phẩm nào đang lỗ và tiền đang kẹt ở đâu.”" data-en="“I don’t know which store / product is losing money or where cash is stuck.”">“Tôi không biết cửa hàng / sản phẩm nào đang lỗ và tiền đang kẹt ở đâu.”</div>
-          <div style="margin-top:10px;color:#5b6b80;font-size:14px;" data-vi="→ Bắt đầu với " data-en="→ Start with ">→ Bắt đầu với </div>
-          <a href="app/signup.html?plan=BIZHEALTH_STANDARD" style="display:inline-block;margin-top:8px;font-weight:800;color:#7a5400;text-decoration:none;border-bottom:2px solid #ffb20a;">BizHealth Standard →</a>
+  <!-- ═══ PHẦN B — TAB BAR ═════════════════════════════════════ -->
+  <div class="pp-tabs-wrap" id="ppTabsWrap">
+    <div class="pp-tabs" role="tablist" aria-label="Giải pháp VCPC">
+      <button class="pp-tab" role="tab"
+              id="tab-bh-btn"
+              aria-selected="true"
+              aria-controls="tab-bh"
+              data-hash="bizhealth">
+        BizHealth
+      </button>
+      <button class="pp-tab" role="tab"
+              id="tab-os-btn"
+              aria-selected="false"
+              aria-controls="tab-os"
+              data-hash="bizos">
+        BizOS
+      </button>
+      <button class="pp-tab" role="tab"
+              id="tab-bd-btn"
+              aria-selected="false"
+              aria-controls="tab-bd"
+              data-hash="bizdeal">
+        BizDeal
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══ PHẦN C — BIZHEALTH ═══════════════════════════════════ -->
+  <div class="pp-panel" id="tab-bh" role="tabpanel" aria-labelledby="tab-bh-btn">
+    <section class="pp-section">
+      <div class="pp-wrap">
+
+        <div class="pp-sh">
+          <h2>BizHealth — Chẩn đoán sức khỏe tài chính và vận hành</h2>
+          <p class="pp-sh-desc">Giúp doanh nghiệp kiểm tra chất lượng dữ liệu, nhìn rõ lợi nhuận, dòng tiền, điểm nghẽn và xác định các ưu tiên cần xử lý trong 90 ngày.</p>
         </div>
-        <div style="background:#fbf7ee;border:1px solid rgba(7,31,61,.10);border-radius:16px;padding:20px;">
-          <div style="font-size:15.5px;font-weight:800;color:#071f3d;" data-vi="“Tôi có vài chục cửa hàng, muốn theo dõi hằng tuần + cảnh báo + đối thủ.”" data-en="“I run dozens of stores and want weekly tracking + alerts + competitor watch.”">“Tôi có vài chục cửa hàng, muốn theo dõi hằng tuần + cảnh báo + đối thủ.”</div>
-          <div style="margin-top:10px;color:#5b6b80;font-size:14px;" data-vi="→ Bắt đầu với " data-en="→ Start with ">→ Bắt đầu với </div>
-          <a href="app/signup.html?plan=OS_STANDARD" style="display:inline-block;margin-top:8px;font-weight:800;color:#7a5400;text-decoration:none;border-bottom:2px solid #ffb20a;">BizOS →</a>
+
+        <div class="pp-info-row">
+          <div class="pp-info-box">
+            <b>Đối tượng và nhu cầu</b>
+            <p>Doanh nghiệp cần hiểu rõ hiệu quả thực tế trước khi tối ưu vận hành, mở rộng, triển khai BizOS hoặc chuẩn bị gọi vốn/M&amp;A.</p>
+          </div>
+          <div class="pp-info-box">
+            <b>Lợi ích khách hàng</b>
+            <p>Phát hiện vấn đề trọng yếu dựa trên dữ liệu, lượng hóa tác động và tập trung nguồn lực vào các ưu tiên có giá trị cao.</p>
+          </div>
+          <div class="pp-info-box">
+            <b>Phạm vi chính</b>
+            <p>Kiểm tra dữ liệu, phân tích tài chính và vận hành, xác định điểm nghẽn, xây chỉ số nền và kế hoạch hành động.</p>
+          </div>
+          <div class="pp-info-box">
+            <b>Kết quả</b>
+            <p>Báo cáo phân tích, Dashboard chẩn đoán và kế hoạch ưu tiên 90 ngày.</p>
+          </div>
         </div>
-        <div style="background:#fbf7ee;border:1px solid rgba(7,31,61,.10);border-radius:16px;padding:20px;">
-          <div style="font-size:15.5px;font-weight:800;color:#071f3d;" data-vi="“Tôi là DN sản xuất / xuất nhập khẩu, cần nhìn rõ biên, dòng tiền và chuẩn bị gọi vốn.”" data-en="“I run a manufacturing / import-export firm and need clear margins, cash flow and funding readiness.”">“Tôi là DN sản xuất / xuất nhập khẩu, cần nhìn rõ biên, dòng tiền và chuẩn bị gọi vốn.”</div>
-          <div style="margin-top:10px;color:#5b6b80;font-size:14px;" data-vi="→ Bắt đầu với " data-en="→ Start with ">→ Bắt đầu với </div>
-          <a href="app/signup.html?plan=BIZHEALTH_PREMIUM" style="display:inline-block;margin-top:8px;font-weight:800;color:#7a5400;text-decoration:none;border-bottom:2px solid #ffb20a;">BizHealth Premium →</a>
+
+        <div class="pp-grid">
+
+          <!-- Free Scan -->
+          <div class="pp-card">
+            <div class="pp-card-tier">BizHealth</div>
+            <div class="pp-card-name">BizHealth Free Scan</div>
+            <div class="pp-card-sublabel">Kiểm tra nhanh miễn phí</div>
+            <p class="pp-card-audience">Chủ doanh nghiệp muốn đánh giá sơ bộ trước khi cung cấp dữ liệu chi tiết. Xác định những tín hiệu cần chú ý và dữ liệu nên chuẩn bị tiếp theo.</p>
+            <div class="pp-price">
+              <div class="pp-price-val">Miễn phí</div>
+              <div class="pp-price-unit">Không cần đăng nhập · Không upload dữ liệu nhạy cảm</div>
+            </div>
+            <div class="pp-scope-lbl">Phạm vi</div>
+            <ul class="pp-list">
+              <li>Khảo sát nhanh hiện trạng</li>
+              <li>Đánh giá sơ bộ các nhóm chỉ số chính</li>
+              <li>Xác định 2–3 tín hiệu cần xem xét</li>
+            </ul>
+            <div class="pp-result">
+              <strong>Kết quả:</strong> Kết quả tham khảo, điểm đang làm tốt và dữ liệu nên chuẩn bị cho bước phân tích tiếp theo.
+            </div>
+            <a class="pp-cta pp-cta-ghost" href="bizhealthfreescan.html">Kiểm tra nhanh</a>
+          </div>
+
+          <!-- Standard — featured -->
+          <div class="pp-card pp-featured">
+            <div class="pp-card-badge">Phù hợp với đa số</div>
+            <div class="pp-card-tier">BizHealth</div>
+            <div class="pp-card-name">BizHealth Standard</div>
+            <div class="pp-card-sublabel">Chẩn đoán toàn diện</div>
+            <p class="pp-card-audience">Doanh nghiệp cần chẩn đoán toàn diện từ dữ liệu tối thiểu 6 tháng. Làm rõ lợi nhuận, dòng tiền, bán hàng, chi phí và các điểm nghẽn chính.</p>
+            <div class="pp-price">
+              <div class="pp-price-val">24.900.000 đ</div>
+              <div class="pp-price-unit">Dịch vụ một lần · Kết quả trong 5–10 ngày</div>
+            </div>
+            <div class="pp-scope-lbl">Phạm vi</div>
+            <ul class="pp-list">
+              <li>Kiểm tra chất lượng dữ liệu</li>
+              <li>Phân tích tài chính và dòng tiền</li>
+              <li>Phân tích kinh doanh và vận hành</li>
+              <li>Xác định 5–8 ưu tiên trọng yếu</li>
+              <li>Kế hoạch hành động 90 ngày</li>
+            </ul>
+            <div class="pp-result">
+              <strong>Kết quả:</strong> Báo cáo BizHealth Standard, Dashboard phân tích, danh sách vấn đề và tác động, kế hoạch ưu tiên 90 ngày.
+            </div>
+            <a class="pp-cta pp-cta-gold" href="app/signup.html?plan=BIZHEALTH_STANDARD">Chọn BizHealth Standard</a>
+          </div>
+
+          <!-- Premium -->
+          <div class="pp-card">
+            <div class="pp-card-tier">BizHealth</div>
+            <div class="pp-card-name">BizHealth Premium</div>
+            <div class="pp-card-sublabel">Chuyên sâu đa chiều</div>
+            <p class="pp-card-audience">Doanh nghiệp có nhiều chi nhánh, sản phẩm, kênh bán hoặc cấu trúc vận hành phức tạp. Cần phân tích nguyên nhân gốc, hiệu quả từng đơn vị và kịch bản cải thiện.</p>
+            <div class="pp-price">
+              <div class="pp-price-val">39.900.000 đ</div>
+              <div class="pp-price-unit">Dịch vụ một lần · Kết quả trong 10–20 ngày</div>
+            </div>
+            <div class="pp-scope-lbl">Phạm vi</div>
+            <ul class="pp-list">
+              <li>Toàn bộ phạm vi Standard</li>
+              <li>Phân tích chi nhánh / sản phẩm / kênh</li>
+              <li>Phân tích nguyên nhân gốc</li>
+              <li>Cây KPI và kịch bản</li>
+              <li>Chỉ báo sẵn sàng vốn khi đủ dữ liệu</li>
+              <li>Lộ trình ưu tiên 90–180 ngày</li>
+            </ul>
+            <div class="pp-result">
+              <strong>Kết quả:</strong> Báo cáo chuyên sâu, Dashboard đa chiều, kịch bản cải thiện, lộ trình thực thi 90–180 ngày.
+            </div>
+            <a class="pp-cta pp-cta-gold" href="app/signup.html?plan=BIZHEALTH_PREMIUM">Chọn BizHealth Premium</a>
+          </div>
+
+        </div><!-- /pp-grid -->
+
+        <p class="pp-snote">BizHealth là dịch vụ chẩn đoán theo kỳ dữ liệu, không phải kiểm toán, định giá hoặc cam kết kết quả kinh doanh.</p>
+
+      </div>
+    </section>
+  </div><!-- /tab-bh -->
+
+  <!-- ═══ PHẦN D — BIZOS ════════════════════════════════════════ -->
+  <div class="pp-panel" id="tab-os" role="tabpanel" aria-labelledby="tab-os-btn" hidden>
+    <section class="pp-section pp-section-white">
+      <div class="pp-wrap">
+
+        <div class="pp-sh">
+          <h2>BizOS — Nền tảng Quản trị &amp; Điều hành thông minh</h2>
+          <p class="pp-sh-desc">Kết nối dữ liệu doanh nghiệp với thông tin thị trường để lãnh đạo theo dõi KPI, phát hiện cảnh báo, giao việc và đo kết quả trên một Dashboard điều hành thống nhất.</p>
         </div>
-        <div style="background:#fbf7ee;border:1px solid rgba(7,31,61,.10);border-radius:16px;padding:20px;">
-          <div style="font-size:15.5px;font-weight:800;color:#071f3d;" data-vi="“Tôi chỉ muốn thử trước xem có gì đáng làm, chưa muốn gửi dữ liệu nhạy cảm.”" data-en="“I just want a free check first, without sharing sensitive data yet.”">“Tôi chỉ muốn thử trước, chưa muốn gửi dữ liệu nhạy cảm.”</div>
-          <div style="margin-top:10px;color:#5b6b80;font-size:14px;" data-vi="→ Bắt đầu miễn phí với " data-en="→ Start free with ">→ Bắt đầu miễn phí với </div>
-          <a href="bizhealthfreescan.html" style="display:inline-block;margin-top:8px;font-weight:800;color:#7a5400;text-decoration:none;border-bottom:2px solid #ffb20a;">BizHealth Free Scan →</a>
+
+        <div class="pp-info-row">
+          <div class="pp-info-box">
+            <b>Đối tượng và nhu cầu</b>
+            <p>Doanh nghiệp đã có hoạt động và dữ liệu nhưng báo cáo còn phân tán, cảnh báo đến chậm hoặc việc thực thi chưa được theo dõi đến kết quả.</p>
+          </div>
+          <div class="pp-info-box">
+            <b>Lợi ích khách hàng</b>
+            <p>Lãnh đạo có một nguồn thông tin thống nhất để theo dõi hiệu quả, rủi ro, thị trường và trách nhiệm thực thi.</p>
+          </div>
+          <div class="pp-info-box">
+            <b>Phạm vi chính</b>
+            <p>Trung tâm dữ liệu, Dashboard điều hành, thông tin thị trường &amp; đối thủ, cảnh báo vận hành và theo dõi thực thi.</p>
+          </div>
+          <div class="pp-info-box">
+            <b>Kết quả</b>
+            <p>Dashboard BizOS được cấu hình theo doanh nghiệp, bộ KPI, cảnh báo và nhịp rà soát tuần/tháng.</p>
+          </div>
+        </div>
+
+        <!-- Term switcher -->
+        <div class="pp-term-wrap">
+          <p class="pp-term-lbl">Chọn kỳ hạn sử dụng:</p>
+          <div class="pp-term-row" id="osTermRow" role="group" aria-label="Kỳ hạn BizOS">
+            <button class="pp-term-btn active" type="button" data-term="3">3 tháng</button>
+            <button class="pp-term-btn" type="button" data-term="6">6 tháng — Giảm 10%</button>
+            <button class="pp-term-btn" type="button" data-term="12">12 tháng — Giảm 15%</button>
+          </div>
+        </div>
+
+        <div class="pp-grid">
+
+          <!-- Starter -->
+          <div class="pp-card">
+            <div class="pp-card-tier">BizOS</div>
+            <div class="pp-card-name">BizOS Starter</div>
+            <div class="pp-card-sublabel">Dashboard lõi</div>
+            <p class="pp-card-audience">Doanh nghiệp cần một Dashboard lõi cho tài chính và một nhóm vận hành chính. Tập trung dữ liệu và theo dõi các KPI quan trọng theo tháng.</p>
+            <div class="pp-price">
+              <div class="pp-price-val" id="os-starter-monthly">7.900.000 đ</div>
+              <div class="pp-price-unit">/tháng</div>
+              <div class="pp-price-total" id="os-starter-total"></div>
+            </div>
+            <div class="pp-scope-lbl">Phạm vi</div>
+            <ul class="pp-list">
+              <li>Một doanh nghiệp hoặc đơn vị</li>
+              <li>Tài chính + 1 module vận hành</li>
+              <li>Cập nhật theo tháng</li>
+              <li>3–5 cảnh báo vận hành</li>
+              <li>Thông tin thị trường cơ bản</li>
+              <li>Rà soát theo kỳ</li>
+            </ul>
+            <div class="pp-result">
+              <strong>Kết quả:</strong> Dashboard điều hành lõi, cảnh báo ưu tiên và báo cáo quản trị theo tháng.
+            </div>
+            <a class="pp-cta pp-cta-ghost" href="app/signup.html?plan=OS_LITE" id="os-starter-cta">Chọn BizOS Starter</a>
+          </div>
+
+          <!-- Growth — featured -->
+          <div class="pp-card pp-featured">
+            <div class="pp-card-badge">Được lựa chọn nhiều</div>
+            <div class="pp-card-tier">BizOS</div>
+            <div class="pp-card-name">BizOS Growth</div>
+            <div class="pp-card-sublabel">Đa đơn vị</div>
+            <p class="pp-card-audience">Doanh nghiệp có nhiều chi nhánh, kênh bán hoặc phòng ban. Cần theo dõi hiệu quả đa đơn vị, thị trường, cảnh báo và tiến độ thực thi thường xuyên.</p>
+            <div class="pp-price">
+              <div class="pp-price-val" id="os-growth-monthly">15.900.000 đ</div>
+              <div class="pp-price-unit">/tháng</div>
+              <div class="pp-price-total" id="os-growth-total"></div>
+            </div>
+            <div class="pp-scope-lbl">Phạm vi</div>
+            <ul class="pp-list">
+              <li>Nhiều chi nhánh hoặc module</li>
+              <li>Dashboard theo vai trò</li>
+              <li>Thông tin thị trường hàng tuần</li>
+              <li>Quy tắc cảnh báo tùy chỉnh</li>
+              <li>Theo dõi thực thi</li>
+              <li>Rà soát tuần/tháng</li>
+            </ul>
+            <div class="pp-result">
+              <strong>Kết quả:</strong> Dashboard đa đơn vị, trung tâm cảnh báo và hệ thống theo dõi trách nhiệm thực thi.
+            </div>
+            <a class="pp-cta pp-cta-gold" href="app/signup.html?plan=OS_STANDARD" id="os-growth-cta">Chọn BizOS Growth</a>
+          </div>
+
+          <!-- Scale -->
+          <div class="pp-card">
+            <div class="pp-card-tier">BizOS</div>
+            <div class="pp-card-name">BizOS Scale</div>
+            <div class="pp-card-sublabel">Tích hợp sâu</div>
+            <p class="pp-card-audience">Doanh nghiệp lớn hoặc có nhu cầu tích hợp sâu, quản trị đa đơn vị và phân quyền phức tạp. Cần hợp nhất dữ liệu, chuẩn hóa KPI và hỗ trợ quyết định điều hành.</p>
+            <div class="pp-price">
+              <div class="pp-price-val" id="os-scale-monthly">28.900.000 đ</div>
+              <div class="pp-price-unit">/tháng</div>
+              <div class="pp-price-total" id="os-scale-total"></div>
+            </div>
+            <div class="pp-scope-lbl">Phạm vi</div>
+            <ul class="pp-list">
+              <li>Quản trị đa đơn vị và đa vai trò</li>
+              <li>Tích hợp API / tự động hóa theo khả năng hệ thống</li>
+              <li>Mô hình dữ liệu và KPI tùy chỉnh</li>
+              <li>Thông tin thị trường chuyên sâu</li>
+              <li>Cảnh báo nâng cao</li>
+              <li>Hỗ trợ phòng quyết định</li>
+            </ul>
+            <div class="pp-result">
+              <strong>Kết quả:</strong> Hệ thống điều hành tùy chỉnh, phân quyền sâu và hỗ trợ quyết định dựa trên dữ liệu.
+            </div>
+            <a class="pp-cta pp-cta-ghost" href="app/signup.html?plan=OS_PARTNER" id="os-scale-cta">Chọn BizOS Scale</a>
+          </div>
+
+        </div><!-- /pp-grid -->
+
+        <p class="pp-snote">Phạm vi tích hợp, số nguồn dữ liệu và nhịp cập nhật được xác nhận trước khi triển khai.</p>
+
+      </div>
+    </section>
+  </div><!-- /tab-os -->
+
+  <!-- ═══ PHẦN E — BIZDEAL ══════════════════════════════════════ -->
+  <div class="pp-panel" id="tab-bd" role="tabpanel" aria-labelledby="tab-bd-btn" hidden>
+    <section class="pp-section">
+      <div class="pp-wrap">
+
+        <div class="pp-sh">
+          <h2>BizDeal — Tư vấn giao dịch vốn và M&amp;A</h2>
+          <p class="pp-sh-desc">Giúp doanh nghiệp đánh giá lựa chọn chiến lược, nâng cao mức độ sẵn sàng và thực thi có chọn lọc các giao dịch gọi vốn, bán cổ phần, liên doanh hoặc M&amp;A.</p>
+        </div>
+
+        <div class="pp-info-row">
+          <div class="pp-info-box">
+            <b>Đối tượng và nhu cầu</b>
+            <p>Doanh nghiệp có mục tiêu gọi vốn, bán cổ phần, tìm đối tác chiến lược, mua bán hoặc sáp nhập.</p>
+          </div>
+          <div class="pp-info-box">
+            <b>Lợi ích khách hàng</b>
+            <p>Hiểu rõ tính khả thi, khoảng định giá, lựa chọn cấu trúc và những việc cần hoàn thiện trước khi tiếp cận thị trường.</p>
+          </div>
+          <div class="pp-info-box">
+            <b>Phạm vi chính</b>
+            <p>Chẩn đoán giao dịch, chuẩn bị hồ sơ, mô hình tài chính, data room, nhà đầu tư/bên mua và hỗ trợ thực thi.</p>
+          </div>
+          <div class="pp-info-box">
+            <b>Kết quả</b>
+            <p>Hồ sơ giao dịch chuyên nghiệp, chiến lược tiếp cận có chọn lọc và quy trình giao dịch được quản lý rõ ràng.</p>
+          </div>
+        </div>
+
+        <div class="pp-grid" style="grid-template-columns:repeat(2,1fr);">
+
+          <!-- Deal Readiness — featured -->
+          <div class="pp-card pp-featured">
+            <div class="pp-card-badge">Chuẩn bị giao dịch</div>
+            <div class="pp-card-tier">BizDeal</div>
+            <div class="pp-card-name">Deal Readiness</div>
+            <div class="pp-card-sublabel">Hồ sơ giao dịch</div>
+            <p class="pp-card-audience">Doanh nghiệp đã có mục tiêu giao dịch và cần chuẩn hóa hồ sơ trước khi tiếp cận nhà đầu tư hoặc bên mua.</p>
+            <div class="pp-price">
+              <div class="pp-price-tba">Phí theo phạm vi</div>
+            </div>
+            <div class="pp-scope-lbl">Phạm vi</div>
+            <ul class="pp-list">
+              <li>Báo cáo sẵn sàng giao dịch</li>
+              <li>Mô hình tài chính và khoảng định giá</li>
+              <li>Teaser và hồ sơ giới thiệu / bản ghi nhớ thông tin</li>
+              <li>Danh mục data room</li>
+              <li>Bản đồ nhà đầu tư / bên mua</li>
+              <li>Kế hoạch tiếp cận</li>
+            </ul>
+            <div class="pp-result">
+              <strong>Kết quả:</strong> Bộ hồ sơ giao dịch đầy đủ và chiến lược tiếp cận phù hợp.
+            </div>
+            <a class="pp-cta pp-cta-ghost" href="tel:0909584075">Liên hệ Hotline 0909584075</a>
+          </div>
+
+          <!-- Deal Execution -->
+          <div class="pp-card">
+            <div class="pp-card-tier">BizDeal</div>
+            <div class="pp-card-name">Deal Execution</div>
+            <div class="pp-card-sublabel">Thực thi giao dịch</div>
+            <p class="pp-card-audience">Doanh nghiệp đã đủ điều kiện và sẵn sàng triển khai giao dịch ra thị trường. Cần đồng hành xuyên suốt từ tiếp cận đến ký kết.</p>
+            <div class="pp-price">
+              <div class="pp-price-tba" style="font-size:12.5px;padding:7px 12px;line-height:1.4;">Phí duy trì triển khai + phí thành công theo SOW</div>
+            </div>
+            <div class="pp-scope-lbl">Phạm vi</div>
+            <ul class="pp-list">
+              <li>Tiếp cận nhà đầu tư hoặc bên mua</li>
+              <li>Quản lý danh sách giao dịch</li>
+              <li>Hỗ trợ hỏi đáp và thẩm định</li>
+              <li>Hỗ trợ cấu trúc và đàm phán</li>
+              <li>Phối hợp đến các mốc chính của giao dịch</li>
+            </ul>
+            <div class="pp-result">
+              <strong>Kết quả:</strong> Quy trình tiếp cận, thẩm định và đàm phán được quản lý xuyên suốt.
+            </div>
+            <a class="pp-cta pp-cta-ghost" href="tel:0909584075">Liên hệ Hotline 0909584075</a>
+          </div>
+
+        </div><!-- /pp-grid -->
+
+        <p class="pp-snote">VCPC cam kết chất lượng tư vấn, sự tham gia xuyên suốt và kỷ luật thực thi trong phạm vi đã thống nhất; không cam kết giao dịch thành công hoặc thời gian hoàn tất.</p>
+
+      </div>
+    </section>
+  </div><!-- /tab-bd -->
+
+  <!-- ═══ PHẦN F — QUY TRÌNH THANH TOÁN VÀ KÍCH HOẠT ══════════ -->
+  <section class="pp-process" id="process">
+    <div class="pp-wrap">
+
+      <div class="pp-sh">
+        <h2 style="font-size:clamp(19px,2.5vw,26px);">Quy trình thanh toán và kích hoạt dịch vụ</h2>
+        <p class="pp-sh-desc" style="margin-bottom:8px;">Quy trình rõ ràng giúp doanh nghiệp kiểm tra phạm vi và kết quả trước khi kích hoạt đầy đủ.</p>
+      </div>
+
+      <p class="pp-process-group-lbl">BizHealth &amp; BizOS</p>
+
+      <div class="pp-steps">
+        <div class="pp-step">
+          <div class="pp-step-no">1</div>
+          <h4>Chọn giải pháp và cung cấp thông tin</h4>
+          <p>Doanh nghiệp chọn gói, tạo tài khoản và cung cấp dữ liệu theo hướng dẫn của VCPC.</p>
+        </div>
+        <div class="pp-step">
+          <div class="pp-step-no">2</div>
+          <h4>Thanh toán 20% để triển khai</h4>
+          <p>Khoản thanh toán đầu tiên kích hoạt quá trình phân tích, cấu hình và dựng Dashboard.</p>
+        </div>
+        <div class="pp-step">
+          <div class="pp-step-no">3</div>
+          <h4>Kiểm tra dữ liệu và xác nhận phạm vi</h4>
+          <p>VCPC kiểm tra chất lượng dữ liệu, thực hiện phân tích ban đầu và xác định phạm vi triển khai cùng doanh nghiệp.</p>
+        </div>
+        <div class="pp-step">
+          <div class="pp-step-no">4</div>
+          <h4>VCPC kiểm duyệt và mở bản xem trước</h4>
+          <p>Dashboard được kiểm tra nội bộ trước khi mở quyền xem trước 48 giờ cho doanh nghiệp.</p>
+        </div>
+        <div class="pp-step">
+          <div class="pp-step-no">5</div>
+          <h4>Thanh toán 80% và kích hoạt</h4>
+          <p>BizHealth: kích hoạt quyền xem 90 ngày. BizOS: kích hoạt đến hết kỳ 3/6/12 tháng đã chọn.</p>
         </div>
       </div>
-      <p style="margin-top:16px;color:#5b6b80;font-size:13.5px;" data-vi="Mỗi gói dùng chung 1 luồng: gửi dữ liệu sẵn có → kiểm tra chất lượng dữ liệu → chốt phạm vi &amp; giá → thanh toán 50/50 → dashboard. Không đủ dữ liệu, hệ thống nói thẳng thay vì bịa số." data-en="Every plan shares one flow: send existing data → data-quality check → confirm scope &amp; price → 50/50 payment → dashboard. If data is insufficient, the system says so instead of guessing.">Mỗi gói dùng chung 1 luồng: gửi dữ liệu → kiểm tra chất lượng → chốt phạm vi &amp; giá → thanh toán 50/50 → dashboard.</p>
+
+      <p class="pp-process-caution">Bản xem trước chỉ được mở sau khi VCPC hoàn tất kiểm tra và phát hành. Thanh toán 20% không tự động mở Dashboard.</p>
+
+      <div class="pp-bizdeal-note">
+        <strong>BizDeal</strong>
+        BizDeal thực hiện theo giai đoạn, phạm vi và lịch thanh toán được quy định trong báo giá/SOW của từng giao dịch.
+      </div>
+
     </div>
   </section>
 
-  <section class="pricing-section" style="background:#fff;">
-    <div class="wrap">
-      <div class="pricing-h">
-        <h2 data-vi="BizHealth — Free · Soi nhanh · Chuyên sâu" data-en="BizHealth — Free · Quick Scan · Deep-dive">BizHealth — Free · Soi nhanh · Chuyên sâu</h2>
-        <div class="stamp"><span class="pill">50/50 sau Data Gate</span><span class="pill">Preview 48h</span><span class="pill">Dashboard 90 ngày</span></div>
-      </div>
-      <div class="pgrid" id="bzGrid"></div>
+  <!-- ═══ PHẦN G — GHI CHÚ GIÁ ═════════════════════════════════ -->
+  <div class="pp-footnote">
+    <div class="pp-wrap">
+      <p><strong>Bảng giá có hiệu lực đến 30/07/2026.</strong></p>
+      <p>Giá chưa bao gồm các yêu cầu tích hợp, tùy chỉnh hoặc phạm vi ngoài gói tiêu chuẩn. Phạm vi và giá cuối cùng được xác nhận trên báo giá/SOW trước khi thanh toán.</p>
+    </div>
+  </div>
+
+  <!-- ═══ PHẦN H — LIÊN HỆ ═══════════════════════════════════════ -->
+  <section class="pp-contact-bar">
+    <div class="pp-wrap">
+      <p class="pp-contact-lbl">Hân hạnh được phục vụ và Cộng tác</p>
+      <div class="pp-contact-row"></div>
     </div>
   </section>
 
-  <section class="pricing-section" style="background:#fbf7ee;">
-    <div class="wrap">
-      <div class="pricing-h">
-        <h2 data-vi="BizOS — Starter · Growth · Scale" data-en="BizOS — Starter · Growth · Scale">BizOS — Starter · Growth · Scale</h2>
-        <div class="stamp"><span class="pill">50/50 tháng đầu</span><span class="pill">Recurring 100%/tháng</span><span class="pill">VCPC review 1–2/tháng</span></div>
-      </div>
-      <p style="margin:-12px 0 18px;color:#5b6b80;font-size:14.5px;max-width:820px;">Nền tảng Quản trị &amp; Điều hành thông minh hàng đầu cho Doanh nghiệp Việt Nam. Chọn kỳ hạn để xem ưu đãi:</p>
-      <div id="osTermRow" style="display:inline-flex;gap:4px;background:#fff;border:1px solid rgba(7,31,61,.12);padding:4px;border-radius:999px;margin-bottom:20px;">
-        <button data-term="3" class="active" style="border:0;background:transparent;padding:8px 16px;border-radius:999px;font-weight:800;font-size:13px;cursor:pointer;color:#5b6b80;">3 tháng</button>
-        <button data-term="6" style="border:0;background:transparent;padding:8px 16px;border-radius:999px;font-weight:800;font-size:13px;cursor:pointer;color:#5b6b80;">6 tháng −10%</button>
-        <button data-term="12" style="border:0;background:transparent;padding:8px 16px;border-radius:999px;font-weight:800;font-size:13px;cursor:pointer;color:#5b6b80;">12 tháng −15%</button>
-      </div>
-      <div class="pgrid" id="osGrid"></div>
+</main><!-- /vcpc-pricing-page -->
 
-      <div class="terms-panel">
-        <div>
-          <h3 data-vi="Vòng đời thuê bao OS" data-en="OS subscription lifecycle">Vòng đời thuê bao OS</h3>
-          <p data-vi="Quá hạn 1–3 ngày: read-only (xem được, không cập nhật/alert). Ngày 4: suspended. Ngày 7: terminated — lưu bản cuối, dừng MI/alert/review/họp." data-en="Late 1–3 days: read-only. Day 4: suspended. Day 7: terminated — final snapshot kept, MI/alerts/reviews stop.">Quá hạn 1–3 ngày: read-only. Ngày 4: suspended. Ngày 7: terminated.</p>
-        </div>
-        <div class="terms-grid">
-          <div class="terms-item"><b>Data Gate</b><span data-vi="DQS đạt ngưỡng gói trước khi mở thanh toán" data-en="DQS meets plan threshold before payment opens">DQS đạt ngưỡng gói trước khi mở thanh toán</span></div>
-          <div class="terms-item"><b>SLA</b><span data-vi="48h dựng + VCPC review sau đợt 1 thành công" data-en="48h build + VCPC review after deposit succeeds">48h dựng + VCPC review</span></div>
-          <div class="terms-item"><b>VCPC review</b><span data-vi="Không publish nếu chưa có chuyên gia duyệt" data-en="Nothing publishes without a reviewer sign-off">Không publish nếu chưa duyệt</span></div>
-          <div class="terms-item"><b>Cổng thanh toán</b><span data-vi="BaoKim cho VND · Stripe cho USD/EUR" data-en="BaoKim for VND · Stripe for USD/EUR">BaoKim cho VND · Stripe cho USD/EUR</span></div>
-        </div>
+<!-- ═══════════════════════════════════════════════════════════
+     FOOTER — cấu trúc chuẩn giống index.html
+     ═══════════════════════════════════════════════════════════ -->
+<footer class="vcpc-footer">
+  <div class="vcpc-foot">
+    <div class="foot-brand">
+      <img src="assets/vcpc-icon.png" alt="VCPC"/>
+      <div>
+        <strong>Viet Capital Partners &amp; Consulting</strong>
+        <span>BizHealth · BizOS · BizDeal</span>
       </div>
-
-      <p class="footnote" data-i18n="pricingFootnote">Giá hiển thị ở đây là cấu hình mẫu; biểu phí cuối cùng do VCPC chốt và đọc từ /assets/plans.json.</p>
     </div>
-  </section>
-
-  <section class="pricing-section" style="background:#fff;">
-    <div class="wrap">
-      <div class="pricing-h">
-        <h2>BizDeal — Deal Readiness · Deal Execution</h2>
-        <div class="stamp"><span class="pill">Theo phạm vi thương vụ</span><span class="pill">VCPC review &amp; đồng hành</span></div>
-      </div>
-      <p style="margin:-12px 0 18px;color:#5b6b80;font-size:14.5px;max-width:820px;">Tư vấn gọi vốn &amp; M&amp;A cho doanh nghiệp Việt Nam và quốc tế. Phí theo phạm vi thương vụ, đồng hành từ chuẩn bị hồ sơ đến ký kết.</p>
-      <div class="pgrid" id="bdGrid"></div>
+    <div class="foot-meta">
+      <div class="addr">12 Tân Trào, Quận 7, TP HCM, Việt Nam</div>
+      <div>vietcapitalpartners.com</div>
+      <div><a href="/cdn-cgi/l/email-protection#7808190a0c161d0a380e111d0c1b1908110c191408190a0c161d0a0b561b1715"><span class="__cf_email__" data-cfemail="9eeeffeceaf0fbecdee8f7fbeafdffeef7eafff2eeffeceaf0fbecedb0fdf1f3">[email&#160;protected]</span></a></div>
     </div>
-  </section>
-</main>
-<footer class="vcpc-footer"><div class="vcpc-foot"><div class="foot-brand"><img src="assets/vcpc-icon.png" alt="VCPC"/><div><strong>Viet Capital Partners &amp; Consulting</strong><span>BizHealth · BizOS · BizDeal</span></div></div><div class="foot-meta"><div class="addr" data-vi="12 Tân Trào, Quận 7, TP HCM, Việt Nam" data-en="12 Tan Trao, District 7, HCMC, Vietnam">12 Tân Trào, Quận 7, TP HCM, Việt Nam</div><div>vietcapitalpartners.com</div><div><a href="mailto:partner@vietcapitalpartners.com">partner@vietcapitalpartners.com</a></div></div></div><div class="foot-links" style="max-width:1180px;margin:0 auto;padding:16px 22px 0;border-top:1px solid rgba(255,255,255,.12);display:flex;gap:20px;flex-wrap:wrap;justify-content:center;font-size:13px;"><a href="about.html" data-vi="Về chúng tôi" data-en="About us">Về chúng tôi</a><a href="terms.html" data-vi="Điều khoản sử dụng" data-en="Terms of use">Điều khoản sử dụng</a><a href="privacy.html" data-vi="Chính sách bảo mật" data-en="Privacy policy">Chính sách bảo mật</a><a href="pricing.html" data-vi="Báo giá Giải pháp" data-en="Solution Pricing">Báo giá Giải pháp</a><a href="affiliate.html" data-vi="Đối tác giới thiệu" data-en="Affiliate">Đối tác giới thiệu</a></div></footer>
-<script src="assets/i18n/loader.js" data-i18n-base="assets/i18n"></script>
+  </div>
+  <div class="foot-links" style="max-width:1180px;margin:0 auto;padding:16px 22px 0;border-top:1px solid rgba(255,255,255,.12);display:flex;gap:20px;flex-wrap:wrap;justify-content:center;font-size:13px;">
+    <a href="about.html">Về chúng tôi</a>
+    <a href="terms.html">Điều khoản sử dụng</a>
+    <a href="privacy.html">Chính sách bảo mật</a>
+    <a href="pricing.html">Báo giá Giải pháp</a>
+    <a href="affiliate.html">Đối tác giới thiệu</a>
+  </div>
+</footer>
+
+<!-- Floating actions -->
+<div class="vcpc-fab">
+  <a class="vcpc-call" href="tel:0909584075" aria-label="Gọi 0909 584 075" title="Gọi 0909 584 075">
+    <svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.27-.27.66-.36 1-.24 1.1.37 2.3.57 3.5.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1C10.6 21 3 13.4 3 4c0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.2.2 2.4.57 3.5.12.34.03.73-.24 1l-2.23 2.3z"/></svg>
+  </a>
+  <button class="vcpc-top" id="vcpcTop" aria-label="Lên đầu trang" title="Lên đầu trang">
+    <svg viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+  </button>
+</div>
+
+<!-- i18n loader -->
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/i18n/loader.js" data-i18n-base="assets/i18n"></script>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PRICING PAGE JS — scoped IIFE, no globals
+     ═══════════════════════════════════════════════════════════ -->
 <script>
-(async function(){
-  let ccy = (Intl.DateTimeFormat().resolvedOptions().timeZone||'').includes('Ho_Chi_Minh') ? 'VND' : 'USD';
-  const ccyRow = document.getElementById('ccyRow');
-  ccyRow.querySelectorAll('button').forEach(b=>b.classList.toggle('active', b.dataset.ccy===ccy));
-  let osTerm = 3; // 3 | 6 | 12 months
-  function fmtMoney(v, c){
-    if (v === 0 || v === '0') return c==='VND' ? '0 đ' : (c==='EUR' ? '€0' : '$0');
-    if (v == null || v === 'TBA') return null;
-    if (c==='VND') return new Intl.NumberFormat('vi-VN').format(v) + ' đ';
-    return new Intl.NumberFormat(c==='EUR'?'de-DE':'en-US',{style:'currency',currency:c}).format(v);
-  }
-  const plans = await fetch('assets/plans.json',{cache:'no-cache'}).then(r=>r.json());
-  function lang(){ return (window.VCPC_I18N && VCPC_I18N.current) || 'vi'; }
-  function L(o){ if (!o) return ''; return o[lang()] || o.vi || ''; }
-  const td = (plans.defaults && plans.defaults.term_discounts) || {"3":0,"6":0.10,"12":0.15};
-  function cardHtml(p, isFeatured){
-    const ccyKey = ccy.toLowerCase();
-    const priceVal = p.price && p.price[ccyKey];
-    const isOS = p.product === 'strategy_os';
-    const cycle = isOS ? (lang()==='vi'?'/tháng':'/month') : (lang()==='vi'?'/gói':'/project');
-    const audience = L(p.audience);
-    const name = L(p.name);
-    const tier = L(p.product_label) || (p.tier||'').toUpperCase();
-    const dqs = p.dqs_threshold || 0;
-    const items = (p.includes||[]).map(it=>'<li>'+L(it)+'</li>').join('');
-    let priceBlock;
-    if (priceVal == null){
-      priceBlock = '<span class="tba">'+(lang()==='vi'?'Liên hệ báo giá':'Contact for quote')+'</span>';
-    } else if (isOS){
-      const disc = td[String(osTerm)] || 0;
-      const monthly = Math.round(priceVal * (1 - disc));
-      const total = monthly * osTerm;
-      priceBlock = '<b>'+fmtMoney(monthly, ccy)+'</b><span class="cycle">'+cycle+'</span>'
-        + '<div style="width:100%;margin-top:6px;font-size:12px;color:#5b6b80;font-weight:600;">'
-        + (lang()==='vi'?'Kỳ '+osTerm+' tháng: ':'') + (lang()==='en'?osTerm+'-month term: ':'')
-        + fmtMoney(total, ccy) + (disc>0 ? ' <span style="color:#0d8a5d;font-weight:800;">(−'+Math.round(disc*100)+'%)</span>' : '') + '</div>';
-    } else {
-      priceBlock = '<b>'+fmtMoney(priceVal, ccy)+'</b><span class="cycle">'+cycle+'</span>';
+(function () {
+  'use strict';
+
+  /* ─────────────────────────────────────────────────────────────
+     Tab system
+  ───────────────────────────────────────────────────────────── */
+  var TABS = [
+    { btnId: 'tab-bh-btn', panelId: 'tab-bh', hash: 'bizhealth' },
+    { btnId: 'tab-os-btn', panelId: 'tab-os', hash: 'bizos'     },
+    { btnId: 'tab-bd-btn', panelId: 'tab-bd', hash: 'bizdeal'   }
+  ];
+
+  function activateTab(index, doScroll) {
+    TABS.forEach(function (t, i) {
+      var btn   = document.getElementById(t.btnId);
+      var panel = document.getElementById(t.panelId);
+      var on    = (i === index);
+      if (btn)   { btn.setAttribute('aria-selected', on ? 'true' : 'false'); }
+      if (panel) {
+        if (on) { panel.removeAttribute('hidden'); }
+        else    { panel.setAttribute('hidden', ''); }
+      }
+    });
+
+    var h = TABS[index] ? TABS[index].hash : 'bizhealth';
+    try { history.replaceState(null, '', '#' + h); } catch (_) {}
+
+    if (doScroll) {
+      var wrap = document.getElementById('ppTabsWrap');
+      if (wrap) {
+        var hdrH = 74;
+        var top  = wrap.getBoundingClientRect().top + window.pageYOffset - hdrH;
+        window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+      }
     }
-    return ''
-    + '<div class="pcard'+(isFeatured?' featured':'')+'">'
-    +   '<div class="ptier">'+tier+'</div>'
-    +   '<div class="pname">'+name+'</div>'
-    +   '<div class="paud">'+audience+'</div>'
-    +   '<div class="pprice">'+priceBlock+'</div>'
-    +   '<div class="pdqs"><span title="DQS">'+(lang()==='vi'?'Điểm sẵn sàng dữ liệu':'Data readiness score')+'</span><b>≥ '+dqs+'</b></div>'
-    +   '<ul class="plist">'+items+'</ul>'
-    +   '<div class="pcta">'
-    +     '<a class="app-btn-primary" href="app/signup.html?plan='+p.code+'">'+(lang()==='vi'?'Bắt đầu với gói này':'Start with this plan')+'</a>'
-    +     '<a class="app-btn-ghost" href="bizhealth.html#contact">'+(lang()==='vi'?'Trao đổi với VCPC':'Talk to VCPC')+'</a>'
-    +   '</div>'
-    + '</div>';
   }
-  function render(){
-    const bzHtml = plans.bizhealth.filter(p=>p.code!=='BIZHEALTH_FREE').map(p=>cardHtml(p, p.tier==='soi_nhanh')).join('');
-    const osHtml = plans.strategy_os.map(p=>cardHtml(p, p.tier==='growth')).join('');
-    document.getElementById('bzGrid').innerHTML = bzHtml;
-    document.getElementById('osGrid').innerHTML = osHtml;
-    var tr = document.getElementById('osTermRow');
-    if (tr) tr.querySelectorAll('button').forEach(function(b){ var on=String(osTerm)===b.dataset.term; b.classList.toggle('active', on); b.style.background = on?'linear-gradient(135deg,#ffb20a,#ffd36b)':'transparent'; b.style.color = on?'#071f3d':'#5b6b80'; });
-    if (window.VCPC_I18N) VCPC_I18N.applyTo();
+
+  function hashToIndex(hash) {
+    hash = (hash || '').replace('#', '').toLowerCase();
+    for (var i = 0; i < TABS.length; i++) {
+      if (TABS[i].hash === hash) { return i; }
+    }
+    return 0;
   }
-  document.addEventListener('click', function(e){
-    var b = e.target.closest('#osTermRow button[data-term]'); if(!b) return;
-    osTerm = parseInt(b.dataset.term,10); render();
+
+  // Init from URL hash on load
+  activateTab(hashToIndex(window.location.hash), false);
+
+  // Wire click + keyboard nav
+  TABS.forEach(function (t, i) {
+    var btn = document.getElementById(t.btnId);
+    if (!btn) { return; }
+
+    btn.addEventListener('click', function () { activateTab(i, true); });
+
+    btn.addEventListener('keydown', function (e) {
+      var next = -1;
+      if (e.key === 'ArrowRight') { next = (i + 1) % TABS.length; }
+      if (e.key === 'ArrowLeft')  { next = (i - 1 + TABS.length) % TABS.length; }
+      if (next >= 0) {
+        activateTab(next, false);
+        var nextBtn = document.getElementById(TABS[next].btnId);
+        if (nextBtn) { nextBtn.focus(); }
+      }
+    });
   });
-  ccyRow.addEventListener('click', function(e){
-    const b = e.target.closest('button[data-ccy]'); if (!b) return;
-    ccy = b.dataset.ccy;
-    ccyRow.querySelectorAll('button').forEach(x=>x.classList.toggle('active', x===b));
-    render();
-  });
-  document.addEventListener('vcpc:langchange', render);
-  // render BizDeal cards
-  function renderBizDeal(){
-    const bd = plans.biz_deal || [];
-    if (!bd.length || !document.getElementById('bdGrid')) return;
-    document.getElementById('bdGrid').innerHTML = bd.map(function(p){
-      const name = L(p.name); const audience = L(p.audience); const tier = L(p.product_label);
-      const items = (p.includes||[]).map(it=>'<li>'+L(it)+'</li>').join('');
-      return '<div class="pcard">'
-        +'<div class="ptier">'+tier+'</div>'
-        +'<div class="pname">'+name+'</div>'
-        +'<div class="paud">'+audience+'</div>'
-        +'<div class="pprice"><span class="tba">'+(lang()==='vi'?'Theo phạm vi thương vụ':'Scope-based fee')+'</span></div>'
-        +'<ul class="plist">'+items+'</ul>'
-        +'<div class="pcta"><a class="app-btn-ghost" href="biz-deal.html#contact" style="display:block;text-align:center;padding:12px;">'+(lang()==='vi'?'Trao đổi với VCPC':'Talk to VCPC')+'</a></div>'
-        +'</div>';
-    }).join('');
+
+  /* ─────────────────────────────────────────────────────────────
+     BizOS term switcher
+     Prices from plans.json (source of truth); values match spec.
+     OS_LITE=7.9M, OS_STANDARD=15.9M, OS_PARTNER=28.9M
+  ───────────────────────────────────────────────────────────── */
+  var OS_PLANS = [
+    { baseVnd: 7900000,  monthlyId: 'os-starter-monthly', totalId: 'os-starter-total' },
+    { baseVnd: 15900000, monthlyId: 'os-growth-monthly',  totalId: 'os-growth-total'  },
+    { baseVnd: 28900000, monthlyId: 'os-scale-monthly',   totalId: 'os-scale-total'   }
+  ];
+  var TERM_DISC = { '3': 0, '6': 0.10, '12': 0.15 };
+  var osTerm   = 3;
+
+  function fmtVND(n) {
+    return new Intl.NumberFormat('vi-VN').format(Math.round(n)) + ' đ';
   }
-  render();
-  renderBizDeal();
-  document.addEventListener('vcpc:langchange', renderBizDeal);
+
+  function renderOSPrices() {
+    var disc = TERM_DISC[String(osTerm)] || 0;
+    OS_PLANS.forEach(function (plan) {
+      var monthly = plan.baseVnd * (1 - disc);
+      var total   = monthly * osTerm;
+      var mEl     = document.getElementById(plan.monthlyId);
+      var tEl     = document.getElementById(plan.totalId);
+      if (mEl) { mEl.textContent = fmtVND(monthly); }
+      if (tEl) {
+        var discHtml = disc > 0
+          ? ' <span class="pp-discount-badge">\u2212' + Math.round(disc * 100) + '%</span>'
+          : '';
+        tEl.innerHTML = 'Tổng ' + osTerm + ' tháng: ' + fmtVND(total) + discHtml;
+      }
+    });
+
+    var row = document.getElementById('osTermRow');
+    if (row) {
+      row.querySelectorAll('.pp-term-btn[data-term]').forEach(function (b) {
+        b.classList.toggle('active', parseInt(b.dataset.term, 10) === osTerm);
+      });
+    }
+  }
+
+  var termRow = document.getElementById('osTermRow');
+  if (termRow) {
+    termRow.addEventListener('click', function (e) {
+      var b = e.target.closest('.pp-term-btn[data-term]');
+      if (!b) { return; }
+      osTerm = parseInt(b.dataset.term, 10);
+      renderOSPrices();
+    });
+  }
+  renderOSPrices(); // initial paint
+
+  /* ─────────────────────────────────────────────────────────────
+     Back-to-top button
+  ───────────────────────────────────────────────────────────── */
+  var topBtn = document.getElementById('vcpcTop');
+  function onScroll() {
+    var y = window.scrollY || document.documentElement.scrollTop || 0;
+    if (topBtn) { topBtn.classList.toggle('show', y > 500); }
+    var hdr = document.getElementById('header');
+    if (hdr) { hdr.classList.toggle('scrolled', y > 20); }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+  if (topBtn) {
+    topBtn.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+     Mobile hamburger (fallback if vcpc.js not loaded yet)
+  ───────────────────────────────────────────────────────────── */
+  var ham  = document.getElementById('hamburger');
+  var navL = document.getElementById('navLinks');
+  if (ham && navL && !ham._vcpcBound) {
+    ham._vcpcBound = true;
+    ham.addEventListener('click', function () {
+      var open = ham.getAttribute('aria-expanded') === 'true';
+      ham.setAttribute('aria-expanded', String(!open));
+      navL.classList.toggle('open', !open);
+    });
+  }
+
 })();
 </script>
+
+<!-- Shared VCPC utilities (header scroll, lang toggle, etc.) -->
+<script src="assets/vcpc.js"></script>
+
 </body>
 </html>
