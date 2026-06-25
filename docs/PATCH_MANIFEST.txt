@@ -1,0 +1,34 @@
+VCPC Affiliate AFF-01 to AFF-05 patch
+
+NEW FILES
+- app/affiliate-login.html
+- netlify/functions/affiliate-status.js
+- netlify/functions/affiliate-current.js
+- netlify/functions/affiliate-complete-password.js
+- supabase/migrations/202606250001_affiliate_auth_flow.sql
+
+REPLACE FILES
+- app/affiliate.html
+- netlify/functions/admin-approve-affiliate.js
+
+MANUAL EDIT ONLY — DO NOT REPLACE WHOLE LATEST FILE
+- affiliate.html
+- netlify.toml
+- _redirects
+
+BASE ZIP SHA-256 REFERENCE
+- app/affiliate.html: a299a2e7430e04502df7f19755aa9713c444f32a34467c77937cfad86751c5ea
+- affiliate.html: 274510f707871d95353a7cc4ee916861a51790fa1efc9ef1ab658b8cdfa0d06d
+- admin/affiliate.html: 4a48405d1c59fc08f665e3411c23885cf0abd4e39409c5b4e532107467fce824
+- netlify/functions/admin-approve-affiliate.js: 5303611cd79edca25e6c9162b6249dc306809225ba9b1ca3dc754580cfc90564
+- netlify/functions/affiliate-register.js: 1fd0a86ff470c02f67452946ebc63b1c381c39a50127d14e6e38c521b1a0c099
+- netlify.toml: 44fdfc865d4d3066e10b2b0b742c953c0697b17ca5b69a1b35a184be471d142a
+- _redirects: 9895e2b63a1cb6f9e98c903d3789e16d6c329c089d1ed476030f097c34b972f3
+- supabase/migrations/202606240001_vcpc_uat.sql: 6e7e5f485090e5645235cd6794e44bd6fc8db01065381e0da40cc6cd709c9e28
+
+VALIDATION
+Patch inserted into uploaded base source and passed:
+- npm run check
+- static check
+- business checks
+- npm run build
