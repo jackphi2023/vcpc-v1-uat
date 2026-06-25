@@ -1,142 +1,1247 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<meta name="theme-color" content="#071f3d"/>
-<link rel="icon" type="image/png" href="../assets/favicon.png"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="../assets/vcpc.css"/>
-<link rel="stylesheet" href="../assets/app-core.css"/>
-<title>Đăng ký · VCPC</title>
+  <meta charset="utf-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <meta name="theme-color" content="#071f3d" />
+
+  <meta name="robots" content="noindex,nofollow" />
+
+  <link
+    rel="icon"
+    type="image/png"
+    href="../assets/favicon.png"
+  />
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  />
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet"
+  />
+
+  <link
+    rel="stylesheet"
+    href="../assets/vcpc.css"
+  />
+
+  <link
+    rel="stylesheet"
+    href="../assets/app-core.css"
+  />
+
+  <title>Đăng ký tài khoản · VCPC</title>
 </head>
+
 <body class="app">
-<div class="auth-page">
+  <div class="auth-page">
 
-  <!-- Hero -->
-  <aside class="auth-hero">
-    <a href="../index.html" style="display:flex;gap:12px;align-items:center;color:#fff;text-decoration:none;">
-      <img src="../assets/logo-vcpc.jpg" style="width:46px;height:46px;border-radius:10px;" alt="VCPC"/>
+    <!-- KHỐI GIỚI THIỆU -->
+    <aside class="auth-hero">
+      <a
+        href="../index.html"
+        style="
+          display:flex;
+          gap:12px;
+          align-items:center;
+          color:#fff;
+          text-decoration:none;
+        "
+      >
+        <img
+          src="../assets/logo-vcpc.jpg"
+          alt="VCPC"
+          style="
+            width:46px;
+            height:46px;
+            border-radius:10px;
+          "
+        />
+
+        <div>
+          <b
+            style="
+              color:#ffd36b;
+              font-weight:800;
+            "
+          >
+            Viet Capital Partners &amp; Consulting
+          </b>
+
+          <br />
+
+          <span
+            style="
+              font-size:11px;
+              letter-spacing:.08em;
+              color:#a9bbd2;
+              text-transform:uppercase;
+            "
+          >
+            Advisory Platform
+          </span>
+        </div>
+      </a>
+
       <div>
-        <b style="color:#ffd36b;font-weight:800;">Viet Capital Partners &amp; Consulting</b><br/>
-        <span style="font-size:11px;letter-spacing:.08em;color:#a9bbd2;text-transform:uppercase;">Advisory Platform</span>
+        <h1>
+          Tạo tài khoản — bắt đầu hành trình quản trị thông minh.
+        </h1>
+
+        <p>
+          Một tài khoản dùng cho BizHealth, BizOS và các giải pháp
+          quản trị doanh nghiệp của VCPC.
+        </p>
       </div>
-    </a>
-    <div>
-      <h1>Tạo tài khoản — bắt đầu hành trình quản trị thông minh.</h1>
-      <p>Một tài khoản cho BizHealth, BizOS và BizDeal. Không cần đăng nhập lại sau khi đăng ký.</p>
-    </div>
-    <!-- Service summary if from service page -->
-    <div id="serviceSummary" style="display:none;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:14px;padding:16px;">
-      <div style="font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#ffd36b;margin-bottom:8px;">Dịch vụ đã chọn</div>
-      <div style="font-size:15px;font-weight:900;color:#fff;" id="sumService">—</div>
-      <div style="font-size:13px;color:#c0d0e4;margin-top:4px;" id="sumPlanTerm">—</div>
-      <div style="font-size:17px;font-weight:900;color:#ffd36b;margin-top:6px;" id="sumPrice">—</div>
-    </div>
-    <div style="font-size:13px;color:#90a4c2;">© VCPC · vietcapitalpartners.com</div>
-  </aside>
 
-  <!-- Form -->
-  <section class="auth-form-wrap">
-    <form class="auth-form" id="signupForm" autocomplete="on" novalidate>
-      <h2>Tạo tài khoản</h2>
-
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-        <div class="field">
-          <label>Họ và tên <span style="color:#c7352b;">*</span></label>
-          <input name="name" required placeholder="Nguyễn Văn A" autocomplete="name" style="min-height:44px;"/>
+      <!-- TÓM TẮT DỊCH VỤ ĐÃ CHỌN -->
+      <div
+        id="serviceSummary"
+        style="
+          display:none;
+          background:rgba(255,255,255,.1);
+          border:1px solid rgba(255,255,255,.2);
+          border-radius:14px;
+          padding:16px;
+        "
+      >
+        <div
+          style="
+            font-size:11px;
+            font-weight:800;
+            letter-spacing:.08em;
+            text-transform:uppercase;
+            color:#ffd36b;
+            margin-bottom:8px;
+          "
+        >
+          Dịch vụ đã chọn
         </div>
-        <div class="field">
-          <label>Số điện thoại / Zalo <span style="color:#c7352b;">*</span></label>
-          <input name="phone" type="tel" required placeholder="0909 000 000" autocomplete="tel" style="min-height:44px;"/>
+
+        <div
+          id="sumService"
+          style="
+            font-size:15px;
+            font-weight:900;
+            color:#fff;
+          "
+        >
+          —
         </div>
-      </div>
 
-      <div class="field">
-        <label>Email công ty <span style="color:#c7352b;">*</span></label>
-        <input name="email" type="email" required placeholder="ten@congty.com" autocomplete="email" style="min-height:44px;"/>
-      </div>
-
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-        <div class="field">
-          <label>Mật khẩu <span style="color:#c7352b;">*</span></label>
-          <input name="password" type="password" required placeholder="Ít nhất 8 ký tự" autocomplete="new-password" style="min-height:44px;"/>
+        <div
+          id="sumPlanTerm"
+          style="
+            font-size:13px;
+            color:#c0d0e4;
+            margin-top:4px;
+          "
+        >
+          —
         </div>
-        <div class="field">
-          <label>Xác nhận mật khẩu <span style="color:#c7352b;">*</span></label>
-          <input name="confirm" type="password" required placeholder="Nhập lại" autocomplete="new-password" style="min-height:44px;"/>
+
+        <div
+          id="sumPrice"
+          style="
+            font-size:17px;
+            font-weight:900;
+            color:#ffd36b;
+            margin-top:6px;
+          "
+        >
+          —
         </div>
+
+        <button
+          type="button"
+          id="removeSelectedPlan"
+          style="
+            margin-top:12px;
+            padding:0;
+            border:0;
+            background:none;
+            color:#d4e1f0;
+            font-size:12px;
+            text-decoration:underline;
+            cursor:pointer;
+          "
+        >
+          Chọn dịch vụ sau
+        </button>
       </div>
 
-      <div class="field">
-        <label>Tên doanh nghiệp <span style="color:#c7352b;">*</span></label>
-        <input name="org_name" required placeholder="Công ty CP ABC" autocomplete="organization" style="min-height:44px;"/>
+      <!-- THÔNG BÁO KHI ĐĂNG KÝ CHUNG -->
+      <div
+        id="generalSignupSummary"
+        style="
+          display:none;
+          background:rgba(255,255,255,.08);
+          border:1px solid rgba(255,255,255,.16);
+          border-radius:14px;
+          padding:16px;
+          color:#d4e1f0;
+          font-size:13px;
+          line-height:1.6;
+        "
+      >
+        <div
+          style="
+            font-size:11px;
+            font-weight:800;
+            letter-spacing:.08em;
+            text-transform:uppercase;
+            color:#ffd36b;
+            margin-bottom:8px;
+          "
+        >
+          Đăng ký tài khoản chung
+        </div>
+
+        Bạn chưa chọn dịch vụ. Sau khi xác thực email, hệ thống sẽ
+        chuyển đến bước Tạo tổ chức để bạn lựa chọn BizHealth hoặc
+        BizOS phù hợp.
       </div>
 
-      <div class="field">
-        <label>Mã số thuế <span style="font-weight:400;color:#9aa7b8;font-size:12px;">(không bắt buộc)</span></label>
-        <input name="tax_id" placeholder="0123456789" style="min-height:44px;"/>
+      <div
+        style="
+          font-size:13px;
+          color:#90a4c2;
+        "
+      >
+        © VCPC · vietcapitalpartner.com
       </div>
+    </aside>
 
-      <div id="signupError" style="display:none;color:#c7352b;font-size:13px;font-weight:700;padding:10px 14px;background:rgba(199,53,43,.08);border-radius:8px;line-height:1.5;"></div>
+    <!-- FORM ĐĂNG KÝ -->
+    <section class="auth-form-wrap">
+      <form
+        class="auth-form"
+        id="signupForm"
+        method="post"
+        autocomplete="on"
+        novalidate
+      >
+        <h2>Tạo tài khoản</h2>
 
-      <button type="submit" class="app-btn app-btn-primary" id="signupBtn" style="width:100%;margin-top:8px;min-height:48px;font-size:14px;">
-        Tạo tài khoản &amp; tiếp tục →
-      </button>
+        <p id="signupDescription">
+          Nhập thông tin để tạo tài khoản và xác thực email.
+        </p>
 
-      <p style="font-size:11.5px;color:#9aa7b8;text-align:center;margin-top:10px;line-height:1.5;">
-        Bằng cách đăng ký, bạn đồng ý với
-        <a href="../terms.html" target="_blank">Điều khoản sử dụng</a> và
-        <a href="../privacy.html" target="_blank">Chính sách bảo mật</a> của VCPC.
-      </p>
+        <!-- THÔNG BÁO GÓI ĐÃ CHỌN TRÊN MOBILE/FORM -->
+        <div
+          id="selectedPlanNotice"
+          style="
+            display:none;
+            padding:12px 14px;
+            margin:6px 0 14px;
+            background:#f2f6fb;
+            border:1px solid #dce5ef;
+            border-radius:10px;
+            color:#334b68;
+            font-size:13px;
+            line-height:1.6;
+          "
+        ></div>
 
-      <div class="auth-foot">
-        <span>Đã có tài khoản?</span>
-        <a href="../dashboard.html">Đăng nhập</a>
-      </div>
-    </form>
-  </section>
-</div>
+        <!-- HỌ TÊN + ĐIỆN THOẠI -->
+        <div
+          style="
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:12px;
+          "
+        >
+          <div class="field">
+            <label for="fullNameInput">
+              Họ và tên
+              <span style="color:#c7352b;">*</span>
+            </label>
 
-<script src="../assets/app-config.js"></script>
-<script src="../assets/mock-backend.js"></script>
-<script src="../assets/app-core.js"></script>
-<script>
-(function(){
-'use strict';
-var params=new URLSearchParams(location.search);
-var SERVICE=(params.get('service')||'BIZHEALTH').toUpperCase();
-var PLAN=(params.get('plan')||'BIZHEALTH_STANDARD').toUpperCase();
-var TERM=parseInt(params.get('term'),10)||3;
-var REF=(params.get('ref')||params.get('affiliate')||'').toUpperCase();
-if(SERVICE){
- document.getElementById('serviceSummary').style.display='block';
- var names={BIZHEALTH:'BizHealth',BIZOS:'BizOS',BIZDEAL:'BizDeal'};
- document.getElementById('sumService').textContent=names[SERVICE]||SERVICE;
- document.getElementById('sumPlanTerm').textContent=(PLAN||'Chưa chọn gói')+' · '+TERM+' tháng';
- fetch('../assets/plans.json',{cache:'no-cache'}).then(function(r){return r.json();}).then(function(plans){
-  var all=[].concat(plans.bizhealth||[],plans.strategy_os||[]),found=all.find(function(p){return p.code===PLAN||String(p.tier).toUpperCase()===PLAN;});
-  if(found&&found.price&&found.price.vnd!=null){var months=found.billing_type==='monthly'?TERM:1;var base=found.price.vnd*months;var disc=months===6?.10:months===12?.15:0;var total=Math.round(base*(1-disc));document.getElementById('sumPrice').textContent=new Intl.NumberFormat('vi-VN').format(total)+' đ'+(disc?' (đã giảm '+disc*100+'%)':'');}
- }).catch(function(){});
-}
-document.getElementById('signupForm').addEventListener('submit',function(e){
- e.preventDefault();var f=this,name=f.name.value.trim(),phone=f.phone.value.trim(),email=f.email.value.trim().toLowerCase(),password=f.password.value,confirm=f.confirm.value,org=f.org_name.value.trim(),tax=f.tax_id.value.trim();
- var err=document.getElementById('signupError'),btn=document.getElementById('signupBtn');err.style.display='none';
- if(!name||!phone||!email||!password||!org){err.style.display='block';err.textContent='Vui lòng điền đầy đủ các trường bắt buộc (*)';return;}
- if(password.length<8){err.style.display='block';err.textContent='Mật khẩu phải có ít nhất 8 ký tự.';return;}
- if(password!==confirm){err.style.display='block';err.textContent='Mật khẩu xác nhận không khớp. Vui lòng nhập lại.';return;}
- btn.disabled=true;btn.textContent='Đang tạo tài khoản…';
- try{
-  var result=VCPC_DB.signupWithPassword({email:email,password:password,full_name:name,phone:phone,organization_name:org,tax_id:tax,service_code:SERVICE,plan_code:PLAN,billing_term_months:TERM,affiliate_code:REF});
-  if(!result||result.error)throw new Error(result&&result.error||'SIGNUP_FAILED');
-  if(result.needs_confirmation){err.style.display='block';err.style.color='#0d8a5d';err.textContent='Đã tạo tài khoản. Vui lòng kiểm tra email để xác nhận, sau đó hệ thống sẽ tiếp tục tự động.';return;}
-  location.href='onboarding.html?service='+encodeURIComponent(SERVICE)+'&plan='+encodeURIComponent(PLAN)+'&term='+TERM;
- }catch(ex){err.style.display='block';err.style.color='#c7352b';err.textContent=String(ex.message||'Có lỗi xảy ra khi tạo tài khoản. Vui lòng thử lại.').includes('already')?'Email này đã được đăng ký. Vui lòng đăng nhập hoặc dùng email khác.':'Có lỗi xảy ra khi tạo tài khoản. Vui lòng thử lại.';}
- finally{btn.disabled=false;btn.textContent='Tạo tài khoản & tiếp tục →';}
-});
-})();
-</script>
+            <input
+              id="fullNameInput"
+              name="name"
+              type="text"
+              required
+              placeholder="Nguyễn Văn A"
+              autocomplete="name"
+              style="min-height:44px;"
+            />
+          </div>
+
+          <div class="field">
+            <label for="phoneInput">
+              Số điện thoại / Zalo
+              <span style="color:#c7352b;">*</span>
+            </label>
+
+            <input
+              id="phoneInput"
+              name="phone"
+              type="tel"
+              required
+              placeholder="0909 000 000"
+              autocomplete="tel"
+              style="min-height:44px;"
+            />
+          </div>
+        </div>
+
+        <!-- EMAIL -->
+        <div class="field">
+          <label for="emailInput">
+            Email
+            <span style="color:#c7352b;">*</span>
+          </label>
+
+          <input
+            id="emailInput"
+            name="email"
+            type="email"
+            required
+            placeholder="ten@congty.com"
+            autocomplete="email"
+            style="min-height:44px;"
+          />
+        </div>
+
+        <!-- MẬT KHẨU -->
+        <div
+          style="
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:12px;
+          "
+        >
+          <div class="field">
+            <label for="passwordInput">
+              Mật khẩu
+              <span style="color:#c7352b;">*</span>
+            </label>
+
+            <div style="position:relative;">
+              <input
+                id="passwordInput"
+                name="password"
+                type="password"
+                required
+                minlength="8"
+                placeholder="Ít nhất 8 ký tự"
+                autocomplete="new-password"
+                style="
+                  min-height:44px;
+                  padding-right:44px;
+                "
+              />
+
+              <button
+                type="button"
+                id="togglePassword"
+                tabindex="-1"
+                aria-label="Hiện hoặc ẩn mật khẩu"
+                style="
+                  position:absolute;
+                  right:10px;
+                  top:50%;
+                  transform:translateY(-50%);
+                  border:0;
+                  background:none;
+                  cursor:pointer;
+                  font-size:16px;
+                "
+              >
+                👁
+              </button>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="confirmPasswordInput">
+              Xác nhận mật khẩu
+              <span style="color:#c7352b;">*</span>
+            </label>
+
+            <input
+              id="confirmPasswordInput"
+              name="confirm"
+              type="password"
+              required
+              minlength="8"
+              placeholder="Nhập lại mật khẩu"
+              autocomplete="new-password"
+              style="min-height:44px;"
+            />
+          </div>
+        </div>
+
+        <!-- TÊN DOANH NGHIỆP -->
+        <div class="field">
+          <label for="organizationInput">
+            Tên doanh nghiệp
+            <span style="color:#c7352b;">*</span>
+          </label>
+
+          <input
+            id="organizationInput"
+            name="org_name"
+            type="text"
+            required
+            placeholder="Công ty CP ABC"
+            autocomplete="organization"
+            style="min-height:44px;"
+          />
+        </div>
+
+        <!-- MÃ SỐ THUẾ -->
+        <div class="field">
+          <label for="taxIdInput">
+            Mã số thuế
+
+            <span
+              style="
+                font-weight:400;
+                color:#9aa7b8;
+                font-size:12px;
+              "
+            >
+              (không bắt buộc)
+            </span>
+          </label>
+
+          <input
+            id="taxIdInput"
+            name="tax_id"
+            type="text"
+            placeholder="0123456789"
+            inputmode="numeric"
+            style="min-height:44px;"
+          />
+        </div>
+
+        <!-- THÔNG BÁO LỖI/THÀNH CÔNG -->
+        <div
+          id="signupMessage"
+          role="alert"
+          aria-live="polite"
+          style="
+            display:none;
+            font-size:13px;
+            font-weight:700;
+            padding:10px 14px;
+            border-radius:8px;
+            line-height:1.5;
+            margin-top:8px;
+          "
+        ></div>
+
+        <!-- NÚT SUBMIT -->
+        <button
+          type="submit"
+          class="app-btn app-btn-primary"
+          id="signupBtn"
+          style="
+            width:100%;
+            margin-top:8px;
+            min-height:48px;
+            font-size:14px;
+          "
+        >
+          Tạo tài khoản và xác thực email →
+        </button>
+
+        <p
+          style="
+            font-size:11.5px;
+            color:#9aa7b8;
+            text-align:center;
+            margin-top:10px;
+            line-height:1.5;
+          "
+        >
+          Bằng cách đăng ký, bạn đồng ý với
+
+          <a
+            href="../terms.html"
+            target="_blank"
+            rel="noopener"
+          >
+            Điều khoản sử dụng
+          </a>
+
+          và
+
+          <a
+            href="../privacy.html"
+            target="_blank"
+            rel="noopener"
+          >
+            Chính sách bảo mật
+          </a>
+
+          của VCPC.
+        </p>
+
+        <div class="auth-foot">
+          <span>Đã có tài khoản?</span>
+
+          <a href="login.html">
+            Đăng nhập
+          </a>
+        </div>
+
+        <div
+          class="auth-foot"
+          style="margin-top:4px;"
+        >
+          <a
+            href="../index.html"
+            style="
+              color:#9aa7b8;
+              font-size:12.5px;
+            "
+          >
+            ← Về trang chính
+          </a>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <!-- CÁC FILE HỆ THỐNG HIỆN TẠI -->
+  <script src="../assets/app-config.js"></script>
+  <script src="../assets/mock-backend.js"></script>
+  <script src="../assets/app-core.js"></script>
+
+  <script>
+    (function () {
+      'use strict';
+
+      /*
+       * =========================================================
+       * 1. CẤU HÌNH GÓI DỊCH VỤ HỢP LỆ
+       * =========================================================
+       *
+       * Không tin trực tiếp service và term lấy từ URL.
+       * Plan hợp lệ là nguồn quyết định service và kỳ hạn.
+       */
+      var PLAN_CONFIG = {
+        BIZHEALTH_STANDARD: {
+          service: 'BIZHEALTH',
+          plan: 'BIZHEALTH_STANDARD',
+          term: 1,
+          serviceLabel: 'BizHealth',
+          planLabel: 'BizHealth Standard',
+          billingLabel: 'Thanh toán một lần'
+        },
+
+        BIZHEALTH_PREMIUM: {
+          service: 'BIZHEALTH',
+          plan: 'BIZHEALTH_PREMIUM',
+          term: 1,
+          serviceLabel: 'BizHealth',
+          planLabel: 'BizHealth Premium',
+          billingLabel: 'Thanh toán một lần'
+        },
+
+        OS_LITE: {
+          service: 'BIZOS',
+          plan: 'OS_LITE',
+          term: 3,
+          serviceLabel: 'BizOS',
+          planLabel: 'BizOS Starter',
+          billingLabel: '3 tháng'
+        },
+
+        OS_STANDARD: {
+          service: 'BIZOS',
+          plan: 'OS_STANDARD',
+          term: 6,
+          serviceLabel: 'BizOS',
+          planLabel: 'BizOS Growth',
+          billingLabel: '6 tháng'
+        },
+
+        OS_PARTNER: {
+          service: 'BIZOS',
+          plan: 'OS_PARTNER',
+          term: 12,
+          serviceLabel: 'BizOS',
+          planLabel: 'BizOS Scale',
+          billingLabel: '12 tháng'
+        }
+      };
+
+      /*
+       * =========================================================
+       * 2. ĐỌC THAM SỐ URL
+       * =========================================================
+       */
+      var params =
+        new URLSearchParams(window.location.search);
+
+      var requestedPlan =
+        String(
+          params.get('plan') || ''
+        )
+          .trim()
+          .toUpperCase();
+
+      var affiliateCode =
+        String(
+          params.get('ref') ||
+          params.get('affiliate') ||
+          ''
+        )
+          .trim()
+          .toUpperCase();
+
+      /*
+       * Chỉ chấp nhận plan có trong whitelist.
+       *
+       * Nếu URL không có plan, hoặc plan không hợp lệ:
+       * selectedPlan = null
+       * → đăng ký tài khoản chung, chưa gắn dịch vụ.
+       */
+      var selectedPlan =
+        Object.prototype.hasOwnProperty.call(
+          PLAN_CONFIG,
+          requestedPlan
+        )
+          ? PLAN_CONFIG[requestedPlan]
+          : null;
+
+      /*
+       * =========================================================
+       * 3. LẤY CÁC ELEMENT
+       * =========================================================
+       */
+      var signupForm =
+        document.getElementById('signupForm');
+
+      var fullNameInput =
+        document.getElementById('fullNameInput');
+
+      var phoneInput =
+        document.getElementById('phoneInput');
+
+      var emailInput =
+        document.getElementById('emailInput');
+
+      var passwordInput =
+        document.getElementById('passwordInput');
+
+      var confirmPasswordInput =
+        document.getElementById(
+          'confirmPasswordInput'
+        );
+
+      var organizationInput =
+        document.getElementById(
+          'organizationInput'
+        );
+
+      var taxIdInput =
+        document.getElementById('taxIdInput');
+
+      var signupButton =
+        document.getElementById('signupBtn');
+
+      var signupMessage =
+        document.getElementById('signupMessage');
+
+      var serviceSummary =
+        document.getElementById('serviceSummary');
+
+      var generalSignupSummary =
+        document.getElementById(
+          'generalSignupSummary'
+        );
+
+      var selectedPlanNotice =
+        document.getElementById(
+          'selectedPlanNotice'
+        );
+
+      var sumService =
+        document.getElementById('sumService');
+
+      var sumPlanTerm =
+        document.getElementById('sumPlanTerm');
+
+      var sumPrice =
+        document.getElementById('sumPrice');
+
+      var removeSelectedPlanButton =
+        document.getElementById(
+          'removeSelectedPlan'
+        );
+
+      var togglePasswordButton =
+        document.getElementById(
+          'togglePassword'
+        );
+
+      /*
+       * =========================================================
+       * 4. HÀM HIỂN THỊ THÔNG BÁO
+       * =========================================================
+       */
+      function showMessage(type, message) {
+        signupMessage.style.display = 'block';
+        signupMessage.textContent = message;
+
+        if (type === 'success') {
+          signupMessage.style.color = '#0d8a5d';
+          signupMessage.style.background =
+            'rgba(13,138,93,.10)';
+          signupMessage.style.border =
+            '1px solid rgba(13,138,93,.20)';
+        } else {
+          signupMessage.style.color = '#c7352b';
+          signupMessage.style.background =
+            'rgba(199,53,43,.08)';
+          signupMessage.style.border =
+            '1px solid rgba(199,53,43,.16)';
+        }
+      }
+
+      function hideMessage() {
+        signupMessage.style.display = 'none';
+        signupMessage.textContent = '';
+      }
+
+      function setLoading(isLoading) {
+        signupButton.disabled = isLoading;
+
+        signupButton.textContent = isLoading
+          ? 'Đang tạo tài khoản…'
+          : 'Tạo tài khoản và xác thực email →';
+      }
+
+      /*
+       * =========================================================
+       * 5. HIỂN THỊ LỰA CHỌN DỊCH VỤ
+       * =========================================================
+       */
+      function renderSelectedPlan() {
+        if (!selectedPlan) {
+          serviceSummary.style.display = 'none';
+          generalSignupSummary.style.display =
+            'block';
+
+          selectedPlanNotice.style.display =
+            'block';
+
+          selectedPlanNotice.innerHTML =
+            '<strong>Chưa chọn dịch vụ.</strong> ' +
+            'Sau khi xác thực email, bạn sẽ lựa chọn ' +
+            'BizHealth hoặc BizOS tại bước Tạo tổ chức.';
+
+          return;
+        }
+
+        serviceSummary.style.display = 'block';
+        generalSignupSummary.style.display =
+          'none';
+
+        sumService.textContent =
+          selectedPlan.serviceLabel;
+
+        sumPlanTerm.textContent =
+          selectedPlan.planLabel +
+          ' · ' +
+          selectedPlan.billingLabel;
+
+        selectedPlanNotice.style.display =
+          'block';
+
+        selectedPlanNotice.innerHTML =
+          '<strong>Gói đã chọn:</strong> ' +
+          selectedPlan.planLabel +
+          ' · ' +
+          selectedPlan.billingLabel +
+          '. Bạn vẫn có thể thay đổi gói tại bước Tạo tổ chức.';
+
+        loadSelectedPlanPrice();
+      }
+
+      /*
+       * =========================================================
+       * 6. HIỂN THỊ GIÁ GÓI
+       * =========================================================
+       */
+      function loadSelectedPlanPrice() {
+        if (!selectedPlan) {
+          sumPrice.textContent = '';
+          return;
+        }
+
+        fetch(
+          '../assets/plans.json',
+          {
+            cache: 'no-cache'
+          }
+        )
+          .then(function (response) {
+            if (!response.ok) {
+              throw new Error(
+                'Không thể tải bảng giá.'
+              );
+            }
+
+            return response.json();
+          })
+          .then(function (plans) {
+            var allPlans = []
+              .concat(plans.bizhealth || [])
+              .concat(plans.strategy_os || []);
+
+            var foundPlan =
+              allPlans.find(function (plan) {
+                return (
+                  String(plan.code || '')
+                    .toUpperCase() ===
+                    selectedPlan.plan
+                );
+              });
+
+            if (
+              !foundPlan ||
+              !foundPlan.price ||
+              foundPlan.price.vnd == null
+            ) {
+              sumPrice.textContent = '';
+              return;
+            }
+
+            var months =
+              foundPlan.billing_type === 'monthly'
+                ? selectedPlan.term
+                : 1;
+
+            var basePrice =
+              Number(foundPlan.price.vnd) *
+              months;
+
+            var discountRate = 0;
+
+            if (months === 6) {
+              discountRate = 0.10;
+            }
+
+            if (months === 12) {
+              discountRate = 0.15;
+            }
+
+            var finalPrice =
+              Math.round(
+                basePrice *
+                (1 - discountRate)
+              );
+
+            var priceText =
+              new Intl.NumberFormat(
+                'vi-VN'
+              ).format(finalPrice) +
+              ' đ';
+
+            if (discountRate > 0) {
+              priceText +=
+                ' · Đã giảm ' +
+                Math.round(
+                  discountRate * 100
+                ) +
+                '%';
+            }
+
+            sumPrice.textContent = priceText;
+          })
+          .catch(function (error) {
+            console.warn(
+              'Không thể hiển thị giá gói:',
+              error
+            );
+
+            sumPrice.textContent = '';
+          });
+      }
+
+      /*
+       * Người dùng có thể bỏ lựa chọn ban đầu
+       * và chọn dịch vụ sau tại bước Tạo tổ chức.
+       */
+      removeSelectedPlanButton.addEventListener(
+        'click',
+        function () {
+          selectedPlan = null;
+          requestedPlan = '';
+
+          var cleanUrl =
+            new URL(
+              window.location.href
+            );
+
+          cleanUrl.searchParams.delete(
+            'service'
+          );
+
+          cleanUrl.searchParams.delete(
+            'plan'
+          );
+
+          cleanUrl.searchParams.delete(
+            'term'
+          );
+
+          window.history.replaceState(
+            {},
+            '',
+            cleanUrl.pathname +
+            cleanUrl.search
+          );
+
+          renderSelectedPlan();
+        }
+      );
+
+      /*
+       * =========================================================
+       * 7. HIỆN/ẨN MẬT KHẨU
+       * =========================================================
+       */
+      togglePasswordButton.addEventListener(
+        'click',
+        function () {
+          var shouldShow =
+            passwordInput.type === 'password';
+
+          passwordInput.type =
+            shouldShow
+              ? 'text'
+              : 'password';
+
+          confirmPasswordInput.type =
+            shouldShow
+              ? 'text'
+              : 'password';
+
+          togglePasswordButton.textContent =
+            shouldShow
+              ? '🙈'
+              : '👁';
+        }
+      );
+
+      /*
+       * =========================================================
+       * 8. KIỂM TRA DỮ LIỆU FORM
+       * =========================================================
+       */
+      function validateEmail(email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+          email
+        );
+      }
+
+      function validatePhone(phone) {
+        var normalized =
+          phone.replace(/[^\d+]/g, '');
+
+        return normalized.length >= 9;
+      }
+
+      function validatePassword(password) {
+        return password.length >= 8;
+      }
+
+      /*
+       * =========================================================
+       * 9. SUBMIT FORM
+       * =========================================================
+       */
+      signupForm.addEventListener(
+        'submit',
+        function (event) {
+          event.preventDefault();
+          event.stopPropagation();
+
+          hideMessage();
+
+          var fullName =
+            fullNameInput.value.trim();
+
+          var phone =
+            phoneInput.value.trim();
+
+          var email =
+            emailInput.value
+              .trim()
+              .toLowerCase();
+
+          var password =
+            passwordInput.value;
+
+          var confirmPassword =
+            confirmPasswordInput.value;
+
+          var organizationName =
+            organizationInput.value.trim();
+
+          var taxId =
+            taxIdInput.value.trim();
+
+          /*
+           * Kiểm tra trường bắt buộc.
+           */
+          if (
+            !fullName ||
+            !phone ||
+            !email ||
+            !password ||
+            !confirmPassword ||
+            !organizationName
+          ) {
+            showMessage(
+              'error',
+              'Vui lòng điền đầy đủ các trường bắt buộc (*).'
+            );
+
+            return;
+          }
+
+          if (!validateEmail(email)) {
+            showMessage(
+              'error',
+              'Email chưa đúng định dạng. Vui lòng kiểm tra lại.'
+            );
+
+            emailInput.focus();
+            return;
+          }
+
+          if (!validatePhone(phone)) {
+            showMessage(
+              'error',
+              'Số điện thoại chưa hợp lệ. Vui lòng kiểm tra lại.'
+            );
+
+            phoneInput.focus();
+            return;
+          }
+
+          if (!validatePassword(password)) {
+            showMessage(
+              'error',
+              'Mật khẩu phải có ít nhất 8 ký tự.'
+            );
+
+            passwordInput.focus();
+            return;
+          }
+
+          if (password !== confirmPassword) {
+            showMessage(
+              'error',
+              'Mật khẩu xác nhận không khớp. Vui lòng nhập lại.'
+            );
+
+            confirmPasswordInput.focus();
+            return;
+          }
+
+          if (
+            typeof VCPC_DB === 'undefined' ||
+            typeof VCPC_DB.signupWithPassword !==
+              'function'
+          ) {
+            showMessage(
+              'error',
+              'Hệ thống đăng ký chưa được tải. Vui lòng tải lại trang.'
+            );
+
+            return;
+          }
+
+          setLoading(true);
+
+          /*
+           * Chỉ truyền service/plan/term khi người dùng
+           * đã chọn một gói hợp lệ.
+           *
+           * Khi đăng ký chung:
+           * service_code = ''
+           * plan_code = ''
+           * billing_term_months = 0
+           */
+          var signupPayload = {
+            email: email,
+            password: password,
+            full_name: fullName,
+            phone: phone,
+            organization_name:
+              organizationName,
+            tax_id: taxId,
+            affiliate_code:
+              affiliateCode
+          };
+
+          if (selectedPlan) {
+            signupPayload.service_code =
+              selectedPlan.service;
+
+            signupPayload.plan_code =
+              selectedPlan.plan;
+
+            signupPayload.billing_term_months =
+              selectedPlan.term;
+          } else {
+            signupPayload.service_code = '';
+            signupPayload.plan_code = '';
+            signupPayload.billing_term_months = 0;
+          }
+
+          try {
+            var result =
+              VCPC_DB.signupWithPassword(
+                signupPayload
+              );
+
+            if (
+              !result ||
+              result.error
+            ) {
+              throw new Error(
+                result && result.error
+                  ? result.error
+                  : 'SIGNUP_FAILED'
+              );
+            }
+
+            /*
+             * Trường hợp Supabase yêu cầu xác thực email.
+             */
+            if (result.needs_confirmation) {
+              showMessage(
+                'success',
+                selectedPlan
+                  ? (
+                    'Đã tạo tài khoản. Vui lòng kiểm tra email để xác thực. ' +
+                    'Sau khi xác thực, gói ' +
+                    selectedPlan.planLabel +
+                    ' sẽ được chọn sẵn tại bước Tạo tổ chức.'
+                  )
+                  : (
+                    'Đã tạo tài khoản. Vui lòng kiểm tra email để xác thực. ' +
+                    'Sau khi xác thực, bạn sẽ chọn dịch vụ tại bước Tạo tổ chức.'
+                  )
+              );
+
+              signupForm
+                .querySelectorAll('input')
+                .forEach(function (input) {
+                  input.disabled = true;
+                });
+
+              signupButton.disabled = true;
+              signupButton.textContent =
+                'Vui lòng kiểm tra email';
+
+              return;
+            }
+
+            /*
+             * Trường hợp confirmation email đang tắt
+             * hoặc Supabase trả session ngay.
+             */
+            var onboardingUrl =
+              new URL(
+                '/app/onboarding.html',
+                window.location.origin
+              );
+
+            if (selectedPlan) {
+              onboardingUrl.searchParams.set(
+                'service',
+                selectedPlan.service
+              );
+
+              onboardingUrl.searchParams.set(
+                'plan',
+                selectedPlan.plan
+              );
+
+              onboardingUrl.searchParams.set(
+                'term',
+                String(selectedPlan.term)
+              );
+            }
+
+            window.location.replace(
+              onboardingUrl.href
+            );
+          } catch (error) {
+            console.error(
+              'VCPC signup error:',
+              error
+            );
+
+            var errorText =
+              String(
+                error.message || ''
+              ).toLowerCase();
+
+            if (
+              errorText.indexOf('already') !== -1 ||
+              errorText.indexOf(
+                'registered'
+              ) !== -1 ||
+              errorText.indexOf(
+                'email_exists'
+              ) !== -1
+            ) {
+              showMessage(
+                'error',
+                'Email này đã được đăng ký. Vui lòng đăng nhập hoặc sử dụng email khác.'
+              );
+            } else if (
+              errorText.indexOf(
+                'rate'
+              ) !== -1
+            ) {
+              showMessage(
+                'error',
+                'Bạn đã gửi quá nhiều yêu cầu. Vui lòng thử lại sau ít phút.'
+              );
+            } else {
+              showMessage(
+                'error',
+                'Có lỗi xảy ra khi tạo tài khoản. Vui lòng thử lại.'
+              );
+            }
+
+            setLoading(false);
+          }
+        }
+      );
+
+      /*
+       * Hiển thị trạng thái ban đầu.
+       */
+      renderSelectedPlan();
+    })();
+  </script>
 </body>
 </html>
