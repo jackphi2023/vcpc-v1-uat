@@ -4,6 +4,7 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta name="theme-color" content="#071f3d"/>
+<meta name="robots" content="noindex,nofollow"/>
 <link rel="icon" type="image/png" href="../assets/favicon.png"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -21,18 +22,18 @@
       <span style="font-size:11px;letter-spacing:.08em;color:#a9bbd2;text-transform:uppercase;">Advisory Platform</span></div>
     </a>
     <div>
-      <h1>Xác nhận email thành công.</h1>
-      <p>Tài khoản của bạn đã được kích hoạt. Đang chuyển đến onboarding…</p>
+      <h1>Xác nhận email tài khoản VCPC.</h1>
+      <p>Sau khi xác thực, hệ thống sẽ chuyển tới bước Tạo tổ chức và chọn dịch vụ.</p>
     </div>
-    <div style="font-size:13px;color:#90a4c2;">© VCPC · vietcapitalpartners.com</div>
+    <div style="font-size:13px;color:#90a4c2;">© VCPC · vietcapitalpartner.com</div>
   </aside>
 
   <section class="auth-form-wrap">
     <div class="auth-form" id="callbackMsg">
       <div style="font-size:40px;margin-bottom:16px;" id="callbackIcon">⏳</div>
-      <h2 id="callbackTitle">Đang xử lý…</h2>
-      <p id="callbackBody" style="color:#5b6b80;line-height:1.7;margin-top:10px;">Vui lòng đợi trong giây lát.</p>
-      <div id="callbackCta" style="display:none;margin-top:20px;display:grid;gap:8px;"></div>
+      <h2 id="callbackTitle">Đang xác thực email…</h2>
+      <p id="callbackBody" style="color:#5b6b80;line-height:1.7;margin-top:10px;">Vui lòng không đóng trình duyệt.</p>
+      <div id="callbackCta" style="display:none;margin-top:20px;gap:8px;"></div>
     </div>
   </section>
 </div>
@@ -42,17 +43,70 @@
 <script src="../assets/app-core.js"></script>
 <script>
 (function(){
-var icon=document.getElementById('callbackIcon'),title=document.getElementById('callbackTitle'),body=document.getElementById('callbackBody'),cta=document.getElementById('callbackCta');
-function ok(msg,dest){icon.textContent='✅';title.textContent='Xác nhận thành công!';body.textContent=msg||'Đang chuyển tiếp…';setTimeout(function(){location.href=dest||'onboarding.html';},1200);}
-function fail(msg){icon.textContent='❌';title.textContent='Có lỗi xảy ra';body.textContent=msg;cta.style.display='grid';cta.innerHTML='<a href="../dashboard.html" class="app-btn app-btn-primary">Đăng nhập lại →</a><a href="mailto:partner@vietcapitalpartners.com" class="app-btn app-btn-ghost">Liên hệ VCPC</a>';}
+'use strict';
+var icon=document.getElementById('callbackIcon');
+var title=document.getElementById('callbackTitle');
+var body=document.getElementById('callbackBody');
+var cta=document.getElementById('callbackCta');
+var PLAN_CONFIG={
+  BIZHEALTH_STANDARD:{service:'BIZHEALTH',term:1,label:'BizHealth Standard'},
+  BIZHEALTH_PREMIUM:{service:'BIZHEALTH',term:1,label:'BizHealth Premium'},
+  OS_LITE:{service:'BIZOS',term:3,label:'BizOS Starter'},
+  OS_STANDARD:{service:'BIZOS',term:6,label:'BizOS Growth'},
+  OS_PARTNER:{service:'BIZOS',term:12,label:'BizOS Scale'}
+};
+
+function ok(message,destination){
+  icon.textContent='✅';
+  title.textContent='Xác nhận email thành công!';
+  body.textContent=message;
+  setTimeout(function(){window.location.replace(destination);},1100);
+}
+function fail(message){
+  icon.textContent='❌';
+  title.textContent='Không thể xác nhận tài khoản';
+  body.textContent=message;
+  cta.style.display='grid';
+  cta.innerHTML='<a href="login.html" class="app-btn app-btn-primary">Đăng nhập lại →</a><a href="mailto:partner@vietcapitalpartners.com" class="app-btn app-btn-ghost">Liên hệ VCPC</a>';
+}
+function clean(value){return String(value||'').trim().toUpperCase();}
+
 try{
- var c=VCPC_DB.consumeAuthCallback?VCPC_DB.consumeAuthCallback():null;
- if(c&&c.error)throw new Error(c.error);
- if(!VCPC_DB.currentUser())throw new Error('Phiên xác nhận không hợp lệ hoặc đã hết hạn.');
- var done=VCPC_DB.completePendingSignup?VCPC_DB.completePendingSignup():{ok:true};
- if(done&&done.error)throw new Error(done.error);
- ok('Tài khoản đã được kích hoạt. Đang chuyển đến onboarding.','onboarding.html');
-}catch(e){fail(e.message||'Không thể kích hoạt tài khoản.');}
+  var callbackResult=VCPC_DB.consumeAuthCallback?VCPC_DB.consumeAuthCallback():null;
+  if(callbackResult&&callbackResult.error)throw new Error(callbackResult.error);
+
+  /* Remove access/refresh tokens from the visible address after the adapter
+     has stored the session. Keep normal query parameters such as plan. */
+  if(window.history&&window.history.replaceState&&window.location.hash){
+    window.history.replaceState({},document.title,window.location.pathname+window.location.search);
+  }
+
+  var user=VCPC_DB.currentUser();
+  if(!user)throw new Error('Link xác nhận không hợp lệ hoặc đã hết hạn.');
+
+  var metadata=user.user_metadata||{};
+  var query=new URLSearchParams(window.location.search);
+  var requestedPlan=clean(query.get('plan')||metadata.plan_code||'');
+  var selected=PLAN_CONFIG[requestedPlan]||null;
+
+  var completed=VCPC_DB.completePendingSignup?VCPC_DB.completePendingSignup():{ok:true};
+  if(completed&&completed.error)throw new Error(completed.error);
+
+  var destination=new URL('/app/onboarding.html',window.location.origin);
+  var message='Email đã được xác thực. Vui lòng tạo tổ chức và chọn dịch vụ để tiếp tục.';
+
+  if(selected){
+    destination.searchParams.set('service',selected.service);
+    destination.searchParams.set('plan',requestedPlan);
+    destination.searchParams.set('term',String(selected.term));
+    message='Email đã được xác thực. Gói '+selected.label+' đã được chọn sẵn; bạn vẫn có thể thay đổi tại bước Tạo tổ chức.';
+  }
+
+  ok(message,destination.href);
+}catch(error){
+  console.error('VCPC auth callback error:',error);
+  fail(error&&error.message?error.message:'Không thể kích hoạt tài khoản. Vui lòng thử lại.');
+}
 })();
 </script>
 </body>
