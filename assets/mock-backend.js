@@ -98,6 +98,46 @@
   function localInsert(table,row){var s=localDb();row=Object.assign({},row);row.id=row.id||uuid();row.created_at=row.created_at||now();s[table].push(row);saveLocal(s);return row;}
   function localUpsert(table,row,pk){pk=pk||'id';var s=localDb(),a=s[table]||[];row=Object.assign({},row);var i=a.findIndex(function(r){return r[pk]===row[pk];});if(i>=0)a[i]=Object.assign({},a[i],row,{updated_at:now()});else{row.id=row.id||uuid();row.created_at=row.created_at||now();a.push(row);}s[table]=a;saveLocal(s);return i>=0?a[i]:row;}
 
+
+  /* Valid signup plans. A missing/invalid plan means account-only signup. */
+  var SIGNUP_PLAN_CONFIG={
+    BIZHEALTH_STANDARD:{service_code:'BIZHEALTH',plan_code:'BIZHEALTH_STANDARD',billing_term_months:1,product:'bizhealth'},
+    BIZHEALTH_PREMIUM:{service_code:'BIZHEALTH',plan_code:'BIZHEALTH_PREMIUM',billing_term_months:1,product:'bizhealth'},
+    OS_LITE:{service_code:'BIZOS',plan_code:'OS_LITE',billing_term_months:3,product:'strategy_os'},
+    OS_STANDARD:{service_code:'BIZOS',plan_code:'OS_STANDARD',billing_term_months:6,product:'strategy_os'},
+    OS_PARTNER:{service_code:'BIZOS',plan_code:'OS_PARTNER',billing_term_months:12,product:'strategy_os'}
+  };
+  function resolveSignupSelection(data){
+    data=data||{};
+    var plan=String(data.plan_code||'').trim().toUpperCase();
+    var cfg=SIGNUP_PLAN_CONFIG[plan]||null;
+    if(!cfg)return {has_plan:false,service_code:'',plan_code:'',billing_term_months:0,product:''};
+    return {
+      has_plan:true,
+      service_code:cfg.service_code,
+      plan_code:cfg.plan_code,
+      billing_term_months:cfg.billing_term_months,
+      product:cfg.product
+    };
+  }
+  function buildSignupMeta(data){
+    data=data||{};
+    var selected=resolveSignupSelection(data);
+    var meta={
+      full_name:data.full_name||data.name||'',
+      phone:data.phone||'',
+      organization_name:data.organization_name||'',
+      tax_id:data.tax_id||'',
+      affiliate_code:data.affiliate_code||data.ref||''
+    };
+    if(selected.has_plan){
+      meta.service_code=selected.service_code;
+      meta.plan_code=selected.plan_code;
+      meta.billing_term_months=selected.billing_term_months;
+    }
+    return meta;
+  }
+
   var DB={
     isBackend:function(){return BACKEND;},
     callFunction:function(name,body){return fn(name,body).data;},
@@ -118,28 +158,53 @@
       var otpRedirect=location.origin+'/app/auth-callback.html';var r=auth('POST','otp?redirect_to='+encodeURIComponent(otpRedirect),{email:email,create_user:true},true);return r.error?{error:r.error.message}:{email:email};
     },
     signupWithPassword:function(data){
+      var selected=resolveSignupSelection(data);
+      var meta=buildSignupMeta(data);
       if(DEMO){
-        var s=localDb();if((s.profiles||[]).some(function(u){return u.email===data.email;}))return {error:'email_exists'};
-        var user=localInsert('profiles',{email:data.email,full_name:data.full_name,name:data.full_name,phone:data.phone});
+        var s=localDb();
+        if((s.profiles||[]).some(function(u){return String(u.email).toLowerCase()===String(data.email).toLowerCase();}))return {error:'email_exists'};
+        var user=localInsert('profiles',{email:data.email,full_name:data.full_name,name:data.full_name,phone:data.phone,user_metadata:meta});
         s=localDb();s.session={user_id:user.id,email:user.email,at:now()};saveLocal(s);
-        var org=localInsert('organizations',{name:data.organization_name,tax_id:data.tax_id,owner_id:user.id});
+        var org=localInsert('organizations',{name:data.organization_name||'Tổ chức của tôi',tax_id:data.tax_id||null,owner_id:user.id});
         localInsert('organization_members',{organization_id:org.id,user_id:user.id,email:user.email,name:user.full_name,role:'owner',status:'active'});
-        var product=(data.service_code||'').toUpperCase()==='BIZOS'?'strategy_os':'bizhealth';
-        var eng=localInsert('engagements',{organization_id:org.id,owner_id:user.id,product:product,plan_code:data.plan_code,billing_term:Number(data.billing_term_months)||3,state:'DRAFT'});
-        setContext({organization_id:org.id,engagement_id:eng.id});return {user:user,org:org,engagement:eng};
+        if(selected.has_plan){
+          var eng=localInsert('engagements',{organization_id:org.id,owner_id:user.id,product:selected.product,plan_code:selected.plan_code,billing_term:selected.billing_term_months,state:'DRAFT'});
+          setContext({organization_id:org.id,engagement_id:eng.id});
+          return {user:user,org:org,engagement:eng,completed:true};
+        }
+        setContext({organization_id:org.id});
+        return {user:user,org:org,engagement:null,completed:false,deferred:true};
       }
-      var meta={full_name:data.full_name||data.name||'',phone:data.phone||'',organization_name:data.organization_name||'',tax_id:data.tax_id||'',service_code:data.service_code||'',plan_code:data.plan_code||'',billing_term_months:Number(data.billing_term_months)||3,affiliate_code:data.affiliate_code||data.ref||''};
       localStorage.setItem('vcpc.pending.signup',JSON.stringify(meta));
-      var signupRedirect=location.origin+'/app/auth-callback.html';
-      var r=auth('POST','signup?redirect_to='+encodeURIComponent(signupRedirect),{email:data.email,password:data.password,data:meta},true);
+      var callbackUrl=new URL('/app/auth-callback.html',location.origin);
+      if(selected.has_plan){
+        callbackUrl.searchParams.set('service',selected.service_code);
+        callbackUrl.searchParams.set('plan',selected.plan_code);
+        callbackUrl.searchParams.set('term',String(selected.billing_term_months));
+      }
+      var r=auth('POST','signup?redirect_to='+encodeURIComponent(callbackUrl.href),{email:data.email,password:data.password,data:meta},true);
       if(r.error)return {error:(r.data&&r.data.msg)||(r.data&&r.data.error_description)||r.error.message};
       var session=storeAuthResponse(r.data);
       if(session){
-        var complete=rpc('vcpc_complete_signup',{p_organization_name:meta.organization_name,p_tax_id:meta.tax_id,p_service_code:meta.service_code,p_plan_code:meta.plan_code,p_billing_term:meta.billing_term_months,p_affiliate_code:meta.affiliate_code||null},true);
+        if(!selected.has_plan){
+          return {user:normalizeUser(r.data.user),session:session,completed:false,deferred:true};
+        }
+        var complete=rpc('vcpc_complete_signup',{
+          p_organization_name:meta.organization_name,
+          p_tax_id:meta.tax_id,
+          p_service_code:selected.service_code,
+          p_plan_code:selected.plan_code,
+          p_billing_term:selected.billing_term_months,
+          p_affiliate_code:meta.affiliate_code||null
+        },true);
         if(complete.error)return {error:complete.error.message};
         var payload=complete.data;
         if(Array.isArray(payload))payload=payload[0];
-        if(payload&&payload.organization_id)setContext({organization_id:payload.organization_id,engagement_id:payload.engagement_id});
+        if(payload&&payload.organization_id){
+          var ctx={organization_id:payload.organization_id};
+          if(payload.engagement_id)ctx.engagement_id=payload.engagement_id;
+          setContext(ctx);
+        }
         localStorage.removeItem('vcpc.pending.signup');
         return {user:normalizeUser(r.data.user),session:session,completed:true,context:payload};
       }
@@ -147,12 +212,42 @@
     },
     completePendingSignup:function(){
       if(DEMO)return {ok:true};
-      var meta=parse(localStorage.getItem('vcpc.pending.signup')||'{}',{});
-      var r=rpc('vcpc_complete_signup',{p_organization_name:meta.organization_name||'Tổ chức của tôi',p_tax_id:meta.tax_id||'',p_service_code:meta.service_code||'BIZHEALTH',p_plan_code:meta.plan_code||'BIZHEALTH_STANDARD',p_billing_term:Number(meta.billing_term_months)||3,p_affiliate_code:meta.affiliate_code||null},true);
+      var localMeta=parse(localStorage.getItem('vcpc.pending.signup')||'{}',{});
+      var current=this.currentUser();
+      var authMeta=current&&current.user_metadata?current.user_metadata:{};
+      var meta=Object.assign({},authMeta,localMeta);
+      var selected=resolveSignupSelection(meta);
+
+      /* Account-only signup: do not invent a BizHealth engagement. The user
+         will choose a service on onboarding. Keep pending metadata for prefill. */
+      if(!selected.has_plan){
+        return {
+          ok:true,
+          deferred:true,
+          organization_id:null,
+          engagement_id:null,
+          organization_name:meta.organization_name||'',
+          tax_id:meta.tax_id||''
+        };
+      }
+
+      var r=rpc('vcpc_complete_signup',{
+        p_organization_name:meta.organization_name||'Tổ chức của tôi',
+        p_tax_id:meta.tax_id||'',
+        p_service_code:selected.service_code,
+        p_plan_code:selected.plan_code,
+        p_billing_term:selected.billing_term_months,
+        p_affiliate_code:meta.affiliate_code||null
+      },true);
       if(r.error)return {error:r.error.message};
       var d=Array.isArray(r.data)?r.data[0]:r.data;
-      if(d&&d.organization_id)setContext({organization_id:d.organization_id,engagement_id:d.engagement_id});
-      localStorage.removeItem('vcpc.pending.signup');return d||{ok:true};
+      if(d&&d.organization_id){
+        var ctx={organization_id:d.organization_id};
+        if(d.engagement_id)ctx.engagement_id=d.engagement_id;
+        setContext(ctx);
+      }
+      localStorage.removeItem('vcpc.pending.signup');
+      return d||{ok:true};
     },
     consumeAuthCallback:function(){
       if(DEMO)return {session:this.currentSession()};
