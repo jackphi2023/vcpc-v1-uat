@@ -1,6 +1,7 @@
 import { cp, mkdir, rm, readdir, stat } from 'node:fs/promises';
 import path from 'node:path';
 import transformBizDeal from './transform-bizdeal.mjs';
+import transformPricing from './transform-pricing.mjs';
 
 const root = process.cwd();
 const dist = path.join(root, 'dist');
@@ -15,4 +16,5 @@ for (const name of await readdir(root)) {
   else await cp(src,dst);
 }
 await transformBizDeal(dist);
+await transformPricing(dist);
 console.log(`Built static site to ${dist}`);
