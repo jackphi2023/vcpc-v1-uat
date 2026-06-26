@@ -47,28 +47,28 @@
   [headers.values]
     Cache-Control = "public, max-age=3600, stale-while-revalidate=86400"
 
-# Public read-only demo routes. These do not sign in any demo account and do not
-# replace a real user's Supabase session.
+# Public read-only demo routes. Redirect to the actual dashboard files so that
+# browser-relative assets and links resolve under /app instead of /demo.
 [[redirects]]
   from = "/demo/bizhealth"
   to = "/app/dashboard-bizhealth.html?demo=1"
-  status = 200
+  status = 302
 
 [[redirects]]
   from = "/demo/bizos"
   to = "/app/dashboard-strategy.html?demo=1"
-  status = 200
+  status = 302
 
 # Backward-compatible demo URLs.
 [[redirects]]
   from = "/bizhealth-demo"
   to = "/demo/bizhealth"
-  status = 301
+  status = 302
 
 [[redirects]]
   from = "/biz-os-demo"
   to = "/demo/bizos"
-  status = 301
+  status = 302
 
 [[redirects]]
   from = "/dashboard"
