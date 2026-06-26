@@ -23,13 +23,18 @@ jobs:
             ('data-en="Request proposal" data-vi="Đăng ký BizOS Growth" href="#contact"','data-en="Sign up for BizOS Growth" data-vi="Đăng ký BizOS Growth" href="app/signup.html?service=BIZOS&amp;plan=OS_STANDARD&amp;term=6"'),
             ('data-en="Sign up for BizOS Scale" data-vi="Đăng ký BizOS Scale" href="app/signup.html"','data-en="Sign up for BizOS Scale" data-vi="Đăng ký BizOS Scale" href="app/signup.html?service=BIZOS&amp;plan=OS_PARTNER&amp;term=12"')
           ]
+          changed=False
           for old,new in pairs:
-            if s.count(old)!=1: raise SystemExit('BizOS link marker mismatch')
-            s=s.replace(old,new,1)
+            if old in s:
+              s=s.replace(old,new,1)
+              changed=True
+            elif new not in s:
+              raise SystemExit('BizOS link marker mismatch')
           p.write_text(s,encoding='utf-8')
           PY
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add biz-os.html
-          git commit -m "Fix BizOS signup links"
+          git diff --cached --quiet || git commit -m "Fix BizOS signup links"
           git push origin fix-signup-auth-flow
+# retry finalization
