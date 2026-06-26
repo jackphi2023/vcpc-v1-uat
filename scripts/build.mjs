@@ -1,5 +1,6 @@
 import { cp, mkdir, rm, readdir, stat, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import transformAuthRuntime from './transform-auth-runtime.mjs';
 import transformBizDeal from './transform-bizdeal.mjs';
 import transformPricing from './transform-pricing.mjs';
 
@@ -21,6 +22,7 @@ for (const name of await readdir(root)) {
 
 const indexPath = path.join(dist,'index.html');
 await stat(indexPath);
+await transformAuthRuntime(dist);
 
 async function runOptionalTransform(name, transform) {
   try {
@@ -39,7 +41,8 @@ const deployInfo = {
   branch: process.env.BRANCH || 'local',
   context: process.env.CONTEXT || 'local',
   builtAt: new Date().toISOString(),
-  indexIncluded: true
+  indexIncluded: true,
+  authRuntimeFix: 'url-constructor-shadow'
 };
 await writeFile(path.join(dist,'deploy-info.json'), JSON.stringify(deployInfo,null,2));
 
