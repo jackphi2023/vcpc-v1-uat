@@ -1,0 +1,30 @@
+name: Fix signup callback
+on:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  fix:
+    if: github.head_ref == 'fix-signup-auth-flow'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix-signup-auth-flow
+      - run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('assets/mock-backend.js')
+          s=p.read_text()
+          start=s.index("      var callbackUrl=new URL('/app/auth-callback.html',location.origin);")
+          end=s.index("      var r=auth('POST','signup?redirect_to='",start)
+          replacement="      var callbackBase=String(C.APP_URL||location.origin).replace(/\\/+$/,'');\n      var callbackUrl=new URL('/app/auth-callback.html',callbackBase);\n"
+          s=s[:start]+replacement+s[end:]
+          p.write_text(s)
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/mock-backend.js
+          git commit -m "Use canonical signup callback URL"
+          git push origin fix-signup-auth-flow

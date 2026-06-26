@@ -1,0 +1,144 @@
+name: Finalize signup flow fix
+on:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  finalize:
+    if: github.head_ref == 'fix-signup-auth-flow'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix-signup-auth-flow
+          fetch-depth: 0
+      - name: Apply remaining fixes
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          def replace_or_confirm(path, old, new, label):
+              p=Path(path)
+              s=p.read_text(encoding='utf-8')
+              if old in s:
+                  s=s.replace(old,new,1)
+                  p.write_text(s,encoding='utf-8')
+              elif new not in s:
+                  raise SystemExit(label+' marker missing')
+
+          replace_or_confirm('bizhealth.html','href="app/signup.html?plan=BIZHEALTH_STANDARD"','href="app/signup.html?service=BIZHEALTH&amp;plan=BIZHEALTH_STANDARD&amp;term=1"','BizHealth Standard')
+          replace_or_confirm('bizhealth.html','href="app/signup.html?plan=BIZHEALTH_PREMIUM"','href="app/signup.html?service=BIZHEALTH&amp;plan=BIZHEALTH_PREMIUM&amp;term=1"','BizHealth Premium')
+          replace_or_confirm('biz-os.html','data-en="Request proposal" data-vi="Đăng ký BizOS Growth" href="app/signup.html?service=BIZOS&amp;plan=OS_STANDARD&amp;term=6"','data-en="Sign up for BizOS Growth" data-vi="Đăng ký BizOS Growth" href="app/signup.html?service=BIZOS&amp;plan=OS_STANDARD&amp;term=6"','BizOS Growth label')
+
+          p=Path('app/signup.html')
+          s=p.read_text(encoding='utf-8')
+          old="""            if (
+              errorText.indexOf('already') !== -1 ||
+              errorText.indexOf(
+                'registered'
+              ) !== -1 ||
+              errorText.indexOf(
+                'email_exists'
+              ) !== -1
+            ) {
+              showMessage(
+                'error',
+                'Email này đã được đăng ký. Vui lòng đăng nhập hoặc sử dụng email khác.'
+              );
+            } else if (
+              errorText.indexOf(
+                'rate'
+              ) !== -1
+            ) {
+              showMessage(
+                'error',
+                'Bạn đã gửi quá nhiều yêu cầu. Vui lòng thử lại sau ít phút.'
+              );
+            } else {
+              showMessage(
+                'error',
+                'Có lỗi xảy ra khi tạo tài khoản. Vui lòng thử lại.'
+              );
+            }"""
+          new="""            if (
+              errorText.indexOf('already') !== -1 ||
+              errorText.indexOf('registered') !== -1 ||
+              errorText.indexOf('email_exists') !== -1 ||
+              errorText.indexOf('user_already_exists') !== -1
+            ) {
+              showMessage(
+                'error',
+                'Email này đã được đăng ký. Vui lòng đăng nhập hoặc sử dụng email khác.'
+              );
+            } else if (
+              errorText.indexOf('redirect') !== -1 ||
+              errorText.indexOf('not allowed') !== -1
+            ) {
+              showMessage(
+                'error',
+                'Liên kết xác thực email chưa được cấu hình đúng. Vui lòng liên hệ VCPC hoặc thử lại sau.'
+              );
+            } else if (
+              errorText.indexOf('smtp') !== -1 ||
+              errorText.indexOf('sending confirmation') !== -1 ||
+              errorText.indexOf('send email') !== -1
+            ) {
+              showMessage(
+                'error',
+                'Hệ thống chưa gửi được email xác thực. Vui lòng thử lại sau hoặc liên hệ VCPC.'
+              );
+            } else if (
+              errorText.indexOf('invalid email') !== -1 ||
+              errorText.indexOf('email address') !== -1
+            ) {
+              showMessage(
+                'error',
+                'Địa chỉ email chưa hợp lệ hoặc không thể nhận thư xác thực. Vui lòng kiểm tra lại.'
+              );
+            } else if (
+              errorText.indexOf('rate') !== -1 ||
+              errorText.indexOf('too many') !== -1
+            ) {
+              showMessage(
+                'error',
+                'Bạn đã gửi quá nhiều yêu cầu. Vui lòng thử lại sau ít phút.'
+              );
+            } else if (
+              errorText.indexOf('failed to fetch') !== -1 ||
+              errorText.indexOf('network') !== -1 ||
+              errorText.indexOf('http_0') !== -1
+            ) {
+              showMessage(
+                'error',
+                'Không kết nối được hệ thống đăng ký. Vui lòng kiểm tra Internet và thử lại.'
+              );
+            } else {
+              showMessage(
+                'error',
+                'Không thể tạo tài khoản lúc này. Vui lòng thử lại hoặc liên hệ VCPC nếu lỗi tiếp tục xảy ra.'
+              );
+            }"""
+          if old in s:
+              s=s.replace(old,new,1)
+              p.write_text(s,encoding='utf-8')
+          elif new not in s:
+              raise SystemExit('signup error block marker missing')
+          PY
+      - name: Validate project
+        run: |
+          npm ci
+          npm run check
+          grep -q 'callbackBase=String(C.APP_URL' assets/mock-backend.js
+          grep -q 'plan=BIZHEALTH_STANDARD' bizhealth.html
+          grep -q 'plan=OS_LITE' biz-os.html
+          grep -q 'plan=OS_STANDARD' biz-os.html
+          grep -q 'plan=OS_PARTNER' biz-os.html
+      - name: Commit clean fix
+        run: |
+          rm -f .github/workflows/fix-bizos-links.yml .github/workflows/fix-signup-callback.yml .github/workflows/finalize-signup-fix.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/mock-backend.js app/signup.html bizhealth.html biz-os.html .github/workflows
+          git commit -m "Fix BizHealth and BizOS signup flow"
+          git push origin fix-signup-auth-flow
