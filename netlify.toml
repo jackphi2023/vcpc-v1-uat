@@ -4,7 +4,7 @@
   functions = "netlify/functions"
 
 [build.environment]
-  NODE_VERSION = "20"
+  NODE_VERSION = "22"
   SECRETS_SCAN_OMIT_KEYS = "SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY"
 
 [functions]
@@ -36,29 +36,50 @@
     X-Robots-Tag = "noindex, nofollow"
 
 [[headers]]
+  for = "/demo/*"
+  [headers.values]
+    Cache-Control = "public, max-age=300"
+    X-Frame-Options = "DENY"
+    X-Robots-Tag = "noindex, nofollow"
+
+[[headers]]
   for = "/assets/*"
   [headers.values]
     Cache-Control = "public, max-age=3600, stale-while-revalidate=86400"
+
+# Public read-only demo routes. These do not sign in any demo account and do not
+# replace a real user's Supabase session.
+[[redirects]]
+  from = "/demo/bizhealth"
+  to = "/app/dashboard-bizhealth.html?demo=1"
+  status = 200
+
+[[redirects]]
+  from = "/demo/bizos"
+  to = "/app/dashboard-strategy.html?demo=1"
+  status = 200
+
+# Backward-compatible demo URLs.
+[[redirects]]
+  from = "/bizhealth-demo"
+  to = "/demo/bizhealth"
+  status = 301
+
+[[redirects]]
+  from = "/biz-os-demo"
+  to = "/demo/bizos"
+  status = 301
 
 [[redirects]]
   from = "/dashboard"
   to = "/dashboard.html"
   status = 200
+
 [[redirects]]
   from = "/admin"
   to = "/admin/index.html"
   status = 200
-  [[redirects]]
 
-  from = "/app/affiliate"
-  to = "/app/affiliate-login.html"
-  status = 302
-  force = true  
-[[redirects]]
-  from = "/app/affiliate/"
-  to = "/app/affiliate-login.html"
-  status = 302
-  force = true
 [[redirects]]
   from = "/doitackinhdoanh/:slug"
   to = "/app/affiliate.html?slug=:slug"

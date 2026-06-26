@@ -1,0 +1,13 @@
+/demo/bizhealth                    /app/dashboard-bizhealth.html?demo=1     200
+/demo/bizos                        /app/dashboard-strategy.html?demo=1      200
+/bizhealth-demo                    /demo/bizhealth                          301
+/biz-os-demo                       /demo/bizos                              301
+/dashboard                         /dashboard.html                          200
+/admin                             /admin/index.html                        200
+/bizos                             /biz-os.html                             200
+/bizhealth                         /bizhealth.html                          200
+/bizdeal                           /biz-deal.html                           200
+/doitackinhdoanh/*                 /app/affiliate.html?slug=:splat          200
+/app/dashboard                     /app/index.html                          200
+/app/dashboard-biz-os.html         /app/dashboard-strategy.html             200
+/*                                 /404.html                                404
