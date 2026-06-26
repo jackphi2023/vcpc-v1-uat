@@ -1209,9 +1209,27 @@
                 'Email này đã được đăng ký. Vui lòng đăng nhập hoặc sử dụng email khác.'
               );
             } else if (
+              errorText.indexOf('redirect') !== -1 ||
+              errorText.indexOf('not allowed') !== -1
+            ) {
+              showMessage(
+                'error',
+                'Liên kết xác thực email chưa được cấu hình đúng. Vui lòng thử lại sau hoặc liên hệ VCPC.'
+              );
+            } else if (
+              errorText.indexOf('smtp') !== -1 ||
+              errorText.indexOf('sending confirmation') !== -1 ||
+              errorText.indexOf('send email') !== -1
+            ) {
+              showMessage(
+                'error',
+                'Hệ thống chưa gửi được email xác thực. Vui lòng thử lại sau hoặc liên hệ VCPC.'
+              );
+            } else if (
               errorText.indexOf(
                 'rate'
-              ) !== -1
+              ) !== -1 ||
+              errorText.indexOf('too many') !== -1
             ) {
               showMessage(
                 'error',
