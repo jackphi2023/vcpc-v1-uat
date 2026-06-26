@@ -1,38 +1,31 @@
 name: Apply signup flow fix
 
 on:
-  push:
+  pull_request:
     branches:
-      - fix-signup-flow-final
-    paths:
-      - scripts/apply_signup_flow_fix.py
+      - main
 
 permissions:
   contents: write
 
 jobs:
   apply:
+    if: github.head_ref == 'fix-signup-flow-final'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           ref: fix-signup-flow-final
           fetch-depth: 0
-
-      - name: Apply signup flow fixes
+      - name: Apply fixes
         run: python3 scripts/apply_signup_flow_fix.py
-
-      - name: Validate project
+      - name: Validate
+        run: npm ci && npm run check && git diff --check
+      - name: Commit
         run: |
-          npm ci
-          npm run check
-          git diff --check
-
-      - name: Commit clean changes
-        run: |
-          rm -f scripts/apply_signup_flow_fix.py .github/workflows/apply-signup-flow-fix.yml
+          rm scripts/apply_signup_flow_fix.py .github/workflows/apply-signup-flow-fix.yml
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/mock-backend.js app/signup.html bizhealth.html biz-os.html scripts/apply_signup_flow_fix.py .github/workflows/apply-signup-flow-fix.yml
+          git add -A
           git commit -m "Fix BizHealth and BizOS signup flow"
           git push origin fix-signup-flow-final
