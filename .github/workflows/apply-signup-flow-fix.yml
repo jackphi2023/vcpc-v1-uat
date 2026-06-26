@@ -13,20 +13,15 @@ jobs:
         with:
           ref: fix-signup-flow-final
           fetch-depth: 0
-      - name: Apply fixes
-        run: python3 scripts/apply_signup_flow_fix.py
-      - name: Install
-        run: npm ci
-      - name: Check
-        run: npm run check > signup-check.log 2>&1 || true
+      - run: python3 scripts/apply_signup_flow_fix.py
+      - run: npm install --no-audit --no-fund
+      - run: npm run check > signup-check.log 2>&1 || true
       - uses: actions/upload-artifact@v4
         with:
           name: signup-check-log
           path: signup-check.log
-      - name: Validate diff
-        run: git diff --check
-      - name: Commit
-        run: |
+      - run: git diff --check
+      - run: |
           rm scripts/apply_signup_flow_fix.py .github/workflows/apply-signup-flow-fix.yml signup-check.log
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
