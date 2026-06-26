@@ -47,17 +47,17 @@
   [headers.values]
     Cache-Control = "public, max-age=3600, stale-while-revalidate=86400"
 
-# Public read-only demo routes. Redirect to the actual dashboard files so that
-# browser-relative assets and links resolve under /app instead of /demo.
+# Public demo routes are rewritten to standalone static HTML files.
+# They do not load auth guards, Supabase, mock backend or live user sessions.
 [[redirects]]
   from = "/demo/bizhealth"
-  to = "/app/dashboard-bizhealth.html?demo=1"
-  status = 302
+  to = "/demo/bizhealth-dashboard-demo.html"
+  status = 200
 
 [[redirects]]
   from = "/demo/bizos"
-  to = "/app/dashboard-strategy.html?demo=1"
-  status = 302
+  to = "/demo/bizos-dashboard-demo.html"
+  status = 200
 
 # Backward-compatible demo URLs.
 [[redirects]]
