@@ -44,6 +44,8 @@
     href="../assets/app-core.css"
   />
 
+  <link rel="stylesheet" href="../assets/auth-toggle.css" />
+
   <title>Đăng ký tài khoản · VCPC</title>
 </head>
 
@@ -347,12 +349,7 @@
                 "
               />
 
-              <button
-                type="button"
-                id="togglePassword"
-                tabindex="-1"
-                aria-label="Hiện hoặc ẩn mật khẩu"
-                style="
+              <button type="button" id="togglePassword" class="auth-visibility-toggle" data-visibility-state="hidden" tabindex="-1" aria-label="Hiển thị mật khẩu" style="
                   position:absolute;
                   right:10px;
                   top:50%;
@@ -361,10 +358,7 @@
                   background:none;
                   cursor:pointer;
                   font-size:16px;
-                "
-              >
-                👁
-              </button>
+                "></button>
             </div>
           </div>
 
@@ -938,10 +932,8 @@
               ? 'text'
               : 'password';
 
-          togglePasswordButton.textContent =
-            shouldShow
-              ? '🙈'
-              : '👁';
+          togglePasswordButton.dataset.visibilityState = shouldShow ? 'visible' : 'hidden';
+          togglePasswordButton.setAttribute('aria-label', shouldShow ? 'Ẩn mật khẩu' : 'Hiển thị mật khẩu');
         }
       );
 
