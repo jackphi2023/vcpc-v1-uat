@@ -1,0 +1,21 @@
+name: Validate signup flow fix
+on:
+  pull_request:
+    branches: [main]
+jobs:
+  validate:
+    if: github.head_ref == 'fix-signup-flow-clean'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm install --no-audit --no-fund
+      - run: npm run build
+      - name: Check signup routes
+        run: |
+          grep -q 'callbackBase=String(C.APP_URL' assets/mock-backend.js
+          grep -q 'plan=BIZHEALTH_STANDARD' bizhealth.html
+          grep -q 'plan=BIZHEALTH_PREMIUM' bizhealth.html
+          grep -q 'plan=OS_LITE' biz-os.html
+          grep -q 'plan=OS_STANDARD' biz-os.html
+          grep -q 'plan=OS_PARTNER' biz-os.html
+          grep -q 'sending confirmation' app/signup.html
