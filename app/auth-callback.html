@@ -19,15 +19,14 @@
     <a href="../index.html" style="display:flex;gap:12px;align-items:center;color:#fff;text-decoration:none;">
       <img src="../assets/logo-vcpc.jpg" style="width:46px;height:46px;border-radius:10px;" alt="VCPC"/>
       <div><b style="color:#ffd36b;font-weight:800;">Viet Capital Partners &amp; Consulting</b><br/>
-      <span style="font-size:11px;letter-spacing:.08em;color:#a9bbd2;text-transform:uppercase;">Advisory Platform</span></div>
+      <span style="font-size:11px;letter-spacing:.08em;color:#a9bbd2;text-transform:uppercase;">BizHealth · BizOS · BizDeal</span></div>
     </a>
     <div>
       <h1>Xác nhận email tài khoản VCPC.</h1>
-      <p>Sau khi xác thực, hệ thống sẽ chuyển tới bước Tạo tổ chức và chọn dịch vụ.</p>
+      <p>Sau khi xác thực, hệ thống chuyển thẳng tới bước Tạo tổ chức; không cần đăng nhập lại.</p>
     </div>
     <div style="font-size:13px;color:#90a4c2;">© VCPC · vietcapitalpartner.com</div>
   </aside>
-
   <section class="auth-form-wrap">
     <div class="auth-form" id="callbackMsg">
       <div style="font-size:40px;margin-bottom:16px;" id="callbackIcon">⏳</div>
@@ -37,7 +36,6 @@
     </div>
   </section>
 </div>
-
 <script src="../assets/app-config.js"></script>
 <script src="../assets/mock-backend.js"></script>
 <script src="../assets/app-core.js"></script>
@@ -48,63 +46,47 @@ var icon=document.getElementById('callbackIcon');
 var title=document.getElementById('callbackTitle');
 var body=document.getElementById('callbackBody');
 var cta=document.getElementById('callbackCta');
-var PLAN_CONFIG={
+var RULES={
   BIZHEALTH_STANDARD:{service:'BIZHEALTH',term:1,label:'BizHealth Standard'},
   BIZHEALTH_PREMIUM:{service:'BIZHEALTH',term:1,label:'BizHealth Premium'},
   OS_LITE:{service:'BIZOS',term:3,label:'BizOS Starter'},
   OS_STANDARD:{service:'BIZOS',term:6,label:'BizOS Growth'},
   OS_PARTNER:{service:'BIZOS',term:12,label:'BizOS Scale'}
 };
-
-function ok(message,destination){
-  icon.textContent='✅';
-  title.textContent='Xác nhận email thành công!';
-  body.textContent=message;
-  setTimeout(function(){window.location.replace(destination);},1100);
+function clean(v){return String(v||'').trim().toUpperCase();}
+function log(error){
+  var item={at:new Date().toISOString(),stage:'auth_callback_failed',message:String(error&&error.message||error||''),url:location.pathname+location.search};
+  try{var rows=JSON.parse(localStorage.getItem('vcpc.auth.diagnostics.v1')||'[]');rows.push(item);localStorage.setItem('vcpc.auth.diagnostics.v1',JSON.stringify(rows.slice(-30)));}catch(e){}
+  console.error('[VCPC auth callback]',item);
 }
 function fail(message){
-  icon.textContent='❌';
-  title.textContent='Không thể xác nhận tài khoản';
-  body.textContent=message;
+  icon.textContent='❌';title.textContent='Không thể xác nhận tài khoản';body.textContent=message;
   cta.style.display='grid';
-  cta.innerHTML='<a href="login.html" class="app-btn app-btn-primary">Đăng nhập lại →</a><a href="mailto:partner@vietcapitalpartners.com" class="app-btn app-btn-ghost">Liên hệ VCPC</a>';
+  cta.innerHTML='<a href="login.html" class="app-btn app-btn-primary">Đăng nhập →</a><a href="mailto:partner@vietcapitalpartners.com" class="app-btn app-btn-ghost">Liên hệ VCPC</a>';
 }
-function clean(value){return String(value||'').trim().toUpperCase();}
-
 try{
-  var callbackResult=VCPC_DB.consumeAuthCallback?VCPC_DB.consumeAuthCallback():null;
-  if(callbackResult&&callbackResult.error)throw new Error(callbackResult.error);
-
-  /* Remove access/refresh tokens from the visible address after the adapter
-     has stored the session. Keep normal query parameters such as plan. */
-  if(window.history&&window.history.replaceState&&window.location.hash){
-    window.history.replaceState({},document.title,window.location.pathname+window.location.search);
-  }
-
+  var result=VCPC_DB.consumeAuthCallback?VCPC_DB.consumeAuthCallback():null;
+  if(result&&result.error)throw new Error(result.error);
+  if(window.history&&window.history.replaceState&&window.location.hash){window.history.replaceState({},document.title,window.location.pathname+window.location.search);}
   var user=VCPC_DB.currentUser();
-  if(!user)throw new Error('Link xác nhận không hợp lệ hoặc đã hết hạn.');
-
-  var metadata=user.user_metadata||{};
-  var query=new URLSearchParams(window.location.search);
-  var requestedPlan=clean(query.get('plan')||metadata.plan_code||'');
-  var selected=PLAN_CONFIG[requestedPlan]||null;
-
-  var completed=VCPC_DB.completePendingSignup?VCPC_DB.completePendingSignup():{ok:true};
-  if(completed&&completed.error)throw new Error(completed.error);
-
+  if(!user)throw new Error('Link xác nhận không hợp lệ, đã hết hạn hoặc phiên xác thực không được tạo.');
+  var meta=Object.assign({},user.user_metadata||{});
+  try{meta=Object.assign(meta,JSON.parse(localStorage.getItem('vcpc.pending.signup')||'{}')||{});}catch(e){}
+  var q=new URLSearchParams(window.location.search);
+  var planCode=clean(q.get('plan')||meta.plan_code||'');
+  var selected=RULES[planCode]||null;
   var destination=new URL('/app/onboarding.html',window.location.origin);
-  var message='Email đã được xác thực. Vui lòng tạo tổ chức và chọn dịch vụ để tiếp tục.';
-
+  var msg='Email đã được xác thực. Bạn đang được chuyển tới bước Tạo tổ chức.';
   if(selected){
     destination.searchParams.set('service',selected.service);
-    destination.searchParams.set('plan',requestedPlan);
+    destination.searchParams.set('plan',planCode);
     destination.searchParams.set('term',String(selected.term));
-    message='Email đã được xác thực. Gói '+selected.label+' đã được chọn sẵn; bạn vẫn có thể thay đổi tại bước Tạo tổ chức.';
+    msg='Email đã được xác thực. Gói '+selected.label+' sẽ được chọn sẵn tại bước Tạo tổ chức.';
   }
-
-  ok(message,destination.href);
+  icon.textContent='✅';title.textContent='Xác nhận email thành công!';body.textContent=msg;
+  setTimeout(function(){window.location.replace(destination.href);},700);
 }catch(error){
-  console.error('VCPC auth callback error:',error);
+  log(error);
   fail(error&&error.message?error.message:'Không thể kích hoạt tài khoản. Vui lòng thử lại.');
 }
 })();
