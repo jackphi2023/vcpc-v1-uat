@@ -11,6 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../assets/vcpc.css" />
   <link rel="stylesheet" href="../assets/app-core.css" />
+  <link rel="stylesheet" href="../assets/auth-toggle.css" />
   <title>Đăng nhập Cổng Đối tác · VCPC</title>
 </head>
 <body class="app">
@@ -45,7 +46,7 @@
               <label for="affiliatePassword">Mật khẩu</label>
               <div style="position:relative;">
                 <input id="affiliatePassword" name="password" type="password" required autocomplete="current-password" style="min-height:44px;padding-right:46px;" />
-                <button type="button" id="toggleLoginPassword" tabindex="-1" aria-label="Hiện hoặc ẩn mật khẩu" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);border:0;background:none;cursor:pointer;color:#5b6b80;font-size:16px;">👁</button>
+                <button type="button" id="toggleLoginPassword" class="auth-visibility-toggle" data-visibility-state="hidden" tabindex="-1" aria-label="Hiển thị mật khẩu" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);border:0;background:none;cursor:pointer;color:#5b6b80;font-size:16px;"></button>
               </div>
             </div>
           </div>
@@ -137,7 +138,8 @@
 
     document.getElementById('toggleLoginPassword').addEventListener('click',function(){
       passwordInput.type=passwordInput.type==='password'?'text':'password';
-      this.textContent=passwordInput.type==='password'?'👁':'🙈';
+      this.dataset.visibilityState=passwordInput.type==='password'?'hidden':'visible';
+      this.setAttribute('aria-label',passwordInput.type==='password'?'Hiển thị mật khẩu':'Ẩn mật khẩu');
     });
 
     form.addEventListener('submit',function(event){
