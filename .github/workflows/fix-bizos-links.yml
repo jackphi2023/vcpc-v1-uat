@@ -1,0 +1,23 @@
+name: Fix BizOS signup links
+on:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  fix:
+    if: github.head_ref == 'fix-signup-auth-flow'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix-signup-auth-flow
+      - run: |
+          sed -i 's|href="app/signup.html">Đăng ký BizOS Starter|href="app/signup.html?service=BIZOS\&amp;plan=OS_LITE\&amp;term=3">Đăng ký BizOS Starter|' biz-os.html
+          sed -i 's|href="#contact">Đăng ký BizOS Growth|href="app/signup.html?service=BIZOS\&amp;plan=OS_STANDARD\&amp;term=6">Đăng ký BizOS Growth|' biz-os.html
+          sed -i 's|href="app/signup.html">Đăng ký BizOS Scale|href="app/signup.html?service=BIZOS\&amp;plan=OS_PARTNER\&amp;term=12">Đăng ký BizOS Scale|' biz-os.html
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add biz-os.html
+          git commit -m "Fix BizOS signup links"
+          git push origin fix-signup-auth-flow
