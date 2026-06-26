@@ -22,6 +22,21 @@
     Content-Security-Policy = "default-src 'self' https: data: blob:; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' https: data: blob:; connect-src 'self' https://sfuoaafqefpygvzhvagq.supabase.co wss://sfuoaafqefpygvzhvagq.supabase.co; frame-ancestors 'self';"
 
 [[headers]]
+  for = "/"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+
+[[headers]]
+  for = "/deploy-info.json"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+
+[[headers]]
   for = "/app/*"
   [headers.values]
     Cache-Control = "no-store"
@@ -47,8 +62,6 @@
   [headers.values]
     Cache-Control = "public, max-age=3600, stale-while-revalidate=86400"
 
-# Public demo routes are rewritten to standalone static HTML files.
-# They do not load auth guards, Supabase, mock backend or live user sessions.
 [[redirects]]
   from = "/demo/bizhealth"
   to = "/demo/bizhealth-dashboard-demo.html"
@@ -59,7 +72,6 @@
   to = "/demo/bizos-dashboard-demo.html"
   status = 200
 
-# Backward-compatible demo URLs.
 [[redirects]]
   from = "/bizhealth-demo"
   to = "/demo/bizhealth"
