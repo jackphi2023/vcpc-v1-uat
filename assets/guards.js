@@ -25,10 +25,13 @@
       return !!window.VCPC_PUBLIC_DEMO.isActive();
     }
     try {
-      var b = document.body;
-      var allowed = !!b && b.getAttribute('data-allow-public-demo') === 'true';
+      var path = (window.location.pathname || '').toLowerCase().replace(/\/+$/, '');
       var requested = new URLSearchParams(window.location.search).get('demo') === '1';
-      return allowed && requested;
+      var isDashboardFile = path === '/app/dashboard-bizhealth.html' || path === '/app/dashboard-strategy.html';
+      var isCleanDemoRoute = path === '/demo/bizhealth' || path === '/demo/bizos' || path === '/bizhealth-demo' || path === '/biz-os-demo';
+      var b = document.body;
+      var explicitlyAllowed = !!b && b.getAttribute('data-allow-public-demo') === 'true';
+      return isCleanDemoRoute || (requested && (isDashboardFile || explicitlyAllowed));
     } catch(e) { return false; }
   };
 
@@ -66,7 +69,7 @@
     if (G.isPublicDemo()) return true;
     if (user()) return true;
     if (!C.DEMO_MODE || C.ENFORCE_AUTH_IN_DEMO){
-      location.href = redirect || 'login.html';
+      location.href = redirect || '/app/login.html';
       return false;
     }
     return true;
@@ -77,7 +80,7 @@
     var u = user();
     var ok = !!u && (u.role === role || (u.roles && u.roles.indexOf(role) >= 0));
     if (ok) return true;
-    if (!C.DEMO_MODE){ location.href = redirect || '../app/login.html'; return false; }
+    if (!C.DEMO_MODE){ location.href = redirect || '/app/login.html'; return false; }
     return true;
   };
 
@@ -85,7 +88,7 @@
     if (G.isPublicDemo()) return true;
     var eng = (window.VCPC_DB && VCPC_DB.currentEngagement) ? VCPC_DB.currentEngagement() : null;
     if (C.DEMO_MODE) return true;
-    if (!eng || states.indexOf(eng.state) < 0){ location.href = 'onboarding.html'; return false; }
+    if (!eng || states.indexOf(eng.state) < 0){ location.href = '/app/onboarding.html'; return false; }
     return true;
   };
 
