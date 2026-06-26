@@ -1,0 +1,34 @@
+name: Prepare clean signup branch
+on:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  prepare:
+    if: github.head_ref == 'fix-signup-flow-final'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix-signup-flow-final
+          fetch-depth: 0
+      - name: Preserve fixed files
+        run: |
+          mkdir -p /tmp/signup-fix/assets /tmp/signup-fix/app
+          cp assets/mock-backend.js /tmp/signup-fix/assets/
+          cp app/signup.html /tmp/signup-fix/app/
+          cp bizhealth.html biz-os.html /tmp/signup-fix/
+      - name: Create clean branch
+        run: |
+          git fetch origin main
+          git switch --force-create fix-signup-flow-clean origin/main
+          cp /tmp/signup-fix/assets/mock-backend.js assets/mock-backend.js
+          cp /tmp/signup-fix/app/signup.html app/signup.html
+          cp /tmp/signup-fix/bizhealth.html bizhealth.html
+          cp /tmp/signup-fix/biz-os.html biz-os.html
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/mock-backend.js app/signup.html bizhealth.html biz-os.html
+          git commit -m "Fix BizHealth and BizOS signup flow"
+          git push --force origin fix-signup-flow-clean
