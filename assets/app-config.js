@@ -14,3 +14,13 @@ window.VCPC_CONFIG = {
   SUPABASE_PUBLISHABLE_KEY: 'sb_publishable_oL97b3GsTwCoCElayoKmcQ_34j-mc86'
 };
 window.VCPC_CONFIG.isProd = function(){ return !window.VCPC_CONFIG.DEMO_MODE; };
+
+/* Load page-specific v2 controllers before the legacy inline handlers run.
+   They use capture-phase submit interception, so no layout/CSS rewrite is needed. */
+(function(){
+  var path=window.location.pathname;
+  var src='';
+  if(/\/app\/signup\.html$/i.test(path)) src='../assets/signup-flow-v2.js';
+  if(/\/app\/onboarding\.html$/i.test(path)) src='../assets/onboarding-flow-v2.js';
+  if(src) document.write('<script src="'+src+'"><\/script>');
+})();
