@@ -176,12 +176,8 @@
         return {user:user,org:org,engagement:null,completed:false,deferred:true};
       }
       localStorage.setItem('vcpc.pending.signup',JSON.stringify(meta));
-      var callbackUrl=new URL('/app/auth-callback.html',location.origin);
-      if(selected.has_plan){
-        callbackUrl.searchParams.set('service',selected.service_code);
-        callbackUrl.searchParams.set('plan',selected.plan_code);
-        callbackUrl.searchParams.set('term',String(selected.billing_term_months));
-      }
+      var callbackBase=String(C.APP_URL||location.origin).replace(/\/+$/,'');
+      var callbackUrl=new URL('/app/auth-callback.html',callbackBase);
       var r=auth('POST','signup?redirect_to='+encodeURIComponent(callbackUrl.href),{email:data.email,password:data.password,data:meta},true);
       if(r.error)return {error:(r.data&&r.data.msg)||(r.data&&r.data.error_description)||r.error.message};
       var session=storeAuthResponse(r.data);
