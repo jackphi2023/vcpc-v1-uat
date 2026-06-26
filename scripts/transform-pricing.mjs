@@ -56,8 +56,18 @@ footer.vcpc-footer .foot-links{width:min(1180px,calc(100% - 40px))!important;max
     'protected footer email not found'
   );
 
+  html = replaceRequired(
+    html,
+    /\n\s*var ham\s*=\s*document\.getElementById\('hamburger'\);[\s\S]*?navL\.classList\.toggle\('open', !open\);\s*\}\);\s*\}\s*\n/,
+    '\n',
+    'duplicate inline hamburger handler not found'
+  );
+
   html = html.replace(/<script data-cfasync="false" src="\/cdn-cgi\/scripts\/[^"]+"><\/script>/g, '');
   html = html.replace(/<!--[\s\S]*?-->/g, '');
+  html = html.replace(/\/\*[\s\S]*?\*\//g, '');
+  html = html.replace(/^[ \t]*\/\/[^\n]*\n/gm, '');
+  html = html.replace(/renderOSPrices\(\);\s*\/\/[^\n]*/g, 'renderOSPrices();');
   html = html.replace(/\n[ \t]+\n/g, '\n\n').replace(/\n{3,}/g, '\n\n');
 
   if (html.includes('/cdn-cgi/l/email-protection') || html.includes('__cf_email__')) {
@@ -66,8 +76,11 @@ footer.vcpc-footer .foot-links{width:min(1180px,calc(100% - 40px))!important;max
   if (!html.includes('mailto:partner@vietcapitalpartners.com')) {
     throw new Error('Pricing transform failed: plain footer email missing');
   }
-  if (html.includes('<!--')) {
-    throw new Error('Pricing transform failed: HTML comments remain');
+  if (html.includes('<!--') || html.includes('/*')) {
+    throw new Error('Pricing transform failed: code notes remain');
+  }
+  if (html.includes("var ham  = document.getElementById('hamburger')")) {
+    throw new Error('Pricing transform failed: duplicate menu handler remains');
   }
   if (!html.includes('id="pricing-layout-fix"')) {
     throw new Error('Pricing transform failed: layout override missing');
