@@ -48,7 +48,7 @@ const deployInfo = {
   indexIncluded: true,
   authRuntimeFix: 'url-constructor-shadow',
   uploadIntakeGateFix: 'data-gap-v1',
-  bizHealthPaymentGateFix: '20-80-overview-only-v1'
+  bizHealthPaymentGateFix: '20-80-overview-only-v2-report-ui'
 };
 await writeFile(path.join(dist,'deploy-info.json'), JSON.stringify(deployInfo,null,2));
 
