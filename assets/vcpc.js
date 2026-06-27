@@ -1,4 +1,4 @@
-/* ==========================================================================
+/* ========================================================================== 
    VCPC — Shared behaviour for all pages
    - Bilingual VI/EN (supports: window.VCPC_DICT + [data-i18n]/[data-i18n-placeholder]/[data-ph],
      and attribute pairs [data-vi]/[data-en] + [data-placeholder-vi]/[data-placeholder-en])
@@ -60,30 +60,67 @@
     if (String(val).indexOf("<") !== -1) el.innerHTML = val; else el.textContent = val;
   }
 
+  function rememberBodyCopy() {
+    document.querySelectorAll("[data-i18n]").forEach(function (el) {
+      if (!el.hasAttribute("data-i18n-body-vi")) {
+        el.setAttribute("data-i18n-body-vi", el.innerHTML);
+      }
+    });
+    document.querySelectorAll("[data-i18n-placeholder], [data-ph]").forEach(function (el) {
+      if (!el.hasAttribute("data-i18n-body-placeholder-vi")) {
+        el.setAttribute("data-i18n-body-placeholder-vi", el.getAttribute("placeholder") || "");
+      }
+    });
+  }
+
   function applyLang(lang) {
     document.documentElement.lang = lang;
 
-    /* Dictionary-driven (homepage, capital) */
-    if (dict && dict[lang]) {
-      var d = dict[lang];
-      document.querySelectorAll("[data-i18n]").forEach(function (el) {
-        if (d[el.dataset.i18n] != null) setText(el, d[el.dataset.i18n]);
-      });
-      document.querySelectorAll("[data-i18n-placeholder]").forEach(function (el) {
-        if (d[el.dataset.i18nPlaceholder] != null) el.placeholder = d[el.dataset.i18nPlaceholder];
-      });
-      document.querySelectorAll("[data-ph]").forEach(function (el) {
-        if (d[el.dataset.ph] != null) el.placeholder = d[el.dataset.ph];
-      });
-    }
-
-    /* Attribute-pair driven (bizhealth, strategy) */
+    /* Attribute-pair driven copy has the highest priority. */
     document.querySelectorAll("[data-" + lang + "]").forEach(function (el) {
       setText(el, el.getAttribute("data-" + lang));
     });
     document.querySelectorAll("[data-placeholder-" + lang + "]").forEach(function (el) {
       el.placeholder = el.getAttribute("data-placeholder-" + lang);
     });
+
+    /* Dictionary-driven fallback.
+       Important: Vietnamese HTML body is treated as the source of truth.
+       This prevents old window.VCPC_DICT values from overwriting updated body copy. */
+    if (dict && dict[lang]) {
+      var d = dict[lang];
+      document.querySelectorAll("[data-i18n]").forEach(function (el) {
+        var key = el.dataset.i18n;
+        if (lang === "vi" && el.hasAttribute("data-i18n-body-vi")) {
+          setText(el, el.getAttribute("data-i18n-body-vi"));
+        } else if (!el.hasAttribute("data-" + lang) && d[key] != null) {
+          setText(el, d[key]);
+        }
+      });
+      document.querySelectorAll("[data-i18n-placeholder]").forEach(function (el) {
+        var key = el.dataset.i18nPlaceholder;
+        if (lang === "vi" && el.hasAttribute("data-i18n-body-placeholder-vi")) {
+          el.placeholder = el.getAttribute("data-i18n-body-placeholder-vi");
+        } else if (!el.hasAttribute("data-placeholder-" + lang) && d[key] != null) {
+          el.placeholder = d[key];
+        }
+      });
+      document.querySelectorAll("[data-ph]").forEach(function (el) {
+        var key = el.dataset.ph;
+        if (lang === "vi" && el.hasAttribute("data-i18n-body-placeholder-vi")) {
+          el.placeholder = el.getAttribute("data-i18n-body-placeholder-vi");
+        } else if (!el.hasAttribute("data-placeholder-" + lang) && d[key] != null) {
+          el.placeholder = d[key];
+        }
+      });
+    } else if (lang === "vi") {
+      document.querySelectorAll("[data-i18n][data-i18n-body-vi]").forEach(function (el) {
+        setText(el, el.getAttribute("data-i18n-body-vi"));
+      });
+      document.querySelectorAll("[data-i18n-body-placeholder-vi]").forEach(function (el) {
+        el.placeholder = el.getAttribute("data-i18n-body-placeholder-vi");
+      });
+    }
 
     /* Localisable "featured" badges (optional) */
     document.querySelectorAll("[data-badge-" + lang + "]").forEach(function (el) {
@@ -101,6 +138,8 @@
   window.vcpcSetLang = applyLang;
 
   function init() {
+    rememberBodyCopy();
+
     /* ---- Language buttons ---- */
     document.querySelectorAll("[data-lang]").forEach(function (btn) {
       btn.addEventListener("click", function () { applyLang(btn.getAttribute("data-lang")); });
