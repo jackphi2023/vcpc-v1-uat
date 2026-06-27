@@ -3,6 +3,7 @@ import path from 'node:path';
 import transformAuthRuntime from './transform-auth-runtime.mjs';
 import transformBizDeal from './transform-bizdeal.mjs';
 import transformPricing from './transform-pricing.mjs';
+import transformUploadIntake from './transform-upload-intake.mjs';
 
 const root = process.cwd();
 const dist = path.join(root, 'dist');
@@ -23,6 +24,7 @@ for (const name of await readdir(root)) {
 const indexPath = path.join(dist,'index.html');
 await stat(indexPath);
 await transformAuthRuntime(dist);
+await transformUploadIntake(dist);
 
 async function runOptionalTransform(name, transform) {
   try {
@@ -42,7 +44,8 @@ const deployInfo = {
   context: process.env.CONTEXT || 'local',
   builtAt: new Date().toISOString(),
   indexIncluded: true,
-  authRuntimeFix: 'url-constructor-shadow'
+  authRuntimeFix: 'url-constructor-shadow',
+  uploadIntakeGateFix: 'data-gap-v1'
 };
 await writeFile(path.join(dist,'deploy-info.json'), JSON.stringify(deployInfo,null,2));
 
