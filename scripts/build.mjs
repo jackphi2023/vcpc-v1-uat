@@ -4,6 +4,7 @@ import transformAuthRuntime from './transform-auth-runtime.mjs';
 import transformBizDeal from './transform-bizdeal.mjs';
 import transformPricing from './transform-pricing.mjs';
 import transformUploadIntake from './transform-upload-intake.mjs';
+import transformBizHealthPaymentGate from './transform-bizhealth-payment-gate.mjs';
 
 const root = process.cwd();
 const dist = path.join(root, 'dist');
@@ -25,6 +26,7 @@ const indexPath = path.join(dist,'index.html');
 await stat(indexPath);
 await transformAuthRuntime(dist);
 await transformUploadIntake(dist);
+await transformBizHealthPaymentGate(dist);
 
 async function runOptionalTransform(name, transform) {
   try {
@@ -45,7 +47,8 @@ const deployInfo = {
   builtAt: new Date().toISOString(),
   indexIncluded: true,
   authRuntimeFix: 'url-constructor-shadow',
-  uploadIntakeGateFix: 'data-gap-v1'
+  uploadIntakeGateFix: 'data-gap-v1',
+  bizHealthPaymentGateFix: '20-80-overview-only-v1'
 };
 await writeFile(path.join(dist,'deploy-info.json'), JSON.stringify(deployInfo,null,2));
 
