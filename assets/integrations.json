@@ -1,6 +1,6 @@
 {
   "$note": "Cấu hình tích hợp ngoài. Điền giá trị thật. google_sheet_webapp_url là URL Apps Script Web App (deploy doPost) ghi vào Google Sheet đã chia sẻ.",
-  "google_sheet_webapp_url": "",
+  "google_sheet_webapp_url": "https://script.google.com/macros/s/AKfycbwI-K-l9GGPupMFdUp9YWV-_pmtFrnQ4GT5WTQnZrRMTaWyecibDg1_N-yPOkNgyS0w/exec",
   "google_sheet_id": "1tSRtFam68cXK4eGHsKBzZodQXQv5sAeGa-gG4wmQv7Y",
   "sepay": {
     "account_number": "0011004000713",
