@@ -1,114 +1,753 @@
 <!DOCTYPE html>
-<html lang="vi">
-<head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <meta name="theme-color" content="#071f3d"/>
-  <meta name="robots" content="noindex,nofollow"/>
-  <link rel="icon" type="image/png" href="../assets/favicon.png"/>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
-  <title>BizHealth Dashboard Demo · VCPC</title>
-  <style>
-    :root{--navy:#071f3d;--navy2:#0d2d57;--gold:#ffb20a;--gold2:#ffd36b;--blue:#2a6fdb;--green:#0d8a5d;--red:#c7352b;--orange:#c47a08;--ink:#12263d;--muted:#5b6b80;--line:#dde6ef;--bg:#f4f7fb;--card:#fff;--shadow:0 14px 36px rgba(7,31,61,.08);--radius:16px}
-    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Montserrat,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;font-size:14px}button,a{font:inherit}.shell{min-height:100vh;display:grid;grid-template-columns:266px minmax(0,1fr)}
-    .sidebar{background:linear-gradient(180deg,var(--navy2),var(--navy));color:#fff;padding:22px 16px;position:sticky;top:0;height:100vh;overflow:auto}.brand{display:flex;gap:11px;align-items:center;padding:0 7px 18px;border-bottom:1px solid rgba(255,255,255,.12);text-decoration:none;color:#fff}.brand img{width:42px;height:42px;border-radius:12px;object-fit:cover;background:#fff}.brand b{font-size:12.5px;line-height:1.3;display:block}.brand span{display:block;margin-top:4px;color:#cbd8e8;font-size:11px}.demo-chip{display:flex;gap:8px;align-items:center;margin:16px 7px;padding:10px 11px;border:1px solid rgba(255,178,10,.42);background:rgba(255,178,10,.12);border-radius:12px;color:#ffe2a0;font-size:11.5px;font-weight:900}.section-label{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:#9bb3ca;font-weight:900;margin:20px 10px 8px}.nav{display:grid;gap:5px}.nav button{width:100%;border:0;background:transparent;color:#c9d7e6;text-align:left;padding:11px 12px;border-radius:10px;cursor:pointer;font-weight:750;display:flex;align-items:center;gap:9px}.nav button:hover,.nav button.active{background:rgba(255,255,255,.10);color:#fff}.nav button.active{box-shadow:inset 3px 0 0 var(--gold)}.side-links{margin-top:22px;display:grid;gap:8px}.side-links a{color:#c9d7e6;text-decoration:none;border:1px solid rgba(255,255,255,.12);padding:10px 12px;border-radius:10px;font-size:12px;font-weight:750}.side-links a:hover{color:#fff;border-color:rgba(255,255,255,.28)}
-    .main{min-width:0;padding:24px 26px 42px}.topbar{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;margin-bottom:18px}.eyebrow{font-size:11px;font-weight:900;letter-spacing:.12em;color:var(--blue);text-transform:uppercase}.topbar h1{font-size:30px;line-height:1.15;margin:6px 0 5px;color:var(--navy)}.topbar p{margin:0;color:var(--muted);line-height:1.55}.period{border:1px solid var(--line);background:#fff;border-radius:14px;padding:11px 13px;box-shadow:var(--shadow);white-space:nowrap;font-size:12px;color:var(--muted)}.period b{color:var(--navy)}.top-actions{display:flex;gap:9px;align-items:center;justify-content:flex-end;margin-top:10px}.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;text-decoration:none;border:1px solid var(--line);border-radius:11px;padding:10px 14px;font-size:12.5px;font-weight:850;cursor:pointer;background:#fff;color:var(--navy)}.btn.primary{border-color:var(--gold);background:var(--gold);color:var(--navy)}.btn:hover{filter:brightness(.98)}
-    .notice{background:linear-gradient(135deg,#fff8e8,#fff);border:1px solid rgba(255,178,10,.38);border-radius:15px;padding:13px 16px;margin-bottom:18px;display:flex;gap:12px;align-items:flex-start}.notice .icon{width:34px;height:34px;border-radius:10px;background:var(--navy);color:var(--gold2);display:grid;place-items:center;font-weight:900;flex:0 0 34px}.notice strong{color:var(--navy)}.notice p{margin:3px 0 0;color:var(--muted);font-size:12.5px;line-height:1.55}.tabview{display:none}.tabview.active{display:block}.grid{display:grid;gap:15px}.kpis{grid-template-columns:repeat(6,minmax(0,1fr));margin-bottom:17px}.kpi{background:#fff;border:1px solid var(--line);border-radius:14px;padding:15px;box-shadow:0 8px 20px rgba(7,31,61,.04);min-width:0}.kpi .lbl{font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:900}.kpi .val{font-size:24px;font-weight:900;color:var(--navy);margin:8px 0 4px;white-space:nowrap}.kpi .sub{font-size:11.5px;color:var(--muted);line-height:1.4}.dlabel{display:inline-flex;margin-top:8px;border-radius:999px;padding:4px 7px;font-size:9.5px;font-weight:900;letter-spacing:.04em}.dlabel.actual{background:#e9f1ff;color:var(--blue)}.dlabel.estimate{background:#fff0c8;color:#7a5400}.dlabel.reviewed{background:#e7f6ef;color:var(--green)}
-    .row-2{grid-template-columns:minmax(0,1.4fr) minmax(320px,.9fr)}.row-even{grid-template-columns:1fr 1fr}.card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;min-width:0}.card-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;margin-bottom:15px}.card-head h2{font-size:15px;color:var(--navy);margin:0}.card-head small{color:var(--muted)}.impact{background:linear-gradient(135deg,#0d2d57,#071f3d);color:#fff;border-radius:16px;padding:20px;min-height:100%}.impact .small{font-size:11px;font-weight:900;letter-spacing:.1em;color:var(--gold2);text-transform:uppercase}.impact .big{font-size:42px;font-weight:900;color:var(--gold2);line-height:1;margin:9px 0 8px;letter-spacing:-1px}.impact p{margin:0;color:#cbd9ee;line-height:1.55;font-size:13px}.rec-mini{display:grid;gap:8px}.rec-mini a{display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start;text-decoration:none;color:var(--navy);border-radius:10px;padding:8px 7px}.rec-mini a:hover{background:#f5f8fc}.rk{width:24px;height:24px;border-radius:7px;background:rgba(7,31,61,.08);display:grid;place-items:center;font-size:11px;font-weight:900}.rt{font-size:13px;font-weight:800;line-height:1.45}.more{display:inline-flex;margin-top:10px;color:var(--blue);font-weight:900;text-decoration:none;font-size:13px}.chart{height:285px;min-height:220px}.legend{display:flex;gap:15px;flex-wrap:wrap;color:var(--muted);font-size:11px;margin-top:8px}.legend i{display:inline-block;width:11px;height:3px;vertical-align:middle;margin-right:5px;border-radius:4px}.alert{display:grid;grid-template-columns:7px minmax(0,1fr) auto;gap:10px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)}.alert:last-child{border-bottom:0}.alert .sev{height:36px;border-radius:5px;background:var(--orange)}.alert.red .sev{background:var(--red)}.alert b{display:block;font-size:12.5px;color:var(--navy)}.alert small{display:block;color:var(--muted);margin-top:4px;line-height:1.35}.badge{display:inline-flex;align-items:center;border-radius:999px;padding:5px 8px;font-size:10.5px;font-weight:900;background:#edf2f7;color:#53657b;white-space:nowrap}.badge.good{background:#e7f6ef;color:var(--green)}.badge.warn{background:#fff2d7;color:#845800}.badge.bad{background:#fde9e7;color:var(--red)}.badge.info{background:#e9f1ff;color:var(--blue)}
-    table{width:100%;border-collapse:collapse;font-size:12px}th{text-align:left;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.05em;padding:10px 9px;border-bottom:1px solid var(--line)}td{padding:12px 9px;border-bottom:1px solid var(--line);vertical-align:middle}tbody tr:hover{background:#f9fbfd}.table-wrap{overflow:auto}.bars{height:230px;display:flex;align-items:flex-end;gap:14px;padding:18px 8px 30px}.bar-wrap{height:100%;flex:1;display:flex;align-items:flex-end;justify-content:center;position:relative}.bar{width:min(52px,74%);border-radius:8px 8px 3px 3px;background:linear-gradient(180deg,#3d80e5,#2a6fdb);position:relative;min-height:5px}.bar.green{background:linear-gradient(180deg,#25a778,#0d8a5d)}.bar.orange{background:linear-gradient(180deg,#f1a839,#c47a08)}.bar.red{background:linear-gradient(180deg,#e9685f,#c7352b)}.bar-value{position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-size:11px;font-weight:900;color:var(--navy);white-space:nowrap}.bar-label{position:absolute;bottom:-27px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--muted);font-weight:800;white-space:nowrap}.rec{border:1px solid rgba(255,178,10,.35);background:linear-gradient(180deg,#fffaf0,#fff);border-radius:13px;padding:14px;margin-bottom:11px}.rec:last-child{margin-bottom:0}.rec h3{margin:0;color:var(--navy);font-size:13.5px}.rec p{margin:7px 0;color:var(--muted);font-size:12px;line-height:1.45}.rec-foot{display:flex;justify-content:space-between;gap:10px;align-items:center;font-size:11px;color:var(--muted)}.footer{margin-top:24px;border-top:1px solid var(--line);padding-top:16px;display:flex;justify-content:space-between;gap:12px;color:var(--muted);font-size:11.5px}.footer a{color:var(--blue);text-decoration:none;font-weight:800}
-    @media(max-width:1180px){.kpis{grid-template-columns:repeat(3,1fr)}.row-2,.row-even{grid-template-columns:1fr}.shell{grid-template-columns:238px minmax(0,1fr)}}@media(max-width:760px){.shell{display:block}.sidebar{position:relative;height:auto}.nav{grid-template-columns:1fr 1fr}.main{padding:18px 14px 30px}.topbar{display:block}.period{display:inline-block;margin-top:12px}.kpis{grid-template-columns:1fr 1fr}.footer{display:block}.footer div+div{margin-top:8px}}@media(max-width:460px){.kpis{grid-template-columns:1fr}.nav{grid-template-columns:1fr}.topbar h1{font-size:24px}.kpi .val{font-size:22px}.impact .big{font-size:34px}}
-  </style>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>BizHealth Dashboard Demo · Chuỗi Chăm sóc sức khoẻ & Làm đẹp | VCPC</title>
+<link rel="icon" type="image/jpeg" href="../assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+<style>
+/* ============================================================
+   ⬇⬇⬇  CONFIG THƯƠNG HIỆU — chỉnh màu/tên ở biến CSS này  ⬇⬇⬇
+   ============================================================ */
+:root{
+  --navy:#0B1F3A;        /* xanh navy VCP */
+  --navy-2:#13294B;
+  --navy-3:#1d3a63;
+  --gold:#C9A227;        /* vàng VCP */
+  --gold-soft:#E4Cd7e;
+  --cream:#F7F4EC;
+  --paper:#FFFFFF;
+  --ink:#0B1F3A;
+  --muted:#5b6b82;
+  --line:#e4e0d4;
+  --green:#1f8a5b;
+  --green-bg:#e6f4ec;
+  --amber:#b7791f;
+  --amber-bg:#fbf2dd;
+  --red:#c0392b;
+  --red-bg:#fbe9e7;
+  --shadow:0 1px 2px rgba(11,31,58,.06),0 8px 28px rgba(11,31,58,.08);
+  --radius:14px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:"Montserrat",Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(1200px 600px at 100% -10%, rgba(201,162,39,.10), transparent 60%),
+    radial-gradient(900px 500px at -10% 0%, rgba(19,41,75,.06), transparent 55%),
+    var(--cream);
+  -webkit-font-smoothing:antialiased;
+}
+.mono{font-family:"Montserrat",Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;font-feature-settings:"tnum"}
+
+/* ===================== LOGIN GATE ===================== */
+#gate{
+  position:fixed;inset:0;z-index:100;
+  display:flex;align-items:center;justify-content:center;
+  background:
+    radial-gradient(800px 500px at 80% 10%, rgba(201,162,39,.18), transparent 60%),
+    linear-gradient(160deg,var(--navy),#08182e 70%);
+}
+.gate-card{
+  width:min(420px,92vw);background:var(--paper);border-radius:18px;
+  padding:38px 34px;box-shadow:0 30px 80px rgba(0,0,0,.45);
+  border-top:5px solid var(--gold);
+}
+.gate-logo{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+.gate-mark{width:46px;height:46px;border-radius:10px;object-fit:cover;display:block;flex:none;box-shadow:0 2px 8px rgba(11,31,58,.18)}
+.gate-brand{font-family:"Montserrat",Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;font-weight:900;font-size:19px;letter-spacing:.3px;color:var(--navy);line-height:1}
+.gate-sub{font-size:11px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-top:3px}
+.gate-card h1{font-family:"Montserrat",Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;font-weight:600;font-size:23px;margin:22px 0 4px}
+.gate-card p.lead{color:var(--muted);font-size:13.5px;margin:0 0 22px}
+.fld{margin-bottom:14px}
+.fld label{display:block;font-size:12px;font-weight:600;color:var(--navy);margin-bottom:6px}
+.fld input{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:10px;font-size:14px;font-family:inherit;outline:none;transition:.15s}
+.fld input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,162,39,.18)}
+.gate-btn{width:100%;padding:13px;border:0;border-radius:10px;background:var(--navy);color:#fff;font-family:inherit;font-weight:600;font-size:14.5px;cursor:pointer;transition:.15s;letter-spacing:.3px}
+.gate-btn:hover{background:var(--navy-3)}
+.gate-err{color:var(--red);font-size:12.5px;margin-top:10px;min-height:16px}
+.gate-hint{margin-top:18px;padding:11px 13px;background:var(--cream);border-radius:10px;font-size:11.5px;color:var(--muted);line-height:1.6}
+.gate-hint b{color:var(--navy)}
+.gate-foot{margin-top:18px;font-size:10.5px;color:#9aa6b6;text-align:center;line-height:1.6}
+.gate-row{display:flex;align-items:center;justify-content:space-between;margin:2px 0 16px;gap:10px}
+.gate-remember{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--muted);cursor:pointer;user-select:none}
+.gate-remember input{width:15px;height:15px;accent-color:var(--gold);cursor:pointer}
+.gate-link{font-size:12.5px;color:var(--navy);font-weight:600;text-decoration:none;cursor:pointer}
+.gate-link:hover{color:var(--gold)}
+.bzfp{position:fixed;inset:0;z-index:120;background:rgba(8,20,38,.6);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:22px}
+.bzfp.open{display:flex}
+.bzfp-card{width:min(400px,92vw);background:var(--paper);border-radius:16px;padding:26px;border-top:5px solid var(--gold);box-shadow:0 30px 70px rgba(0,0,0,.45);position:relative}
+.bzfp-card h3{font-family:"Montserrat",Inter,sans-serif;font-weight:800;font-size:18px;margin:0 0 6px;color:var(--navy)}
+.bzfp-card p.l{color:var(--muted);font-size:12.5px;margin:0 0 16px;line-height:1.5}
+.bzfp-x{position:absolute;top:13px;right:13px;border:1px solid var(--line);background:#fff;border-radius:9px;width:30px;height:30px;cursor:pointer;color:var(--muted)}
+.bzfp-note{font-size:11px;color:#9a6100;background:var(--cream);border:1px solid #ead7a8;border-radius:8px;padding:8px 10px;margin-top:12px;line-height:1.45}
+.bzfp-msg{font-size:12px;margin-top:12px;border-radius:9px}
+.bzfp-msg:empty{display:none}
+.bzfp-msg.ok{color:#15724d;background:#e6f4ee;border:1px solid #c5e7d7;padding:10px 12px}
+.bzfp-msg.err{color:var(--red);background:#fceae8;border:1px solid #f2c9c4;padding:10px 12px}
+.bzfp-back{display:block;width:100%;text-align:center;margin-top:14px;background:transparent;border:0;color:var(--navy);font-weight:600;font-size:12.5px;cursor:pointer;font-family:inherit}
+
+/* ===================== APP SHELL ===================== */
+#app{display:none}
+header.top{
+  background:linear-gradient(120deg,var(--navy),var(--navy-2));
+  color:#fff;padding:0 22px;position:sticky;top:0;z-index:30;
+  box-shadow:0 4px 24px rgba(11,31,58,.18);
+}
+.top-row{max-width:1240px;margin:0 auto;display:flex;align-items:center;gap:16px;height:66px}
+.brand{display:flex;align-items:center;gap:12px}
+.mark{width:40px;height:40px;border-radius:9px;object-fit:cover;display:block;flex:none;border:1px solid rgba(201,162,39,.55)}
+.brand-name{font-family:"Montserrat",Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;font-weight:900;font-size:17px;line-height:1.05;letter-spacing:.2px}
+.brand-name span{color:var(--gold-soft)}
+.brand-sub{font-size:10.5px;color:#a9b6c8;letter-spacing:1.3px;text-transform:uppercase;margin-top:2px}
+.top-spacer{flex:1}
+.client-pill{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);padding:7px 13px;border-radius:30px;font-size:12.5px}
+.client-pill .dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 3px rgba(31,138,91,.25)}
+.live-mode .dot{background:var(--green)}
+.demo-mode .dot{background:var(--amber)}
+.logout{background:transparent;border:1px solid rgba(255,255,255,.22);color:#cdd8e6;border-radius:8px;padding:7px 12px;font-family:inherit;font-size:12px;cursor:pointer;text-decoration:none}
+.logout:hover{border-color:var(--gold);color:#fff}
+
+/* tabs */
+nav.tabs{background:var(--paper);border-bottom:1px solid var(--line);position:sticky;top:66px;z-index:25;box-shadow:var(--shadow)}
+.tabs-row{max-width:1240px;margin:0 auto;display:flex;gap:2px;overflow-x:auto;padding:0 14px}
+.tab{appearance:none;border:0;background:transparent;padding:15px 16px 13px;font-family:inherit;font-size:13.5px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;transition:.15s;display:flex;align-items:center;gap:7px}
+.tab:hover{color:var(--navy)}
+.tab.active{color:var(--navy);border-bottom-color:var(--gold)}
+.tab .badge{background:var(--red);color:#fff;font-size:10px;border-radius:20px;padding:1px 7px;font-family:"Montserrat",Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;font-weight:600}
+
+main{max-width:1240px;margin:0 auto;padding:26px 22px 70px}
+.view{display:none;animation:fade .35s ease}
+.view.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+.page-head{margin-bottom:20px}
+.page-head h2{font-family:"Montserrat",Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;font-weight:600;font-size:25px;margin:0 0 4px;color:var(--navy)}
+.page-head p{margin:0;color:var(--muted);font-size:13.5px;max-width:760px;line-height:1.55}
+
+/* cards & grid */
+.grid{display:grid;gap:16px}
+.g-4{grid-template-columns:repeat(4,1fr)}
+.g-3{grid-template-columns:repeat(3,1fr)}
+.g-2{grid-template-columns:repeat(2,1fr)}
+@media(max-width:980px){.g-4{grid-template-columns:repeat(2,1fr)}.g-3{grid-template-columns:1fr}.g-2{grid-template-columns:1fr}}
+@media(max-width:560px){.g-4{grid-template-columns:1fr}}
+
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+.card h3{margin:0 0 3px;font-size:13px;font-weight:600;color:var(--muted);letter-spacing:.2px}
+.card .big{font-family:"Montserrat",Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;font-size:29px;font-weight:600;color:var(--navy);letter-spacing:-.5px}
+.card .sub{font-size:12px;color:var(--muted);margin-top:4px}
+.delta{font-family:"Montserrat",Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;font-size:12.5px;font-weight:600;padding:2px 8px;border-radius:20px;display:inline-block}
+.delta.up{color:var(--green);background:var(--green-bg)}
+.delta.down{color:var(--red);background:var(--red-bg)}
+.delta.warn{color:var(--amber);background:var(--amber-bg)}
+.kpi-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);margin-bottom:16px}
+.panel-title{font-family:"Montserrat",Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;font-weight:600;font-size:18px;color:var(--navy);margin:0 0 2px}
+.panel-note{font-size:12.5px;color:var(--muted);margin:0 0 16px}
+.chart-wrap{position:relative;height:300px}
+.chart-sm{height:240px}
+
+/* table */
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line)}
+th{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);font-weight:600}
+td.num,th.num{text-align:right;font-family:"Montserrat",Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+tbody tr:hover{background:var(--cream)}
+.tag{font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;display:inline-block}
+.tag.ok{background:var(--green-bg);color:var(--green)}
+.tag.warn{background:var(--amber-bg);color:var(--amber)}
+.tag.bad{background:var(--red-bg);color:var(--red)}
+
+/* alerts */
+.alert{display:flex;gap:13px;padding:14px 16px;border-radius:12px;margin-bottom:11px;border:1px solid var(--line);background:var(--paper);box-shadow:var(--shadow)}
+.alert .ic{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;font-size:17px;flex:none}
+.alert.r{border-left:4px solid var(--red)} .alert.r .ic{background:var(--red-bg)}
+.alert.a{border-left:4px solid var(--amber)} .alert.a .ic{background:var(--amber-bg)}
+.alert.g{border-left:4px solid var(--green)} .alert.g .ic{background:var(--green-bg)}
+.alert .t{font-weight:600;font-size:13.5px;color:var(--navy)}
+.alert .d{font-size:12.5px;color:var(--muted);margin-top:3px;line-height:1.5}
+.alert .sev{font-size:10px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;padding:2px 8px;border-radius:20px;align-self:flex-start;margin-left:auto}
+.sev.r{background:var(--red-bg);color:var(--red)} .sev.a{background:var(--amber-bg);color:var(--amber)} .sev.g{background:var(--green-bg);color:var(--green)}
+
+.note{font-size:12px;color:var(--muted);line-height:1.6;background:var(--cream);border-radius:10px;padding:12px 14px;border-left:3px solid var(--gold)}
+.bench{font-family:"Montserrat",Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;font-size:11.5px;color:var(--muted)}
+.section-label{font-size:11px;font-weight:600;letter-spacing:1.4px;text-transform:uppercase;color:var(--gold);margin:26px 0 12px}
+footer.foot{max-width:1240px;margin:0 auto;padding:24px 22px 40px;color:var(--muted);font-size:11.5px;text-align:center;line-height:1.7;border-top:1px solid var(--line);margin-top:20px}
+.foot b{color:var(--navy)}
+
+/* ==== Diễn giải gói dịch vụ + Khối lợi ích tài chính ==== */
+.svc-strip{background:linear-gradient(90deg,rgba(11,31,58,.05),rgba(201,162,39,.10));border-bottom:1px solid var(--line)}
+.svc-strip .in{max-width:1240px;margin:0 auto;padding:9px 22px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+.svc-pill{background:var(--navy);color:var(--gold);font-weight:600;font-size:10.5px;letter-spacing:.6px;padding:3px 11px;border-radius:20px}
+.svc-strip b{color:var(--navy)}
+.value-banner{display:grid;grid-template-columns:1.1fr 1fr;gap:20px;background:linear-gradient(125deg,var(--navy),var(--navy-2));border-radius:16px;padding:20px 22px;color:#fff;box-shadow:0 14px 40px rgba(11,31,58,.22);border:1px solid rgba(201,162,39,.4)}
+@media(max-width:840px){.value-banner{grid-template-columns:1fr}}
+.vb-cap{font-size:12.5px;color:#c9d4e3}.vb-cap span{color:#8ea2bd}
+.vb-num{font-family:"Montserrat",Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;font-size:35px;font-weight:600;color:var(--gold-soft);margin:7px 0 2px;letter-spacing:-.5px;line-height:1.02}
+.vb-num span{font-size:15px;color:#c9d4e3}
+.vb-num em{display:block;font-style:normal;font-family:"Montserrat",Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;font-size:15px;color:#fff;font-weight:600;margin-top:3px}
+.progress{height:9px;border-radius:20px;background:rgba(255,255,255,.15);overflow:hidden;margin:11px 0 7px}
+.progress>i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-soft));border-radius:20px}
+.vb-foot{font-size:11px;color:#9fb0c7;line-height:1.5}
+.vb-right{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;align-content:center}
+.scen-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.11);border-radius:11px;padding:12px 8px;text-align:center}
+.sc-name{font-size:10px;color:#9fb0c7;text-transform:uppercase;letter-spacing:.5px}
+.sc-usd{font-family:"Montserrat",Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;font-size:21px;font-weight:600;margin:4px 0}
+.sc-vnd{font-size:10px;color:#c9d4e3}
+.save-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:14px 0 10px}
+@media(max-width:680px){.save-grid{grid-template-columns:1fr}}
+.save-row{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--paper);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:10px;padding:11px 14px;font-size:12.5px;box-shadow:var(--shadow)}
+</style>
 </head>
 <body data-allow-public-demo="true">
-<div class="shell">
-  <aside class="sidebar">
-    <a class="brand" href="../index.html"><img src="../assets/logo-vcpc.jpg" alt="VCPC"/><div><b>Viet Capital Partners &amp; Consulting</b><span>BizHealth Dashboard Demo</span></div></a>
-    <div class="demo-chip">● DỮ LIỆU MINH HỌA · STATIC HTML</div>
-    <div class="section-label">BizHealth</div>
-    <nav class="nav" id="sideNav" aria-label="Điều hướng dashboard">
-      <button class="active" data-tab="overview">◫ Tổng quan</button>
-      <button data-tab="finance">₫ P&amp;L &amp; Chi phí</button>
-      <button data-tab="branches">⌂ Chi nhánh &amp; Sản phẩm</button>
-      <button data-tab="marketing">◎ Marketing</button>
-      <button data-tab="cash">↗ Dòng tiền</button>
-      <button data-tab="recommendations">✓ Kiến nghị</button>
-    </nav>
-    <div class="side-links"><a href="/bizhealth.html">← Về trang BizHealth</a><a href="/demo/bizos">Xem demo BizOS →</a></div>
-  </aside>
-  <main class="main">
-    <header class="topbar">
-      <div><div class="eyebrow">BizHealth · VCPC Demo</div><h1 id="pageTitle">Tổng quan sức khỏe doanh nghiệp</h1><p id="pageSub">Ảnh chụp quản trị giúp CEO thấy nhanh hiệu quả, dòng tiền, rủi ro và các kiến nghị ưu tiên.</p></div>
-      <div><div class="period"><b>Minh An Retail Fashion</b><br/><span>01/01–10/06/2026 · cập nhật tuần</span></div><div class="top-actions"><button class="btn" id="downloadBtn">↓ Tải báo cáo demo</button><button class="btn primary" id="refreshBtn">↻ Làm mới</button></div></div>
-    </header>
-    <div class="notice"><div class="icon">i</div><div><strong>Trang demo tĩnh, không kết nối tài khoản hoặc Supabase.</strong><p>Toàn bộ số liệu, tên doanh nghiệp, chi nhánh và kiến nghị bên dưới là dữ liệu minh họa để khách hàng hình dung giao diện BizHealth. Dashboard thật sẽ được VCPC tùy chỉnh theo ngành, gói dịch vụ và dữ liệu của từng doanh nghiệp.</p></div></div>
 
-    <section class="tabview active" data-view="overview">
-      <div class="grid kpis" id="overviewKpis"></div>
-      <div class="grid row-2" style="margin-bottom:17px">
-        <div class="card" style="padding:0;overflow:hidden"><div class="impact"><div class="small">Báo cáo Chẩn đoán &amp; Kiến nghị</div><div class="big">~8,5–15,6 tỷ<span style="font-size:18px;color:#cbd9ee">/năm</span></div><p>Tổng tác động ước tính từ các kiến nghị có thể lượng hóa: tối ưu marketing, cải thiện biên lợi nhuận chi nhánh, giải phóng vốn tồn kho và bảo vệ dòng tiền. Đây là ước tính sơ bộ, cần VCPC review/confirm.</p><span class="dlabel estimate">ƯỚC TÍNH SƠ BỘ</span></div></div>
-        <div class="card"><div class="card-head"><h2>Kiến nghị ưu tiên</h2><small>5 mục đầu</small></div><div class="rec-mini" id="overviewRecs"></div><a class="more" href="#" data-jump="recommendations">Xem chi tiết →</a></div>
+<!-- ===================== ỨNG DỤNG DEMO PUBLIC ===================== -->
+<div id="app" style="display:block;">
+  <header class="top">
+    <div class="top-row">
+      <div class="brand">
+        <img class="mark" src="../assets/logo-vcpc.jpg" alt="VCPC">
+        <div>
+          <div class="brand-name">Chuỗi Chăm sóc sức khoẻ & Làm đẹp <span>· BizHealth Dashboard Demo</span></div>
+          <div class="brand-sub">Powered by Viet Capital Partners &amp; Consulting</div>
+        </div>
       </div>
-      <div class="grid row-2">
-        <div class="card"><div class="card-head"><h2>Doanh thu theo tháng vs kế hoạch vs online</h2><small>tỷ VND</small></div><div class="chart" id="revenueChart"></div><div class="legend"><span><i style="background:#2a6fdb"></i>Thực tế</span><span><i style="background:#ffb20a"></i>Kế hoạch</span><span><i style="background:#0d8a5d"></i>Online</span></div></div>
-        <div class="card"><div class="card-head"><h2>Cảnh báo điều hành ưu tiên</h2><small id="alertCount"></small></div><div id="priorityAlerts"></div></div>
-      </div>
-      <div class="grid row-even" style="margin-top:17px">
-        <div class="card"><div class="card-head"><h2>Cần chú ý tuần này</h2><small>chi nhánh tụt hạng</small></div><div id="watchlist"></div></div>
-        <div class="card"><div class="card-head"><h2>Cơ cấu doanh thu theo miền</h2><small>YTD</small></div><div id="regionMix" style="display:flex;align-items:center;gap:20px;justify-content:center;min-height:190px"></div></div>
-      </div>
-    </section>
+      <div class="top-spacer"></div>
+      <div class="client-pill demo-mode" id="modePill"><span class="dot"></span><span id="modeText">DEMO · dữ liệu mẫu nhúng sẵn</span></div>
+      <a class="logout" href="/bizhealth.html">Về BizHealth</a>
+    </div>
+  </header>
 
-    <section class="tabview" data-view="finance">
-      <div class="grid kpis" style="grid-template-columns:repeat(4,minmax(0,1fr))" id="financeKpis"></div>
-      <div class="grid row-2" style="margin-top:17px"><div class="card"><div class="card-head"><h2>P&amp;L waterfall YTD</h2><small>tỷ VND</small></div><div class="chart" id="waterfall"></div></div><div class="card"><div class="card-head"><h2>Xu hướng biên lợi nhuận</h2><small>% doanh thu</small></div><div class="chart" id="marginChart"></div></div></div>
-      <div class="card" style="margin-top:17px"><div class="card-head"><h2>Lãi lỗ theo tháng</h2><small>demo</small></div><div class="table-wrap"><table><thead><tr><th>Tháng</th><th>Doanh thu</th><th>Lãi gộp</th><th>Chi phí VH</th><th>EBITDA</th><th>Biên EBITDA</th></tr></thead><tbody id="pnlRows"></tbody></table></div></div>
-    </section>
+  <div class="svc-strip"><div class="in"><span class="svc-pill">BIZHEALTH DASHBOARD</span> Dữ liệu từ <b>Dự án Chuỗi 5 chi nhánh thực tế</b> · Nội dung <b>tự động cập nhật online</b> theo <b>Google Drive</b> của doanh nghiệp</div></div>
+  <div class="svc-strip" style="background:#fff7e0"><div class="in"><span class="svc-pill">PUBLIC DEMO</span> Đây là dashboard demo tĩnh, sử dụng dữ liệu minh hoạ đã ẩn danh từ dự án chuỗi chăm sóc sức khoẻ & làm đẹp thực tế. Không kết nối Supabase hoặc tài khoản khách hàng.</div></div>
 
-    <section class="tabview" data-view="branches">
-      <div class="grid row-2"><div class="card"><div class="card-head"><h2>Hiệu suất chi nhánh — top cảnh báo</h2><small>health score</small></div><div class="table-wrap"><table><thead><tr><th>Chi nhánh</th><th>Miền</th><th>DT YTD</th><th>Đạt KH</th><th>Biên gộp</th><th>Tồn kho</th><th>Trạng thái</th></tr></thead><tbody id="branchRows"></tbody></table></div></div><div class="card"><div class="card-head"><h2>Nhóm sản phẩm cần xử lý</h2><small>tồn kho / biên gộp</small></div><div class="table-wrap"><table><thead><tr><th>Sản phẩm</th><th>DT</th><th>Biên</th><th>Tồn</th><th>Khuyến nghị</th></tr></thead><tbody id="productRows"></tbody></table></div></div></div>
-    </section>
+  <nav class="tabs"><div class="tabs-row" id="tabsRow"><button class="tab">Tổng quan</button><button class="tab">P&amp;L</button><button class="tab">Chi nhánh</button><button class="tab active">Marketing</button><button class="tab">Dòng tiền</button><button class="tab">Chi phí</button><button class="tab">Kiến nghị</button><button class="tab">KPI &amp; Cảnh báo <span class="badge">1</span></button></div></nav>
 
-    <section class="tabview" data-view="marketing">
-      <div class="grid kpis" style="grid-template-columns:repeat(4,minmax(0,1fr))" id="marketingKpis"></div>
-      <div class="grid row-2" style="margin-top:17px"><div class="card"><div class="card-head"><h2>ROAS theo kênh</h2><small>benchmark 3,5x</small></div><div class="bars" id="roasBars"></div></div><div class="card"><div class="card-head"><h2>Kênh nên cắt giảm / tái phân bổ</h2><small>tuần này</small></div><div id="cutList"></div></div></div>
-    </section>
+  <main id="main"><div class="view active">
+    <div class="page-head"><h2>Marketing chuyên sâu</h2><p>Marketing 48% doanh thu hợp lý cho giai đoạn scale (chuẩn 40–60%), nhưng cơ cấu lệch về săn khách mới và gần như chưa đầu tư giữ chân. Kế hoạch tái phân bổ: giảm tổng chi $320K/năm trong khi MỞ quỹ giữ chân $300K.</p></div>
+    <div class="grid g-3">
+      <div class="card"><h3>Tổng MKT hiện tại</h3><div class="big">$1.75M</div><div class="sub">46% doanh thu</div></div>
+      <div class="card"><h3>Đề xuất</h3><div class="big">$1.86M</div><div class="sub">48% DT · <span class="delta up">-$320K/năm</span></div></div>
+      <div class="card"><h3>Quỹ giữ chân (mới)</h3><div class="big">$300K</div><div class="sub"><span class="delta warn">từ ~0% hiện tại</span></div></div>
+    </div>
+    <div class="grid g-2" style="margin-top:16px">
+      <div class="panel"><div class="panel-title">Phân bổ theo kênh: Hiện tại vs Đề xuất</div><div class="chart-wrap"><canvas id="cMkt" width="438" height="240" style="display: block; box-sizing: border-box; height: 300px; width: 547px;"></canvas></div></div>
+      <div class="panel"><div class="panel-title">Cơ cấu đề xuất</div><div class="chart-wrap"><canvas id="cMktPie" width="438" height="240" style="display: block; box-sizing: border-box; height: 300px; width: 547px;"></canvas></div></div>
+    </div>
+    <div class="panel"><div class="panel-title">Kế hoạch tái phân bổ chi tiết</div>
+      <table><thead><tr><th>Kênh</th><th class="num">Hiện tại</th><th class="num">Đề xuất</th><th class="num">Thay đổi</th><th>Lý do</th></tr></thead><tbody><tr><td><b>Facebook/Meta</b></td><td class="num">$644K (35%)</td><td class="num">$644K (35%)</td><td class="num"><span class="delta warn">$0K</span></td><td style="font-size:12px;color:var(--muted)">Giữ — đang hiệu quả</td></tr><tr><td><b>KOL/Influencer</b></td><td class="num">$460K (25%)</td><td class="num">$300K (16%)</td><td class="num"><span class="delta down">$-160K</span></td><td style="font-size:12px;color:var(--muted)">Đặt trần, giữ phần thương hiệu</td></tr><tr><td><b>Zalo/Direct</b></td><td class="num">$368K (20%)</td><td class="num">$520K (28%)</td><td class="num"><span class="delta up">+$152K</span></td><td style="font-size:12px;color:var(--muted)">CAC thấp nhất, chuyển đổi 42% → tăng</td></tr><tr><td><b>Content/Seeding</b></td><td class="num">$276K (15%)</td><td class="num">$92K (5%)</td><td class="num"><span class="delta down">$-184K</span></td><td style="font-size:12px;color:var(--muted)">CAC cao, chuyển đổi thấp → cắt</td></tr><tr><td><b>Quỹ GIỮ CHÂN (mới)</b></td><td class="num">$0K (0%)</td><td class="num">$300K (16%)</td><td class="num"><span class="delta up">+$300K</span></td><td style="font-size:12px;color:var(--muted)">Bain: +5% retention → +25–95% LN</td></tr></tbody></table>
+    </div></div></main>
 
-    <section class="tabview" data-view="cash">
-      <div class="grid kpis" style="grid-template-columns:repeat(4,minmax(0,1fr))" id="cashKpis"></div>
-      <div class="grid row-2" style="margin-top:17px"><div class="card"><div class="card-head"><h2>Dự báo dòng tiền 90 ngày</h2><small>tỷ VND</small></div><div class="chart" id="cashChart"></div></div><div class="card"><div class="card-head"><h2>Vốn lưu động</h2><small>chu kỳ tiền mặt</small></div><div id="workingCapital" style="display:grid;gap:12px"></div></div></div>
-    </section>
-
-    <section class="tabview" data-view="recommendations">
-      <div class="grid row-2"><div class="card"><div class="card-head"><h2>Kiến nghị ưu tiên</h2><small>gắn với KPI &amp; alert</small></div><div id="recList"></div></div><div class="card"><div class="card-head"><h2>Tổng tác động ước tính</h2><small>năm</small></div><div class="impact" style="margin-bottom:16px"><div class="big">~15,6 tỷ</div><p>Tổng tác động ước tính/năm từ các kiến nghị có lượng hóa được. Con số cuối cần xác nhận sau buổi review cùng VCPC.</p><span class="dlabel estimate">ƯỚC TÍNH</span></div><div class="card-head"><h2>KPI chính theo dõi</h2></div><div id="kpiTrack" style="display:grid;gap:10px"></div><div class="card-head" style="margin-top:18px"><h2>Tất cả alert đang mở</h2></div><div id="allAlerts"></div></div></div>
-    </section>
-
-    <footer class="footer"><div>Cập nhật: <b id="lastRefresh">2026-06-10</b> · <span class="badge good">Đã VCPC kiểm duyệt</span></div><div><a href="/bizhealth.html">BizHealth</a> · <a href="/pricing.html">Bảng giá</a></div></footer>
-  </main>
+  <footer class="foot">
+    <b>Chuỗi chăm sóc sức khoẻ</b> — Gói dịch vụ BizHealth · Dữ liệu từ Dự án Chuỗi 5 chi nhánh thực tế · Kỳ phân tích FY2023–9MFY2025<br>
+    Chẩn đoán &amp; dashboard thực hiện bởi <b>Viet Capital Partners &amp; Consulting</b> · Bộ mẫu ẩn danh phục vụ tham khảo<br>
+    Nội dung tự động cập nhật theo thư mục Google Drive của Doanh nghiệp.
+  </footer>
 </div>
+
 <script>
-(function(){
-  'use strict';
-  const DATA={kpis:[['DOANH THU YTD','197,9 tỷ','lũy kế · mục tiêu 450 tỷ'],['ĐẠT KẾ HOẠCH','98%','so kế hoạch 95%'],['BIÊN EBITDA','12,2%','mục tiêu 12%'],['NGÀY TIỀN MẶT','52 ngày','nếu PO lớn → 43 ngày'],['CHI NHÁNH ĐẠT KH','28/40','12 chi nhánh cần theo dõi'],['ROAS BÌNH QUÂN','3,19x','benchmark 3,5x']],
-  finance:[['DOANH THU LŨY KẾ','197,9 tỷ','ước cả năm 438 · mục tiêu 450'],['BIÊN LÃI GỘP','45,1%','so benchmark 46%'],['EBITDA YTD','24,1 tỷ','biên EBITDA 12,2%'],['DOANH THU ONLINE','28,4 tỷ','14,3% tổng doanh thu']],
-  marketing:[['ROAS bình quân','3,19x','benchmark 3,5x'],['Chi phí / DT','7,4%','mục tiêu 6,0%'],['Conversion web','1,9%','mục tiêu 2,4%'],['Online revenue','14,3%','28,4/197,9 tỷ']],
-  cash:[['Tiền mặt hiện tại','11,4 tỷ','đủ ~52 ngày'],['Nếu PO lớn T6','43 ngày','giảm 9 ngày'],['DSO','38 ngày','benchmark 35'],['Tồn kho','64 ngày','benchmark 55']],
-  rev:[{m:'T1',a:30.6,p:31,o:4.2},{m:'T2',a:28.9,p:30,o:4.0},{m:'T3',a:33.8,p:32,o:4.7},{m:'T4',a:34.1,p:35,o:5.1},{m:'T5',a:36.5,p:37,o:5.8},{m:'T6',a:34.0,p:36,o:4.6}],
-  pnl:[['T1',30.6,13.7,9.8,3.9,12.7],['T2',28.9,13.0,9.3,3.5,12.1],['T3',33.8,15.4,10.9,4.1,12.1],['T4',34.1,15.2,11.0,4.3,12.6],['T5',36.5,16.6,11.6,4.7,12.9],['T6',34.0,15.4,11.0,3.6,10.6]],
-  alerts:[['red','Cash runway có thể giảm còn 43 ngày nếu PO lớn tháng 6','CFO'],['orange','ROAS TikTok Ads dưới benchmark 3 tuần liên tiếp','Marketing'],['orange','7 chi nhánh có biên gộp dưới 39%','COO'],['red','Tồn kho nhóm denim vượt 82 ngày','Merchandising']],
-  recs:[['Tối ưu chi phí marketing theo ROAS từng kênh','Cắt 18–22% ngân sách kênh ROAS thấp và tái phân bổ sang kênh tạo doanh thu online hiệu quả hơn.','Marketing','Cao','3,1 tỷ/năm'],['Rà soát biên lợi nhuận nhóm chi nhánh dưới kế hoạch','Ưu tiên 7 chi nhánh có biên gộp thấp, tồn kho cao và conversion giảm.','COO','Cao','4,2 tỷ/năm'],['Điều chỉnh tồn kho nhóm sản phẩm quay vòng chậm','Giảm markdown bị động bằng kế hoạch điều chuyển/xả hàng có kiểm soát.','Merchandising','Vừa','2,8 tỷ/năm'],['Kiểm soát chi phí thuê tại chi nhánh EBITDA thấp','Đàm phán lại hoặc tái cấu trúc format các điểm bán không đạt ngưỡng EBITDA.','CFO','Vừa','3,5 tỷ/năm'],['Thiết lập cảnh báo dòng tiền và công nợ','Theo dõi cash runway, DSO, tồn kho và PO lớn theo tuần.','CFO','Cao','2,0 tỷ/năm']],
-  branches:[['HN-03 · Kim Mã','Bắc','4,1 tỷ','78%','37,5%','82 ngày','Nguy cấp'],['ND-01 · Nam Định','Bắc','2,8 tỷ','81%','38,2%','76 ngày','Cảnh báo'],['HCM-12 · Gò Vấp','Nam','5,2 tỷ','86%','39,1%','69 ngày','Cảnh báo'],['CT-01 · Ninh Kiều','Nam','3,6 tỷ','88%','40,0%','71 ngày','Theo dõi'],['BN-01 · Bắc Ninh','Bắc','3,2 tỷ','84%','38,9%','74 ngày','Cảnh báo']],
-  products:[['Denim','31,4 tỷ','39%','82 ngày','Giảm giá xả'],['Outerwear','22,7 tỷ','42%','76 ngày','Điều chuyển'],['Basic Tee','48,2 tỷ','49%','38 ngày','OK'],['Accessories','14,8 tỷ','54%','45 ngày','OK']],
-  channels:[['Google',8.7,2.9,false],['Facebook',7.1,3.2,false],['TikTok',5.9,2.1,true],['Shopee',4.8,3.7,false],['Affiliate',1.9,1.8,true]],
-  region:{Nam:24,Bac:12,Trung:4}};
-  function kpiHtml(arr){return arr.map(x=>'<div class="kpi"><div class="lbl">'+x[0]+'</div><div class="val">'+x[1]+'</div><div class="sub">'+x[2]+'</div><span class="dlabel actual">THỰC TẾ</span></div>').join('')}
-  function badgeStatus(s){let cls=s==='Nguy cấp'?'bad':s==='Cảnh báo'?'warn':s==='Theo dõi'?'info':'good';return '<span class="badge '+cls+'">'+s+'</span>'}
-  function renderLine(el,data,keys,colors){const W=560,H=245,P=32,max=Math.max(...data.flatMap(d=>keys.map(k=>d[k])))*1.15;const x=i=>P+i*(W-2*P)/(data.length-1),y=v=>H-P-(v/max)*(H-2*P);let svg='<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:100%">';keys.forEach((k,idx)=>{let p=data.map((d,i)=>(i?'L':'M')+x(i)+','+y(d[k])).join(' ');svg+='<path d="'+p+'" fill="none" stroke="'+colors[idx]+'" stroke-width="2.6"'+(k==='p'?' stroke-dasharray="4 4"':'')+'/>';svg+=data.map((d,i)=>'<circle cx="'+x(i)+'" cy="'+y(d[k])+'" r="3.5" fill="'+colors[idx]+'"/>').join('')});svg+=data.map((d,i)=>'<text x="'+x(i)+'" y="'+(H-8)+'" text-anchor="middle" font-size="11" fill="#5b6b80" font-weight="700">'+d.m+'</text>').join('')+'</svg>';document.getElementById(el).innerHTML=svg}
-  function renderBars(el,rows){document.getElementById(el).innerHTML=rows.map(c=>{let h=Math.max(18,c[1]/9*100),cls=c[1]>=3.5?'green':c[1]>=3?'orange':'red';return '<div class="bar-wrap"><div class="bar '+cls+'" style="height:'+h+'%"><span class="bar-value">'+c[1]+'x</span><span class="bar-label">'+c[0]+'</span></div></div>'}).join('')}
-  function render(){document.getElementById('overviewKpis').innerHTML=kpiHtml(DATA.kpis);document.getElementById('financeKpis').innerHTML=kpiHtml(DATA.finance);document.getElementById('marketingKpis').innerHTML=kpiHtml(DATA.marketing);document.getElementById('cashKpis').innerHTML=kpiHtml(DATA.cash);renderLine('revenueChart',DATA.rev,['a','p','o'],['#2a6fdb','#ffb20a','#0d8a5d']);document.getElementById('overviewRecs').innerHTML=DATA.recs.slice(0,5).map((r,i)=>'<a href="#" data-jump="recommendations"><span class="rk">'+(i+1)+'</span><span class="rt">'+r[0]+'</span></a>').join('');document.getElementById('priorityAlerts').innerHTML=DATA.alerts.map(a=>'<div class="alert '+(a[0]==='red'?'red':'')+'"><div class="sev"></div><div><b>'+a[1]+'</b><small>Phụ trách: '+a[2]+'</small></div><span class="badge '+(a[0]==='red'?'bad':'warn')+'">OPEN</span></div>').join('');document.getElementById('alertCount').textContent=DATA.alerts.length+' cảnh báo';document.getElementById('watchlist').innerHTML=DATA.branches.slice(0,4).map(b=>'<div class="alert"><div class="sev"></div><div><b>'+b[0]+'</b><small>Đạt KH '+b[3]+' · biên gộp '+b[4]+' · tồn '+b[5]+'</small></div>'+badgeStatus(b[6])+'</div>').join('');let t=DATA.region.Nam+DATA.region.Bac+DATA.region.Trung;document.getElementById('regionMix').innerHTML='<div style="width:128px;height:128px;border-radius:50%;background:conic-gradient(#0d8a5d 0 '+(DATA.region.Nam/t*100)+'%,#2a6fdb '+(DATA.region.Nam/t*100)+'% '+((DATA.region.Nam+DATA.region.Bac)/t*100)+'%,#ffb20a 0);display:grid;place-items:center"><div style="width:78px;height:78px;border-radius:50%;background:#fff;display:grid;place-items:center;text-align:center"><b style="font-size:22px;color:#071f3d">198</b><small style="color:#5b6b80">tỷ</small></div></div><div style="display:grid;gap:7px;font-size:13px"><div>● Miền Nam <b>'+Math.round(DATA.region.Nam/t*100)+'%</b></div><div>● Miền Bắc <b>'+Math.round(DATA.region.Bac/t*100)+'%</b></div><div>● Miền Trung <b>'+Math.round(DATA.region.Trung/t*100)+'%</b></div></div>';document.getElementById('pnlRows').innerHTML=DATA.pnl.map(r=>'<tr><td><b>'+r[0]+'</b></td><td>'+r[1]+'</td><td>'+r[2]+'</td><td>'+r[3]+'</td><td>'+r[4]+'</td><td><span class="badge good">'+r[5]+'%</span></td></tr>').join('');document.getElementById('waterfall').innerHTML='<div class="bars">'+[['Doanh thu',197.9,'blue'],['Giá vốn',108.6,'red'],['Lãi gộp',89.3,'green'],['Chi phí VH',65.2,'orange'],['EBITDA',24.1,'green']].map(x=>'<div class="bar-wrap"><div class="bar '+(x[2]==='green'?'green':x[2]==='orange'?'orange':x[2]==='red'?'red':'')+'" style="height:'+Math.max(18,x[1]/197.9*100)+'%"><span class="bar-value">'+x[1]+'</span><span class="bar-label">'+x[0]+'</span></div></div>').join('')+'</div>';renderLine('marginChart',DATA.pnl.map(r=>({m:r[0],a:r[5],p:r[2]/r[1]*100,o:r[3]/r[1]*100})),['p','o','a'],['#0d8a5d','#ffb20a','#2a6fdb']);document.getElementById('branchRows').innerHTML=DATA.branches.map(b=>'<tr><td><b>'+b[0]+'</b></td><td>'+b[1]+'</td><td>'+b[2]+'</td><td>'+b[3]+'</td><td>'+b[4]+'</td><td>'+b[5]+'</td><td>'+badgeStatus(b[6])+'</td></tr>').join('');document.getElementById('productRows').innerHTML=DATA.products.map(p=>'<tr><td><b>'+p[0]+'</b></td><td>'+p[1]+'</td><td>'+p[2]+'</td><td>'+p[3]+'</td><td><span class="badge '+(p[4]==='OK'?'good':'warn')+'">'+p[4]+'</span></td></tr>').join('');renderBars('roasBars',DATA.channels);document.getElementById('cutList').innerHTML=DATA.channels.filter(c=>c[3]).map(c=>'<div class="alert"><div class="sev"></div><div><b>'+c[0]+'</b><small>ROAS '+c[1]+'x · chi phí/DT cần rà soát</small></div><span class="badge warn">Tái phân bổ</span></div>').join('');document.getElementById('cashChart').innerHTML='<svg viewBox="0 0 560 245" style="width:100%;height:100%"><path d="M32,82 L182,104 L332,130 L482,156" fill="none" stroke="#0d8a5d" stroke-width="3"/><path d="M32,82 L182,104 L332,130 L482,156 L482,220 L32,220 Z" fill="rgba(13,138,93,.12)"/><circle cx="32" cy="82" r="4" fill="#0d8a5d"/><circle cx="182" cy="104" r="4" fill="#0d8a5d"/><circle cx="332" cy="130" r="4" fill="#0d8a5d"/><circle cx="482" cy="156" r="4" fill="#0d8a5d"/><text x="32" y="70" text-anchor="middle" font-size="12" font-weight="900">11,4</text><text x="182" y="92" text-anchor="middle" font-size="12" font-weight="900">10,2</text><text x="332" y="118" text-anchor="middle" font-size="12" font-weight="900">8,7</text><text x="482" y="144" text-anchor="middle" font-size="12" font-weight="900">7,4</text><text x="32" y="235" text-anchor="middle" font-size="11" fill="#5b6b80">Hôm nay</text><text x="182" y="235" text-anchor="middle" font-size="11" fill="#5b6b80">30 ngày</text><text x="332" y="235" text-anchor="middle" font-size="11" fill="#5b6b80">60 ngày</text><text x="482" y="235" text-anchor="middle" font-size="11" fill="#5b6b80">90 ngày</text></svg>';document.getElementById('workingCapital').innerHTML=[['Phải thu (DSO)','38 ngày'],['Tồn kho','64 ngày'],['Phải trả (DPO)','28 ngày'],['Chu kỳ tiền mặt (CCC)','74 ngày']].map(x=>'<div style="display:flex;justify-content:space-between;border-bottom:1px dashed rgba(7,31,61,.12);padding-bottom:8px"><span>'+x[0]+'</span><b>'+x[1]+'</b></div>').join('');document.getElementById('recList').innerHTML=DATA.recs.map(r=>'<div class="rec"><h3>'+r[0]+'</h3><p>'+r[1]+'</p><div class="rec-foot"><span>Phụ trách: <b>'+r[2]+'</b> · Tác động ~<b>'+r[4]+'</b></span><span class="badge '+(r[3]==='Cao'?'bad':'warn')+'">'+r[3]+'</span></div></div>').join('');document.getElementById('kpiTrack').innerHTML=[['Biên lãi gộp','45,1%'],['Biên EBITDA','12,2%'],['Số ngày tiền mặt','52 ngày'],['Mức đạt kế hoạch','98%'],['ROAS','3,19x']].map(x=>'<div style="display:flex;justify-content:space-between;border-bottom:1px dashed rgba(7,31,61,.12);padding-bottom:6px"><span>'+x[0]+'</span><b>'+x[1]+'</b></div>').join('');document.getElementById('allAlerts').innerHTML=DATA.alerts.map(a=>'<div class="alert '+(a[0]==='red'?'red':'')+'"><div class="sev"></div><div><b>'+a[1]+'</b><small>'+a[2]+'</small></div></div>').join('')}
-  document.getElementById('sideNav').addEventListener('click',e=>{let b=e.target.closest('button[data-tab]');if(!b)return;document.querySelectorAll('#sideNav button').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.tabview').forEach(v=>v.classList.toggle('active',v.dataset.view===b.dataset.tab));document.getElementById('pageTitle').textContent=b.textContent.replace(/^[^\s]+\s*/,'');window.scrollTo({top:0,behavior:'smooth'});});document.addEventListener('click',e=>{let j=e.target.closest('[data-jump]');if(!j)return;e.preventDefault();document.querySelector('#sideNav button[data-tab="'+j.dataset.jump+'"]').click();});document.getElementById('refreshBtn').addEventListener('click',()=>{document.getElementById('lastRefresh').textContent=new Date().toISOString().slice(0,10);render()});document.getElementById('downloadBtn').addEventListener('click',()=>{alert('Bản demo mô phỏng tải báo cáo. Có thể dùng In / Lưu PDF để xem mẫu.');setTimeout(()=>window.print&&window.print(),250)});render();
-})();
+/* ============================================================================
+   ⬇⬇⬇  KHU VỰC CẤU HÌNH CHO TỪNG DOANH NGHIỆP — chỉ sửa phần này  ⬇⬇⬇
+   ============================================================================ */
+const CONFIG = {
+  client: "Chuỗi chăm sóc sức khoẻ",
+  industry: "Chuỗi chăm sóc sức khoẻ (nhiều chi nhánh)",
+
+  // --- DỮ LIỆU LIVE: dán link Google Sheet "Publish to web → CSV" vào đây ---
+  // Để TRỐNG ("") => chạy ở chế độ DEMO bằng dữ liệu nhúng bên dưới.
+  // Khi dán link thật => dashboard tự fetch và ghi đè dữ liệu demo (chế độ LIVE).
+  sheets: {
+    pnl:        "",   // tab PnL
+    branches:   "",   // tab Branches
+    marketing:  "",   // tab Marketing
+    kpi:        "",   // tab KPI
+    actions:    ""    // tab Actions (Kiến nghị) — tuỳ chọn
+  },
+
+  // Tài khoản đăng nhập demo (bản thật dùng Cloudflare Access, không dùng cái này)
+  demoAuth: { user: "vcpdemo1", pass: "vcpdemo2026" },
+
+  // --- TÙY BIẾN THEO NGÀNH: bật/tắt tab cho từng DN ---
+  tabs: ["overview","pnl","branches","marketing","cashflow","cost","actions","kpi"],
+
+  // --- NGƯỠNG CẢNH BÁO (đổi theo ngành/DN) ---
+  thresholds: {
+    occRed: 45,        // công suất chi nhánh < 45% => đỏ
+    occAmber: 60,      // < 60% => vàng
+    mktAmberPct: 40,   // marketing %DT > 40% => vàng
+    mktRedPct: 45,     // > 45% => đỏ
+    retentionMinPct: 10 // ngân sách giữ chân < 10% tổng MKT => vàng
+  }
+};
+
+/* ============================================================================
+   DỮ LIỆU DEMO Chuỗi chăm sóc sức khoẻ (số thật từ Báo cáo Chẩn đoán Premium — VCP)
+   Khi nối Google Sheet, các bảng này sẽ bị ghi đè bằng dữ liệu DN cập nhật.
+   ============================================================================ */
+const DEMO = {
+  periods: ["FY23","FY24","9MFY25"],
+  pnl: [
+    // label, FY23, FY24, 9MFY25  (đơn vị: triệu USD cho biểu đồ; hiển thị tự format)
+    {k:"Doanh thu",        v:[2.71,3.84,4.00]},
+    {k:"Giá vốn (COGS)",   v:[0.342,0.515,0.504]},
+    {k:"Lợi nhuận gộp",    v:[2.37,3.32,3.49]},
+    {k:"Lương",            v:[0.778,1.15,1.09]},
+    {k:"Marketing",        v:[1.13,1.84,1.72]},
+    {k:"Thuê mặt bằng",    v:[0.117,0.188,0.160]},
+    {k:"Chi phí khác",     v:[0.101,0.172,0.113]},
+    {k:"Tổng SG&A",        v:[2.13,3.35,3.09]},
+    {k:"EBITDA",           v:[0.242,-0.023,0.406]}
+  ],
+  margins: { gross:[87.4,86.6,87.4], ebitda:[8.9,-0.6,10.1], mkt:[41.7,47.8,43.0] },
+  branches: [
+    {name:"Chi nhánh 1",        opened:2019, customers:1493, occ:73, rentCust:28,  staff:12, prodPerStaff:124, note:"Đầu tàu — máy in lợi nhuận", rank:1},
+    {name:"Chi nhánh 2",opened:2023, customers:1125, occ:51, rentCust:44,  staff:8,  prodPerStaff:141, note:"Tiềm năng chưa bung — tối ưu đặt lịch", rank:2},
+    {name:"Chi nhánh 3",      opened:2017, customers:789,  occ:54, rentCust:30,  staff:5,  prodPerStaff:158, note:"Ổn định — marketing địa phương rẻ", rank:3},
+    {name:"Chi nhánh 4", opened:2021, customers:539,  occ:41, rentCust:89,  staff:6,  prodPerStaff:90,  note:"BÁO ĐỘNG — ưu tiên xử lý số 1 (KN2)", rank:4},
+    {name:"Chi nhánh 5",       opened:2025, customers:null, occ:null, rentCust:null, staff:null, prodPerStaff:null, note:"Mới mở — đang tích luỹ khách", rank:5}
+  ],
+  marketing: [
+    // kênh, hiện tại %, đề xuất %, hiện tại $K, đề xuất $K
+    {ch:"Facebook/Meta",    cur:35, sug:35, curUsd:644, sugUsd:644, why:"Giữ — đang hiệu quả"},
+    {ch:"KOL/Influencer",   cur:25, sug:16, curUsd:460, sugUsd:300, why:"Đặt trần, giữ phần thương hiệu"},
+    {ch:"Zalo/Direct",      cur:20, sug:28, curUsd:368, sugUsd:520, why:"CAC thấp nhất, chuyển đổi 42% → tăng"},
+    {ch:"Content/Seeding",  cur:15, sug:5,  curUsd:276, sugUsd:92,  why:"CAC cao, chuyển đổi thấp → cắt"},
+    {ch:"Quỹ GIỮ CHÂN (mới)",cur:0, sug:16, curUsd:0,   sugUsd:300, why:"Bain: +5% retention → +25–95% LN"}
+  ],
+  mktTotals:{curUsd:1840,sugUsd:1520,curPct:48,sugPct:40},
+  cashflow:[
+    {step:"Lợi nhuận gộp (≈ tiền vào)", amt:3.32, cum:3.32},
+    {step:"– Chi lương",                amt:-1.15, cum:2.17},
+    {step:"– Chi marketing",            amt:-1.84, cum:0.33},
+    {step:"– Thuê + chi phí khác",      amt:-0.36, cum:-0.03}
+  ],
+  ccc:{ dio:"5–7 ngày", dso:"2–3 ngày", cccDays:"~10 ngày" },
+  scorecard:[
+    {kpi:"Biên EBITDA %",      base:"-0,6%",   t30:"+7–9%",   t6m:"+13–19%", f:"EBITDA / Doanh thu"},
+    {kpi:"Marketing % DT",     base:"47,8%",   t30:"~43%",    t6m:"35–40%",  f:"Chi marketing / DT"},
+    {kpi:"Cơ cấu retention",   base:"~0%",     t30:"10%",     t6m:"25%",     f:"Ngân sách giữ chân / tổng MKT"},
+    {kpi:"CAC (VND)",          base:"4,9M",    t30:"4,7M",    t6m:"4,2M",    f:"Chi MKT / khách mới"},
+    {kpi:"Tỷ lệ giữ chân",     base:"Chưa đo", t30:"Bắt đầu đo", t6m:"≥60%", f:"Khách quay lại / tổng khách"},
+    {kpi:"Lương % DT",         base:"29,9%",   t30:"29,9%",   t6m:"26–28%",  f:"Tổng lương / DT"},
+    {kpi:"Công suất TB",       base:"54,75%",  t30:"58%",     t6m:"62%+",    f:"TB utilization các CN"},
+    {kpi:"Công suất Chi nhánh 4",   base:"41%",     t30:"47%",     t6m:"55–60%",  f:"Utilization Chi nhánh 4"},
+    {kpi:"SG&A % DT",          base:"87,2%",   t30:"82%",     t6m:"75–78%",  f:"Tổng SG&A / DT"}
+  ],
+  actions:[
+    {n:"KN1", t:"Kiểm toán & Tối ưu Marketing", owner:"CMO",            impact:"$180–320K/năm", eta:"Tuần 1–8", st:"Đang chạy"},
+    {n:"KN2", t:"Cải thiện công suất Chi nhánh 4",   owner:"GĐ Vận hành",    impact:"Thu hồi DT",    eta:"Tháng 1–3", st:"Ưu tiên #1"},
+    {n:"KN3", t:"Rà soát & đàm phán hợp đồng thuê", owner:"CFO/KTT",    impact:"$15–40K/năm",   eta:"Tháng 3",   st:"Chờ"},
+    {n:"KN4", t:"Lương linh hoạt (biến phí hoá)", owner:"GĐ Nhân sự",   impact:"$90–160K/năm",  eta:"Tháng 2–6", st:"Pilot 1 CN"},
+    {n:"KN5", t:"Lập dashboard lợi nhuận/chi nhánh", owner:"CFO/KTT",      impact:"Theo dõi chi tiết",  eta:"Tuần 1–2",  st:"✓ Đang xem"}
+  ]
+};
+
+/* ============================================================================
+   ENGINE — không cần sửa khi dùng cho Chuỗi chăm sóc sức khoẻ
+   ============================================================================ */
+let DATA = JSON.parse(JSON.stringify(DEMO));
+let LIVE = false;
+const charts = {};
+const fmtUsdM = v => (v<0?"-":"")+"$"+Math.abs(v).toFixed(2).replace(/\.?0+$/,m=>m.includes(".")?m.replace(/0+$/ ,""):m)+"M";
+const usdM = v => (v<0?"-$":"$")+Math.abs(v).toFixed(2)+"M";
+const usdK = v => "$"+Math.round(v)+"K";
+
+/* ---------- PUBLIC DEMO BOOT ---------- */
+function logout(){ location.href="/bizhealth.html"; }
+
+/* ---------- CSV PARSER (cho chế độ LIVE) ---------- */
+function parseCSV(text){
+  const rows=[]; let row=[],cur="",q=false;
+  for(let i=0;i<text.length;i++){const c=text[i];
+    if(q){ if(c==='"'){ if(text[i+1]==='"'){cur+='"';i++} else q=false } else cur+=c }
+    else{ if(c==='"')q=true; else if(c===',') {row.push(cur);cur=""} else if(c==='\n'){row.push(cur);rows.push(row);row=[];cur=""} else if(c!=='\r')cur+=c }
+  }
+  if(cur.length||row.length){row.push(cur);rows.push(row)}
+  return rows.filter(r=>r.length>1||r[0]!=="");
+}
+function num(x){ if(x==null) return null; let v=String(x).trim().replace(/[%$\s]/g,"");
+  if(v==="") return null;
+  if(v.indexOf(".")>-1 && v.indexOf(",")>-1) v=v.replace(/,/g,"");      // 1,234.5 -> 1234.5
+  else if(v.indexOf(",")>-1) v=v.replace(",",".");                       // 2,71 -> 2.71
+  v=v.replace(/[^0-9.\-]/g,""); const n=parseFloat(v); return isNaN(n)?null:n; }
+const body1=async u=>{ const rows=parseCSV(await fetch(u,{cache:"no-store"}).then(r=>r.text())); return {hdr:rows[0]||[], body:rows.slice(1).filter(r=>r[0]&&String(r[0]).trim())}; };
+
+async function loadLive(){
+  const S=CONFIG.sheets;
+  const anyUrl = Object.values(S).some(u=>u && u.length>8);
+  if(!anyUrl){ LIVE=false; recomputeDerived(); return; }
+  let ok=false;
+  if(S.pnl) try{ const {hdr,body}=await body1(S.pnl);
+    if(hdr.length>=4) DATA.periods=[hdr[1],hdr[2],hdr[3]].map(x=>String(x).trim());
+    if(body.length){ DATA.pnl=body.map(r=>({k:String(r[0]).trim(), v:[num(r[1])||0,num(r[2])||0,num(r[3])||0]})); ok=true; }
+  }catch(e){ console.warn("PnL lỗi",e); }
+  if(S.branches) try{ const {body}=await body1(S.branches);
+    if(body.length){ DATA.branches=body.map((r,i)=>({name:String(r[0]).trim(),opened:num(r[1]),customers:num(r[2]),occ:num(r[3]),rentCust:num(r[4]),staff:num(r[5]),prodPerStaff:num(r[6]),note:(r[7]||"").trim(),rank:i+1})); ok=true; }
+  }catch(e){ console.warn("Branches lỗi",e); }
+  if(S.marketing) try{ const {body}=await body1(S.marketing);
+    if(body.length){ DATA.marketing=body.map(r=>({ch:String(r[0]).trim(),cur:num(r[1])||0,sug:num(r[2])||0,curUsd:num(r[3])||0,sugUsd:num(r[4])||0,why:(r[5]||"").trim()})); ok=true; }
+  }catch(e){ console.warn("Marketing lỗi",e); }
+  if(S.kpi) try{ const {body}=await body1(S.kpi);
+    if(body.length){ DATA.scorecard=body.map(r=>({kpi:String(r[0]).trim(),base:(r[1]||"").trim(),t30:(r[2]||"").trim(),t6m:(r[3]||"").trim(),f:(r[4]||"").trim()})); ok=true; }
+  }catch(e){ console.warn("KPI lỗi",e); }
+  if(S.actions) try{ const {body}=await body1(S.actions);
+    if(body.length){ DATA.actions=body.map(r=>({n:String(r[0]).trim(),t:(r[1]||"").trim(),owner:(r[2]||"").trim(),impact:(r[3]||"").trim(),eta:(r[4]||"").trim(),st:(r[5]||"").trim()})); ok=true; }
+  }catch(e){ console.warn("Actions lỗi",e); }
+  LIVE=ok; recomputeDerived();
+}
+
+// Suy ra biên LN, tổng MKT, dòng tiền, cầu nối EBITDA từ dữ liệu P&L/Marketing (luôn ăn theo số mới nhất)
+function recomputeDerived(){
+  const g=k=>{const r=DATA.pnl.find(x=>x.k===k);return r?r.v:[0,0,0];};
+  const rev=g("Doanh thu"),gp=g("Lợi nhuận gộp"),eb=g("EBITDA"),mk=g("Marketing"),L=g("Lương"),TH=g("Thuê mặt bằng"),OT=g("Chi phí khác");
+  const pct=(a,b)=>b?+(a/b*100).toFixed(1):0;
+  DATA.margins={ gross:rev.map((_,i)=>pct(gp[i],rev[i])), ebitda:rev.map((_,i)=>pct(eb[i],rev[i])), mkt:rev.map((_,i)=>pct(mk[i],rev[i])) };
+  const cu=DATA.marketing.reduce((s,m)=>s+(+m.curUsd||0),0), su=DATA.marketing.reduce((s,m)=>s+(+m.sugUsd||0),0);
+  const revFY=rev[1]||rev[2]||0;
+  DATA.mktTotals={curUsd:cu,sugUsd:su,curPct:revFY?Math.round(cu/(revFY*10)):0,sugPct:revFY?Math.round(su/(revFY*10)):0};
+  const i=1,s1=gp[i],s2=s1-L[i],s3=s2-mk[i],s4=s3-(TH[i]+OT[i]);
+  DATA.cashflow=[
+    {step:"Lợi nhuận gộp (≈ tiền vào)",amt:gp[i],cum:+s1.toFixed(2)},
+    {step:"– Chi lương",amt:-L[i],cum:+s2.toFixed(2)},
+    {step:"– Chi marketing",amt:-mk[i],cum:+s3.toFixed(2)},
+    {step:"– Thuê + chi phí khác",amt:-(TH[i]+OT[i]),cum:+s4.toFixed(2)}
+  ];
+  const k=v=>Math.round(v*1000), p0=DATA.periods[0]||"FY23", p1=DATA.periods[1]||"FY24";
+  DATA.bridge={ labels:[`EBITDA ${p0}`,"+LN gộp","−Marketing","−Lương","−Thuê","−Khác",`EBITDA ${p1}`],
+    data:[k(eb[0]),k(gp[1]-gp[0]),-k(mk[1]-mk[0]),-k(L[1]-L[0]),-k(TH[1]-TH[0]),-k(OT[1]-OT[0]),k(eb[1])] };
+}
+
+/* ---------- ALERT ENGINE ---------- */
+function computeAlerts(){
+  const A=[]; const th=CONFIG.thresholds;
+  DATA.branches.forEach(b=>{
+    if(b.occ==null) return;
+    if(b.occ < th.occRed) A.push({s:'r',ic:'🔴',t:`${b.name}: công suất ${b.occ}% — dưới ngưỡng báo động`,d:`Thấp hơn chuẩn ngành (80–85%) tới ${80-b.occ} điểm. Chi phí thuê/khách lên tới $${b.rentCust} (gấp ~${(b.rentCust/28).toFixed(1)}× Chi nhánh 1). Kích hoạt KN2 — kiểm toán 5 nhóm nguyên nhân.`});
+    else if(b.occ < th.occAmber) A.push({s:'a',ic:'🟠',t:`${b.name}: công suất ${b.occ}% — dưới chuẩn`,d:`Còn dư địa ${80-b.occ} điểm so với chuẩn 80%. Theo dõi quy trình đặt lịch & tái khám.`});
+  });
+  const mkt = DATA.margins.mkt[DATA.margins.mkt.length-1];
+  if(mkt > th.mktRedPct) A.push({s:'r',ic:'📣',t:`Marketing ${mkt}% doanh thu — vượt ngưỡng đỏ`,d:`Mỗi 1 điểm % giảm ≈ +$53K EBITDA. Mục tiêu kéo về 35–40% (KN1) qua tái phân bổ kênh + mở quỹ giữ chân.`});
+  else if(mkt > th.mktAmberPct) A.push({s:'a',ic:'📣',t:`Marketing ${mkt}% doanh thu — cao hơn vùng tối ưu`,d:`Hợp lý cho giai đoạn scale (chuẩn 40–60%) nhưng cơ cấu lệch về săn khách mới. Mục tiêu trung hạn 35–40%.`});
+  const eb = DATA.margins.ebitda[DATA.margins.ebitda.length-1];
+  if(eb < 0) A.push({s:'r',ic:'⚠️',t:`Biên EBITDA âm (${eb}%)`,d:`Lợi nhuận đang bị "ăn mòn" bởi SG&A. Xem cầu nối EBITDA ở tab P&L.`});
+  const ret = DATA.marketing.find(m=>m.ch.includes("GIỮ CHÂN"));
+  if(ret && ret.cur < th.retentionMinPct) A.push({s:'a',ic:'🔁',t:`Ngân sách giữ chân ${ret.cur}% tổng marketing — quá thấp`,d:`Gần như chưa đầu tư retention. Mở quỹ ${usdK(ret.sugUsd)} (KN1): nhắc lịch tự động, loyalty, referral, chăm sóc sau dịch vụ.`});
+  // tin tốt
+  if(DATA.margins.gross.slice(-1)[0] >= 85) A.push({s:'g',ic:'✅',t:`Biên lợi nhuận gộp ${DATA.margins.gross.slice(-1)[0]}% — đẳng cấp ngành`,d:`Nền tảng kinh doanh khỏe (>85%). Mọi cải thiện chi phí sẽ rơi thẳng xuống lợi nhuận.`});
+  return A;
+}
+
+/* ---------- TABS ---------- */
+const TAB_META = {
+  overview:{label:"Tổng quan"}, pnl:{label:"P&L"}, branches:{label:"Chi nhánh"},
+  marketing:{label:"Marketing"}, cashflow:{label:"Dòng tiền"}, cost:{label:"Chi phí"},
+  actions:{label:"Kiến nghị"}, kpi:{label:"KPI & Cảnh báo"}
+};
+let active="overview";
+function buildTabs(){
+  const alerts=computeAlerts();
+  const reds=alerts.filter(a=>a.s==='r').length;
+  const row=document.getElementById('tabsRow'); row.innerHTML="";
+  CONFIG.tabs.forEach(id=>{
+    const b=document.createElement('button'); b.className="tab"+(id===active?" active":"");
+    b.innerHTML = TAB_META[id].label + ((id==="kpi"&&reds)?` <span class="badge">${reds}</span>`:"");
+    b.onclick=()=>{active=id;render()}; row.appendChild(b);
+  });
+}
+
+/* ---------- RENDER ---------- */
+function boot(){
+  loadLive().then(()=>{
+    document.getElementById('modeText').textContent = LIVE ? "LIVE · dữ liệu từ Google Drive" : "DEMO · dữ liệu mẫu nhúng sẵn";
+    document.getElementById('modePill').className = "client-pill "+(LIVE?"live-mode":"demo-mode");
+    buildTabs(); render();
+  });
+}
+function render(){
+  buildTabs();
+  const m=document.getElementById('main');
+  m.innerHTML = `<div class="view active">${VIEWS[active]()}</div>`;
+  // vẽ chart sau khi DOM sẵn sàng
+  setTimeout(()=>DRAW[active] && DRAW[active](),30);
+}
+
+const last = arr => arr[arr.length-1];
+const pnlGet = k => DATA.pnl.find(r=>r.k===k);
+
+const VIEWS = {
+  /* ---- OVERVIEW ---- */
+  overview(){
+    const rev=last(pnlGet("Doanh thu").v), eb=last(pnlGet("EBITDA").v);
+    const ebM=last(DATA.margins.ebitda), gM=last(DATA.margins.gross), mkt=last(DATA.margins.mkt);
+    const avgOcc=(DATA.branches.filter(b=>b.occ).reduce((s,b)=>s+b.occ,0)/DATA.branches.filter(b=>b.occ).length).toFixed(1);
+    const alerts=computeAlerts();
+    const RATE=25000, annRev=rev*12/9, baseMkt=DATA.margins.mkt[1], curMkt=DATA.margins.mkt[2];
+    const capUsd=Math.max(0,(baseMkt-curMkt)/100*annRev);
+    const tyVND=u=>(u*RATE/1000), vnf=x=>x.toFixed(1).replace(".",",");
+    const scen=[{n:"Thận trọng",k:405,c:"#c9d4e3"},{n:"Cơ sở",k:560,c:"var(--gold-soft)"},{n:"Tích cực",k:720,c:"#7fdcab"}];
+    const prog=Math.min(100,Math.round(capUsd*1000/560*100));
+    return `
+    <div class="page-head"><h2>Tổng quan doanh nghiệp</h2>
+    <p>Bức tranh tài chính &amp; vận hành của doanh nghiệp kỳ gần nhất (9MFY25). Nền tảng khoẻ — biên gộp ${gM}%, tăng trưởng khách ~24,5%/quý — nhưng lợi nhuận nhạy với cơ cấu chi phí SG&A. Vấn đề là <b>hiệu suất vốn</b>, không phải mô hình kinh doanh.</p></div>
+
+    <div class="grid g-4">
+      <div class="card"><div class="kpi-top"><h3>Doanh thu (9MFY25)</h3></div><div class="big">${usdM(rev)}</div><div class="sub">Annualized ~$5,3M · <span class="delta up">▲ tiếp tục tăng</span></div></div>
+      <div class="card"><div class="kpi-top"><h3>Biên EBITDA</h3></div><div class="big">${ebM}%</div><div class="sub">Hồi phục mạnh từ <span class="delta down">-0,6% (FY24)</span></div></div>
+      <div class="card"><div class="kpi-top"><h3>Biên lợi nhuận gộp</h3></div><div class="big">${gM}%</div><div class="sub"><span class="delta up">Đẳng cấp ngành (&gt;85%)</span></div></div>
+      <div class="card"><div class="kpi-top"><h3>Marketing % DT</h3></div><div class="big">${mkt}%</div><div class="sub">Mục tiêu 35–40% · <span class="delta warn">cao hơn tối ưu</span></div></div>
+    </div>
+
+    <div class="grid g-2" style="margin-top:16px">
+      <div class="panel"><div class="panel-title">Doanh thu &amp; EBITDA — 3 kỳ</div><p class="panel-note">Doanh thu tăng đều, EBITDA lao dốc FY24 rồi bật lại — dấu hiệu điển hình của vấn đề chi phí.</p><div class="chart-wrap"><canvas id="cOverview"></canvas></div></div>
+      <div class="panel"><div class="panel-title">Công suất theo chi nhánh</div><p class="panel-note">Cả 5 chi nhánh dưới chuẩn ngành 80%. Chi nhánh 4 (41%) cách chuẩn xa nhất — ưu tiên xử lý.</p><div class="chart-wrap"><canvas id="cOccOv"></canvas></div></div>
+    </div>
+
+    <div class="section-label">💰 Lợi ích tài chính khi dùng dịch vụ</div>
+    <div class="value-banner">
+      <div class="vb-left">
+        <div class="vb-cap">Tiền tiết kiệm đã chảy thẳng vào EBITDA <span>(theo dữ liệu vận hành mới nhất)</span></div>
+        <div class="vb-num">+$${Math.round(capUsd*1000)}<span>K / năm</span><em>≈ ${vnf(tyVND(capUsd))} tỷ VNĐ mỗi năm</em></div>
+        <div class="progress"><i style="width:${prog}%"></i></div>
+        <div class="vb-foot">Đã đạt ${prog}% mục tiêu kịch bản cơ sở · con số tự tính lại mỗi khi DN cập nhật số liệu lên Google Drive</div>
+      </div>
+      <div class="vb-right">
+        ${scen.map(x=>`<div class="scen-card"><div class="sc-name">${x.n}</div><div class="sc-usd" style="color:${x.c}">+$${x.k}K</div><div class="sc-vnd">~${vnf(tyVND(x.k/1000))} tỷ VNĐ/năm</div></div>`).join("")}
+      </div>
+    </div>
+    <div class="save-grid">
+      <div class="save-row"><span><b>✂️ Giảm chi marketing</b> · KN1</span><span class="delta up">−$320K/năm</span></div>
+      <div class="save-row"><span><b>💼 Biến phí hoá lương</b> · KN4</span><span class="delta up">$90–160K/năm</span></div>
+      <div class="save-row"><span><b>🏢 Đàm phán hợp đồng thuê</b> · KN3</span><span class="delta up">$15–40K/năm</span></div>
+      <div class="save-row"><span><b>📈 Khôi phục công suất Chi nhánh 4</b> · KN2</span><span class="delta up">Thu hồi doanh thu</span></div>
+    </div>
+    <div class="note" style="margin-top:4px">⚙️ <b>Cách hoạt động:</b> mỗi khi doanh nghiệp cập nhật số liệu vận hành lên Google Drive, dashboard tự tính lại phần chi phí đã tiết kiệm và cộng vào EBITDA — thấy <b>ngay bằng tiền thật</b> giá trị dịch vụ tạo ra. Chi tiết từng kiến nghị &amp; người phụ trách ở tab <b>Kiến nghị</b>.</div>
+
+    <div class="section-label">Cảnh báo nổi bật</div>
+    ${alerts.slice(0,3).map(a=>alertHTML(a)).join("")}`;
+  },
+
+  /* ---- P&L ---- */
+  pnl(){
+    const rows=DATA.pnl.map(r=>{
+      const isKey=["Doanh thu","Lợi nhuận gộp","EBITDA","Tổng SG&A"].includes(r.k);
+      return `<tr style="${isKey?'font-weight:600':''}"><td>${r.k}</td>${r.v.map(x=>`<td class="num">${x<0?'-':''}$${Math.abs(x)>=1?Math.abs(x).toFixed(2)+'M':(Math.abs(x)*1000).toFixed(0)+'K'}</td>`).join("")}</tr>`;
+    }).join("");
+    return `
+    <div class="page-head"><h2>Phân tích P&amp;L</h2><p>Doanh thu &amp; lợi nhuận gộp tăng mạnh và đều, nhưng EBITDA biến động dữ dội — vấn đề nằm hoàn toàn ở khối chi phí dưới lợi nhuận gộp (SG&A).</p></div>
+    <div class="grid g-2">
+      <div class="panel"><div class="panel-title">Kết quả kinh doanh hợp nhất</div><p class="panel-note">Đơn vị: USD · FY23 – FY24 – 9MFY25</p>
+        <table><thead><tr><th>Chỉ tiêu</th><th class="num">FY23</th><th class="num">FY24</th><th class="num">9MFY25</th></tr></thead><tbody>${rows}</tbody></table>
+      </div>
+      <div>
+        <div class="panel"><div class="panel-title">Cầu nối EBITDA FY23 → FY24</div><p class="panel-note">Vì sao lỗ dù doanh thu tăng 41%: marketing "nuốt" $710K của $950K lợi nhuận gộp tăng thêm.</p><div class="chart-wrap chart-sm"><canvas id="cBridge"></canvas></div></div>
+        <div class="panel"><div class="panel-title">Biên gộp vs Biên EBITDA</div><div class="chart-wrap chart-sm"><canvas id="cMargins"></canvas></div></div>
+      </div>
+    </div>
+    <div class="note">💡 <b>Nhận định:</b> cứ mỗi 1 đồng lợi nhuận gộp tăng thêm FY24, có 0,75 đồng bị marketing tiêu hết — định nghĩa của "tăng trưởng không sinh lời". Điểm hoà vốn ~$1,77M/năm; Chuỗi chăm sóc sức khoẻ đang chạy ~2,2× điểm hoà vốn (vùng an toàn về khối lượng).</div>`;
+  },
+
+  /* ---- BRANCHES ---- */
+  branches(){
+    const rows=DATA.branches.map(b=>{
+      const occTag = b.occ==null?`<span class="tag">Mới</span>`: b.occ<45?`<span class="tag bad">${b.occ}%</span>`: b.occ<60?`<span class="tag warn">${b.occ}%</span>`:`<span class="tag ok">${b.occ}%</span>`;
+      return `<tr>
+        <td><b>${b.name}</b><div style="font-size:11.5px;color:var(--muted)">${b.note}</div></td>
+        <td class="num">${b.opened}</td>
+        <td class="num">${b.customers!=null?b.customers.toLocaleString('vi'):'—'}</td>
+        <td class="num">${occTag}</td>
+        <td class="num">${b.rentCust!=null?'$'+b.rentCust:'—'}</td>
+        <td class="num">${b.prodPerStaff!=null?b.prodPerStaff:'—'}</td>
+      </tr>`;
+    }).join("");
+    return `
+    <div class="page-head"><h2>Hiệu quả vận hành theo chi nhánh</h2><p>Chuẩn ngành: cơ sở chăm sóc sức khoẻ vận hành tốt đạt công suất 80–85%. Cả 5 chi nhánh Chuỗi chăm sóc sức khoẻ đều dưới chuẩn; Chi nhánh 4 ở mức báo động và là nơi mỗi đồng chi phí cố định tạo ra ít doanh thu nhất.</p></div>
+    <div class="panel"><div class="panel-title">Bảng tổng hợp chi nhánh (FY24)</div>
+      <table><thead><tr><th>Chi nhánh</th><th class="num">Năm mở</th><th class="num">Khách HĐ</th><th class="num">Công suất</th><th class="num">Thuê/khách</th><th class="num">KH/NS/năm</th></tr></thead><tbody>${rows}</tbody></table>
+    </div>
+    <div class="grid g-2">
+      <div class="panel"><div class="panel-title">Công suất vs chuẩn ngành 80%</div><div class="chart-wrap chart-sm"><canvas id="cOcc"></canvas></div></div>
+      <div class="panel"><div class="panel-title">Chi phí thuê trên mỗi khách</div><p class="panel-note">Chi nhánh 4 trả ~$89/khách — gấp 3,2× Chi nhánh 1. KHÔNG vì giá thuê/m² cao, mà vì quá ít khách trên cùng diện tích.</p><div class="chart-wrap chart-sm"><canvas id="cRent"></canvas></div></div>
+    </div>
+    <div class="note">🎯 <b>Đòn bẩy đúng cho Chi nhánh 4:</b> TĂNG SỐ KHÁCH (từ 539 lên ~800–900) sẽ kéo thuê/khách về $50–60, ngang các chi nhánh khác — hiệu quả hơn nhiều so với đàm phán giảm giá thuê.</div>`;
+  },
+
+  /* ---- MARKETING ---- */
+  marketing(){
+    const rows=DATA.marketing.map(m=>{
+      const d=m.sugUsd-m.curUsd;
+      return `<tr><td><b>${m.ch}</b></td><td class="num">${usdK(m.curUsd)} (${m.cur}%)</td><td class="num">${usdK(m.sugUsd)} (${m.sug}%)</td><td class="num"><span class="delta ${d>0?'up':d<0?'down':'warn'}">${d>0?'+':''}${usdK(d)}</span></td><td style="font-size:12px;color:var(--muted)">${m.why}</td></tr>`;
+    }).join("");
+    return `
+    <div class="page-head"><h2>Marketing chuyên sâu</h2><p>Marketing 48% doanh thu hợp lý cho giai đoạn scale (chuẩn 40–60%), nhưng cơ cấu lệch về săn khách mới và gần như chưa đầu tư giữ chân. Kế hoạch tái phân bổ: giảm tổng chi $320K/năm trong khi MỞ quỹ giữ chân $300K.</p></div>
+    <div class="grid g-3">
+      <div class="card"><h3>Tổng MKT hiện tại</h3><div class="big">${usdM(DATA.mktTotals.curUsd/1000)}</div><div class="sub">${DATA.mktTotals.curPct}% doanh thu</div></div>
+      <div class="card"><h3>Đề xuất</h3><div class="big">${usdM(DATA.mktTotals.sugUsd/1000)}</div><div class="sub">${DATA.mktTotals.sugPct}% DT · <span class="delta up">-$320K/năm</span></div></div>
+      <div class="card"><h3>Quỹ giữ chân (mới)</h3><div class="big">$300K</div><div class="sub"><span class="delta warn">từ ~0% hiện tại</span></div></div>
+    </div>
+    <div class="grid g-2" style="margin-top:16px">
+      <div class="panel"><div class="panel-title">Phân bổ theo kênh: Hiện tại vs Đề xuất</div><div class="chart-wrap"><canvas id="cMkt"></canvas></div></div>
+      <div class="panel"><div class="panel-title">Cơ cấu đề xuất</div><div class="chart-wrap"><canvas id="cMktPie"></canvas></div></div>
+    </div>
+    <div class="panel"><div class="panel-title">Kế hoạch tái phân bổ chi tiết</div>
+      <table><thead><tr><th>Kênh</th><th class="num">Hiện tại</th><th class="num">Đề xuất</th><th class="num">Thay đổi</th><th>Lý do</th></tr></thead><tbody>${rows}</tbody></table>
+    </div>`;
+  },
+
+  /* ---- CASHFLOW ---- */
+  cashflow(){
+    const rows=DATA.cashflow.map(c=>`<tr><td>${c.step}</td><td class="num">${usdM(c.amt)}</td><td class="num"><b>${usdM(c.cum)}</b></td></tr>`).join("");
+    return `
+    <div class="page-head"><h2>Dòng tiền &amp; Vốn lưu động</h2><p>Tin tốt: cường độ vốn lưu động rất thấp (thu tiền ngay). Rủi ro thật: biên độ an toàn mỏng — dòng tiền hoạt động gần như hoà vốn ở FY24.</p></div>
+    <div class="grid g-3">
+      <div class="card"><h3>Tồn kho (DIO)</h3><div class="big">${DATA.ccc.dio}</div><div class="sub">Bán lẻ điển hình 30–45 ngày</div></div>
+      <div class="card"><h3>Phải thu (DSO)</h3><div class="big">${DATA.ccc.dso}</div><div class="sub">Khách trả ngay / thẻ</div></div>
+      <div class="card"><h3>Chu kỳ tiền (CCC)</h3><div class="big">${DATA.ccc.cccDays}</div><div class="sub"><span class="delta up">Rất khoẻ (vs 30–60 ngày)</span></div></div>
+    </div>
+    <div class="grid g-2" style="margin-top:16px">
+      <div class="panel"><div class="panel-title">Thác nước dòng tiền FY24</div><div class="chart-wrap"><canvas id="cWaterfall"></canvas></div></div>
+      <div class="panel"><div class="panel-title">Phân rã từ lợi nhuận gộp</div>
+        <table><thead><tr><th>Bước</th><th class="num">Số tiền</th><th class="num">Luỹ kế</th></tr></thead><tbody>${rows}</tbody></table>
+        <div class="note" style="margin-top:14px">⚠️ <b>Cảnh báo:</b> doanh nghiệp phụ thuộc tăng trưởng liên tục để giữ dòng tiền dương. Kéo SG&A từ 87% về 75–78% không chỉ tăng lợi nhuận mà còn tạo "đệm tiền" 2–3 tháng.</div>
+      </div>
+    </div>`;
+  },
+
+  /* ---- COST ---- */
+  cost(){
+    const fy23=i=>pnlGet(i).v[1];
+    const cost=[
+      {k:"Lương",v:fy23("Lương"),fixed:"~85%",note:"Phần lớn cố định"},
+      {k:"Marketing",v:fy23("Marketing"),fixed:"~20%",note:"Phần lớn quyết định được"},
+      {k:"Thuê",v:fy23("Thuê mặt bằng"),fixed:"100%",note:"Cố định hoàn toàn"},
+      {k:"Khác",v:fy23("Chi phí khác"),fixed:"~50%",note:"Hỗn hợp"}
+    ];
+    const rows=cost.map(c=>`<tr><td><b>${c.k}</b></td><td class="num">${usdM(c.v)}</td><td class="num">${c.fixed}</td><td style="font-size:12px;color:var(--muted)">${c.note}</td></tr>`).join("");
+    return `
+    <div class="page-head"><h2>Cơ cấu chi phí &amp; nhân sự</h2><p>~46% SG&A là chi phí cố định → đòn bẩy vận hành cao. Doanh thu tăng thì lợi nhuận tăng nhanh, nhưng doanh thu giảm thì lỗ cũng nhanh. Đây là lý do KN2 (Chi nhánh 4) và KN4 (biến phí hoá lương) quan trọng.</p></div>
+    <div class="grid g-2">
+      <div class="panel"><div class="panel-title">Tách cố định / biến đổi (FY24)</div>
+        <table><thead><tr><th>Khoản chi</th><th class="num">FY24</th><th class="num">% cố định</th><th>Tính chất</th></tr></thead><tbody>${rows}</tbody></table>
+      </div>
+      <div class="panel"><div class="panel-title">Cơ cấu SG&A FY24</div><div class="chart-wrap chart-sm"><canvas id="cCost"></canvas></div></div>
+    </div>
+    <div class="panel"><div class="panel-title">Năng suất nhân sự theo chi nhánh</div><div class="chart-wrap chart-sm"><canvas id="cStaff"></canvas></div>
+      <div class="note" style="margin-top:14px">👥 Chi nhánh 4 có khách/nhân sự thấp nhất (90) → thừa người so với tải. Giải pháp không phải cắt lương mà chuyển một phần lương cố định sang biến phí gắn hiệu quả (KN4).</div>
+    </div>`;
+  },
+
+  /* ---- ACTIONS ---- */
+  actions(){
+    const rows=DATA.actions.map(a=>`<tr>
+      <td><b>${a.n}</b></td><td>${a.t}</td><td>${a.owner}</td>
+      <td><span class="delta up">${a.impact}</span></td><td class="num">${a.eta}</td>
+      <td><span class="tag ${a.st.includes('✓')?'ok':a.st.includes('#1')?'bad':'warn'}">${a.st}</span></td>
+    </tr>`).join("");
+    return `
+    <div class="page-head"><h2>Kiến nghị &amp; Theo dõi thực thi</h2><p>Năm kiến nghị thiết kế để áp dụng ngay, mỗi kiến nghị có đúng MỘT người chịu trách nhiệm (owner) và mốc đo. Nếu triển khai đầy đủ: ước tính cải thiện $405–720K lợi nhuận/năm (~10–18 tỷ VND).</p></div>
+    <div class="panel"><div class="panel-title">Bảng RACI rút gọn &amp; tác động</div>
+      <table><thead><tr><th>#</th><th>Kiến nghị</th><th>Owner</th><th>Tác động</th><th class="num">Mốc</th><th>Trạng thái</th></tr></thead><tbody>${rows}</tbody></table>
+    </div>
+    <div class="grid g-3">
+      <div class="card"><h3>Kịch bản thận trọng</h3><div class="big">+6,9%</div><div class="sub">EBITDA $345K</div></div>
+      <div class="card" style="border-color:var(--gold);border-width:1.5px"><h3>Kịch bản cơ sở</h3><div class="big" style="color:var(--gold)">+12,9%</div><div class="sub">EBITDA $684K</div></div>
+      <div class="card"><h3>Kịch bản tích cực</h3><div class="big">+17,9%</div><div class="sub">EBITDA $1,02M</div></div>
+    </div>
+    <div class="note" style="margin-top:16px">🧭 <b>Rủi ro lớn nhất là THỰC THI, không phải chỉ từ các phân tích chuẩn đoán</b> — đó là lý do mỗi kiến nghị có người phụ trách &amp; mốc 90 ngày, và vì sao dashboard này (KN5) là "theo dõi chi tiết" để mọi kiến nghị khác đo lường được.</div>`;
+  },
+
+  /* ---- KPI & ALERTS ---- */
+  kpi(){
+    const rows=DATA.scorecard.map(k=>`<tr><td><b>${k.kpi}</b></td><td class="num">${k.base}</td><td class="num">${k.t30}</td><td class="num">${k.t6m}</td><td style="font-size:11.5px;color:var(--muted)" class="mono">${k.f}</td></tr>`).join("");
+    const alerts=computeAlerts();
+    return `
+    <div class="page-head"><h2>Scorecard KPI &amp; Cảnh báo tự động</h2><p>Bộ KPI với baseline &amp; mục tiêu theo thời gian. Nguyên tắc "một số liệu, một chủ sở hữu". Cảnh báo dưới đây được sinh tự động khi chỉ số vượt ngưỡng cấu hình — khi DN cập nhật số mới qua Google Drive, cảnh báo cập nhật theo thời gian thực.</p></div>
+    <div class="section-label">Cảnh báo đang hoạt động (${alerts.length})</div>
+    ${alerts.map(a=>alertHTML(a)).join("")}
+    <div class="panel" style="margin-top:18px"><div class="panel-title">Scorecard công ty</div>
+      <table><thead><tr><th>KPI</th><th class="num">FY24 (nền)</th><th class="num">Mục tiêu 30 ngày</th><th class="num">Mục tiêu 6 tháng</th><th>Công thức</th></tr></thead><tbody>${rows}</tbody></table>
+    </div>
+    <div class="note">⏱️ <b>Nhịp giám sát:</b> tuần (30 ngày đầu — CMO + CFO) · tháng (CEO + ban điều hành) · quý (Hội đồng / nhà đầu tư).</div>`;
+  }
+};
+
+function alertHTML(a){return `<div class="alert ${a.s}"><div class="ic">${a.ic}</div><div style="flex:1"><div class="t">${a.t}</div><div class="d">${a.d}</div></div><div class="sev ${a.s}">${a.s==='r'?'Khẩn':a.s==='a'?'Theo dõi':'Tốt'}</div></div>`;}
+
+/* ---------- CHARTS ---------- */
+Chart.defaults.font.family="Montserrat";
+Chart.defaults.color="#5b6b82";
+const NAVY="#13294B", GOLD="#C9A227", RED="#c0392b", GREEN="#1f8a5b", AMBER="#b7791f", GREY="#9aa6b6";
+function mk(id,cfg){ if(charts[id])charts[id].destroy(); const el=document.getElementById(id); if(el)charts[id]=new Chart(el,cfg); }
+
+const DRAW = {
+  overview(){
+    mk("cOverview",{type:"bar",data:{labels:DATA.periods,datasets:[
+      {label:"Doanh thu ($M)",data:pnlGet("Doanh thu").v,backgroundColor:NAVY,borderRadius:6,order:2},
+      {label:"EBITDA ($M)",type:"line",data:pnlGet("EBITDA").v,borderColor:GOLD,backgroundColor:GOLD,borderWidth:3,tension:.3,pointRadius:5,order:1,yAxisID:"y1"}
+    ]},options:baseOpt({y1:true})});
+    occChart("cOccOv");
+  },
+  pnl(){
+    mk("cBridge",{type:"bar",data:{labels:DATA.bridge.labels,
+      datasets:[{data:DATA.bridge.data,backgroundColor:(c)=>{const n=DATA.bridge.data.length;return c.dataIndex===0?NAVY:c.dataIndex===n-1?GOLD:(c.raw<0?RED:GREEN)},borderRadius:5}]},
+      options:{...baseOpt(),plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>(c.raw>0?'+':'')+'$'+Math.round(c.raw)+'K'}}}}});
+    mk("cMargins",{type:"line",data:{labels:DATA.periods,datasets:[
+      {label:"Biên gộp %",data:DATA.margins.gross,borderColor:NAVY,backgroundColor:NAVY,borderWidth:3,tension:.3,pointRadius:4},
+      {label:"Biên EBITDA %",data:DATA.margins.ebitda,borderColor:GOLD,backgroundColor:GOLD,borderWidth:3,tension:.3,pointRadius:4}
+    ]},options:baseOpt()});
+  },
+  branches(){ occChart("cOcc");
+    mk("cRent",{type:"bar",data:{labels:DATA.branches.filter(b=>b.rentCust).map(b=>b.name),
+      datasets:[{label:"Thuê/khách ($)",data:DATA.branches.filter(b=>b.rentCust).map(b=>b.rentCust),
+      backgroundColor:DATA.branches.filter(b=>b.rentCust).map(b=>b.rentCust>=80?RED:b.rentCust>=40?AMBER:GREEN),borderRadius:6}]},
+      options:{...baseOpt(),plugins:{legend:{display:false}}}});
+  },
+  marketing(){
+    mk("cMkt",{type:"bar",data:{labels:DATA.marketing.map(m=>m.ch),datasets:[
+      {label:"Hiện tại ($K)",data:DATA.marketing.map(m=>m.curUsd),backgroundColor:GREY,borderRadius:5},
+      {label:"Đề xuất ($K)",data:DATA.marketing.map(m=>m.sugUsd),backgroundColor:GOLD,borderRadius:5}
+    ]},options:baseOpt()});
+    mk("cMktPie",{type:"doughnut",data:{labels:DATA.marketing.map(m=>m.ch),
+      datasets:[{data:DATA.marketing.map(m=>m.sugUsd),backgroundColor:[NAVY,"#3a5a8c",GOLD,"#d9c27a",GREEN]}]},
+      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:"right",labels:{boxWidth:12,font:{size:11}}}}}});
+  },
+  cashflow(){
+    const cum=DATA.cashflow.map(c=>c.cum), lastv=cum[cum.length-1];
+    mk("cWaterfall",{type:"bar",data:{labels:["LN gộp","−Lương","−Marketing","−Thuê+khác","Vị thế tiền"],
+      datasets:[{data:[...cum,lastv],backgroundColor:[GREEN,NAVY,NAVY,RED,RED],borderRadius:5}]},
+      options:{...baseOpt(),plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'$'+(+c.raw).toFixed(2)+'M'}}}}});
+  },
+  cost(){
+    const fy23=i=>pnlGet(i).v[1];
+    mk("cCost",{type:"doughnut",data:{labels:["Lương","Marketing","Thuê","Khác"],
+      datasets:[{data:[fy23("Lương"),fy23("Marketing"),fy23("Thuê mặt bằng"),fy23("Chi phí khác")],backgroundColor:[NAVY,GOLD,"#3a5a8c","#d9c27a"]}]},
+      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:"right",labels:{boxWidth:12,font:{size:11}}}}}});
+    mk("cStaff",{type:"bar",data:{labels:DATA.branches.filter(b=>b.prodPerStaff).map(b=>b.name),
+      datasets:[{label:"Khách/NS/năm",data:DATA.branches.filter(b=>b.prodPerStaff).map(b=>b.prodPerStaff),
+      backgroundColor:DATA.branches.filter(b=>b.prodPerStaff).map(b=>b.prodPerStaff<100?RED:NAVY),borderRadius:6}]},
+      options:{...baseOpt(),plugins:{legend:{display:false}}}});
+  },
+  actions(){}, kpi(){}
+};
+function occChart(id){
+  const bs=DATA.branches.filter(b=>b.occ);
+  mk(id,{type:"bar",data:{labels:bs.map(b=>b.name),datasets:[
+    {label:"Công suất %",data:bs.map(b=>b.occ),backgroundColor:bs.map(b=>b.occ<45?RED:b.occ<60?AMBER:GREEN),borderRadius:6}
+  ]},options:{...baseOpt(),plugins:{legend:{display:false},annotation:false},scales:{y:{beginAtZero:true,max:100,grid:{color:"#eee"}},x:{grid:{display:false}}}}});
+}
+function baseOpt(o={}){return{responsive:true,maintainAspectRatio:false,
+  plugins:{legend:{position:"top",labels:{boxWidth:12,font:{size:11.5},usePointStyle:true}}},
+  scales:{x:{grid:{display:false}},y:{grid:{color:"#eef0f3"}}, ...(o.y1?{y1:{position:"right",grid:{display:false}}}:{})}};}
+
+document.addEventListener('DOMContentLoaded', function(){
+  if (typeof boot === 'function') boot();
+});
+
 </script>
-</body>
-</html>
+</body></html>
