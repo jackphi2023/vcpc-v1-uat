@@ -8,6 +8,7 @@ import transformAdminDataGapSafe from './transform-admin-data-gap-safe.mjs';
 import transformUIPolish from './transform-ui-polish.mjs';
 import transformGoogleSheetForms from './transform-google-sheet-forms.mjs';
 import transformBizDealWording from './transform-bizdeal-wording.mjs';
+import transformBizHealthDemoPublic from './transform-bizhealth-demo-public.mjs';
 import transformBizHealthPaymentGate from './transform-bizhealth-payment-gate.mjs';
 
 const root = process.cwd();
@@ -39,6 +40,7 @@ await transformAdminDataGapSafe(dist);
 await transformUIPolish(dist);
 await transformGoogleSheetForms(dist);
 await transformBizHealthPaymentGate(dist);
+await transformBizHealthDemoPublic(dist);
 
 async function runOptionalTransform(name, transform) {
   try {
@@ -64,6 +66,7 @@ const deployInfo = {
   uiPolishFix: 'onboarding-intake-upload-v1',
   googleSheetFormsFix: 'all-public-forms-v1',
   bizDealWordingFix: 'amp-to-ampersand-v1',
+  bizHealthDemoPublicFix: 'header-strips-removed-and-pretty-route-v1',
   bizHealthPaymentGateFix: '20-80-overview-only-v2-report-ui'
 };
 await writeFile(path.join(dist,'deploy-info.json'), JSON.stringify(deployInfo,null,2));
