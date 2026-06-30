@@ -53,7 +53,7 @@
 [[headers]]
   for = "/demo/*"
   [headers.values]
-    Cache-Control = "public, max-age=300"
+    Cache-Control = "no-cache, no-store, must-revalidate"
     X-Frame-Options = "DENY"
     X-Robots-Tag = "noindex, nofollow"
 
@@ -68,7 +68,17 @@
   status = 200
 
 [[redirects]]
+  from = "/demo/bizhealth/"
+  to = "/demo/bizhealth-dashboard-demo.html"
+  status = 200
+
+[[redirects]]
   from = "/demo/bizos"
+  to = "/demo/bizos-dashboard-demo.html"
+  status = 200
+
+[[redirects]]
+  from = "/demo/bizos/"
   to = "/demo/bizos-dashboard-demo.html"
   status = 200
 
