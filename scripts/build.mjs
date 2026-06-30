@@ -4,6 +4,7 @@ import transformAuthRuntime from './transform-auth-runtime.mjs';
 import transformBizDeal from './transform-bizdeal.mjs';
 import transformPricing from './transform-pricing.mjs';
 import transformUploadIntake from './transform-upload-intake.mjs';
+import transformUploadIntakeSchemaSafe from './transform-upload-intake-schema-safe.mjs';
 import transformAdminDataGapSafe from './transform-admin-data-gap-safe.mjs';
 import transformUIPolish from './transform-ui-polish.mjs';
 import transformGoogleSheetForms from './transform-google-sheet-forms.mjs';
@@ -37,6 +38,7 @@ try {
   console.warn(`[build] Upload intake admin hook fallback: ${error.message}`);
 }
 await transformAdminDataGapSafe(dist);
+await transformUploadIntakeSchemaSafe(dist);
 await transformUIPolish(dist);
 await transformGoogleSheetForms(dist);
 await transformBizHealthPaymentGate(dist);
@@ -63,6 +65,7 @@ const deployInfo = {
   indexIncluded: true,
   authRuntimeFix: 'url-constructor-shadow',
   uploadIntakeGateFix: 'data-gap-v1-safe-hook',
+  uploadIntakeSchemaSafeFix: 'data-uploads-intake-coverage-summary-only-v1',
   uiPolishFix: 'onboarding-intake-upload-v1',
   googleSheetFormsFix: 'all-public-forms-v1',
   bizDealWordingFix: 'amp-to-ampersand-v1',
