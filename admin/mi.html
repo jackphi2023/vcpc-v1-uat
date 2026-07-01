@@ -1,1 +1,195 @@
-<!DOCTYPE html><html lang="vi"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="theme-color" content="#071f3d"/><link rel="icon" type="image/png" href="../assets/favicon.png"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/><link rel="stylesheet" href="../assets/vcpc.css"/><link rel="stylesheet" href="../assets/app-core.css"/><title>Market Intelligence · VCPC Admin</title></head><body class="app" data-require="admin"><div class="app-shell"><aside class="app-sidebar"><a href="../index.html" class="app-brand"><img src="../assets/logo-vcpc.jpg" alt="VCPC"/><div><b>VCPC Admin</b><span data-vi="Cổng review chuyên gia" data-en="Reviewer console">Cổng review chuyên gia</span></div></a><div class="app-langrow"><button class="active" data-lang="vi">VI</button><button data-lang="en">EN</button></div><div class="app-section-label" data-vi="Pipeline duyệt" data-en="Review pipeline">Pipeline duyệt</div><nav class="app-nav"><a href="index.html" class=""><span data-vi="Hàng đợi review" data-en="Review queue">Hàng đợi review</span></a><a href="data-review.html" class=""><span data-vi="Data review" data-en="Data review">Data review</span></a><a href="ai-review.html" class=""><span data-vi="AI review" data-en="AI review">AI review</span></a><a href="mi.html" class="active"><span data-vi="Market Intelligence" data-en="Market Intelligence">Market Intelligence</span></a><a href="payments.html" class=""><span data-vi="Thanh toán & VAT" data-en="Payments & VAT">Thanh toán & VAT</span></a><a href="promo.html" class=""><span data-vi="Mã khuyến mãi" data-en="Promo codes">Mã khuyến mãi</span></a><a href="affiliate.html" class=""><span data-vi="Affiliate" data-en="Affiliate">Affiliate</span></a><a href="audit.html" class=""><span data-vi="Audit log" data-en="Audit log">Audit log</span></a></nav><div class="app-bottom"><button class="app-signout" data-action="signout" data-vi="↩ Đăng xuất" data-en="↩ Sign out">↩ Đăng xuất</button></div></aside><main class="app-main"><div class="app-topbar"><div><div class="app-crumb">VCPC ADMIN</div><h1 class="app-title">Market Intelligence</h1><p class="app-sub">COLLECT → DEDUP → SOURCE_CHECK → TRIANGULATE → MAP_TO_KPI → AI_SUMMARY → VCPC_REVIEW → PUBLISH. Không publish MI chưa có nguồn.</p></div></div><div class="app-card"><div class="app-card-head"><b data-vi="MI item chờ duyệt" data-en="MI items pending">MI item chờ duyệt</b></div><div id="miAdminList"></div></div><div class="app-footer"><div data-vi="Mọi thao tác duyệt được ghi vào audit_logs." data-en="Every review action is written to audit_logs.">Mọi thao tác duyệt được ghi vào audit_logs.</div><div><a href="../app/index.html" data-vi="Xem app khách" data-en="View client app">Xem app khách</a></div></div></main></div><script src="../assets/i18n/loader.js" data-i18n-base="../assets/i18n"></script><script src="../assets/app-config.js"></script><script src="../assets/mock-backend.js"></script><script src="../assets/guards.js"></script><script src="../assets/seed-retail.js"></script><script src="../assets/app-core.js"></script><script>(function(){var S=window.VCPC_SEED;document.getElementById("miAdminList").innerHTML=S.mi_seed.map(function(mi){var reviewed=mi.status==="PUBLISHED";return "<div style=\"border:1px solid var(--app-line);border-radius:12px;padding:14px;margin-bottom:12px;\">"+"<div style=\"display:flex;justify-content:space-between;gap:10px;\"><b style=\"color:#071f3d;font-size:14.5px;\">"+mi.headline_vi+"</b><span class=\"badge "+(reviewed?"good":"warn")+"\">"+(reviewed?"PUBLISHED":"AI_DRAFT")+"</span></div>"+"<p style=\"margin:8px 0;color:#41546b;font-size:13px;\">"+mi.impact_vi+"</p>"+"<div style=\"font-size:12px;color:#5b6b80;\">Nguồn: "+mi.source+" · độ tin cậy "+mi.tier+" · "+mi.date+"</div>"+"<div style=\"display:flex;gap:8px;margin-top:10px;\"><button class=\"badge bad\" style=\"border:0;cursor:pointer;\">Reject</button><button class=\"badge good\" style=\"border:0;cursor:pointer;\">"+(reviewed?"Đã publish":"Publish")+"</button></div></div>";}).join("");})();</script></body></html>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="theme-color" content="#071f3d"/>
+  <link rel="icon" type="image/png" href="../assets/favicon.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../assets/vcpc.css"/>
+  <link rel="stylesheet" href="../assets/app-core.css"/>
+  <title>Market Intelligence · VCPC Admin</title>
+  <style>
+    .mi-hero{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;margin-bottom:18px;}
+    .mi-card{background:#fff;border:1px solid var(--app-line);border-radius:18px;padding:18px;box-shadow:0 10px 30px rgba(7,31,61,.06);}
+    .mi-muted{color:#5b6b80;font-size:13px;line-height:1.7;}
+    .mi-pill{display:inline-flex;align-items:center;gap:6px;border:1px solid #d9e1ec;background:#f6f8fb;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:800;color:#30445f;margin:3px;}
+    .mi-level{display:grid;grid-template-columns:90px 1fr 150px;gap:12px;align-items:start;border-bottom:1px dashed #dbe3ed;padding:12px 0;}
+    .mi-level:last-child{border-bottom:0;}
+    .mi-level b{color:#071f3d;}
+    .mi-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;}
+    .mi-mini{border:1px solid #dfe7f1;border-radius:14px;padding:14px;background:#fff;}
+    .mi-mini h4{margin:0 0 8px;color:#071f3d;font-size:14px;}
+    .mi-mini p{margin:0;color:#53657c;font-size:12.5px;line-height:1.6;}
+    .mi-table-wrap{overflow:auto;}
+    .mi-admin-row{border:1px solid var(--app-line);border-radius:14px;padding:14px;margin-bottom:12px;background:#fff;}
+    .mi-admin-row .top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;}
+    .mi-admin-row h3{margin:0;color:#071f3d;font-size:15px;line-height:1.45;}
+    .mi-admin-row .meta{font-size:12px;color:#64748b;margin-top:8px;line-height:1.7;}
+    .mi-verify{background:#f8fafc;border-left:4px solid #d4af37;border-radius:10px;padding:10px;margin-top:10px;font-size:12px;color:#42536a;}
+    .mi-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;}
+    @media(max-width:960px){.mi-hero,.mi-grid{grid-template-columns:1fr}.mi-level{grid-template-columns:1fr}}
+  </style>
+</head>
+<body class="app" data-require="admin">
+  <div class="app-shell">
+    <aside class="app-sidebar">
+      <a href="../index.html" class="app-brand"><img src="../assets/logo-vcpc.jpg" alt="VCPC"/><div><b>VCPC Admin</b><span data-vi="Cổng review chuyên gia" data-en="Reviewer console">Cổng review chuyên gia</span></div></a>
+      <div class="app-langrow"><button class="active" data-lang="vi">VI</button><button data-lang="en">EN</button></div>
+      <div class="app-section-label" data-vi="Pipeline duyệt" data-en="Review pipeline">Pipeline duyệt</div>
+      <nav class="app-nav">
+        <a href="index.html"><span data-vi="Hàng đợi review" data-en="Review queue">Hàng đợi review</span></a>
+        <a href="data-review.html"><span data-vi="Data review" data-en="Data review">Data review</span></a>
+        <a href="ai-review.html"><span data-vi="AI review" data-en="AI review">AI review</span></a>
+        <a href="mi.html" class="active"><span data-vi="Market Intelligence" data-en="Market Intelligence">Market Intelligence</span></a>
+        <a href="payments.html"><span data-vi="Thanh toán & VAT" data-en="Payments & VAT">Thanh toán & VAT</span></a>
+        <a href="promo.html"><span data-vi="Mã khuyến mãi" data-en="Promo codes">Mã khuyến mãi</span></a>
+        <a href="affiliate.html"><span data-vi="Affiliate" data-en="Affiliate">Affiliate</span></a>
+        <a href="audit.html"><span data-vi="Audit log" data-en="Audit log">Audit log</span></a>
+      </nav>
+      <div class="app-bottom"><button class="app-signout" data-action="signout" data-vi="↩ Đăng xuất" data-en="↩ Sign out">↩ Đăng xuất</button></div>
+    </aside>
+    <main class="app-main">
+      <div class="app-topbar">
+        <div>
+          <div class="app-crumb">VCPC ADMIN · MARKET INTELLIGENCE</div>
+          <h1 class="app-title">Market Intelligence</h1>
+          <p class="app-sub">Quét hằng ngày → tổng hợp Chủ nhật → phát trước 8h sáng Thứ Hai. MI phải tách Sự thật ↔ Diễn giải, có nguồn, confidence, cách kiểm chứng và cổng hạ cấp ①–④.</p>
+        </div>
+      </div>
+
+      <section class="mi-hero">
+        <div class="mi-card">
+          <div class="app-card-head"><b>Chuẩn xuất bản MI</b></div>
+          <div id="miEvidenceLevels"></div>
+        </div>
+        <div class="mi-card">
+          <div class="app-card-head"><b>Luật cứng giữ niềm tin</b></div>
+          <ul id="miTrustRules" style="margin:0;padding-left:18px;color:#41546b;line-height:1.75;font-size:13px;"></ul>
+          <div class="mi-verify"><b>Cổng ① Kiến nghị:</b> ≥2 nguồn độc lập, có delta nhiều mốc, nhãn FACT/ƯỚC TÍNH có nguồn, không mâu thuẫn dữ liệu nội bộ, hành động đảo-ngược-được, kèm cách kiểm chứng.</div>
+        </div>
+      </section>
+
+      <section class="app-card" style="margin-bottom:18px;">
+        <div class="app-card-head"><b>10 nhóm nội dung MI × vai trò</b><span class="badge info">FACT-first</span></div>
+        <div class="mi-table-wrap">
+          <table class="app-table">
+            <thead><tr><th>#</th><th>Nhóm nội dung</th><th>Vai trò</th><th>Nguồn</th><th>Nhãn</th></tr></thead>
+            <tbody id="miContentGroups"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="mi-grid" style="margin-bottom:18px;">
+        <div class="mi-card">
+          <div class="app-card-head"><b>9 archetype cảnh báo</b></div>
+          <div id="miArchetypes"></div>
+        </div>
+        <div class="mi-card">
+          <div class="app-card-head"><b>Báo cáo Thứ Hai theo vai trò</b><span class="badge gold">Before 08:00</span></div>
+          <div id="miMondaySlices"></div>
+        </div>
+      </section>
+
+      <section class="app-card" style="margin-bottom:18px;">
+        <div class="app-card-head"><b>MI item chờ duyệt</b><span class="badge warn">AI draft phải qua VCPC review</span></div>
+        <div id="miAdminList"></div>
+      </section>
+
+      <section class="mi-grid" style="margin-bottom:18px;">
+        <div class="mi-card">
+          <div class="app-card-head"><b>Checklist trước khi publish</b></div>
+          <ul style="margin:0;padding-left:18px;color:#41546b;line-height:1.85;font-size:13px;">
+            <li>Mỗi nội dung có nguồn + ngày + nhãn + confidence + cách kiểm chứng.</li>
+            <li>Không đạt cổng ① thì hạ xuống ②/③/④, không ép kiến nghị.</li>
+            <li>Alert có ngưỡng, người nhận, hành động đảo-ngược-được.</li>
+            <li>Báo cáo T2 tách sự thật ↔ diễn giải, có sổ độ chính xác.</li>
+            <li>Việc lớn/pháp lý/định giá/M&A/XK cần chuyên gia VCPC ký.</li>
+          </ul>
+        </div>
+        <div class="mi-card">
+          <div class="app-card-head"><b>Trần đầu ra theo tầng ngành</b></div>
+          <div id="miIndustryTiers"></div>
+        </div>
+      </section>
+
+      <div class="app-footer"><div>Mọi thao tác duyệt MI phải ghi vào audit_logs và gắn nguồn kiểm chứng.</div><div><a href="../app/index.html">Xem app khách</a></div></div>
+    </main>
+  </div>
+  <script src="../assets/i18n/loader.js" data-i18n-base="../assets/i18n"></script>
+  <script src="../assets/app-config.js"></script>
+  <script src="../assets/mock-backend.js"></script>
+  <script src="../assets/guards.js"></script>
+  <script src="../assets/seed-retail.js"></script>
+  <script src="../assets/mi-spec.js"></script>
+  <script src="../assets/app-core.js"></script>
+  <script>
+  (function(){
+    var spec = window.VCPC_MI_SPEC || {};
+    var seed = window.VCPC_SEED || {};
+    function esc(v){return String(v == null ? '' : v).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+    function pill(v){return '<span class="mi-pill">'+esc(v)+'</span>';}
+
+    var levels = document.getElementById('miEvidenceLevels');
+    levels.innerHTML = (spec.evidenceLevels||[]).map(function(l){
+      return '<div class="mi-level"><b>'+esc(l.label)+'</b><div><div>'+esc(l.language)+'</div><div class="mi-muted">'+esc(l.actionability)+'</div></div><span class="badge '+(l.level===1?'good':l.level===2?'gold':l.level===3?'warn':'bad')+'">Confidence ≥ '+esc(l.minConfidence)+'</span></div>';
+    }).join('');
+
+    document.getElementById('miTrustRules').innerHTML = (spec.trustRules||[]).map(function(r){return '<li>'+esc(r)+'</li>';}).join('');
+
+    document.getElementById('miContentGroups').innerHTML = (spec.contentGroups||[]).map(function(g){
+      return '<tr><td>'+g.id+'</td><td><b>'+esc(g.title)+'</b></td><td>'+(g.roles||[]).map(pill).join('')+'</td><td class="mi-muted">'+esc((g.sources||[]).join(' · '))+'</td><td><span class="badge info">'+esc(g.label)+'</span></td></tr>';
+    }).join('');
+
+    document.getElementById('miArchetypes').innerHTML = (spec.alertArchetypes||[]).map(function(a){
+      return '<div class="mi-mini" style="margin-bottom:10px;"><h4>'+esc(a.title)+' <span class="badge '+(a.severity==='HIGH'?'bad':'warn')+'">'+esc(a.severity)+'</span></h4><p><b>Kích hoạt:</b> '+esc(a.condition)+'</p><p><b>Người nhận:</b> '+esc((a.recipients||[]).join(' · '))+'</p><p><b>Hành động:</b> '+esc(a.action)+'</p></div>';
+    }).join('');
+
+    document.getElementById('miMondaySlices').innerHTML = (spec.mondayReport||[]).map(function(s){
+      return '<div class="mi-mini" style="margin-bottom:10px;"><h4>'+esc(s.title)+'</h4><p>'+(s.contents||[]).map(pill).join('')+'</p></div>';
+    }).join('');
+
+    document.getElementById('miIndustryTiers').innerHTML = Object.keys(spec.industryTiers||{}).map(function(k){var t=spec.industryTiers[k];
+      return '<div class="mi-mini" style="margin-bottom:10px;"><h4>Tầng '+esc(k)+' · trần: '+esc(t.ceiling)+'</h4><p>'+esc(t.note)+'</p><p>'+(t.industries||[]).map(pill).join('')+'</p></div>';
+    }).join('');
+
+    var sampleSignals = (seed.mi_seed || []).map(function(mi, idx){
+      return {
+        id: mi.id,
+        headline: mi.headline_vi,
+        status: mi.status,
+        source: mi.source,
+        sourceUrl: mi.source_url || '',
+        sourceCount: idx === 1 ? 1 : 2,
+        hasDelta: idx !== 0,
+        confidence: idx === 1 ? 58 : (idx === 3 ? 82 : 76),
+        industryTier: idx === 0 ? 'B' : 'A',
+        label: idx === 1 ? 'FACT' : 'FACT_WITH_DELTA',
+        archetype: idx === 1 ? 'new_launch_pr' : (idx === 3 ? 'cost_spike' : 'sku_service_gap'),
+        impact: mi.impact_vi,
+        date: mi.date,
+        relatedKpi: mi.related_kpi,
+        internalMetric: mi.related_kpi,
+        deltaWindow: idx === 0 ? '' : '7 ngày',
+        secondarySourceUrl: idx === 1 ? '' : 'Nguồn đối chiếu nội bộ/market snapshot'
+      };
+    });
+
+    document.getElementById('miAdminList').innerHTML = sampleSignals.map(function(mi){
+      var level = spec.classifyEvidence ? spec.classifyEvidence(mi) : {label:'③ Đang theo dõi', code:'monitoring'};
+      var checks = spec.buildVerificationChecklist ? spec.buildVerificationChecklist(mi) : [];
+      var reviewed = mi.status === 'PUBLISHED';
+      return '<div class="mi-admin-row">'
+        + '<div class="top"><h3>'+esc(mi.headline)+'</h3><span class="badge '+(reviewed?'good':'warn')+'">'+(reviewed?'PUBLISHED':'AI_DRAFT')+'</span></div>'
+        + '<p class="mi-muted" style="margin:8px 0 0;">'+esc(mi.impact)+'</p>'
+        + '<div class="meta">Nguồn: '+esc(mi.source)+' · ngày '+esc(mi.date)+' · confidence '+esc(mi.confidence)+' · '+esc(level.label)+' · archetype '+esc(mi.archetype)+'</div>'
+        + '<div class="mi-verify"><b>Cách kiểm chứng:</b><ol style="margin:6px 0 0;padding-left:18px;">'+checks.map(function(c){return '<li>'+esc(c)+'</li>';}).join('')+'</ol></div>'
+        + '<div class="mi-actions"><button class="badge bad" style="border:0;cursor:pointer;">Hạ cấp / Reject</button><button class="badge gold" style="border:0;cursor:pointer;">Yêu cầu thêm nguồn</button><button class="badge good" style="border:0;cursor:pointer;">'+(reviewed?'Đã publish':'Publish khi đủ bằng chứng')+'</button></div>'
+        + '</div>';
+    }).join('') || '<div class="mi-muted">Chưa có MI item.</div>';
+  })();
+  </script>
+</body>
+</html>
