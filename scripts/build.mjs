@@ -69,6 +69,7 @@ const deployInfo = {
   uiPolishFix: 'onboarding-intake-upload-v1',
   googleSheetFormsFix: 'all-public-forms-v1',
   bizDealWordingFix: 'amp-to-ampersand-v1',
+  htmlEntityDisplayGuard: 'i18n-decode-text-entities-v1',
   bizHealthDemoPublicFix: 'header-strips-removed-and-pretty-route-v1',
   bizHealthPaymentGateFix: '20-80-overview-only-v2-report-ui'
 };
