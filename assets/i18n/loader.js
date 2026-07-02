@@ -1,6 +1,12 @@
 /* VCPC Auto — tiny i18n runtime. Replaces all data-i18n="key" textContents and
    data-i18n-attr="placeholder:key" attributes. Adds <html lang> + dispatches
-   'vcpc:langchange' so other modules re-render. */
+   'vcpc:langchange' so other modules re-render.
+
+   HTML source may validly contain entities such as &amp; in <title>, attributes,
+   and static text. Browsers decode those automatically. The real display risk
+   is runtime translations or data-* values that already contain escaped text
+   and are then assigned through textContent, which would show a literal
+   "&amp;". Decode safe text entities before rendering. */
 (function(){
   const STORE_KEY = 'vcpc.lang';
   const FALLBACK = 'vi';
@@ -14,6 +20,13 @@
     if (here) return here.src.replace(/\/loader\.js.*/, '');
     return 'assets/i18n';
   })();
+  function decodeTextEntities(value){
+    const text = value == null ? '' : String(value);
+    if (!/[&][a-zA-Z#0-9]+;/.test(text)) return text;
+    const ta = decodeTextEntities._el || (decodeTextEntities._el = document.createElement('textarea'));
+    ta.innerHTML = text;
+    return ta.value;
+  }
   async function loadLang(lang){
     if (dicts[lang]) return dicts[lang];
     const url = ASSETS_BASE + '/' + lang + '.json';
@@ -22,7 +35,8 @@
     dicts[lang] = await res.json();
     return dicts[lang];
   }
-  function t(key){ return (dicts[current] && dicts[current][key]) || (dicts[FALLBACK] && dicts[FALLBACK][key]) || key; }
+  function raw(key){ return (dicts[current] && dicts[current][key]) || (dicts[FALLBACK] && dicts[FALLBACK][key]) || key; }
+  function t(key){ return decodeTextEntities(raw(key)); }
   function applyTo(root){
     root = root || document;
     root.querySelectorAll('[data-i18n]').forEach(function(el){
@@ -45,7 +59,8 @@
     root.querySelectorAll('[data-vi][data-en]').forEach(function(el){
       const v = el.getAttribute('data-' + current);
       if (v != null) {
-        if (el.hasAttribute('data-i18n-html-fallback')) el.innerHTML = v; else el.textContent = v;
+        const decoded = decodeTextEntities(v);
+        if (el.hasAttribute('data-i18n-html-fallback')) el.innerHTML = decoded; else el.textContent = decoded;
       }
     });
     document.documentElement.lang = current;
@@ -72,6 +87,6 @@
       if (grp) grp.querySelectorAll('[data-lang]').forEach(function(b){ b.classList.toggle('active', b === btn); });
     });
   }
-  window.VCPC_I18N = { setLang, t, get current(){ return current; }, applyTo, loadLang };
+  window.VCPC_I18N = { setLang, t, get current(){ return current; }, applyTo, loadLang, decodeTextEntities };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
 })();
