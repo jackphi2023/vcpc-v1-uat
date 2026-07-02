@@ -3,125 +3,78 @@
 <head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="theme-color" content="#071f3d"/><link rel="icon" type="image/png" href="../assets/favicon.png"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/><link rel="stylesheet" href="../assets/vcpc.css"/><link rel="stylesheet" href="../assets/app-core.css"/><title>Upload &amp; Data Gate · VCPC Auto</title></head>
 <body class="app" data-require="auth">
 <main class="app-main" style="max-width:1100px;margin:0 auto;padding:40px 22px 60px;">
-<div class="app-stepper"><div class="app-step done"><span class="num">1</span><span data-vi="Tạo tổ chức & chọn gói" data-en="Org & plan">Tạo tổ chức & chọn gói</span></div><div class="app-step done"><span class="num">2</span><span data-vi="Khai báo nhu cầu" data-en="Intake">Khai báo nhu cầu</span></div><div class="app-step active"><span class="num">3</span><span data-vi="Upload & Data Gate" data-en="Upload & Data Gate">Upload & Data Gate</span></div><div class="app-step "><span class="num">4</span><span data-vi="Phạm vi &amp; báo giá" data-en="Scope &amp; quote">Phạm vi &amp; báo giá</span></div><div class="app-step "><span class="num">5</span><span data-vi="Thanh toán" data-en="Payment">Thanh toán</span></div><div class="app-step "><span class="num">6</span><span data-vi="Dashboard" data-en="Dashboard">Dashboard</span></div></div>
+<div class="app-stepper"><div class="app-step done"><span class="num">1</span><span>Tạo tổ chức & chọn gói</span></div><div class="app-step done"><span class="num">2</span><span>Khai báo nhu cầu</span></div><div class="app-step active"><span class="num">3</span><span>Upload & Data Gate</span></div><div class="app-step"><span class="num">4</span><span>Phạm vi &amp; báo giá</span></div><div class="app-step"><span class="num">5</span><span>Thanh toán</span></div><div class="app-step"><span class="num">6</span><span>Dashboard</span></div></div>
 <div class="app-grid cols-2" style="gap:22px;align-items:start;grid-template-columns:1.3fr .7fr;">
   <div class="app-card">
-    <h1 class="app-title" data-vi="Upload dữ liệu" data-en="Upload data">Upload dữ liệu</h1>
-    <p class="app-sub" data-vi="tải các file dữ liệu DN của bạn dạng .xlsx/.csv/.xls hoặc dán link Google Sheets, càng đầy đủ và chi tiết càng tốt để chúng tôi phân tích ban đầu. Sau có thể cập nhật, bổ xung." data-en="Upload your company data files (.xlsx/.csv/.xls) or paste a Google Sheets link — the more complete and detailed, the better. You can update and supplement later.">tải các file dữ liệu DN của bạn dạng .xlsx/.csv/.xls hoặc dán link Google Sheets, càng đầy đủ và chi tiết càng tốt để chúng tôi phân tích ban đầu. Sau có thể cập nhật, bổ xung.</p>
+    <h1 class="app-title">Upload dữ liệu</h1>
+    <p class="app-sub">Tải các file dữ liệu DN của bạn dạng .xlsx/.csv/.xls hoặc dán link Google Sheets, càng đầy đủ và chi tiết càng tốt để chúng tôi phân tích ban đầu. Sau có thể cập nhật và bổ sung. Thông tin ban đầu cần có: tổng quan doanh thu, lợi nhuận 6-12 tháng; doanh thu theo kênh bán, nhóm sản phẩm; chi phí marketing, thuê mặt bằng, nhân sự...</p>
+
+    <div style="margin-top:18px;display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <label style="font-size:13px;font-weight:800;color:#071f3d;">Loại dữ liệu
+        <select id="dataCategory" style="width:100%;margin-top:6px;padding:11px 13px;border:1px solid rgba(7,31,61,.18);border-radius:10px;">
+          <option value="finance">Tài chính / P&L / doanh thu-lợi nhuận</option>
+          <option value="branch">Chi nhánh / cửa hàng / cơ sở</option>
+          <option value="cost">Chi phí: marketing, thuê mặt bằng, nhân sự...</option>
+          <option value="sales_channel">Doanh thu theo kênh bán</option>
+          <option value="product">Sản phẩm / SKU / nhóm dịch vụ</option>
+          <option value="customer">Khách hàng / CRM / repeat</option>
+          <option value="cashflow">Dòng tiền / công nợ / tồn kho</option>
+          <option value="market_intelligence">Market Intelligence / đối thủ / thị trường</option>
+          <option value="other">Khác / VCPC phân loại sau</option>
+        </select>
+      </label>
+      <label style="font-size:13px;font-weight:800;color:#071f3d;">Ghi chú ngắn
+        <input id="sourceNote" placeholder="VD: P&L 2025, doanh thu theo CN..." style="width:100%;margin-top:6px;padding:11px 13px;border:1px solid rgba(7,31,61,.18);border-radius:10px;"/>
+      </label>
+    </div>
 
     <div id="dropzone" style="margin-top:22px;border:2px dashed rgba(255,178,10,.5);border-radius:18px;padding:36px;text-align:center;background:rgba(255,178,10,.05);cursor:pointer;">
-      <div style="font-size:46px;margin-bottom:8px;">📁</div>
-      <div style="font-size:16px;font-weight:800;color:#071f3d;" data-vi="Kéo file vào đây hoặc bấm để chọn" data-en="Drop files here or click to choose">Kéo file vào đây hoặc bấm để chọn</div>
-      <div style="font-size:13px;color:#5b6b80;margin-top:6px;" data-vi=".xlsx · .xls · .csv (tối đa 25 MB/file)" data-en=".xlsx · .xls · .csv (max 25 MB)">.xlsx · .xls · .csv (tối đa 25 MB/file)</div>
-      <input id="fileInput" type="file" multiple accept=".xlsx,.xls,.csv" style="display:none;"/>
+      <div style="font-size:46px;margin-bottom:8px;">📁</div><div style="font-size:16px;font-weight:800;color:#071f3d;">Kéo file vào đây hoặc bấm để chọn</div><div style="font-size:13px;color:#5b6b80;margin-top:6px;">.xlsx · .xls · .csv (tối đa 25 MB/file)</div><input id="fileInput" type="file" multiple accept=".xlsx,.xls,.csv" style="display:none;"/>
     </div>
 
-    <div style="margin-top:14px;">
-      <label style="font-size:13px;font-weight:700;color:#071f3d;" data-vi="Hoặc dán URL Google Sheets (đã share view)" data-en="Or paste a Google Sheets URL (shared as view)">Hoặc dán URL Google Sheets</label>
-      <div style="display:flex;gap:10px;margin-top:6px;">
-        <input id="sheetUrl" placeholder="https://docs.google.com/spreadsheets/…" style="flex:1;padding:11px 13px;border:1px solid rgba(7,31,61,.18);border-radius:10px;"/>
-        <button id="sheetBtn" class="app-btn app-btn-dark" data-vi="Kết nối" data-en="Connect">Kết nối</button>
-      </div>
-    </div>
+    <div style="margin-top:14px;"><label style="font-size:13px;font-weight:700;color:#071f3d;">Hoặc dán URL Google Sheets (đã share view)</label><div style="display:flex;gap:10px;margin-top:6px;"><input id="sheetUrl" placeholder="https://docs.google.com/spreadsheets/…" style="flex:1;padding:11px 13px;border:1px solid rgba(7,31,61,.18);border-radius:10px;"/><button id="sheetBtn" class="app-btn app-btn-dark">Gửi link</button></div><div style="font-size:12px;color:#5b6b80;margin-top:6px;">Nếu chưa kết nối tự động, VCPC vẫn ghi nhận link và sẽ yêu cầu quyền truy cập/bản export nếu cần.</div></div>
 
-    <h3 style="font-size:16px;color:#071f3d;font-weight:900;margin:24px 0 8px;" data-vi="Tệp đã nạp" data-en="Uploaded sources">Tệp đã nạp</h3>
-    <div id="fileList" style="display:grid;gap:10px;"></div>
-
-    <div style="display:flex;justify-content:space-between;gap:16px;margin-top:24px;flex-wrap:wrap;">
-      <a class="app-btn app-btn-ghost" href="intake.html" data-vi="← Quay lại" data-en="← Back">← Quay lại</a>
-      <button id="continueBtn" class="app-btn app-btn-primary" disabled data-vi="Tiếp tục" data-en="Continue">Tiếp tục</button>
-    </div>
+    <h3 style="font-size:16px;color:#071f3d;font-weight:900;margin:24px 0 8px;">Nguồn dữ liệu đã nạp</h3><div id="fileList" style="display:grid;gap:10px;"></div>
+    <div style="display:flex;justify-content:space-between;gap:16px;margin-top:24px;flex-wrap:wrap;"><a class="app-btn app-btn-ghost" href="intake.html">← Quay lại</a><button id="continueBtn" class="app-btn app-btn-primary" disabled>Gửi VCPC review dữ liệu</button></div>
   </div>
 
   <div class="app-card" style="position:sticky;top:18px;">
-    <div class="app-card-head"><b data-vi="Data Quality Score" data-en="Data Quality Score">Data Quality Score</b></div>
-    <p style="color:#5b6b80;font-size:13.5px;margin-bottom:14px;" data-vi="Cổng dữ liệu phải đạt ngưỡng gói trước khi mở thanh toán." data-en="The data gate must reach the plan threshold before payment opens.">Cổng dữ liệu phải đạt ngưỡng gói trước khi mở thanh toán.</p>
-
-    <div class="dqs-gauge" id="dqsGauge">
-      <svg viewBox="0 0 160 160">
-        <circle cx="80" cy="80" r="68" class="dqs-track"></circle>
-        <circle cx="80" cy="80" r="68" class="dqs-fill" id="dqsFill" stroke-dasharray="427" stroke-dashoffset="427"></circle>
-      </svg>
-      <div class="dqs-val" id="dqsVal">0</div>
-    </div>
-    <div style="text-align:center;margin-top:10px;font-size:13px;color:#5b6b80;"><span data-vi="Ngưỡng gói" data-en="Plan threshold">Ngưỡng gói</span>: <b id="dqsThreshold" style="color:#071f3d;">70</b></div>
-
-    <div id="dqsSub" style="margin-top:16px;display:grid;gap:8px;font-size:13px;"></div>
-
-    <div id="dqsIssues" style="margin-top:16px;"></div>
-
-    <div id="dqsVerdict" class="badge muted" style="margin-top:14px;display:inline-block;" data-vi="Chưa có dữ liệu" data-en="No data yet">Chưa có dữ liệu</div>
+    <div class="app-card-head"><b>Intake Coverage / Mức độ đầy đủ ban đầu</b></div><p style="color:#5b6b80;font-size:13.5px;margin-bottom:14px;">Dữ liệu ban đầu chỉ cần đủ để VCPC review và dựng data gap; phần thiếu có thể bổ sung sau.</p>
+    <div class="dqs-gauge" id="dqsGauge"><svg viewBox="0 0 160 160"><circle cx="80" cy="80" r="68" class="dqs-track"></circle><circle cx="80" cy="80" r="68" class="dqs-fill" id="dqsFill" stroke-dasharray="427" stroke-dashoffset="427"></circle></svg><div class="dqs-val" id="dqsVal">0</div></div>
+    <div style="text-align:center;margin-top:10px;font-size:13px;color:#5b6b80;">Ngưỡng gửi review: <b id="dqsThreshold" style="color:#071f3d;">60</b></div>
+    <div id="dqsSub" style="margin-top:16px;display:grid;gap:8px;font-size:13px;"></div><div id="dqsIssues" style="margin-top:16px;"></div><div id="dqsVerdict" class="badge muted" style="margin-top:14px;display:inline-block;">Chưa có dữ liệu</div>
   </div>
 </div>
 </main>
 <script src="../assets/i18n/loader.js" data-i18n-base="../assets/i18n"></script><script src="../assets/app-config.js"></script><script src="../assets/mock-backend.js"></script><script src="../assets/guards.js"></script><script src="../assets/app-core.js"></script><script src="../assets/engines/dqs.js"></script>
 <script>
 if(!VCPC_DB.currentUser())window.location.href='login.html';
-const eng=VCPC_DB.currentEngagement();if(!eng)window.location.href='onboarding.html';
-const org=VCPC_DB.currentOrg();
-let threshold=70,currentDataset=null;
+let eng=VCPC_DB.currentEngagement();if(!eng)window.location.href='onboarding.html';
+const org=VCPC_DB.currentOrg();let threshold=60,currentDataset=null;
+const CATEGORY_LABELS={finance:'Tài chính/P&L',branch:'Chi nhánh',cost:'Chi phí',sales_channel:'Kênh bán',product:'Sản phẩm/SKU',customer:'Khách hàng/CRM',cashflow:'Dòng tiền',market_intelligence:'Market Intelligence',other:'Khác'};
+function now(){return Date.now();}
+function currentCategory(){return document.getElementById('dataCategory').value||'other';}
+function sourceNote(){return document.getElementById('sourceNote').value.trim();}
 function getUploads(){return VCPC_DB.select('data_uploads',{engagement_id:eng.id})||[];}
+function getSources(){return VCPC_DB.select('data_sources',{engagement_id:eng.id})||[];}
 function getIssues(){return currentDataset?(VCPC_DB.select('validation_issues',{dataset_version_id:currentDataset.id})||[]):[];}
-function ensureDataset(){
- const all=(VCPC_DB.select('dataset_versions',{engagement_id:eng.id})||[]).sort((a,b)=>(b.version||0)-(a.version||0));
- currentDataset=all.find(x=>['STAGING','VALIDATING','READY_FOR_REVIEW'].includes(x.status));
- if(!currentDataset)currentDataset=VCPC_DB.insert('dataset_versions',{engagement_id:eng.id,organization_id:eng.organization_id,version:(all[0]?Number(all[0].version)+1:1),status:'STAGING',dqs_score:0,row_count:0,summary:{},created_by:(VCPC_DB.currentUser()||{}).id});
- return currentDataset;
-}
+function ensureDataset(){const all=(VCPC_DB.select('dataset_versions',{engagement_id:eng.id})||[]).sort((a,b)=>(b.version||0)-(a.version||0));currentDataset=all.find(x=>['INTAKE','STAGING','VALIDATING','DATA_INCOMPLETE','READY_FOR_REVIEW'].includes(x.status));if(!currentDataset)currentDataset=VCPC_DB.insert('dataset_versions',{engagement_id:eng.id,organization_id:eng.organization_id,version:(all[0]?Number(all[0].version)+1:1),status:'INTAKE',dqs_score:0,row_count:0,intake_coverage:0,summary:{},created_by:(VCPC_DB.currentUser()||{}).id});return currentDataset;}
 function loadXlsx(){return new Promise((resolve,reject)=>{if(window.XLSX)return resolve(window.XLSX);const s=document.createElement('script');s.src='../assets/xlsx.full.min.js';s.onload=()=>resolve(window.XLSX);s.onerror=()=>reject(new Error('XLSX_LIBRARY_LOAD_FAILED'));document.head.appendChild(s);});}
 function readAsArrayBuffer(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=()=>rej(r.error);r.readAsArrayBuffer(file);});}
 function readAsText(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(String(r.result||''));r.onerror=()=>rej(r.error);r.readAsText(file);});}
-function analyzeMatrix(rows){
- const nonempty=(rows||[]).filter(r=>Array.isArray(r)&&r.some(v=>String(v??'').trim()!==''));
- if(!nonempty.length)return {score:0,rows:0,cols:0,missing:100,duplicates:0,blocking:true,issues:['Tệp không có dữ liệu đọc được.']};
- const cols=Math.max.apply(null,nonempty.map(r=>r.length));let empty=0,total=Math.max(1,nonempty.length*cols);const seen=new Set();let dup=0;
- nonempty.forEach((r,i)=>{for(let c=0;c<cols;c++)if(String(r[c]??'').trim()==='')empty++;if(i>0){const k=JSON.stringify(r);if(seen.has(k))dup++;seen.add(k);}});
- const missing=Math.round(empty/total*100),dupPct=Math.round(dup/Math.max(1,nonempty.length-1)*100);
- const completeness=Math.max(0,100-missing),consistency=Math.max(0,100-dupPct),granularity=Math.min(100,45+Math.log10(Math.max(10,nonempty.length))*18+Math.min(cols,20));
- const score=Math.round(completeness*.45+consistency*.25+granularity*.20+100*.10);const issues=[];
- if(cols<2)issues.push('Dữ liệu chỉ có một cột hoặc chưa tách cột đúng.');if(missing>30)issues.push('Tỷ lệ ô trống cao hơn 30%.');if(dupPct>20)issues.push('Tỷ lệ dòng trùng cao hơn 20%.');
- return {score,rows:Math.max(0,nonempty.length-1),cols,missing,duplicates:dup,blocking:cols<2||nonempty.length<2,issues};
-}
-async function analyzeFile(file){
- const lower=file.name.toLowerCase();
- if(lower.endsWith('.csv')){const text=await readAsText(file),lines=text.replace(/^\uFEFF/,'').split(/\r?\n/).filter(Boolean);const delim=(lines[0]||'').split(';').length>(lines[0]||'').split(',').length?';':',';return Object.assign(analyzeMatrix(lines.map(l=>l.split(delim))),{sheets:1});}
- if(lower.endsWith('.xlsx')||lower.endsWith('.xls')){const XLSX=await loadXlsx(),buf=await readAsArrayBuffer(file),wb=XLSX.read(buf,{type:'array',cellDates:true});let matrices=wb.SheetNames.map(n=>XLSX.utils.sheet_to_json(wb.Sheets[n],{header:1,defval:''}));let main=matrices.sort((a,b)=>b.length-a.length)[0]||[];return Object.assign(analyzeMatrix(main),{sheets:wb.SheetNames.length});}
- return {score:55,rows:0,cols:0,missing:0,duplicates:0,blocking:false,sheets:1,issues:['Định dạng này cần VCPC kiểm tra thủ công trước khi phát hành.']};
-}
+function analyzeMatrix(rows){const nonempty=(rows||[]).filter(r=>Array.isArray(r)&&r.some(v=>String(v??'').trim()!==''));if(!nonempty.length)return {score:0,rows:0,cols:0,missing:100,duplicates:0,blocking:true,issues:['Tệp không có dữ liệu đọc được.']};const cols=Math.max.apply(null,nonempty.map(r=>r.length));let empty=0,total=Math.max(1,nonempty.length*cols);const seen=new Set();let dup=0;nonempty.forEach((r,i)=>{for(let c=0;c<cols;c++)if(String(r[c]??'').trim()==='')empty++;if(i>0){const k=JSON.stringify(r);if(seen.has(k))dup++;seen.add(k);}});const missing=Math.round(empty/total*100),dupPct=Math.round(dup/Math.max(1,nonempty.length-1)*100);const completeness=Math.max(0,100-missing),consistency=Math.max(0,100-dupPct),granularity=Math.min(100,45+Math.log10(Math.max(10,nonempty.length))*18+Math.min(cols,20));const score=Math.round(completeness*.45+consistency*.25+granularity*.20+100*.10);const issues=[];if(cols<2)issues.push('Dữ liệu chỉ có một cột hoặc chưa tách cột đúng.');if(missing>30)issues.push('Tỷ lệ ô trống cao hơn 30%.');if(dupPct>20)issues.push('Tỷ lệ dòng trùng cao hơn 20%.');return {score,rows:Math.max(0,nonempty.length-1),cols,missing,duplicates:dup,blocking:cols<2||nonempty.length<2,sheets:1,issues};}
+async function analyzeFile(file){const lower=file.name.toLowerCase();if(lower.endsWith('.csv')){const text=await readAsText(file),lines=text.replace(/^\uFEFF/,'').split(/\r?\n/).filter(Boolean);const delim=(lines[0]||'').split(';').length>(lines[0]||'').split(',').length?';':',';return Object.assign(analyzeMatrix(lines.map(l=>l.split(delim))),{sheets:1});}if(lower.endsWith('.xlsx')||lower.endsWith('.xls')){const XLSX=await loadXlsx(),buf=await readAsArrayBuffer(file),wb=XLSX.read(buf,{type:'array',cellDates:true});let matrices=wb.SheetNames.map(n=>XLSX.utils.sheet_to_json(wb.Sheets[n],{header:1,defval:''}));let main=matrices.sort((a,b)=>b.length-a.length)[0]||[];return Object.assign(analyzeMatrix(main),{sheets:wb.SheetNames.length});}return {score:55,rows:0,cols:0,missing:0,duplicates:0,blocking:false,sheets:1,issues:['Định dạng này cần VCPC kiểm tra thủ công trước khi phát hành.']};}
 function ringFor(score){const len=427;return Math.max(0,len-(score/100)*len);}
-function recompute(){
- const list=getUploads();const issues=getIssues();
- document.getElementById('fileList').innerHTML=list.length?list.map(f=>'<div style="display:flex;justify-content:space-between;gap:12px;background:#fff;border:1px solid rgba(7,31,61,.10);border-radius:10px;padding:10px 14px;"><div><b style="color:#071f3d;font-size:13.5px;">'+(f.file_name||f.name)+'</b><div style="font-size:12px;color:#5b6b80;margin-top:2px;">'+(f.rows||0)+' dòng · '+(f.sheets||1)+' sheet · DQS '+(f.dqs_score||0)+'</div></div><button data-rm="'+f.id+'" style="background:transparent;border:0;color:#c7352b;font-weight:800;cursor:pointer;font-size:12px;">Xoá</button></div>').join(''):'<div style="color:#5b6b80;font-size:13px;padding:10px 0;">Chưa có tệp nào.</div>';
- const totalRows=list.reduce((s,x)=>s+Number(x.rows||0),0),score=list.length?Math.round(list.reduce((s,x)=>s+Number(x.dqs_score||0),0)/list.length):0;
- if(currentDataset){currentDataset=VCPC_DB.upsert('dataset_versions',Object.assign({},currentDataset,{dqs_score:score,row_count:totalRows,summary:{upload_count:list.length,open_issues:issues.filter(x=>x.status==='OPEN').length}}));}
- document.getElementById('dqsVal').textContent=score;document.getElementById('dqsFill').setAttribute('stroke-dashoffset',ringFor(score));
- const gauge=document.getElementById('dqsGauge');gauge.classList.remove('warn','bad');if(score<threshold-10)gauge.classList.add('bad');else if(score<threshold)gauge.classList.add('warn');
- const sub={completeness:score,consistency:Math.min(100,score+3),granularity:Math.max(0,score-2),freshness:100,traceability:list.length?100:0};
- document.getElementById('dqsSub').innerHTML=[['Đầy đủ',sub.completeness],['Nhất quán',sub.consistency],['Chi tiết',sub.granularity],['Tươi mới',sub.freshness],['Truy nguồn',sub.traceability]].map(x=>'<div style="display:flex;justify-content:space-between;align-items:center;"><span>'+x[0]+'</span><b style="color:'+(x[1]>=70?'#0d8a5d':x[1]>=55?'#c47a08':'#c7352b')+';">'+x[1]+'</b></div>').join('');
- const blockers=issues.filter(x=>x.status==='OPEN'&&['CRITICAL','HIGH'].includes(x.severity));
- document.getElementById('dqsIssues').innerHTML=issues.length?'<div style="background:rgba(199,53,43,.06);border:1px solid rgba(199,53,43,.18);border-radius:10px;padding:10px 12px;font-size:12.5px;color:#7a2b22;">'+issues.slice(0,4).map(i=>'· '+i.title).join('<br/>')+'</div>':'';
- const verdict=document.getElementById('dqsVerdict'),btn=document.getElementById('continueBtn');
- if(!list.length){verdict.className='badge muted';verdict.textContent='Chưa có dữ liệu';btn.disabled=true;}
- else if(score>=threshold&&!blockers.length){verdict.className='badge good';verdict.textContent='DATA GATE PASS — mở thanh toán';btn.disabled=false;}
- else{verdict.className=blockers.length?'badge bad':'badge warn';verdict.textContent=blockers.length?'CHẶN — xử lý lỗi nghiêm trọng':'Sát ngưỡng — cần bổ sung dữ liệu';btn.disabled=true;}
-}
-async function handleFiles(files){
- ensureDataset();const input=document.getElementById('fileInput');input.disabled=true;
- try{for(const file of Array.from(files)){
-   const result=await analyzeFile(file);const safe=file.name.replace(/[^a-zA-Z0-9._-]/g,'_');const path=org.id+'/'+eng.id+'/'+currentDataset.id+'/'+Date.now()+'-'+safe;
-   await VCPC_DB.uploadObject(path,file);
-   const up=VCPC_DB.insert('data_uploads',{engagement_id:eng.id,organization_id:eng.organization_id,dataset_version_id:currentDataset.id,name:file.name,file_name:file.name,storage_path:path,type:'file',mime_type:file.type||'',size_bytes:file.size,status:result.blocking?'validation_failed':'uploaded',dqs_score:result.score,rows:result.rows,sheets:result.sheets,issues:result.issues.length,uploaded_by:(VCPC_DB.currentUser()||{}).email,uploaded_by_user:(VCPC_DB.currentUser()||{}).id});
-   result.issues.forEach((title,i)=>VCPC_DB.insert('validation_issues',{dataset_version_id:currentDataset.id,organization_id:eng.organization_id,severity:result.blocking&&i===0?'CRITICAL':'MEDIUM',code:'CLIENT_PRECHECK',title,detail:'Kiểm tra sơ bộ khi upload; VCPC sẽ review trước publish.',status:'OPEN'}));
-   VCPC_DB.audit('UPLOAD_RECEIVED',{organization_id:eng.organization_id,engagement_id:eng.id,upload_id:up.id,file_name:file.name,dqs_score:result.score});
- }}catch(e){alert('Không thể tải tệp: '+(e.message||e));}finally{input.disabled=false;input.value='';recompute();}
-}
-fetch('../assets/plans.json',{cache:'no-cache'}).then(r=>r.json()).then(plans=>{const p=[].concat(plans.bizhealth,plans.strategy_os).find(x=>x.code===eng.plan_code);threshold=(p&&p.dqs_threshold)||70;document.getElementById('dqsThreshold').textContent=threshold;ensureDataset();recompute();});
-document.getElementById('dropzone').addEventListener('click',()=>document.getElementById('fileInput').click());
-document.getElementById('fileInput').addEventListener('change',e=>handleFiles(e.target.files));
-document.getElementById('sheetBtn').addEventListener('click',function(){const url=document.getElementById('sheetUrl').value.trim();if(!/^https:\/\/docs\.google\.com\/spreadsheets\//i.test(url)){alert('Vui lòng nhập liên kết Google Sheets hợp lệ.');return;}ensureDataset();VCPC_DB.insert('data_uploads',{engagement_id:eng.id,organization_id:eng.organization_id,dataset_version_id:currentDataset.id,name:'Google Sheets',file_name:'Google Sheets',storage_path:url,type:'sheet',mime_type:'text/url',size_bytes:0,status:'needs_connection',dqs_score:60,rows:0,sheets:1,issues:1,uploaded_by:(VCPC_DB.currentUser()||{}).email,uploaded_by_user:(VCPC_DB.currentUser()||{}).id});VCPC_DB.insert('validation_issues',{dataset_version_id:currentDataset.id,organization_id:eng.organization_id,severity:'HIGH',code:'GSHEET_PERMISSION',title:'Cần xác minh quyền truy cập Google Sheets',detail:url,status:'OPEN'});document.getElementById('sheetUrl').value='';recompute();});
+function upsertIssue(code,severity,title,detail){const old=getIssues().find(x=>x.code===code&&x.status==='OPEN');if(old)return old;return VCPC_DB.insert('validation_issues',{dataset_version_id:currentDataset.id,organization_id:eng.organization_id,severity,code,title,detail,status:'OPEN',source:'client_upload'});}
+function requiredCategories(){return (eng.product==='strategy_os')?['finance','sales_channel','product','market_intelligence']:['finance','cost','branch'];}
+function refreshDataGaps(){ensureDataset();const sources=getSources(),cats=[...new Set(sources.map(s=>(s.schema_snapshot&&s.schema_snapshot.data_category)||((s.summary||{}).data_category)||s.source_type).filter(Boolean))];const missing=requiredCategories().filter(c=>!cats.includes(c));missing.forEach(c=>upsertIssue('DATA_GAP_'+c.toUpperCase(),'MEDIUM','Thiếu dữ liệu '+(CATEGORY_LABELS[c]||c),'Nên bổ sung để tăng độ tin cậy dashboard; không chặn gửi VCPC review.'));return {cats,missing};}
+function saveSource(upload,result,kind,uri){const cat=currentCategory();return VCPC_DB.insert('data_sources',{organization_id:eng.organization_id,engagement_id:eng.id,dataset_version_id:currentDataset.id,data_upload_id:upload&&upload.id,source_type:kind,source_name:(upload&&upload.file_name)||CATEGORY_LABELS[cat]||'Nguồn dữ liệu',source_uri:uri||upload&&upload.storage_path||'',status:result&&result.blocking?'failed':(kind==='google_sheet'?'pending':'parsed'),schema_snapshot:{data_category:cat,note:sourceNote(),rows:result&&result.rows||0,cols:result&&result.cols||0,sheets:result&&result.sheets||1,missing_pct:result&&result.missing||0,dqs_score:result&&result.score||0},created_by:(VCPC_DB.currentUser()||{}).id});}
+function recompute(){ensureDataset();const list=getUploads(),issues=getIssues(),sources=getSources();const gaps=refreshDataGaps();document.getElementById('fileList').innerHTML=list.length?list.map(f=>{const sum=f.summary||{};const cat=sum.data_category||'other';return '<div style="display:flex;justify-content:space-between;gap:12px;background:#fff;border:1px solid rgba(7,31,61,.10);border-radius:10px;padding:10px 14px;"><div><b style="color:#071f3d;font-size:13.5px;">'+(f.file_name||f.name)+'</b><div style="font-size:12px;color:#5b6b80;margin-top:2px;">'+(CATEGORY_LABELS[cat]||cat)+' · '+(f.rows||0)+' dòng · '+(f.sheets||1)+' sheet · DQS '+(f.dqs_score||0)+' · '+(f.status||'uploaded')+'</div></div><button data-rm="'+f.id+'" style="background:transparent;border:0;color:#c7352b;font-weight:800;cursor:pointer;font-size:12px;">Xoá</button></div>';}).join(''):'<div style="color:#5b6b80;font-size:13px;padding:10px 0;">Chưa có nguồn dữ liệu nào.</div>';const totalRows=list.reduce((s,x)=>s+Number(x.rows||0),0),base=list.length?Math.round(list.reduce((s,x)=>s+Number(x.dqs_score||0),0)/list.length):0,coverage=list.length?Math.max(0,Math.min(100,base-Math.min(25,gaps.missing.length*8))):0;const openIssues=issues.filter(x=>x.status==='OPEN');currentDataset=VCPC_DB.upsert('dataset_versions',Object.assign({},currentDataset,{dqs_score:base,row_count:totalRows,intake_coverage:coverage,source_count:sources.length,summary:{upload_count:list.length,source_count:sources.length,open_issues:openIssues.length,missing_categories:gaps.missing,categories:gaps.cats}}));document.getElementById('dqsVal').textContent=coverage;document.getElementById('dqsFill').setAttribute('stroke-dashoffset',ringFor(coverage));const gauge=document.getElementById('dqsGauge');gauge.classList.remove('warn','bad');if(coverage<threshold-10)gauge.classList.add('bad');else if(coverage<threshold)gauge.classList.add('warn');document.getElementById('dqsSub').innerHTML=[['Nguồn đã nạp',sources.length],['Dòng dữ liệu',totalRows],['Nhóm dữ liệu đã có',gaps.cats.length],['Nhóm còn thiếu',gaps.missing.length],['DQS trung bình',base]].map(x=>'<div style="display:flex;justify-content:space-between;align-items:center;"><span>'+x[0]+'</span><b style="color:#071f3d;">'+x[1]+'</b></div>').join('');document.getElementById('dqsIssues').innerHTML=openIssues.length?'<div style="background:rgba(199,53,43,.06);border:1px solid rgba(199,53,43,.18);border-radius:10px;padding:10px 12px;font-size:12.5px;color:#7a2b22;">'+openIssues.slice(0,6).map(i=>'· '+i.title).join('<br/>')+'</div>':'';const blockers=openIssues.filter(x=>x.severity==='CRITICAL'),verdict=document.getElementById('dqsVerdict'),btn=document.getElementById('continueBtn');if(!list.length){verdict.className='badge muted';verdict.textContent='Chưa có dữ liệu';btn.disabled=true;}else if(blockers.length){verdict.className='badge bad';verdict.textContent='CHẶN — file lỗi nghiêm trọng';btn.disabled=true;}else if(coverage>=threshold){verdict.className='badge good';verdict.textContent='Đủ gửi VCPC review';btn.disabled=false;}else{verdict.className='badge warn';verdict.textContent='Đã nhận, nên bổ sung thêm trước khi gửi';btn.disabled=false;}}
+async function handleFiles(files){ensureDataset();const input=document.getElementById('fileInput');input.disabled=true;try{for(const file of Array.from(files)){const result=await analyzeFile(file);const cat=currentCategory();const safe=file.name.replace(/[^a-zA-Z0-9._-]/g,'_');const path=org.id+'/'+eng.id+'/'+currentDataset.id+'/'+Date.now()+'-'+safe;await VCPC_DB.uploadObject(path,file);const summary={data_category:cat,category_label:CATEGORY_LABELS[cat],note:sourceNote(),missing_pct:result.missing,duplicates:result.duplicates,cols:result.cols};const up=VCPC_DB.insert('data_uploads',{engagement_id:eng.id,organization_id:eng.organization_id,dataset_version_id:currentDataset.id,name:file.name,file_name:file.name,storage_path:path,type:'file',mime_type:file.type||'',size_bytes:file.size,status:result.blocking?'validation_failed':'uploaded',dqs_score:result.score,intake_coverage:result.score,summary,rows:result.rows,sheets:result.sheets,issues:result.issues.length,uploaded_by:(VCPC_DB.currentUser()||{}).email,uploaded_by_user:(VCPC_DB.currentUser()||{}).id});saveSource(up,result,'upload',path);result.issues.forEach((title,i)=>VCPC_DB.insert('validation_issues',{dataset_version_id:currentDataset.id,organization_id:eng.organization_id,severity:result.blocking&&i===0?'CRITICAL':'MEDIUM',code:'CLIENT_PRECHECK_'+Date.now()+'_'+i,title,detail:'Kiểm tra sơ bộ khi upload; VCPC sẽ review trước publish.',status:'OPEN',source:'client_upload'}));VCPC_DB.audit('UPLOAD_RECEIVED',{organization_id:eng.organization_id,engagement_id:eng.id,upload_id:up.id,file_name:file.name,dqs_score:result.score,data_category:cat});}}catch(e){alert('Không thể tải tệp: '+(e.message||e));}finally{input.disabled=false;input.value='';recompute();}}
+document.getElementById('dropzone').addEventListener('click',()=>document.getElementById('fileInput').click());document.getElementById('fileInput').addEventListener('change',e=>handleFiles(e.target.files));
+document.getElementById('sheetBtn').addEventListener('click',function(){const url=document.getElementById('sheetUrl').value.trim();if(!/^https:\/\/docs\.google\.com\/spreadsheets\//i.test(url)){alert('Vui lòng nhập liên kết Google Sheets hợp lệ.');return;}ensureDataset();const cat=currentCategory();const summary={data_category:cat,category_label:CATEGORY_LABELS[cat],note:sourceNote(),google_sheet_url:url};const up=VCPC_DB.insert('data_uploads',{engagement_id:eng.id,organization_id:eng.organization_id,dataset_version_id:currentDataset.id,name:'Google Sheets',file_name:'Google Sheets',storage_path:url,type:'sheet',mime_type:'text/url',size_bytes:0,status:'needs_connection',dqs_score:60,intake_coverage:60,summary,rows:0,sheets:1,issues:1,uploaded_by:(VCPC_DB.currentUser()||{}).email,uploaded_by_user:(VCPC_DB.currentUser()||{}).id});saveSource(up,{score:60,rows:0,cols:0,sheets:1,missing:0,blocking:false},'google_sheet',url);upsertIssue('GSHEET_PERMISSION','HIGH','Cần xác minh quyền truy cập Google Sheets','VCPC đã ghi nhận link. Vui lòng share quyền xem hoặc gửi bản export nếu link không truy cập được: '+url);document.getElementById('sheetUrl').value='';recompute();});
 document.getElementById('fileList').addEventListener('click',function(e){const b=e.target.closest('[data-rm]');if(!b)return;VCPC_DB.remove('data_uploads',{id:b.getAttribute('data-rm')});recompute();});
-document.getElementById('continueBtn').addEventListener('click',function(){const list=getUploads(),issues=getIssues(),score=list.length?Math.round(list.reduce((s,x)=>s+Number(x.dqs_score||0),0)/list.length):0,blockers=issues.filter(x=>x.status==='OPEN'&&['CRITICAL','HIGH'].includes(x.severity));if(!list.length||score<threshold||blockers.length){alert('Dữ liệu chưa đạt điều kiện tiếp tục.');return;}currentDataset=VCPC_DB.upsert('dataset_versions',Object.assign({},currentDataset,{status:'READY_FOR_REVIEW',dqs_score:score,row_count:list.reduce((s,x)=>s+Number(x.rows||0),0)}));VCPC_DB.upsert('engagements',Object.assign({},VCPC_DB.currentEngagement(),{state:'READY'}));VCPC_DB.audit('DQS_COMPUTED',{organization_id:eng.organization_id,engagement_id:eng.id,dataset_version_id:currentDataset.id,dqs_score:score});window.location.href='scope.html';});
+document.getElementById('continueBtn').addEventListener('click',function(){const issues=getIssues(),blockers=issues.filter(x=>x.status==='OPEN'&&x.severity==='CRITICAL');if(!getUploads().length||blockers.length){alert('Dữ liệu chưa thể gửi review do còn lỗi nghiêm trọng.');return;}const nextStatus=(currentDataset.intake_coverage||0)>=threshold?'READY_FOR_REVIEW':'VALIDATING';currentDataset=VCPC_DB.upsert('dataset_versions',Object.assign({},currentDataset,{status:nextStatus,review_note:'Client submitted intake data for VCPC review.'}));eng=VCPC_DB.upsert('engagements',Object.assign({},eng,{state:'VALIDATING'}));VCPC_DB.audit('DATA_INTAKE_SUBMITTED',{organization_id:eng.organization_id,engagement_id:eng.id,dataset_version_id:currentDataset.id,intake_coverage:currentDataset.intake_coverage});window.location.href='scope.html';});
 ensureDataset();recompute();
 </script>
-</body>
-</html>
+</body></html>
